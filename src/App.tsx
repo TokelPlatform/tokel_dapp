@@ -1,6 +1,6 @@
 import React from 'react';
-import './App.global.css';
+import Login from './components/Login';
 
 export default function App() {
-  return <h1>Hello</h1>;
+  return <Login />;
 }
