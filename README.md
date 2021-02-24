@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/tokel-logo-text.png" width="100%" />
+  <img src="assets/tokel-header.png" width="100%" />
 </div>
 
 ## About
