@@ -1,0 +1,29 @@
+body {
+  background-color: #222c3c;
+  font-family: source-sans-pro, sans-serif;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  color: var(--color-white);
+  font-weight: 600;
+}
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: 400;
+}
+h3 {
+  font-size: var(--font-size-h3);
+  font-weight: 600;
+}
+p {
+  font-size: var(--font-size-p);
+}
+
+a {
+  color: var(--color-link);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
