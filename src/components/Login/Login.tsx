@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import Input from '../Input';
 import Button from '../Button';
+import password from '../../../assets/icons/password.svg';
 
 const LoginScreen = styled.div`
   display: flex;
@@ -14,21 +16,31 @@ const LoginScreen = styled.div`
     color: var(--color-gray);
     font-weight: 400;
     margin: 0;
+    margin-bottom: 1rem;
   }
-  h2 {
+  h1 {
     margin: 0;
     color: var(--color-white);
+    font-weight: 400;
   }
 `;
+const Logo = styled.img`
+  height: 50px;
+  margin-bottom: 1.5rem;
+`;
+const buttonStyle = css`
+  margin-bottom: 1rem;
+`;
+
 const Login = () => {
   return (
     <LoginScreen>
-      <img alt="tokel-logo" height="50px" src="../assets/logo.png" />
-      <h2>Welcome to TOKEL</h2>
+      <Logo alt="tokel-logo" src="../assets/logo.png" />
+      <h1>Welcome to TOKEL</h1>
       <p>Komodo ecosystem Token Platform</p>
-      <Input />
-      <Button buttonText="Login" />
-      <a href="/">Add new wallet</a>
+      <Input icon={password} placeholder="Key or Seed Phrase" />
+      <Button css={buttonStyle} buttonText="Login" />
+      <a href="/">Add New Wallet</a>
     </LoginScreen>
   );
 };

@@ -12,7 +12,7 @@ const StyledButton = styled.button`
   border: none;
   color: var(--color-white);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   &:focus {
     outline: none;
   }

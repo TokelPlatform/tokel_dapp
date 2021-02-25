@@ -27,3 +27,7 @@ a {
 a:hover {
   color: var(--color-link-hover);
 }
+
+input:focus {
+  outline: var(--color-link-hover) dashed 0.1px;
+}

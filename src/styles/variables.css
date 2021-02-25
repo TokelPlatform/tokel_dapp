@@ -10,11 +10,13 @@
   --color-link: var(--color-blue);
   --color-link-hover: var(--color-lessSaturatedBlue);
 
-  --gradient-purple-direct: linear-gradient(
+  /* --gradient-purple-direct: linear-gradient(
     167.56deg,
     #687bf7 9.04%,
     #8050ef 90.96%
-  );
+  ); */
+  --gradient-purple-direct: linear-gradient(180deg, #687bf7 0%, #8050ef 97.78%);
+
   --gradient-purple-horizontal: linear-gradient(
     97.43deg,
     #973af5 0%,
