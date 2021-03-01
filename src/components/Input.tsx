@@ -8,9 +8,9 @@ type InputProps = {
 
 const StyledInput = styled.input`
   background: #222c3c;
-  border: 1px solid #313d4f;
+  border: var(--border-dark);
   box-sizing: border-box;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   margin: 0.75rem;
   height: 36px;
   width: 240px;

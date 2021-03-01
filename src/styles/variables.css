@@ -1,6 +1,8 @@
 :root {
   --color-white: #ffffff;
   --color-almostBlack: #222c3c;
+  --color-almostBlack2: #283447;
+  --color-lighterBlack: #313d4f;
   --color-purple: #8050ef;
   --color-blue: #687bf7;
   --color-lessSaturatedBlue: #5362c4;
@@ -9,6 +11,9 @@
 
   --color-link: var(--color-blue);
   --color-link-hover: var(--color-lessSaturatedBlue);
+
+  --border-dark: 1px solid var(--color-lighterBlack);
+  --border-radius: 4px;
 
   /* --gradient-purple-direct: linear-gradient(
     167.56deg,

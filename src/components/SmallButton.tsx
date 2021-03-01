@@ -9,9 +9,12 @@ type ButtonProps = {
 const StyledButton = styled.button`
   width: 36px;
   height: 36px;
-  background: #222c3c;
-  border: 1px solid #313d4f;
-  border-radius: 4px;
+  background: var(--color-almostBlack);
+  border: var(--border-dark);
+  border-radius: var(--border-radius);
+  &:hover {
+    background-color: var(--color-almostBlack2);
+  }
 `;
 const SmallButton = ({ theme, onClick }: ButtonProps) => {
   return (
