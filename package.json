@@ -53,6 +53,7 @@
       "gatekeeperAssess": false
     },
     "dmg": {
+      "icon": "icon.icns",
       "contents": [
         {
           "x": 130,
@@ -67,11 +68,13 @@
       ]
     },
     "win": {
+      "icon": "icon.ico",
       "target": [
         "nsis"
       ]
     },
     "linux": {
+      "icon": "icon.png",
       "target": [
         "AppImage"
       ],

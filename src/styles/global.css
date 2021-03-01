@@ -1,6 +1,11 @@
 body {
   background-color: #222c3c;
   font-family: source-sans-pro, sans-serif;
+  transition: 0.2s;
+}
+
+button {
+  font-family: source-sans-pro, sans-serif;
 }
 
 h1 {
@@ -30,4 +35,8 @@ a:hover {
 
 input:focus {
   outline: var(--color-link-hover) dashed 0.1px;
+}
+
+button:focus {
+  outline: none;
 }
