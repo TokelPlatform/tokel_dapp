@@ -5,7 +5,7 @@
   --color-blue: #687bf7;
   --color-lessSaturatedBlue: #5362c4;
   --color-gray: #7f8fa4;
-  --color-danger: #e93a75;
+  --color-danger: #e6195f;
 
   --color-link: var(--color-blue);
   --color-link-hover: var(--color-lessSaturatedBlue);
@@ -22,7 +22,7 @@
     #973af5 0%,
     #4ca6fe 100%
   );
-  --gradient-gray: linear-gradient(167.56deg, #516173 9.56%, #3b4857 91.49%);
+  --gradient-gray: linear-gradient(180deg, #516173 3.03%, #3b4857 97.78%);
 
   --font-size-h1: 1.625rem; /** 26px **/
   --font-size-h2: 1.25rem; /** 20px **/
