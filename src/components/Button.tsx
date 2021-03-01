@@ -4,16 +4,26 @@ import styled from '@emotion/styled';
 type ButtonProps = {
   buttonText: string;
   theme: string;
-  customWidth: string;
+  customWidth?: string;
 };
-const StyledButton = styled.button`
-  width: ${(props) => (props.customWidth ? props.customWidth : '240px')};
+
+type StyledButtonProps = {
+  theme: string;
+  customWidth?: string;
+};
+
+const defaultProps = {
+  customWidth: '240px',
+};
+
+const StyledButton = styled.button<StyledButtonProps>`
+  width: ${(props) => props.customWidth};
   height: 40px;
   background: ${(props) =>
     props.theme === 'purple'
       ? 'var(--gradient-purple-direct)'
       : 'var(--gradient-gray)'};
-  border-radius: var(--border-radius: );
+  border-radius: var(--border-radius);
   border: none;
   color: var(--color-white);
   font-size: 14px;
@@ -31,4 +41,5 @@ const Button = ({ buttonText, theme, customWidth }: ButtonProps) => {
   );
 };
 
+Button.defaultProps = defaultProps;
 export default Button;

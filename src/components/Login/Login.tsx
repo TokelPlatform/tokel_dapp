@@ -133,7 +133,7 @@ const Login = () => {
       {step === STEP2 && (
         <LoginStep2>
           <Logo alt="tokel-logo" src="../assets/logo.png" />
-          <SmallButton onClick={goBack} buttonText="Next" theme="gray" />
+          <SmallButton onClick={goBack} />
           <h1>Your WIF and your Seed Phrase</h1>
           <Confidential>
             <Label>
