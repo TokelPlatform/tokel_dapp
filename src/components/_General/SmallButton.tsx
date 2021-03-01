@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { arrowBack } from '../data/icons';
+import arrowBack from './assets/arrowBack.svg';
 
 type ButtonProps = {
   onClick: () => void;

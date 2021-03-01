@@ -1,6 +1,7 @@
 body {
   background-color: #222c3c;
   font-family: source-sans-pro, sans-serif;
+  transition: 0.2s;
 }
 
 h1 {

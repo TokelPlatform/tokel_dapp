@@ -3,6 +3,7 @@ module.exports = {
   rules: {
     // A temporary hack related to IDE not resolving correct package.json
     'import/no-extraneous-dependencies': 'off',
+    'jsx-a11y/anchor-is-valid': 0,
   },
   parserOptions: {
     ecmaVersion: 2020,
