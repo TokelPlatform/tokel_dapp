@@ -4,6 +4,10 @@ body {
   transition: 0.2s;
 }
 
+button {
+  font-family: source-sans-pro, sans-serif;
+}
+
 h1 {
   font-size: var(--font-size-h1);
   color: var(--color-white);

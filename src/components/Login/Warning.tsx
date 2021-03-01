@@ -20,7 +20,7 @@ const Container = styled.div`
     color: var(--color-gray);
     font-size: var(--font-size-additional-p);
   }
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 `;
 
 const Warning = () => {
