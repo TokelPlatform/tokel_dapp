@@ -5,6 +5,7 @@ type ButtonProps = {
   buttonText: string;
   theme: string;
   customWidth?: string;
+  onClick: (e) => void;
 };
 
 type StyledButtonProps = {
@@ -33,9 +34,9 @@ const StyledButton = styled.button<StyledButtonProps>`
     outline: none;
   }
 `;
-const Button = ({ buttonText, theme, customWidth }: ButtonProps) => {
+const Button = ({ buttonText, theme, customWidth, onClick }: ButtonProps) => {
   return (
-    <StyledButton theme={theme} customWidth={customWidth}>
+    <StyledButton onClick={onClick} theme={theme} customWidth={customWidth}>
       {buttonText}
     </StyledButton>
   );

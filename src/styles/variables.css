@@ -4,15 +4,16 @@
   --color-almostBlack2: #283447;
   --color-lighterBlack: #313d4f;
   --color-purple: #8050ef;
-  --color-blue: #687bf7;
+  --color-lightpurple: #687bf7;
   --color-lessSaturatedBlue: #5362c4;
   --color-gray: #7f8fa4;
   --color-danger: #e6195f;
 
-  --color-link: var(--color-blue);
+  --color-link: var(--color-lightpurple);
   --color-link-hover: var(--color-lessSaturatedBlue);
 
   --border-dark: 1px solid var(--color-lighterBlack);
+  --border-purple: 1px solid var(--color-lightpurple);
   --border-radius: 4px;
 
   /* --gradient-purple-direct: linear-gradient(

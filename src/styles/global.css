@@ -37,6 +37,10 @@ input:focus {
   outline: var(--color-link-hover) dashed 0.1px;
 }
 
+textarea:focus {
+  outline: none;
+}
+
 button:focus {
   outline: none;
 }
