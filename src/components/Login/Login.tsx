@@ -23,7 +23,7 @@ const STEP3 = 3;
 const STEP4 = 4;
 
 const Login = () => {
-  const [step, setStep] = useState(STEP2);
+  const [step, setStep] = useState(STEP1);
   const [key, setKey] = useState(
     'UqcurF1CAR73USkspg825FcnMYCduP2zpBBVoVaF7PPSyQgDx632'
   );

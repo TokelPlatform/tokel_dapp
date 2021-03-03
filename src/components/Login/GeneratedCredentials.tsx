@@ -18,12 +18,13 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  button:nth-of-type(1) {
-    position: absolute;
-    left: 8.75rem;
-    top: 5.5rem;
-    cursor: pointer;
-  }
+`;
+
+const BtnWrapper = styled.div`
+  position: absolute;
+  left: 8.75rem;
+  top: 5.5rem;
+  cursor: pointer;
 `;
 
 const Confidential = styled.div`
@@ -46,7 +47,9 @@ const GeneratedCredential = ({
   return (
     <Container>
       <Logo />
-      <SmallButton onClick={goBack} />
+      <BtnWrapper>
+        <SmallButton onClick={goBack} />
+      </BtnWrapper>
       <h1>Your WIF and your Seed Phrase</h1>
       <Confidential>
         <CredentialsRow
