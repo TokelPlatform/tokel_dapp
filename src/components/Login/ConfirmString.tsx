@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled from '@emotion/styled';
 import TextArea from '../_General/TextArea';
 import Button from '../_General/Button';
@@ -62,7 +62,7 @@ const ConfirmString = ({
       <p>{desc}</p>
       <TextArea
         value={value}
-        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
           setValue(e.currentTarget.value)
         }
         height="72px"

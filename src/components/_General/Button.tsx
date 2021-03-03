@@ -5,7 +5,7 @@ type ButtonProps = {
   buttonText: string;
   theme: string;
   customWidth?: string;
-  onClick: (e) => void;
+  onClick: () => void;
 };
 
 type StyledButtonProps = {
