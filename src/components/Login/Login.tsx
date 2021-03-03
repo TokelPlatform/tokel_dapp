@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import GeneratedCredential from './GeneratedCredentials';
 import LoginForm from './LoginForm';
@@ -23,13 +23,20 @@ const STEP3 = 3;
 const STEP4 = 4;
 
 const Login = () => {
-  const [step, setStep] = useState(STEP1);
+  const [step, setStep] = useState(STEP2);
   const [key, setKey] = useState(
     'UqcurF1CAR73USkspg825FcnMYCduP2zpBBVoVaF7PPSyQgDx632'
   );
   const [seed, setSeed] = useState(
     'advanced adequate approach generate generous here keyboards momentum profound somebody wherever whatever'
   );
+
+  useEffect(() => {
+    setKey('UqcurF1CAR73USkspg825FcnMYCduP2zpBBVoVaF7PPSyQgDx632');
+    setSeed(
+      'advanced adequate approach generate generous here keyboards momentum profound somebody wherever whatever'
+    );
+  }, []);
 
   const back = () => setStep(step - 1);
   const forward = () => setStep(step + 1);

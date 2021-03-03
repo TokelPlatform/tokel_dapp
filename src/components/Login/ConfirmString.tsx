@@ -47,7 +47,7 @@ const ConfirmString = ({
   const [error, setError] = useState('');
   const [value, setValue] = useState('');
 
-  const handleClick = (e: Event): void => {
+  const handleClick = (): void => {
     if (value === originalString) {
       forward();
     } else {
@@ -62,10 +62,9 @@ const ConfirmString = ({
       <p>{desc}</p>
       <TextArea
         value={value}
-        onChange={(e) => {
-          console.log(e.target.value);
-          setValue(e.target.value);
-        }}
+        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+          setValue(e.currentTarget.value)
+        }
         height="72px"
         width="464px"
       />

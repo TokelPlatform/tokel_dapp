@@ -33,7 +33,11 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       <h1>Welcome to TOKEL</h1>
       <p>Komodo ecosystem Token Platform</p>
       <Input icon={password} placeholder="Key or Seed Phrase" />
-      <Button theme="purple" buttonText="Login" />
+      <Button
+        onClick={() => console.log('yay')}
+        theme="purple"
+        buttonText="Login"
+      />
       <Link onClick={addNewWallet} linkText="Add New Wallet" />
     </Container>
   );

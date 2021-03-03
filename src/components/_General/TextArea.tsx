@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 
 type InputProps = {
   height: string;
   width: string;
   value: string;
-  onChange: (e: Event) => void;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
 type TextAreaType = {
