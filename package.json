@@ -29,6 +29,7 @@
     "*.{html,md,yml}": [
       "prettier --ignore-path .eslintignore --single-quote --write"
     ]
+
   },
   "build": {
     "productName": "TokelPlatform",
@@ -283,7 +284,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && yarn build && jest"
     }
   }
 }
