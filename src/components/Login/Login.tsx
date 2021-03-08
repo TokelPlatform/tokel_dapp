@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import GeneratedCredential from './GeneratedCredentials';
 import LoginForm from './LoginForm';
 import ConfirmString from './ConfirmString';
-import nspv from '../../util/nspv';
+import '../../util/nspv';
+import { getnewaddress } from '../../util/nspvlib';
 
 const LoginScreen = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const Login = () => {
   useEffect(() => {
     if (step === STEP2) {
       (async () => {
-        const result = await nspv.getnewaddress();
+        const result = await getnewaddress();
         setKey(result.wif);
         setSeed(result.seed);
       })();

@@ -24,7 +24,7 @@ const CopyToClipboard = ({ textToCopy }) => {
   };
 
   return (
-    <IconWrapper data-test="clipboard" onClick={() => copy()}>
+    <IconWrapper onClick={() => copy()}>
       <div data-tip={COPIED} ref={idRef} />
       <ImgClickableWrapper onClick={() => copy()} onKeyDown={() => copy()}>
         <img alt="copy" src={copyIcon} />
