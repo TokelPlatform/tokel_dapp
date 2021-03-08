@@ -5,7 +5,7 @@ type InputProps = {
   icon: string;
   placeholder: string;
   value: string;
-  onChange: () => void;
+  onChange: (e) => void;
 };
 
 const StyledInput = styled.input`
