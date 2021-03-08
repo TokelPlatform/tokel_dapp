@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import GeneratedCredential from './GeneratedCredentials';
 import LoginForm from './LoginForm';
 import ConfirmString from './ConfirmString';
+import nspv from '../../util/nspv';
 
 const LoginScreen = styled.div`
   display: flex;
@@ -24,19 +25,18 @@ const STEP4 = 4;
 
 const Login = () => {
   const [step, setStep] = useState(STEP1);
-  const [key, setKey] = useState(
-    'UqcurF1CAR73USkspg825FcnMYCduP2zpBBVoVaF7PPSyQgDx632'
-  );
-  const [seed, setSeed] = useState(
-    'advanced adequate approach generate generous here keyboards momentum profound somebody wherever whatever'
-  );
+  const [key, setKey] = useState('Loading...');
+  const [seed, setSeed] = useState('Loading...');
 
   useEffect(() => {
-    setKey('UqcurF1CAR73USkspg825FcnMYCduP2zpBBVoVaF7PPSyQgDx632');
-    setSeed(
-      'advanced adequate approach generate generous here keyboards momentum profound somebody wherever whatever'
-    );
-  }, []);
+    if (step === STEP2) {
+      (async () => {
+        const result = await nspv.getnewaddress();
+        setKey(result.wif);
+        setSeed(result.seed);
+      })();
+    }
+  }, [step]);
 
   const back = () => setStep(step - 1);
   const forward = () => setStep(step + 1);
@@ -55,7 +55,7 @@ const Login = () => {
         <ConfirmString
           title="Confirm Your Key"
           desc="Your key is important for you to login to your account. Make sure you copied it to a safe place. Please confirm it."
-          originalString="x"
+          originalString={key}
           goBack={() => back()}
           forward={() => forward()}
         />
@@ -64,7 +64,7 @@ const Login = () => {
         <ConfirmString
           title="Confirm Your Seed Phrase"
           desc="You will use your seed phrase in case you need to restore access to your account. Please confirm it."
-          originalString="x"
+          originalString={seed}
           goBack={() => back()}
           forward={() => forward()}
         />

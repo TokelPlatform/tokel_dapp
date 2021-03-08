@@ -1,0 +1,219 @@
+[
+  {
+    "LANGINFO": [
+      { "NAME": "Deutsch" },
+      { "AUTHOR": "Satinder Grewal" },
+      { "AUTHOR_EMAIL": "satinder@komodoplatform.com" }
+    ]
+  },
+  {
+    "COMMON": [
+      { "BTN_SEND": "Senden" },
+      { "BTN_UPDATE": "Update" },
+      { "BTN_REFRESH": "Neu Laden" },
+      { "LABEL_REWARDS": "Rewards" }
+    ]
+  },
+  {
+    "MENU": [
+      { "MENU_WALLET": "Wallet" },
+      { "MENU_INFO": "Info" },
+      { "MENU_PEERS": "Teilnehmer" },
+      { "MENU_ACCOUNT": "Mein Konto" },
+      { "MENU_LOGOUT": "Ausloggen" }
+    ]
+  },
+  {
+    "INFOCOIN": [
+      { "LABEL_COIN": "Coin" },
+      { "LABEL_BALANCE": "Guthaben" },
+      { "LABEL_YOUR_ADDRESS": "Ihre Adresse" }
+    ]
+  },
+  {
+    "LOGIN": [
+      { "BTN_LOGIN_IMG_PASS": "Login mit Bild und Passwort" },
+      { "BTN_LOGIN_SEED_WIF": "Login mit Wallet Seed oder WIF Schlüssel" },
+      { "PLACEHOLDER_WIF_SEED": "WIF Schlüssel oder Wallet Seed" },
+      {
+        "SEED_WIF_HELP": "Geben sie Ihr Wallet Seed oder den WIF Schlüssel (Private Key) Ihrer Adresse ein."
+      },
+      {
+        "IMG_PASS_HELP": "Passwort (eine zufällige Zeichenfolge) wird für den Login benutzt."
+      },
+      { "LOGOIN_TO_ACCOUNT": "Um Fortzuführen, bitte anmelden." },
+      { "SELECT_JPG": "Wählen sie eine .jpg Bild Datei:" },
+      {
+        "NOTICE_777_SECONDS": "<b>Anmerkung:</b> Ihre Anmelde Session wird für 777 Sekunden aufrecht erhalten."
+      },
+      {
+        "SEED_NOTICE": "<b>Wichtige Anmerkung:</b> Bitte führen Sie eine Sicherung Ihres \"Wallet Seeds\" und Ihres \"Private Keys\" durch. Kopieren sie hierzu den Text und speichern diesen auf Ihren Computer, empfehlenswerter wäre es den Text auf einen USB Stick zu speichern,bevor Sie eine Adresse benutzen. Diese Adresse wird Ihnen nicht noch einmal angezeigt, wenn Sie sich mit einem bereits existierenden Seed/WIF/Private Key einloggen. Um diese Adresse benutzen zu können (um Transaktionen zu sehen und Ihr Guthaben zu verwenden) benötigen Sie den Wallet Seed oder den WIF/Private Key."
+      },
+      { "BTN_GEN_ADDR": "Neue Adresse erstellen" },
+      { "SEED_LANG": "Seed Sprache wählen" },
+      { "SEED_GEN_H4": "Klicken Sie, um einen anderen Seed zu erstellen" },
+      { "WALLET_SEED": "Wallet Seed" },
+      { "NEW_ADDR": "Hier ist Ihre neue Adresse" },
+      { "SEED_ADVANCE_INFO": "Erweiterte Informationen" },
+      { "PRIV_KEY": "Private Key (WIF Key)" },
+      { "PUB_KEY": "Öffentlicher Key" },
+      { "COPY_IT": "Kopieren!" },
+      { "VERY_IMP": "SEHR WICHTIG" },
+      { "SEED_HELP": "Sichern Sie den Wallet Seed." },
+      { "PRIVKEY_HELP": "Sichern Sie diesen Private Key (WIF Key)." }
+    ]
+  },
+  {
+    "SEND": [
+      { "LABEL_FROM": "Von Adresse" },
+      { "LABEL_TOTAL_AMOUNT": "Gesamtbetrag der versendet wird" },
+      { "LABEL_TO": "Zu Adresse" },
+      { "LABEL_AMOUNT_INFO": "Betrag Informationen" },
+      { "LABEL_AMOUNT": "Betrag" },
+      { "LABEL_FEES": "Transaktions Gebühren" },
+      { "LABEL_CHANGE_AMOUNT": "Betrag ändern" },
+      { "LABEL_REWARDS_INFO": "Reward Informationen" },
+      { "LABEL_VALIDATED": "Bestätigt" },
+      { "LABEL_TXID": "txid" },
+      { "LABEL_HEX": "hex" },
+      { "BTN_BROADCAST_TX": "Transaktion übertragen" },
+      { "BTN_CREATE_TX": "Transaktion erstellen" },
+      { "CONF_DETAILS": "Bestätigen Sie vor dem versandt die Details" },
+      {
+        "CONF_NOTICE": "<b>Anmerkung:</b> Um eine Transaktion zu erstellen muss zu erst eine Anfrage an das Netzwerk gesendet werden. Je nach Art der Transaktion, und Ihrer Verbindung kann dies einige Zeit dauern. Bitte warten Sie bis der Prozess beendet ist."
+      },
+      { "RETCODES": "retcodes" },
+      {
+        "VALIDATED_HELP": "Lokal kalkulierter Rewardbetrag, um mit dem Betrag des Netzwerks übereinzustimmen."
+      },
+      {
+        "TXID_HELP": "Diese <kbd>txid</kbd> wird nach erfolgreicher Übertragung der Transaktion in dem Blockchain explorer ersichtlich sein."
+      },
+      {
+        "HEX_HELP": "Sie können auch die Hex Zeichenfolge kopieren, um von einem anderen Computer ihre Transaktion zu übertragen."
+      },
+      { "ADVANCE_DETAILS": "Weitere Details" },
+      { "NVERSION": "nVersion" },
+      { "NLOCKTIME": "nLockTime" },
+      { "EXPIRYTIME": "nExpiryHeight" },
+      { "VALBALANCE": "Gesamtwert" },
+      { "TXVIN_H5": "Tx - vin" },
+      { "TXVOUT_H5": "Tx - vout" },
+      { "VOUT": "vout" },
+      { "SCRIPTSIG": "scriptSig" },
+      { "SEQUENCEID": "Sequenzid" },
+      { "VALUE": "Wert" },
+      { "ADDRESS": "Adresse" }
+    ]
+  },
+  {
+    "WALLET": [
+      { "UNCONF_TX": "Unbestätigte Transaktion" },
+      { "HISTORY_TX": "Abgeschlossene Transkationen" },
+      { "TYPE": "Typ" },
+      { "DEST": "Ziel" },
+      { "AMOUNT": "Betrag" },
+      { "TXID": "TxID" },
+      { "DIRECTION": "Richtung" },
+      { "CONFS": "Bestätigungen" },
+      { "HEIGHT": "Blockhöhe" }
+    ]
+  },
+  {
+    "INFO": [
+      { "NET_INFO": "Netzwerk Informationen" },
+      { "NOTARI_INFO": "Beglaubigungs Informationen" },
+      { "HEADER_INFO": "Aktuelle Header Informationen" },
+      { "BROADCAST_TX_TO_NET": "Übertrage die Transaktion zum Netzwerk" },
+      { "NSPV": "nSPV" },
+      { "CUR_HEIGHT": "Aktuelle Blockhöhe" },
+      { "NOTARI_HEIGHT": "Beglaubigte Blockhöhe" },
+      { "CONN_PEERS": "Verbundene Teilnehmer" },
+      { "PROTO_VER": "Protokol Version" },
+      { "LAST_PEER": "Letzter Teilnehmer" },
+      { "NET_IN": "Netzwerk Bytes erhalten" },
+      { "NET_OUT": "Netzwerk Bytes gesendet" },
+      { "NOTARI_BLKHASH": "Beglaubigter Blockhash" },
+      { "NOTARI_TXID": "Beglaubigter Txid" },
+      { "NOTARI_TXID_HEIGHT": "Beglaubigte Txid Blockhöhe" },
+      { "NOTARI_DEST_TXID": "Beglaubigte Ziel Txid" },
+      { "HEADER": "Header" },
+      { "BLKHASH": "Blockhash" },
+      { "PRIV_BLKHASH": "Vorheriger Block Hash" },
+      { "MRKL_HASH": "Merkle Root Hash" },
+      { "NTIME": "nTime" },
+      { "NBITS": "nBits" },
+      { "HEXSTR": "Hex Zeichenfolge" },
+      { "INPUT_HEX": "Füge die Hex Zeichenfolge hier ein" },
+      {
+        "HEX_STR_HELP": "Sie können mit dem Hex auch ohne Login eine Transaktion übertragen."
+      }
+    ]
+  },
+  {
+    "PEERS": [
+      { "INFO": "Verbundene Teilnehmer Informationen" },
+      { "NODEID": "nodeid" },
+      { "IPADDR": "IP Adresse" },
+      { "PORT": "Port" },
+      { "LASTPING": "Letzter Ping" },
+      { "CONNSTART": "Beginn der Verbindung" },
+      { "LASTREQ": "Letzte Anfrage" },
+      { "SERVICES": "Service" },
+      { "MISBEHAVE": "Verhaltens Einschätzung" },
+      { "BEST_HEIGHT": "Letzte bekannte Blockhöhe" },
+      { "IN_SYNC": "In Sync" }
+    ]
+  },
+  {
+    "ERROR": [
+      { "OOPS": "Upps! Da ist etwas schief gelaufen..." },
+      { "ERR": "FEHLER" }
+    ]
+  },
+  {
+    "BCAST": [
+      { "TXINFO": "Informationen über übertragene Transaktionen" },
+      { "RESULT": "Ergebnis" },
+      { "EXPECTED": "Erwartet" },
+      { "BROADCAST": "Übertragen" },
+      { "RETURNCODE": "Erhaltender Code" }
+    ]
+  },
+  {
+    "TXINFO": [
+      { "TX_ID_INFO": "Transaktions ID Informationen" },
+      { "SPENT_TX_INFO": "Information über getätigte Transaktionen" },
+      { "SPENT_TX_HEIGHT": "Blockhöhe der getätigten Transaktion" },
+      { "SPENT_TX_ID": "Transaktions ID" },
+      { "SPENT_VINI": "Getätigte vini" },
+      { "SPENT_TX_LEN": "Länge der getätigten Transaktion" },
+      { "SPENT_PROOF_LEN": "Länge des Beweises der getätigten Transaktion" },
+      { "PROOF": "Beweis" }
+    ]
+  },
+  {
+    "ACCOUNT": [
+      { "SETTINGS": "Konto Einstellungen" },
+      { "SESSION": "Session" },
+      { "EXPIRE_IN": "Ihre Login-Session wird ablaufen in" },
+      { "SECONDS": "Sekunden." },
+      { "WALLETLANG": "Wallet Sprache" },
+      { "SELECT_WALLETLANG": "Wählen Sie Ihre Wallet Sprache" },
+      { "CHANGE": "Wechseln" },
+      { "CREATE_LOGIN_IMG": "Erstellen Sie ein sicheren Login Bild" },
+      { "INSTRUC": "Anleitung" },
+      { "STEP01": "Wählen Sie ein Bild (.jpg) aus, dass größer als 64kb ist." },
+      {
+        "STEP02": "Benutzen Sie ein starkes Passwort. Empfehlenswerter Weise mit Buchstaben, Nummern und Sonderzeichen"
+      },
+      {
+        "STEP03": "Wenn Sie fertig sind, klicken Sie auf \"Sicheres Bild erstellen\" um fortzfahren."
+      },
+      { "PASSWORD": "Passwort" },
+      { "JPG_HELP": "Wählen sie ein Bild (.jpg) von Ihrer Festplatte." },
+      { "PASS_HELP": "Geben Sie das Passwort für Ihr Bild ein." },
+      { "BTN_MAKE_IMG": "Sicheres Bild erstellen" }
+    ]
+  }
+]

@@ -1,0 +1,222 @@
+[
+  {
+    "LANGINFO": [
+      { "NAME": "日本語" },
+      { "AUTHOR": "CrisF" },
+      { "AUTHOR_EMAIL": "CrisFell@pm.me" }
+    ]
+  },
+  {
+    "COMMON": [
+      { "BTN_SEND": "送信" },
+      { "BTN_UPDATE": "更新" },
+      { "BTN_REFRESH": "再読込" },
+      { "LABEL_REWARDS": "報酬" }
+    ]
+  },
+  {
+    "MENU": [
+      { "MENU_WALLET": "ウォレット" },
+      { "MENU_INFO": "情報" },
+      { "MENU_PEERS": "ピア" },
+      { "MENU_ACCOUNT": "アカウント" },
+      { "MENU_LOGOUT": "ログアウト" }
+    ]
+  },
+  {
+    "INFOCOIN": [
+      { "LABEL_COIN": "コイン" },
+      { "LABEL_BALANCE": "残高" },
+      { "LABEL_YOUR_ADDRESS": "アドレス" }
+    ]
+  },
+  {
+    "LOGIN": [
+      { "BTN_LOGIN_IMG_PASS": "画像とパスワードでログイン" },
+      { "BTN_LOGIN_SEED_WIF": "シードまたはWIFキーでログイン" },
+      { "PLACEHOLDER_WIF_SEED": "WIFキー又はシード" },
+      {
+        "SEED_WIF_HELP": "アドレスのシードまたはWIFキー(プライベートキー)を読み込む"
+      },
+      {
+        "IMG_PASS_HELP": "ログインセッションにパスワード(ランダムな文字列)を使用しています。"
+      },
+      { "LOGOIN_TO_ACCOUNT": "アカウントにログインして下さい。" },
+      { "SELECT_JPG": "jpgファイルを選択して下さい。:" },
+      {
+        "NOTICE_777_SECONDS": "<b>NOTICE:</b> ログインセッションは777秒間保持されます。"
+      },
+      {
+        "SEED_NOTICE": "<b>重要なお知らせ:</b> アドレスを利用する前に、USBメモリ等にウォレットのシードとプライベートキーの両方をバックアップして下さい。このアドレスは既存のシードまたはWIFキー/プライベートキーでログインした場合、再び表示される事はありません。ログイン、トランザクション参照、資金を利用する際には、必ずこのアドレスのシードまたはWIFキー/プライベートキーを使用して下さい。"
+      },
+      { "BTN_GEN_ADDR": "新しいアドレスを作成" },
+      { "SEED_LANG": "シードの言語を選択" },
+      {
+        "SEED_GEN_H4": "表示されているシードやアドレスが気に入らないう場合はクリックして新たに作成して下さい"
+      },
+      { "WALLET_SEED": "ウォレットシード" },
+      { "NEW_ADDR": "新しいアドレスはこちら" },
+      { "SEED_ADVANCE_INFO": "高度な情報" },
+      { "PRIV_KEY": "プライベートキー (WIFキー)" },
+      { "PUB_KEY": "パブリックキー" },
+      { "COPY_IT": "コピーする" },
+      { "VERY_IMP": "最重要" },
+      { "SEED_HELP": "ウォレットシードをバックアップして下さい。" },
+      {
+        "PRIVKEY_HELP": "このプライベートキー(WIFキー)をバックアップして下さい。"
+      }
+    ]
+  },
+  {
+    "SEND": [
+      { "LABEL_FROM": "送信元アドレス" },
+      { "LABEL_TOTAL_AMOUNT": "合計送金金額" },
+      { "LABEL_TO": "送信先アドレス" },
+      { "LABEL_AMOUNT_INFO": "金額情報" },
+      { "LABEL_AMOUNT": "金額" },
+      { "LABEL_FEES": "送金手数料" },
+      { "LABEL_CHANGE_AMOUNT": "金額変更" },
+      { "LABEL_REWARDS_INFO": "報酬情報" },
+      { "LABEL_VALIDATED": "検証済み" },
+      { "LABEL_TXID": "txid" },
+      { "LABEL_HEX": "16進数" },
+      { "BTN_BROADCAST_TX": "トランザクションをブロードキャスト" },
+      { "BTN_CREATE_TX": "トランザクション作成" },
+      { "CONF_DETAILS": "送信前に詳細確認" },
+      {
+        "CONF_NOTICE": "<b>注意</b> トランザクションを作成するにはネットワークにリクエストを行う必要があります。トランザクションの内容とネットワークノードとの接続状況によって多少時間がかかる場合があります。処理が終わるまでしばらくお待ち下さい。"
+      },
+      { "RETCODES": "retcodes" },
+      {
+        "VALIDATED_HELP": "ネットワークからの値と一致するようにローカルで計算された報酬の値。"
+      },
+      {
+        "TXID_HELP": "この<kbd>txid</kbd>は、ネットワークにトランザクションをブロードキャストした後、ブロックチェーンエクスプローラーで利用可能になります。"
+      },
+      {
+        "HEX_HELP": "必要であれば、この16進文字列をコピーして、別のコンピューターからブロードキャストすることもできます。"
+      },
+      { "ADVANCE_DETAILS": "その他の高度な詳細" },
+      { "NVERSION": "nVersion" },
+      { "NLOCKTIME": "nLockTime" },
+      { "EXPIRYTIME": "nExpiryHeight" },
+      { "VALBALANCE": "valueBalance" },
+      { "TXVIN_H5": "Tx - vin" },
+      { "TXVOUT_H5": "Tx - vout" },
+      { "VOUT": "vout" },
+      { "SCRIPTSIG": "scriptSig" },
+      { "SEQUENCEID": "sequenceid" },
+      { "VALUE": "値" },
+      { "ADDRESS": "アドレス" }
+    ]
+  },
+  {
+    "WALLET": [
+      { "UNCONF_TX": "未確認トランザクション" },
+      { "HISTORY_TX": "トランザクション履歴" },
+      { "TYPE": "タイプ" },
+      { "DEST": "宛先" },
+      { "AMOUNT": "金額" },
+      { "TXID": "トランザクションID" },
+      { "DIRECTION": "ディレクション" },
+      { "CONFS": "確認." },
+      { "HEIGHT": "ブロック高" }
+    ]
+  },
+  {
+    "INFO": [
+      { "NET_INFO": "ネットワーク情報" },
+      { "NOTARI_INFO": "認証情報" },
+      { "HEADER_INFO": "現在のヘッダ情報" },
+      {
+        "BROADCAST_TX_TO_NET": "トランザクションをネットワークにブロードキャスト"
+      },
+      { "NSPV": "nSPV" },
+      { "CUR_HEIGHT": "現在のブロック高" },
+      { "NOTARI_HEIGHT": "認証されたブロック高" },
+      { "CONN_PEERS": "接続ピア" },
+      { "PROTO_VER": "プロトコルバージョン" },
+      { "LAST_PEER": "最後のピア" },
+      { "NET_IN": "受信したバイト数" },
+      { "NET_OUT": "送信したバイト数" },
+      { "NOTARI_BLKHASH": "認証されたブロックハッシュ" },
+      { "NOTARI_TXID_HEIGHT": "認証されたトランザクションID" },
+      { "NOTARI_TXID": "認証されたトランザクションID高" },
+      { "NOTARI_DEST_TXID": "認証された宛先トランザクションID" },
+      { "HEADER": "ヘッダ" },
+      { "BLKHASH": "ブロックハッシュ" },
+      { "PRIV_BLKHASH": "前のブロックハッシュ" },
+      { "MRKL_HASH": "マークルルートハッシュ" },
+      { "NTIME": "nTime" },
+      { "NBITS": "nBits" },
+      { "HEXSTR": "16進文字列" },
+      { "INPUT_HEX": "16進文字列を入力して下さい" },
+      {
+        "HEX_STR_HELP": "他のソースで作成したトランザクション16進数がある場合、ログインせずにネットワークにトランザクションをブロードキャストできます。"
+      }
+    ]
+  },
+  {
+    "PEERS": [
+      { "INFO": "接続されたピアの情報" },
+      { "NODEID": "物理アドレス" },
+      { "IPADDR": "IPアドレス" },
+      { "PORT": "ポート" },
+      { "LASTPING": "最後のping" },
+      { "CONNSTART": "接続開始時間" },
+      { "LASTREQ": "最後のリクエスト." },
+      { "SERVICES": "サービス" },
+      { "MISBEHAVE": "不正スコア" },
+      { "BEST_HEIGHT": "Best Known Height" },
+      { "IN_SYNC": "同期中" }
+    ]
+  },
+  { "ERROR": [{ "OOPS": "問題が発生しました.." }, { "ERR": "エラー" }] },
+  {
+    "BCAST": [
+      { "TXINFO": "ブロードキャストされたトランザクションの情報" },
+      { "RESULT": "結果" },
+      { "EXPECTED": "予期" },
+      { "BROADCAST": "ブロードキャスト" },
+      { "RETURNCODE": "リターンコード" }
+    ]
+  },
+  {
+    "TXINFO": [
+      { "TX_ID_INFO": "トランザクションID情報" },
+      { "SPENT_TX_INFO": "送信トランザクション情報" },
+      { "SPENT_TX_HEIGHT": "送信トランザクション格納ブロック" },
+      { "SPENT_TX_ID": "送信トランザクションID" },
+      { "SPENT_VINI": "送信vini" },
+      { "SPENT_TX_LEN": "送信トランザクションサイズ" },
+      { "SPENT_PROOF_LEN": "送信トランザクションプルーフサイズ" },
+      { "PROOF": "プルーフ" }
+    ]
+  },
+  {
+    "ACCOUNT": [
+      { "SETTINGS": "アカウント設定" },
+      { "SESSION": "セッション" },
+      { "EXPIRE_IN": "ログインセッション無効まで" },
+      { "SECONDS": "秒." },
+      { "WALLETLANG": "ウォレットの言語" },
+      { "SELECT_WALLETLANG": "ウォレットの言語を選択" },
+      { "CHANGE": "変更" },
+      { "CREATE_LOGIN_IMG": "安全なログイン画像の作成" },
+      { "INSTRUC": "説明" },
+      {
+        "STEP01": "大きなサイズのjpg画像ファイルをデバイス内から選択して下さい。"
+      },
+      {
+        "STEP02": "強力なパスワードを入力して下さい。アルファベット、数字、特殊文字の組み合わせが理想的です。"
+      },
+      {
+        "STEP03": "準備が出来たら \"ログイン画像作成\" ボタンを押して下さい。"
+      },
+      { "PASSWORD": "パスワード" },
+      { "JPG_HELP": "jpg画像ファイルをデバイス内から選択して下さい。" },
+      { "PASS_HELP": "選択された画像のパスワード。" },
+      { "BTN_MAKE_IMG": "ログイン画像作成" }
+    ]
+  }
+]
