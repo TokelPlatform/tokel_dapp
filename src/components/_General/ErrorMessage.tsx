@@ -1,8 +1,8 @@
-import React, { ReactChildren } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 
 type ErrorMessageProps = {
-  children: ReactChildren;
+  children: string;
 };
 const StyledError = styled.p`
   height: 1rem;

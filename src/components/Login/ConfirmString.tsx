@@ -4,6 +4,7 @@ import TextArea from '../_General/TextArea';
 import Button from '../_General/Button';
 import Logo from '../_General/Logo';
 import SmallButton from '../_General/SmallButton';
+import ErrorMessage from '../_General/ErrorMessage';
 
 type CredentialsRowProps = {
   title: string;
@@ -30,11 +31,6 @@ const Container = styled.div`
     width: 450px;
     text-align: center;
   }
-`;
-const Error = styled.p`
-  height: 1rem;
-  margin: 0.5rem 0;
-  color: var(--color-danger);
 `;
 
 const ConfirmString = ({
@@ -68,7 +64,7 @@ const ConfirmString = ({
         height="72px"
         width="464px"
       />
-      <Error>{error}</Error>
+      <ErrorMessage>{error}</ErrorMessage>
       <Button
         onClick={handleClick}
         customWidth="170px"
