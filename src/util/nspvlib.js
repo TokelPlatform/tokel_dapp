@@ -4,6 +4,7 @@ const NSPV_SERVER = 'http://127.0.0.1:7771';
 const methods = {
   getnewaddress: 'getnewaddress',
   login: 'login',
+  listunspent: 'listunspent',
 };
 
 /**
@@ -59,6 +60,49 @@ export const login = async (key) => {
       jsonrpc: '2.0',
       method: methods.login,
       params: [key],
+    },
+    responseType: 'json',
+  });
+  if (body.result === 'success') {
+    return body;
+  }
+  throw new Error('Incorrect login details');
+};
+
+/**
+ *
+ * @param {string} address
+ *
+ * Sample response
+ * {
+ *
+ *  "result" : success,
+ *  "utxos" : [
+ *      {
+ *          "height" : 2241305,
+ *          "txid" : 4e7b86eb846e593ca4e2130fa92af08ad7fcf541850684d64758855daef7fb4a,
+ *          "vout" : 0,
+ *          "value" : 1,
+ *          "rewards" : 0
+ *      }
+ *  ],
+ *  "address" : RKagfH9Fjcm2ddaDRcc3FfmrAViBzApXfp,
+ *  "isCC" : 0,
+ *  "height" : 2296137,
+ *  "numutxos" : 1,
+ *  "balance" : 1,
+ *  "rewards" : 0,
+ *  "skipcount" : 0,
+ *  "filter" : 0,
+ *  "lastpeer" : 136.243.58.134:7770
+ * }
+ */
+export const listnunspent = async (address) => {
+  const { body } = await got.post(NSPV_SERVER, {
+    json: {
+      jsonrpc: '2.0',
+      method: methods.listunspent,
+      params: [address],
     },
     responseType: 'json',
   });
