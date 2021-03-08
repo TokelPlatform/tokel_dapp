@@ -1,5 +1,14 @@
-// const got = require('got');
+const got = require('got');
 
+const NSPV_SERVER = 'http://127.0.0.1:7771';
+const methods = {
+  getnewaddress: 'getnewaddress',
+  login: 'login',
+};
+
+/**
+ * Returns a newly generated address
+ */
 export const getnewaddress = () => {
   // returns test data at the moment not to create too many wallets
   return {
@@ -18,7 +27,7 @@ export const getnewaddress = () => {
       json: {
         jsonrpc: '2.0',
         id: "curltest",
-        method: "getnewaddress",
+        method: methods.getnewaddress,
         params: []
       },
       responseType: 'json'
@@ -26,6 +35,37 @@ export const getnewaddress = () => {
     return body;
   })();
 */
+};
+
+/**
+ * Identifying key can WIF or SEED generated on creating the address
+ * @param {string} key
+ *
+ * Sample response
+ *
+ * {
+ *    address: "RVK1UNQtkcwZ2yJLBQXqEPbjDHrHhHCUeh"
+ *    compressed: 0
+ *    pubkey: "038db9c6b1dd82536b929abec5363fdfa49946b8a7d068f10f6d4b5d12d3033434"
+ *    result: "success"
+ *    status: "wif will expire in 777 seconds"
+ *    wifprefix: 0
+ *  }
+ */
+
+export const login = async (key) => {
+  const { body } = await got.post(NSPV_SERVER, {
+    json: {
+      jsonrpc: '2.0',
+      method: methods.login,
+      params: [key],
+    },
+    responseType: 'json',
+  });
+  if (body.result === 'success') {
+    return body;
+  }
+  throw new Error('Incorrect login details');
 };
 
 export const hello = () => 'hello';

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Input from '../_General/Input';
 import Button from '../_General/Button';
 import password from './assets/password.svg';
 import Link from '../_General/Link';
 import Logo from '../_General/Logo';
+import { login } from '../../util/nspvlib';
+import ErrorMessage from '../_General/ErrorMessage';
 
 type LoginFormProps = {
   addNewWallet: () => void;
@@ -15,29 +17,49 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  p {
+  .welcome {
     color: var(--color-gray);
     font-weight: 400;
     margin: 0;
     margin-bottom: 1rem;
   }
   button {
-    margin-bottom: 3rem;
+    margin-bottom: 0rem;
   }
 `;
 
 const LoginForm = ({ addNewWallet }: LoginFormProps) => {
+  const [loginValue, setloginValue] = useState('');
+  const [error, setError] = useState('');
+
+  const loginUser = (value) => {
+    try {
+      setError('');
+      login(value);
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
   return (
     <Container>
       <Logo />
       <h1>Welcome to TOKEL</h1>
-      <p>Komodo ecosystem Token Platform</p>
-      <Input icon={password} placeholder="Key or Seed Phrase" />
+      <p className="welcome">Komodo ecosystem Token Platform</p>
+      <Input
+        onChange={(e) => setloginValue(e.target.value)}
+        icon={password}
+        value={loginValue}
+        placeholder="Key or Seed Phrase"
+      />
       <Button
-        onClick={() => console.log('yay')}
+        onClick={() => loginUser(loginValue)}
         theme="purple"
         buttonText="Login"
       />
+      <div style={{ marginBottom: '2rem' }}>
+        <ErrorMessage>{error}</ErrorMessage>
+      </div>
       <Link onClick={addNewWallet} linkText="Add New Wallet" />
     </Container>
   );
