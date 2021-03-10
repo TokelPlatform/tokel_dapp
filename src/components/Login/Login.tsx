@@ -4,6 +4,7 @@ import GeneratedCredential from './GeneratedCredentials';
 import LoginForm from './LoginForm';
 import ConfirmString from './ConfirmString';
 import { getnewaddress } from '../../util/nspvlib';
+import { showDash } from '../../util/electron';
 
 const LoginScreen = styled.div`
   display: flex;
@@ -66,7 +67,7 @@ const Login = () => {
           desc="You will use your seed phrase in case you need to restore access to your account. Please confirm it."
           originalString={seed}
           goBack={() => back()}
-          forward={() => forward()}
+          forward={() => showDash()}
         />
       )}
     </LoginScreen>
