@@ -1,10 +1,10 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import App from '../App';
+import Dashboard from '../Dashboard';
 
-describe('App', () => {
+describe('Dashboard', () => {
   it('should render', () => {
-    expect(render(<App />)).toBeTruthy();
+    expect(render(<Dashboard />)).toBeTruthy();
   });
 });
