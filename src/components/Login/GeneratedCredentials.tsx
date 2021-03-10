@@ -8,6 +8,9 @@ import Logo from '../_General/Logo';
 
 type GeneratedCredentialProps = {
   goBack: () => void;
+  forward: () => void;
+  wifkey: string;
+  seed: string;
 };
 
 const Container = styled.div`
@@ -15,12 +18,13 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  button:nth-of-type(1) {
-    position: absolute;
-    left: 8.75rem;
-    top: 5.5rem;
-    cursor: pointer;
-  }
+`;
+
+const BtnWrapper = styled.div`
+  position: absolute;
+  left: 8.75rem;
+  top: 5.5rem;
+  cursor: pointer;
 `;
 
 const Confidential = styled.div`
@@ -34,29 +38,39 @@ const Confidential = styled.div`
   border-radius: var(--border-radius);
 `;
 
-const GeneratedCredential = ({ goBack }: GeneratedCredentialProps) => {
+const GeneratedCredential = ({
+  wifkey,
+  seed,
+  forward,
+  goBack,
+}: GeneratedCredentialProps) => {
   return (
     <Container>
       <Logo />
-      <SmallButton onClick={goBack} />
+      <BtnWrapper>
+        <SmallButton onClick={goBack} />
+      </BtnWrapper>
       <h1>Your WIF and your Seed Phrase</h1>
       <Confidential>
         <CredentialsRow
           label="Your Key"
           sublabel="- private key and is used to login to your wallet"
-          credential="UqcurF1CAR73USkspg825FcnMYCduP2zpBBVoVaF7PPSyQgDx632"
+          credential={wifkey}
         />
-
         <CredentialsRow
           label="Seed Phrase"
           sublabel="- can be used as a backup login option"
-          credential="advanced adequate approach generate generous here keyboards
-              momentum profound somebody wherever whatever"
+          credential={seed}
         />
       </Confidential>
       <Warning />
 
-      <Button customWidth="170px" buttonText="Next" theme="gray" />
+      <Button
+        onClick={forward}
+        customWidth="170px"
+        buttonText="Next"
+        theme="gray"
+      />
     </Container>
   );
 };

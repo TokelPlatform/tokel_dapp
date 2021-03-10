@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import copy from './assets/copy.svg';
+import CopyToClipboard from '../_General/CopyToClipboard';
 
 type CredentialsRowProps = {
   label: string;
@@ -42,7 +42,7 @@ const CredentialsRow = ({
       </Label>
       <Info>
         <p>{credential}</p>
-        <img alt="copy" src={copy} />
+        <CopyToClipboard textToCopy={credential} />
       </Info>
     </div>
   );

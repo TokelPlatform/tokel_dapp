@@ -7,7 +7,6 @@
     "declarationMap": true,
     "noEmit": true,
     "jsx": "react",
-    "strict": true,
     "pretty": true,
     "sourceMap": true,
     /* Additional Checks */

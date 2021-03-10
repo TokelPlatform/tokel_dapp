@@ -1,0 +1,67 @@
+body {
+  background-color: #1e2938;
+  color: #fff;
+}
+
+.logo {
+  width: 25px;
+}
+
+.bg-dark {
+  background-color: #283547 !important;
+}
+
+.table-dark {
+  background-color: #283547;
+}
+
+.table-dark td,
+.table-dark th,
+.table-dark thead th {
+  border-color: #14263c;
+}
+
+.login-body {
+  background-image: url('images/sub-header-logo-min.png');
+  background-size: auto auto;
+  /*text-align: center;*/
+  background-color: #1e2938;
+  background-repeat: no-repeat;
+  position: relative;
+  background-position: calc(0% - 200px) calc(100% + 400px);
+  color: #fff;
+}
+
+.divider {
+  border-top: 1px solid #d9dadc;
+  display: block;
+  line-height: 1px;
+  margin: 35px 0;
+  position: relative;
+  text-align: center;
+}
+
+.divider .divider-title {
+  background: #1e2938;
+  font-size: 20px;
+  letter-spacing: 1px;
+  padding: 0 20px;
+  text-transform: uppercase;
+}
+
+.login-hr {
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.send_form {
+  width: 665px;
+}
+
+.hidden {
+  opacity: 0;
+  transition: opacity;
+}
+
+.hidden:hover {
+  opacity: 1;
+}

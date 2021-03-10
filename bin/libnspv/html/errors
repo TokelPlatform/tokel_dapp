@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="custom.css">
+
+    <title>Antara Superlite</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark">
+      <a class="navbar-brand"><img src="images/antara150x150.png" class="logo"/> Antara Superlite</a>
+      <form class="form-row send_form" action="$URL/method/send_confirm" method="get">
+        <input class="form-control mr-sm-1" type="search" placeholder="$SEND_LABEL_TO" name="address" aria-label="ToAddress" style="width: 400px;">
+        <input class="form-control mr-sm-2" type="search" placeholder="$SEND_LABEL_AMOUNT" name="amount" aria-label="SendAmount" style="width: 120px;">
+          <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">$COMMON_BTN_SEND $COIN</button>
+      </form>
+      <form class="form-inline">
+        $MENU_BUTTON_ARRAY
+        <!--<input class="form-control mr-sm-2" type="search" placeholder="Search Block, Txid, Address" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+      </form>
+    </nav>
+
+    <div class="container-fluid" style="margin-top: 15px;">
+      <div class="row justify-content-md-center" style="margin-bottom: 1em;">
+        <div class="col-12 text-center" style="margin-bottom: 10px;"> <!-- GetInfo div start -->
+            <h1>$ERROR_OOPS</h1>
+            <h2>$ERROR_ERR:</h2>
+            <p>$ERROR_OUTPUT</p>
+        </div> <!-- GetInfo div end -->
+      </div>
+
+    </div>
+  
+  </body>
+</html>

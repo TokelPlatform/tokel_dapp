@@ -4,8 +4,11 @@ import chalk from 'chalk';
 import fs from 'fs';
 
 const mainPath = path.join(__dirname, '../../src/main.prod.js');
-const rendererPath = path.join(
-  __dirname, '../../src/dist/renderer.prod.js'
+const loginRendererPath = path.join(
+  __dirname, '../../src/dist/login.renderer.prod.js'
+);
+const dashboardRendererPath = path.join(
+  __dirname, '../../src/dist/dashboard.renderer.prod.js'
 );
 
 if (!fs.existsSync(mainPath)) {
@@ -16,10 +19,18 @@ if (!fs.existsSync(mainPath)) {
   );
 }
 
-if (!fs.existsSync(rendererPath)) {
+if (!fs.existsSync(loginRendererPath)) {
   throw new Error(
     chalk.whiteBright.bgRed.bold(
       'The renderer process is not built yet. Build it by running "yarn build-renderer"'
     )
   );
+}
+
+  if (!fs.existsSync(dashboardRendererPath)) {
+    throw new Error(
+      chalk.whiteBright.bgRed.bold(
+        'The renderer process is not built yet. Build it by running "yarn build-renderer"'
+      )
+    );
 }
