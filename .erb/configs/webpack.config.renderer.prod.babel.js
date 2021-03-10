@@ -31,19 +31,19 @@ export default merge(baseConfig, {
     login: [
       'core-js',
       'regenerator-runtime/runtime',
-      path.join(__dirname, '..', '/src/components/Login/index')
+      path.join(__dirname, '..', '/../src/components/Login/index')
     ],
     dashboard: [
       'core-js',
       'regenerator-runtime/runtime',
-      path.join(__dirname, '..', 'app/components/Dashboard/index')
+      path.join(__dirname, '..', '/../src/components/Dashboard/index')
     ]
   },
 
   output: {
     path: path.join(__dirname, '../../src/dist'),
     publicPath: './dist/',
-    filename: 'renderer.prod.js',
+    filename: '[name].renderer.prod.js',
   },
 
   module: {
