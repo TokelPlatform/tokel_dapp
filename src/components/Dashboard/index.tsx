@@ -4,11 +4,11 @@ import '../../../assets/fonts/fonts.css';
 import '../../styles/global.css';
 import '../../styles/variables.css';
 import AcccountContextProvider from '../../store/AccountContext';
-import Login from './Login';
+import Dashboard from './Dashboard';
 
 render(
   <AcccountContextProvider>
-    <Login />
+    <Dashboard />
   </AcccountContextProvider>,
-  document.getElementById('root')
+  document.getElementById('dash')
 );

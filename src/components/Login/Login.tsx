@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import GeneratedCredential from './GeneratedCredentials';
 import LoginForm from './LoginForm';
 import ConfirmString from './ConfirmString';
-import '../../util/nspv';
 import { getnewaddress } from '../../util/nspvlib';
 
 const LoginScreen = styled.div`

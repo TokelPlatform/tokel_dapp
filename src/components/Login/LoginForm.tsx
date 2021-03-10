@@ -7,6 +7,7 @@ import Link from '../_General/Link';
 import Logo from '../_General/Logo';
 import { login } from '../../util/nspvlib';
 import ErrorMessage from '../_General/ErrorMessage';
+import { showDash } from '../../util/electron';
 
 type LoginFormProps = {
   addNewWallet: () => void;
@@ -36,6 +37,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
     try {
       setError('');
       login(value);
+      showDash();
     } catch (e) {
       setError(e.message);
     }

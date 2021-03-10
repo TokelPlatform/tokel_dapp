@@ -1,6 +1,6 @@
 const { spawn } = require('child_process');
 
-const libnspv = `${__dirname}/../bin/libnspv/nspv`;
+const libnspv = `${__dirname}/../../bin/libnspv/nspv`;
 class NspvSingleton {
   constructor() {
     if (process.env.NODE_ENV === 'test') {

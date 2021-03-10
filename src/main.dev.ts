@@ -11,10 +11,12 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+
+import './util/nspv';
 
 export default class AppUpdater {
   constructor() {
@@ -25,6 +27,7 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+let childWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -71,13 +74,28 @@ const createWindow = async () => {
     show: false,
     width: 750,
     height: 550,
+    center: true,
+    backgroundColor: '#222c3c',
     icon: getAssetPath('logo.png'),
     webPreferences: {
       nodeIntegration: true,
     },
   });
 
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  childWindow = new BrowserWindow({
+    show: false,
+    width: 1240,
+    height: 720,
+    center: true,
+    backgroundColor: '#222c3c',
+    icon: getAssetPath('logo.png'),
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
+  childWindow.loadURL(`file://${__dirname}/components/Dashboard/index.html`);
+
+  mainWindow.loadURL(`file://${__dirname}/components/Login/index.html`);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
@@ -129,4 +147,9 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
+});
+
+ipcMain.on('show-dash', () => {
+  mainWindow.hide();
+  childWindow.show();
 });
