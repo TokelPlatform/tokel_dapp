@@ -16,7 +16,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 
-import './util/nspv';
+// import './util/nspv';
 
 export default class AppUpdater {
   constructor() {
@@ -71,6 +71,8 @@ const createWindow = async () => {
   };
 
   mainWindow = new BrowserWindow({
+    frame: false,
+    titleBarStyle: 'hiddenInset',
     show: false,
     width: 750,
     height: 550,
@@ -83,11 +85,13 @@ const createWindow = async () => {
   });
 
   childWindow = new BrowserWindow({
-    show: false,
+    frame: false,
+    titleBarStyle: 'hiddenInset',
+    show: true,
     width: 1240,
     height: 720,
     center: true,
-    backgroundColor: '#222c3c',
+    backgroundColor: '#1B2431',
     icon: getAssetPath('logo.png'),
     webPreferences: {
       nodeIntegration: true,
@@ -106,8 +110,8 @@ const createWindow = async () => {
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();
     } else {
-      mainWindow.show();
-      mainWindow.focus();
+      // mainWindow.show();
+      // mainWindow.focus();
     }
   });
 

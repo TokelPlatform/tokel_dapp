@@ -1,7 +1,10 @@
 body {
-  background-color: #222c3c;
+  background-color: var(--color-black);
   font-family: source-sans-pro, sans-serif;
   transition: 0.2s;
+  margin: 0;
+  padding: 0;
+  -webkit-app-region: drag;
 }
 
 button {

@@ -1,5 +1,6 @@
 :root {
   --color-white: #ffffff;
+  --color-black: #1b2431;
   --color-almostBlack: #222c3c;
   --color-almostBlack2: #283447;
   --color-lighterBlack: #313d4f;
@@ -7,6 +8,7 @@
   --color-lightpurple: #687bf7;
   --color-lessSaturatedBlue: #5362c4;
   --color-gray: #7f8fa4;
+  --color-darkerGray: #8492b4;
   --color-danger: #e6195f;
 
   --color-link: var(--color-lightpurple);
