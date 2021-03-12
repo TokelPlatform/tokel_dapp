@@ -8,6 +8,13 @@ const Container = styled.div`
   top: 366px;
   height: 312px;
   width: 464px;
+  border-radius: 4;
+`;
+
+const Heading = styled.h3`
+  margin-left: 34px;
+  margin-top: 26px;
+  color: var(--color-white);
 `;
 
 type RecentActivityProps = {
@@ -15,7 +22,15 @@ type RecentActivityProps = {
 };
 
 const RecentActivity = ({ utxos }: RecentActivityProps): ReactElement => {
-  return <Container>{utxos}</Container>;
+  console.log(utxos);
+  return (
+    <Container>
+      <Heading>Recent Activity</Heading>
+      {/* {utxos && utxos.map(tx => {
+      return <p key={tx.txid}>Txid {tx.txid}</p>
+    })} */}
+    </Container>
+  );
 };
 
 export default RecentActivity;

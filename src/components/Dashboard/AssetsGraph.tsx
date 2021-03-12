@@ -8,6 +8,7 @@ const Container = styled.div`
   top: 366px;
   height: 312px;
   width: 320px;
+  border-radius: 4;
 `;
 
 const AssetsGraph = (): ReactElement => {

@@ -22,7 +22,6 @@ const Dashboard = (): ReactElement => {
   const [balance, setBalance] = useState(null);
 
   ipcRenderer.on('pass-login-info', (event, arg) => {
-    alert('We have received your listunspent data!');
     console.log(arg, event);
     setBalance(arg.balance);
     setUtxos(arg.utxos);

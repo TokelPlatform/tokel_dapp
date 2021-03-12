@@ -8,6 +8,7 @@ const Container = styled.div`
   top: 62px;
   height: 288px;
   width: 800px;
+  border-radius: 4;
 `;
 
 const PortfolioValueGraph = (): ReactElement => {
