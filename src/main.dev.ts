@@ -16,7 +16,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 
-// import './util/nspv';
+import './util/nspv';
 
 export default class AppUpdater {
   constructor() {
@@ -87,7 +87,7 @@ const createWindow = async () => {
   childWindow = new BrowserWindow({
     frame: false,
     titleBarStyle: 'hiddenInset',
-    show: true,
+    show: false,
     width: 1240,
     height: 720,
     center: true,
@@ -110,8 +110,8 @@ const createWindow = async () => {
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();
     } else {
-      // mainWindow.show();
-      // mainWindow.focus();
+      mainWindow.show();
+      mainWindow.focus();
     }
   });
 
@@ -154,6 +154,11 @@ app.on('activate', () => {
 });
 
 ipcMain.on('show-dash', () => {
-  mainWindow.hide();
   childWindow.show();
+});
+
+ipcMain.on('send-info', (event, arg) => {
+  console.log('Passing event from main process', event);
+  childWindow.show();
+  childWindow.webContents.send('pass-login-info', arg);
 });

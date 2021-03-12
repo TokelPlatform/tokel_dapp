@@ -1,11 +1,13 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import SideMenu from './Menu/SideMenu';
-import TopBar from './TopBar';
+import TopBar from './Menu/TopBar';
 import Portfolio from './Portoflio';
 import PortfolioValueGraph from './PortfolioValueGraph';
 import RecentActivity from './RecentActivity';
 import AssetsGraph from './AssetsGraph';
+
+const { ipcRenderer } = require('electron');
 
 const Container = styled.div`
   background-color: var(--color-black);
@@ -15,13 +17,26 @@ const Container = styled.div`
 `;
 
 const Dashboard = (): ReactElement => {
+  const [address, setAddress] = useState(null);
+  const [utxos, setUtxos] = useState(null);
+  const [balance, setBalance] = useState(null);
+
+  ipcRenderer.on('pass-login-info', (event, arg) => {
+    alert('We have received your listunspent data!');
+    console.log(arg, event);
+    setBalance(arg.balance);
+    setUtxos(arg.utxos);
+    setAddress(arg.address);
+  });
+
+  useEffect(() => {}, []);
   return (
     <Container>
       <SideMenu />
       <TopBar />
-      <Portfolio />
+      <Portfolio balance={balance} address={address} />
       <PortfolioValueGraph />
-      <RecentActivity />
+      <RecentActivity utxos={utxos} />
       <AssetsGraph />
     </Container>
   );

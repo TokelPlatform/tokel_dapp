@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import GeneratedCredential from './GeneratedCredentials';
 import LoginForm from './LoginForm';
 import ConfirmString from './ConfirmString';
-import { getnewaddress } from '../../util/nspvlib';
-import { showDash } from '../../util/electron';
+import { getnewaddress, listnunspent, login } from '../../util/nspvlib';
+import { sendInfo, showDash } from '../../util/electron';
 
 const LoginScreen = styled.div`
   display: flex;
@@ -39,6 +39,18 @@ const Login = () => {
     }
   }, [step]);
 
+  const showDashboard = () => {
+    login(key)
+      .then(() => {
+        return listnunspent();
+      })
+      .then((res) => {
+        sendInfo(res);
+        showDash();
+        return 1;
+      })
+      .catch((e) => console.log(e));
+  };
   const back = () => setStep(step - 1);
   const forward = () => setStep(step + 1);
   return (
@@ -67,7 +79,7 @@ const Login = () => {
           desc="You will use your seed phrase in case you need to restore access to your account. Please confirm it."
           originalString={seed}
           goBack={() => back()}
-          forward={() => showDash()}
+          forward={() => showDashboard()}
         />
       )}
     </LoginScreen>

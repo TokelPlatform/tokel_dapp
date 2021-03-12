@@ -2,9 +2,10 @@ const got = require('got');
 
 const NSPV_SERVER = 'http://127.0.0.1:7771';
 const methods = {
+  getinfo: 'getinfo',
   getnewaddress: 'getnewaddress',
-  login: 'login',
   listunspent: 'listunspent',
+  login: 'login',
 };
 
 /**
@@ -97,18 +98,21 @@ export const login = async (key) => {
  *  "lastpeer" : 136.243.58.134:7770
  * }
  */
-export const listnunspent = async (address) => {
+export const listnunspent = async () => {
+  console.log('Calling listunspent');
   const { body } = await got.post(NSPV_SERVER, {
     json: {
       jsonrpc: '2.0',
       method: methods.listunspent,
-      params: [address],
+      params: [],
     },
     responseType: 'json',
   });
   if (body.result === 'success') {
+    console.log('Returning response');
     return body;
   }
+  console.log(body);
   throw new Error('Incorrect login details');
 };
 

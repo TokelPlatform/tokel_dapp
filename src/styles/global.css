@@ -9,6 +9,7 @@ body {
 
 button {
   font-family: source-sans-pro, sans-serif;
+  -webkit-app-region: no-drag;
 }
 
 h1 {

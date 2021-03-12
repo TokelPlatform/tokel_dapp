@@ -5,9 +5,9 @@ import Button from '../_General/Button';
 import password from './assets/password.svg';
 import Link from '../_General/Link';
 import Logo from '../_General/Logo';
-import { login } from '../../util/nspvlib';
+import { listnunspent, login } from '../../util/nspvlib';
 import ErrorMessage from '../_General/ErrorMessage';
-import { showDash } from '../../util/electron';
+import { sendInfo, showDash } from '../../util/electron';
 
 type LoginFormProps = {
   addNewWallet: () => void;
@@ -34,13 +34,19 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [error, setError] = useState('');
 
   const loginUser = (value) => {
-    try {
-      setError('');
-      login(value);
-      showDash();
-    } catch (e) {
-      setError(e.message);
-    }
+    setError('');
+    login(value)
+      .then(() => {
+        return listnunspent();
+      })
+      .then((res) => {
+        sendInfo(res);
+        showDash();
+        return 1;
+      })
+      .catch((e) => {
+        setError(e.message);
+      });
   };
 
   return (

@@ -10,8 +10,18 @@ const Container = styled.div`
   width: 280px;
 `;
 
-const Portfolio = (): ReactElement => {
-  return <Container />;
+type PortfolioProps = {
+  address: string;
+  balance: string;
+};
+
+const Portfolio = ({ address, balance }: PortfolioProps): ReactElement => {
+  return (
+    <Container>
+      <h1>{address}</h1>
+      <h1>{balance}</h1>
+    </Container>
+  );
 };
 
 export default Portfolio;

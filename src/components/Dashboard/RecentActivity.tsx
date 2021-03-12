@@ -10,8 +10,12 @@ const Container = styled.div`
   width: 464px;
 `;
 
-const RecentActivity = (): ReactElement => {
-  return <Container />;
+type RecentActivityProps = {
+  utxos: Record<string, unknown>[];
+};
+
+const RecentActivity = ({ utxos }: RecentActivityProps): ReactElement => {
+  return <Container>{utxos}</Container>;
 };
 
 export default RecentActivity;
