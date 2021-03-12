@@ -11,6 +11,7 @@ const StyledButton = styled.button`
   background: var(--color-almostBlack);
   border: var(--border-dark);
   border-radius: var(--border-radius);
+  cursor: pointer;
   &:hover {
     background-color: var(--color-almostBlack2);
   }
