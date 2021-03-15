@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import styled from '@emotion/styled';
 import data from './data';
 import MenuItem from './MenuItem';
@@ -17,11 +17,34 @@ const Menu = styled.div`
 `;
 
 const SideMenu = (): ReactElement => {
+  const [menuData, setMenuData] = useState(data);
+
+  const handleClick = (name) => {
+    setMenuData(
+      menuData.map((item) => {
+        if (item.name !== name) {
+          item.selected = false;
+        } else {
+          item.selected = true;
+        }
+        return item;
+      })
+    );
+  };
+
   return (
     <Container>
       <Menu>
-        {data.map((menuItem) => {
-          return <MenuItem key={menuItem.name} itemName={menuItem.name} />;
+        {menuData.map((menuItem) => {
+          return (
+            <MenuItem
+              onClick={() => handleClick(menuItem.name)}
+              key={menuItem.name}
+              itemName={menuItem.name}
+              svgName={menuItem.svgName}
+              selected={menuItem.selected}
+            />
+          );
         })}
       </Menu>
     </Container>
