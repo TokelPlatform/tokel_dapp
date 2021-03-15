@@ -15,6 +15,7 @@ const Container = styled.div`
   h3 {
     color: var(--color-white);
     font-weight: 400;
+    font-size: var(--font-size-p);
   }
   p {
     color: var(--color-gray);
