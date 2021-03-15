@@ -36,6 +36,7 @@ const CopyToClipboard = ({ textToCopy }) => {
         delayShow={100}
         delayHide={1000}
         afterShow={() => ReactTooltip.hide()}
+        backgroundColor="#313d4f"
       />
     </IconWrapper>
   );

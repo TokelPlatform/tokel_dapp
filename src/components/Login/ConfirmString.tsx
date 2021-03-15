@@ -21,7 +21,7 @@ const Container = styled.div`
   align-items: center;
   button:nth-of-type(1) {
     position: absolute;
-    left: 8.75rem;
+    left: 7.75rem;
     top: 5.5rem;
     cursor: pointer;
   }
@@ -47,7 +47,7 @@ const ConfirmString = ({
     if (value === originalString) {
       forward();
     } else {
-      setError('The values do not match');
+      setError('The value you entered is not the same as the generated one');
     }
   };
   return (

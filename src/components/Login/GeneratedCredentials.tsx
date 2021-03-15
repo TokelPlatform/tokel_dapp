@@ -22,7 +22,7 @@ const Container = styled.div`
 
 const BtnWrapper = styled.div`
   position: absolute;
-  left: 8.75rem;
+  left: 7.75rem;
   top: 5.5rem;
   cursor: pointer;
 `;
@@ -30,8 +30,8 @@ const BtnWrapper = styled.div`
 const Confidential = styled.div`
   margin: 1rem 0;
   padding: 0.5rem 1.5em;
-  height: 124px;
-  width: 468px;
+  height: 150px;
+  width: 500px;
   background: rgba(248, 7, 89, 0.05);
   border: 1px solid var(--color-danger);
   box-sizing: border-box;
