@@ -92,6 +92,8 @@
     },
     "extraResources": [
       "./assets/**",
+      "./src/components/Dashboard/assets/**",
+      "./src/components/Login/assets/**",
       {
         "from": "./src/binaries",
         "to": "binaries",
