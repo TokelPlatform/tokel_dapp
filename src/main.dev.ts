@@ -71,6 +71,8 @@ const createWindow = async () => {
   };
 
   mainWindow = new BrowserWindow({
+    frame: false,
+    titleBarStyle: 'hiddenInset',
     show: false,
     width: 750,
     height: 550,
@@ -83,11 +85,13 @@ const createWindow = async () => {
   });
 
   childWindow = new BrowserWindow({
+    frame: false,
+    titleBarStyle: 'hiddenInset',
     show: false,
     width: 1240,
     height: 720,
     center: true,
-    backgroundColor: '#222c3c',
+    backgroundColor: '#1B2431',
     icon: getAssetPath('logo.png'),
     webPreferences: {
       nodeIntegration: true,
@@ -150,6 +154,11 @@ app.on('activate', () => {
 });
 
 ipcMain.on('show-dash', () => {
-  mainWindow.hide();
   childWindow.show();
+});
+
+ipcMain.on('send-info', (event, arg) => {
+  console.log('Passing event from main process', event);
+  childWindow.show();
+  childWindow.webContents.send('pass-login-info', arg);
 });

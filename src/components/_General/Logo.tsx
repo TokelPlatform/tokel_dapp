@@ -7,6 +7,8 @@ const StyledLogo = styled.img`
   margin-bottom: 1.5rem;
 `;
 
-const Logo = () => <StyledLogo alt="tokel-logo" src="../assets/logo.png" />;
+const Logo = () => (
+  <StyledLogo alt="tokel-logo" src="../../../assets/logo.png" />
+);
 
 export default Logo;

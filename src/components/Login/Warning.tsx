@@ -32,7 +32,7 @@ const Warning = () => {
         <h3>Important: please back up your seed phrase and WIF now!</h3>
         <p>
           We recommend storing it offline.{' '}
-          <a href="/">Learn security best practices</a>
+          <a href="#">Learn security best practices</a>
         </p>
       </div>
     </Container>

@@ -27,7 +27,7 @@ const Container = styled.div`
   }
   p:nth-of-type(1) {
     color: var(--color-gray);
-    margin: 1.5rem 0 0 0;
+    margin: 1.5rem 0 1.85rem 0;
     width: 450px;
     text-align: center;
   }
