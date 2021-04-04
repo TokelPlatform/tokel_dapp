@@ -168,5 +168,6 @@ ipcMain.on('send-info', (event, arg) => {
   // production debug
   // childWindow.webContents.openDevTools();
   childWindow.show();
+  mainWindow.hide();
   childWindow.webContents.send('pass-login-info', arg);
 });
