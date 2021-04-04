@@ -18,6 +18,10 @@ import MenuBuilder from './menu';
 
 import './util/nspv';
 
+// unhandled excetions debug
+// const unhandled = require('electron-unhandled');
+// unhandled();
+
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -111,6 +115,8 @@ const createWindow = async () => {
       mainWindow.minimize();
     } else {
       mainWindow.show();
+      // production debug
+      // mainWindow.webContents.openDevTools();
       mainWindow.focus();
     }
   });
@@ -159,6 +165,9 @@ ipcMain.on('show-dash', () => {
 
 ipcMain.on('send-info', (event, arg) => {
   console.log('Passing event from main process', event);
+  // production debug
+  // childWindow.webContents.openDevTools();
   childWindow.show();
+  mainWindow.hide();
   childWindow.webContents.send('pass-login-info', arg);
 });

@@ -29,7 +29,7 @@
         const port = process.env.PORT || 1212;
         scripts.push(`http://localhost:${port}/dist/dashboard.renderer.dev.js`);
       } else {
-        scripts.push('./dist/dashboard.renderer.prod.js');
+        scripts.push('../../dist/dashboard.renderer.prod.js');
       }
 
       if (scripts.length) {

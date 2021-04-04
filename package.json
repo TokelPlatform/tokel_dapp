@@ -12,6 +12,7 @@
     "package": "rm -rf src/dist && yarn build && electron-builder build --publish never",
     "postinstall": "node -r @babel/register .erb/scripts/CheckNativeDep.js && electron-builder install-app-deps && yarn cross-env NODE_ENV=development webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.babel.js && opencollective-postinstall && yarn-deduplicate yarn.lock",
     "start": "NODE_ENV=production node -r @babel/register ./.erb/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
+    "dev": "NODE_ENV=development node -r @babel/register ./.erb/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
     "start:main": "cross-env NODE_ENV=development electron -r ./.erb/scripts/BabelRegister ./src/main.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development webpack serve --config ./.erb/configs/webpack.config.renderer.dev.babel.js",
     "test": "jest",
@@ -30,7 +31,6 @@
     "*.{html,md,yml}": [
       "prettier --ignore-path .eslintignore --single-quote --write"
     ]
-
   },
   "build": {
     "productName": "TokelPlatform",
@@ -38,7 +38,10 @@
     "files": [
       "dist/",
       "node_modules/",
-      "index.html",
+      "components/Dashboard/index.html",
+      "components/Login/index.html",
+      "dist/login.renderer.prod.js",
+      "dist/dashboard.renderer.prod.js",
       "main.prod.js",
       "main.prod.js.map",
       "package.json"
@@ -88,7 +91,16 @@
       "output": "release"
     },
     "extraResources": [
-      "./assets/**"
+      "./assets/**",
+      "./src/components/Dashboard/assets/**",
+      "./src/components/Login/assets/**",
+      {
+        "from": "./src/binaries",
+        "to": "binaries",
+        "filter": [
+          "**/*"
+        ]
+      }
     ],
     "publish": {
       "provider": "github",
@@ -197,7 +209,9 @@
     "detect-port": "^1.3.0",
     "electron": "^11.0.1",
     "electron-builder": "^22.3.6",
+    "electron-debug": "3.2.0",
     "electron-devtools-installer": "^3.1.1",
+    "electron-log": "^4.2.4",
     "electron-notarize": "^1.0.0",
     "electron-rebuild": "^2.3.2",
     "enzyme": "^3.11.0",
@@ -244,8 +258,7 @@
   "dependencies": {
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.1.5",
-    "electron-debug": "^3.1.0",
-    "electron-log": "^4.2.4",
+    "electron-unhandled": "3.0.2",
     "electron-updater": "^4.3.4",
     "got": "11.8.2",
     "history": "^5.0.0",

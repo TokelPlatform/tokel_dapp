@@ -1,6 +1,27 @@
 const { spawn } = require('child_process');
 
-const cwd = `${__dirname}/../../bin/libnspv`;
+const newEnvVars = { ...process.env };
+delete newEnvVars.HOT;
+delete newEnvVars.START_HOT;
+newEnvVars.NODE_ENV = 'production';
+
+const path = require('path');
+const { app } = require('electron');
+
+export const getBinariesDirectoryPath = () => {
+  let appPath = null;
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.DEBUG_PROD === 'true'
+  ) {
+    appPath = app.getAppPath();
+  } else {
+    appPath = path.join(app.getAppPath(), '..');
+  }
+  return path.join(appPath, 'binaries');
+};
+
+const cwd = `${getBinariesDirectoryPath()}/libnspv`;
 class NspvSingleton {
   constructor() {
     if (process.env.NODE_ENV === 'test') {
