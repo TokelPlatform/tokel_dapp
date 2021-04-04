@@ -51,7 +51,10 @@ const MenuIcon = styled.div<MenuIconProps>`
   mask-position: center;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  mask-image: ${(p) => `url("./assets/${p.svgName}")`};
+  mask-image: ${(p) =>
+    process.env.NODE_ENV === 'development'
+      ? `url("./assets/${p.svgName}")`
+      : `url("../../../src/components/Dashboard/assets/${p.svgName}")`};
 `;
 
 const MenuItem = ({
