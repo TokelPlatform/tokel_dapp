@@ -1,9 +1,0 @@
-./autogen.sh
-./configure
-cd src/tools/cryptoconditions
-./autogen.sh
-./configure
-make
-cd ../../..
-make
-

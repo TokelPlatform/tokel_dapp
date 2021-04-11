@@ -1,1 +1,0 @@
-                      <option value="$WALLETLANG">$WALLETLANG_NAME</option>
