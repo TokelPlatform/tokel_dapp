@@ -64,6 +64,19 @@ yarn package
 
 ## Docs
 
+### Libnspv
+
+[SPV technology](https://hackernoon.com/spv-proofs-explained-qd1p3r1q)
+
+articles by Jl777
+
+[nSPV a simple approach to superlight clients leveraging notarizations](https://medium.com/@jameslee777/nspv-a-simple-approach-to-superlight-clients-leveraging-notarizations-75d7ef5a37a9)
+[nSPV reference cli client](https://medium.com/@jameslee777/nspv-reference-cli-client-cf1ffdc03631)
+[libnspv: evolution of nSPV](https://medium.com/@jameslee777/libnspv-evolution-of-nspv-ed157f8b159d)
+
+Komodo docs
+[nSPV](https://developers.komodoplatform.com/basic-docs/smart-chains/smart-chain-setup/nspv.html#spend)
+
 ## License
 
 MIT ©
