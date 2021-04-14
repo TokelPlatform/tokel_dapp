@@ -1,36 +1,23 @@
-const { spawn } = require('child_process');
+import { spawn } from 'child_process';
+import path from 'path';
 
-const newEnvVars = { ...process.env };
-delete newEnvVars.HOT;
-delete newEnvVars.START_HOT;
-newEnvVars.NODE_ENV = 'production';
+import paths from '../../config/scripts/paths';
 
-const path = require('path');
 const { app } = require('electron');
 
-export const getBinariesDirectoryPath = () => {
-  let appPath = null;
-  if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.DEBUG_PROD === 'true'
-  ) {
-    appPath = app.getAppPath();
-  } else {
-    appPath = path.join(app.getAppPath(), '..');
-  }
-  return path.join(appPath, 'binaries');
-};
+const binariesDir =
+  process.env.NODE_ENV === 'development'
+    ? path.join(app.getAppPath(), '..', '..', 'include', 'binaries')
+    : path.join(app.getAppPath(), '..', 'binaries');
 
-const cwd = `${getBinariesDirectoryPath()}/libnspv`;
+const cwd = path.join(binariesDir, 'libnspv');
 class NspvSingleton {
   constructor() {
     if (process.env.NODE_ENV === 'test') {
       return 'singleton created';
     }
     console.log('Starting a new NSPV process in the background.');
-    const nspv = spawn(cwd.concat('/nspv'), ['KMD'], {
-      cwd,
-    });
+    const nspv = spawn(path.join(cwd, 'nspv'), ['KMD'], { cwd });
     nspv.stdout.setEncoding('utf8');
 
     nspv.stdout.on('data', (data) => {

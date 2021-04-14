@@ -1,3 +1,12 @@
+# NPM
+node_modules
+npm-debug.log.*
+
+# App packaged
+release
+build
+config/dll
+
 # Logs
 logs
 *.log
@@ -19,37 +28,12 @@ coverage
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-.eslintcache
-
-# Dependency directory
-# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
-node_modules
-
 # OSX
 .DS_Store
 
-# App packaged
-release
-src/*.main.prod.js
-src/main.prod.js
-src/main.prod.js.map
-src/renderer.prod.js
-src/renderer.prod.js.map
-src/style.css
-src/style.css.map
-dist
-dll
-main.js
-main.js.map
-
-.idea
-npm-debug.log.*
+# Random
+.eslintcache
 __snapshots__
-
-# Package.json
-package.json
 .travis.yml
 *.css.d.ts
 *.sass.d.ts

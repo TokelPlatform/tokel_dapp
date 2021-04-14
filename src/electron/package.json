@@ -3,14 +3,14 @@
   "productName": "tokelPlatform",
   "version": "0.0.1",
   "description": "Komodo ecosystem’s Token Platform",
-  "main": "./main.prod.js",
+  "main": "./main.js",
   "author": {
     "name": "Daria Mikhailova",
     "email": "hello@daria.engineer",
     "url": "https://daria.engineer"
   },
   "scripts": {
-    "electron-rebuild": "node -r ../.erb/scripts/BabelRegister.js ../.erb/scripts/ElectronRebuild.js",
+    "electron-rebuild": "node -r ../../config/scripts/BabelRegister.js ../../config/scripts/ElectronRebuild.js",
     "postinstall": "yarn electron-rebuild"
   },
   "license": "MIT",

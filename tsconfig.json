@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"],
+    },
     "target": "ES2018",
     "module": "CommonJS",
     "lib": ["dom", "esnext"],
@@ -21,12 +25,6 @@
     "resolveJsonModule": true,
     "allowJs": true
   },
-  "exclude": [
-    "test",
-    "release",
-    "src/main.prod.js",
-    "src/renderer.prod.js",
-    "src/dist",
-    ".erb/dll"
-  ]
+  // "include": ["./src/**/*.ts", "./src/**/*.d.ts"],
+  "exclude": ["include", "assets", "test", "release", "build", "config/dll"]
 }

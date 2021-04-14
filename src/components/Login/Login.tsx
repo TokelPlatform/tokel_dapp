@@ -5,6 +5,8 @@ import LoginForm from './LoginForm';
 import ConfirmString from './ConfirmString';
 import { getnewaddress, listnunspent, login } from '../../util/nspvlib';
 import { sendInfo, showDash } from '../../util/electron';
+import { setLoggedIn } from 'util/history';
+import { Link } from 'react-router-dom';
 
 const LoginScreen = styled.div`
   display: flex;
@@ -55,6 +57,8 @@ const Login = () => {
   const forward = () => setStep(step + 1);
   return (
     <LoginScreen>
+      <button onClick={() => setLoggedIn(true)}>LOGIN OVERRIDE</button>
+      <Link to="/">NOW GO</Link>
       {step === STEP1 && <LoginForm addNewWallet={() => forward()} />}
       {step === STEP2 && (
         <GeneratedCredential

@@ -2,42 +2,37 @@
  * Webpack config for production electron main process
  */
 
-import path from 'path';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import TerserPlugin from 'terser-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+
 import baseConfig from './webpack.config.base';
 import CheckNodeEnv from '../scripts/CheckNodeEnv';
 import DeleteSourceMaps from '../scripts/DeleteSourceMaps';
+import paths from '../scripts/paths';
 
 CheckNodeEnv('production');
 DeleteSourceMaps();
 
-const devtoolsConfig = process.env.DEBUG_PROD === 'true' ? {
-  devtool: 'source-map'
-} : {};
-
 export default merge(baseConfig, {
-  ...devtoolsConfig,
-
+  ...(process.env.DEBUG_PROD === 'true' ? { devtool: 'source-map' } : {}),
   mode: 'production',
-
   target: 'electron-main',
-
-  entry: './src/main.dev.ts',
+  entry: paths.electronMainFile,
 
   output: {
-    path: path.join(__dirname, '../../'),
-    filename: './src/main.prod.js',
+    path: paths.electronBuildDir,
+    filename: 'main.js',
   },
 
   optimization: {
     minimizer: [
       new TerserPlugin({
         parallel: true,
+        extractComments: false,
       }),
-    ]
+    ],
   },
 
   plugins: [

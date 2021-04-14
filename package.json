@@ -3,18 +3,19 @@
   "productName": "TokelPlatform",
   "description": "Komodo ecosystem’s Token Platform",
   "scripts": {
-    "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
-    "build:main": "cross-env NODE_ENV=production webpack --config ./.erb/configs/webpack.config.main.prod.babel.js",
-    "build:renderer": "cross-env NODE_ENV=production webpack --config ./.erb/configs/webpack.config.renderer.prod.babel.js",
+    "build": "rm -rf ./build && concurrently \"yarn build:main\" \"yarn build:renderer\"",
+    "build:main": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.main.prod.babel.js",
+    "build:renderer": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.renderer.prod.babel.js",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir src",
     "lint": "cross-env NODE_ENV=development && eslint . --cache --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx --fix",
-    "package": "rm -rf src/dist && yarn build && electron-builder build --publish never",
-    "postinstall": "node -r @babel/register .erb/scripts/CheckNativeDep.js && electron-builder install-app-deps && yarn cross-env NODE_ENV=development webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.babel.js && opencollective-postinstall && yarn-deduplicate yarn.lock",
-    "start": "NODE_ENV=production node -r @babel/register ./.erb/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
-    "dev": "NODE_ENV=development node -r @babel/register ./.erb/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
-    "start:main": "cross-env NODE_ENV=development electron -r ./.erb/scripts/BabelRegister ./src/main.dev.ts",
-    "start:renderer": "cross-env NODE_ENV=development webpack serve --config ./.erb/configs/webpack.config.renderer.dev.babel.js",
+    "packs": "electron-builder --dir",
+    "package": "yarn build && electron-builder build --publish never",
+    "postinstall": "node -r @babel/register ./config/scripts/CheckNativeDep.js && electron-builder install-app-deps && yarn cross-env NODE_ENV=development webpack --config ./config/webpack/webpack.config.renderer.dev.dll.babel.js && yarn-deduplicate yarn.lock",
+    "start": "NODE_ENV=production node -r @babel/register ./config/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
+    "dev": "NODE_ENV=development node -r @babel/register ./config/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
+    "start:main": "cross-env NODE_ENV=development electron -r ./config/scripts/BabelRegister ./src/electron/main.ts",
+    "start:renderer": "cross-env NODE_ENV=development webpack serve --config ./config/webpack/webpack.config.renderer.dev.babel.js",
     "test": "jest",
     "tsc": "cross-env NODE_ENV=development ./node_modules/.bin/tsc"
   },
@@ -35,19 +36,37 @@
   "build": {
     "productName": "TokelPlatform",
     "appId": "tokel",
+    "directories": {
+      "app": "src/electron",
+      "buildResources": "assets",
+      "output": "release"
+    },
     "files": [
-      "dist/",
+      {
+        "from": "../../build",
+        "to": ""
+      },
       "node_modules/",
-      "components/Dashboard/index.html",
-      "components/Login/index.html",
-      "dist/login.renderer.prod.js",
-      "dist/dashboard.renderer.prod.js",
-      "main.prod.js",
-      "main.prod.js.map",
+      "index.html",
       "package.json"
     ],
-    "afterSign": ".erb/scripts/Notarize.js",
+    "extraResources": [
+      "./assets/**",
+      "./src/components/Dashboard/assets/**",
+      "./src/components/Login/assets/**",
+      {
+        "from": "include/binaries",
+        "to": "binaries"
+      }
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "TokelPlatform",
+      "repo": "tokel_app"
+    },
+    "afterSign": "config/scripts/Notarize.js",
     "mac": {
+      "asar": false,
       "target": [
         "dmg"
       ],
@@ -84,28 +103,6 @@
         "AppImage"
       ],
       "category": "Development"
-    },
-    "directories": {
-      "app": "src",
-      "buildResources": "assets",
-      "output": "release"
-    },
-    "extraResources": [
-      "./assets/**",
-      "./src/components/Dashboard/assets/**",
-      "./src/components/Login/assets/**",
-      {
-        "from": "./src/binaries",
-        "to": "binaries",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
-    "publish": {
-      "provider": "github",
-      "owner": "TokelPlatform",
-      "repo": "tokel_app"
     }
   },
   "repository": {
@@ -135,7 +132,7 @@
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.erb/mocks/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/mocks/fileMock.js",
       "\\.(css|less|sass|scss)$": "identity-obj-proxy",
       "electron": "<rootDir>/src/tests/mock/electron.js"
     },
@@ -151,7 +148,7 @@
       "src/node_modules"
     ],
     "setupFiles": [
-      "./.erb/scripts/CheckBuildsExist.js"
+      "./config/scripts/CheckBuildsExist.js"
     ]
   },
   "devDependencies": {
@@ -208,7 +205,7 @@
     "css-minimizer-webpack-plugin": "^1.1.5",
     "detect-port": "^1.3.0",
     "electron": "^11.0.1",
-    "electron-builder": "^22.3.6",
+    "electron-builder": "^22.10.5",
     "electron-debug": "3.2.0",
     "electron-devtools-installer": "^3.1.1",
     "electron-log": "^4.2.4",
@@ -248,7 +245,7 @@
     "terser-webpack-plugin": "^5.0.3",
     "typescript": "^4.0.5",
     "url-loader": "^4.1.0",
-    "webpack": "^5.5.1",
+    "webpack": "^5.32.0",
     "webpack-bundle-analyzer": "^4.1.0",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0",
@@ -264,6 +261,8 @@
     "history": "^5.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "react-tooltip": "4.2.15",
     "regenerator-runtime": "^0.13.5",
     "source-map-support": "^0.5.19"
