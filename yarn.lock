@@ -6502,6 +6502,11 @@ import-local@^3.0.2:
     pkg-dir "^4.2.0"
     resolve-cwd "^3.0.0"
 
+import-sort-style-supernotes@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/import-sort-style-supernotes/-/import-sort-style-supernotes-0.2.0.tgz#a0be9640fe4187ebb7d81375e7c91d346c05a36b"
+  integrity sha512-ECS1g8MIQRNSjuAGZ3CHvoXQWXk/OYRlwSCEeUXaBU4BMx3CduXRh5SrVHH3GxZiXNwGuMct1d7rc6bliMlZKA==
+
 imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"

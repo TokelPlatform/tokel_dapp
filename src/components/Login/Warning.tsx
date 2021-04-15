@@ -1,6 +1,8 @@
 import React from 'react';
+
 import styled from '@emotion/styled';
-import warning from './assets/warningIcon.svg';
+
+import warning from 'assets/warningIcon.svg';
 
 const Container = styled.div`
   display: flex;

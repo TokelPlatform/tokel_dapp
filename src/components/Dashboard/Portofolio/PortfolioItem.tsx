@@ -1,7 +1,10 @@
 import React, { ReactElement } from 'react';
+
 import styled from '@emotion/styled';
-import icons from '../assets/icons';
-import ProgressBar from '../../_General/ProgressBar';
+
+import icons from 'assets/icons';
+
+import ProgressBar from 'components/_General/ProgressBar';
 
 const Container = styled.div`
   background-color: var(--color-almostBlack);

@@ -1,8 +1,6 @@
 import { spawn } from 'child_process';
 import path from 'path';
 
-import paths from '../../config/scripts/paths';
-
 const { app } = require('electron');
 
 const binariesDir =

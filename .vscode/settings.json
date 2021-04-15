@@ -9,6 +9,7 @@
   "javascript.validate.enable": false,
   "javascript.format.enable": false,
   "typescript.format.enable": false,
+  "sort-imports.on-save": true,
 
   "search.exclude": {
     ".git": true,

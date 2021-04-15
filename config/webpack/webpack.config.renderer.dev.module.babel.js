@@ -7,7 +7,7 @@ export default {
         {
           loader: require.resolve('babel-loader'),
           options: {
-            plugins: [require.resolve('react-refresh/babel')].filter(Boolean),
+            plugins: [require.resolve('react-refresh/babel')],
           },
         },
       ],

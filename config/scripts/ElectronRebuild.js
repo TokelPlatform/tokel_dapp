@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 import { execSync } from 'child_process';
 
 import { dependencies } from '../../src/electron/package.json';

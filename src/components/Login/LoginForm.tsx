@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+
 import styled from '@emotion/styled';
-import Input from '../_General/Input';
-import Button from '../_General/Button';
-import password from './assets/password.svg';
-import Link from '../_General/Link';
-import Logo from '../_General/Logo';
-import { listnunspent, login } from '../../util/nspvlib';
-import ErrorMessage from '../_General/ErrorMessage';
-import { sendInfo, showDash } from '../../util/electron';
+
+import password from 'assets/password.svg';
+import { sendInfo, showDash } from 'util/electron';
+import { listnunspent, login } from 'util/nspvlib';
+
+import Button from 'components/_General/Button';
+import ErrorMessage from 'components/_General/ErrorMessage';
+import Input from 'components/_General/Input';
+import Link from 'components/_General/Link';
+import Logo from 'components/_General/Logo';
 
 type LoginFormProps = {
   addNewWallet: () => void;

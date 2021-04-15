@@ -1,7 +1,9 @@
 import React, { ReactElement } from 'react';
+
 import styled from '@emotion/styled';
-import PortfolioItem from './Portofolio/PortoflioItem';
-import Header from './Portofolio/Header';
+
+import Header from './Header';
+import PortfolioItem from './PortfolioItem';
 
 const Container = styled.div`
   position: absolute;
