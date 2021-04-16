@@ -5,7 +5,7 @@ type ButtonProps = {
   buttonText: string;
   theme: string;
   customWidth?: string;
-  btnIcon?: any;
+  btnIcon?: JSX.Element;
   onClick: () => void;
 };
 
