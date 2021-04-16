@@ -1,8 +1,15 @@
 {
+  "include": ["src", "assets", "config"],
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "*": ["src/*"],
+      "components*": ["src/components*"],
+      "electron*": ["src/electron*"],
+      "assets*": ["src/assets*"],
+      "store*": ["src/store*"],
+      "styles*": ["src/styles*"],
+      "util*": ["src/util*"],
+      "~/*": ["src/*"]
     },
     "target": "ES2018",
     "module": "CommonJS",
@@ -24,7 +31,5 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true
-  },
-  // "include": ["./src/**/*.ts", "./src/**/*.d.ts"],
-  "exclude": ["include", "assets", "test", "release", "build", "config/dll"]
+  }
 }
