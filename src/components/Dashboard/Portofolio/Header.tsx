@@ -44,7 +44,7 @@ const Header = ({
   address,
 }: PortfolioItemProps): ReactElement => (
   <Container>
-    <IconWrapper>{parse(identicon(address))}</IconWrapper>
+    <IconWrapper>{parse(identicon(address || 'sample'))}</IconWrapper>
     <Information>
       <h3 style={{ margin: 0 }}>Your Holdings</h3>
       <Amount>

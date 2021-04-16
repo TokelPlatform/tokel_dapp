@@ -152,7 +152,11 @@
     ],
     "setupFiles": [
       "./.erb/scripts/CheckBuildsExist.js"
-    ]
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/?!(minidenticon)"
+  ]
+
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -301,7 +305,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn build"
+      "pre-commit": "lint-staged && yarn build && jest"
     }
   }
 }
