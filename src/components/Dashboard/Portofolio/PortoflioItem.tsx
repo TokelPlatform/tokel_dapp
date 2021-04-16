@@ -10,7 +10,6 @@ const Container = styled.div`
   color: var(--color-white);
   display: flex;
   flex-direction: row;
-  padding-top: 22px;
   padding-left: 30px;
 `;
 

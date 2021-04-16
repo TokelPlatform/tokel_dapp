@@ -10,7 +10,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-top: 22px;
   padding-left: 30px;
 `;
 
