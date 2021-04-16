@@ -14,7 +14,7 @@ const Bar = styled.div<BarProps>`
   height: 4px;
   background-color: var(--color-lightpurple);
   width: ${(p) => p.length}px;
-  border-radius: 10;
+  border-radius: 10px;
   margin: 0.25rem 0;
 `;
 const Container = styled.div`

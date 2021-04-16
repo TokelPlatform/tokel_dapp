@@ -23,7 +23,7 @@ const Portfolio = ({ address, balance }: PortfolioProps): ReactElement => {
   console.log(address);
   return (
     <Container>
-      <Header amount={balance} value={1.5} />
+      <Header amount={balance} value={1.5} address={address} />
       <PortfolioItem
         name="Komodo"
         tickerName="KMD"

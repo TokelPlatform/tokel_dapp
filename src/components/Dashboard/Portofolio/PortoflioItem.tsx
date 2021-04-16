@@ -17,6 +17,7 @@ const Container = styled.div`
 const Amount = styled.p`
   color: var(--color-gray);
   margin: 0;
+  margin-bottom: 0.25rem;
 `;
 
 const Information = styled.div`
@@ -32,6 +33,7 @@ type PortfolioItemProps = {
   amount: string;
   value: number;
 };
+
 const PortfolioItem = ({
   name,
   tickerName,
@@ -45,9 +47,9 @@ const PortfolioItem = ({
         {name} ({tickerName})
       </h3>
       <Amount>
-        {amount} {tickerName} ≈ {value * parseFloat(amount)}{' '}
+        {amount} {tickerName} ≈ ${(value * parseFloat(amount)).toFixed(2)}{' '}
       </Amount>
-      <ProgressBar percentage="100" length={` ${100 * (150 / 100)}`} />
+      <ProgressBar percentage="100" length="120" />
     </Information>
   </Container>
 );

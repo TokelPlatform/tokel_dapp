@@ -262,6 +262,8 @@
     "electron-updater": "^4.3.4",
     "got": "11.8.2",
     "history": "^5.0.0",
+    "html-react-parser": "1.2.5",
+    "minidenticons": "0.1.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-tooltip": "4.2.15",
@@ -299,7 +301,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn build && jest"
+      "pre-commit": "lint-staged && yarn build"
     }
   }
 }
