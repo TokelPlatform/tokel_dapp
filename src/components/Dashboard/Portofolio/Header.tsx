@@ -29,7 +29,7 @@ const Information = styled.div`
 const IconWrapper = styled.div`
   width: 2rem;
   height: 2rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.8rem;
 `;
 
 type PortfolioItemProps = {
