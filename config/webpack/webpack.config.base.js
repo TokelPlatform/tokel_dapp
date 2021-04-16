@@ -2,12 +2,12 @@
  * Base webpack config used across other specific configs
  */
 
-import path from 'path';
 import webpack from 'webpack';
-import { dependencies as externals } from '../../src/package.json';
+
+import paths from '../scripts/paths';
 
 export default {
-  externals: [...Object.keys(externals || {})],
+  externals: Object.keys(require(paths.nativePackageJson).dependencies || {}),
 
   module: {
     rules: [
@@ -25,7 +25,7 @@ export default {
   },
 
   output: {
-    path: path.join(__dirname, '../../src'),
+    path: paths.appSrcDir,
     // https://github.com/webpack/webpack/issues/1114
     libraryTarget: 'commonjs2',
   },
@@ -35,7 +35,7 @@ export default {
    */
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
-    modules: [path.join(__dirname, '../src'), 'node_modules'],
+    modules: [paths.appSrcDir, 'node_modules'],
   },
 
   plugins: [

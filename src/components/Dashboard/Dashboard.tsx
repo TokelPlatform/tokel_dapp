@@ -1,11 +1,13 @@
 import React, { ReactElement, useEffect, useState } from 'react';
+
 import styled from '@emotion/styled';
+
+import AssetsGraph from './AssetsGraph';
 import SideMenu from './Menu/SideMenu';
 import TopBar from './Menu/TopBar';
-import Portfolio from './Portoflio';
 import PortfolioValueGraph from './PortfolioValueGraph';
+import Portfolio from './Portofolio/Portfolio';
 import RecentActivity from './RecentActivity';
-import AssetsGraph from './AssetsGraph';
 
 const { ipcRenderer } = require('electron');
 

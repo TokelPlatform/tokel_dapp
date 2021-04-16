@@ -2,48 +2,32 @@
  * Build config for electron renderer process
  */
 
-import path from 'path';
-import webpack from 'webpack';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import { merge } from 'webpack-merge';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import baseConfig from './webpack.config.base';
+import webpack from 'webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { merge } from 'webpack-merge';
+
 import CheckNodeEnv from '../scripts/CheckNodeEnv';
 import DeleteSourceMaps from '../scripts/DeleteSourceMaps';
+import paths from '../scripts/paths';
+import baseConfig from './webpack.config.base';
 
 CheckNodeEnv('production');
 DeleteSourceMaps();
 
-const devtoolsConfig = process.env.DEBUG_PROD === 'true' ? {
-  devtool: 'source-map'
-} : {};
-
 export default merge(baseConfig, {
-  ...devtoolsConfig,
-
+  ...(process.env.DEBUG_PROD === 'true' ? { devtool: 'source-map' } : {}),
   mode: 'production',
-
   target: 'electron-renderer',
 
-  entry: {
-    login: [
-      'core-js',
-      'regenerator-runtime/runtime',
-      path.join(__dirname, '..', '/../src/components/Login/index')
-    ],
-    dashboard: [
-      'core-js',
-      'regenerator-runtime/runtime',
-      path.join(__dirname, '..', '/../src/components/Dashboard/index')
-    ]
-  },
+  entry: ['core-js', 'regenerator-runtime/runtime', paths.appIndex],
 
   output: {
-    path: path.join(__dirname, '../../src/dist'),
+    path: paths.electronDistDir,
     publicPath: '../../dist/',
-    filename: '[name].renderer.prod.js',
+    filename: 'renderer.js',
   },
 
   module: {
@@ -54,12 +38,11 @@ export default merge(baseConfig, {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              // `./dist` can't be inerhited for publicPath for styles. Otherwise generated paths will be ./dist/dist
               publicPath: './',
             },
           },
           'css-loader',
-          'sass-loader'
+          'sass-loader',
         ],
       },
       // WOFF Font
@@ -132,25 +115,16 @@ export default merge(baseConfig, {
 
   optimization: {
     minimize: true,
-    minimizer:
-      [
-        new TerserPlugin({
-          parallel: true,
-        }),
-        new CssMinimizerPlugin(),
-      ],
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        extractComments: false,
+      }),
+      new CssMinimizerPlugin(),
+    ],
   },
 
   plugins: [
-    /**
-     * Create global constants which can be configured at compile time.
-     *
-     * Useful for allowing different behaviour between development builds and
-     * release builds
-     *
-     * NODE_ENV should be production so that modules do not perform certain
-     * development checks
-     */
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
       DEBUG_PROD: false,

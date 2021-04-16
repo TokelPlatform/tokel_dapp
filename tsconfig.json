@@ -1,5 +1,16 @@
 {
+  "include": ["src", "assets", "config"],
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "components*": ["src/components*"],
+      "electron*": ["src/electron*"],
+      "assets*": ["src/assets*"],
+      "store*": ["src/store*"],
+      "styles*": ["src/styles*"],
+      "util*": ["src/util*"],
+      "~/*": ["src/*"]
+    },
     "target": "ES2018",
     "module": "CommonJS",
     "lib": ["dom", "esnext"],
@@ -20,13 +31,5 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true
-  },
-  "exclude": [
-    "test",
-    "release",
-    "src/main.prod.js",
-    "src/renderer.prod.js",
-    "src/dist",
-    ".erb/dll"
-  ]
+  }
 }

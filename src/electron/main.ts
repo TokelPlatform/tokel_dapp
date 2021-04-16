@@ -10,13 +10,15 @@
  */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+
 import path from 'path';
+
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import MenuBuilder from './menu';
 
-import './util/nspv';
+import '../util/nspv';
+import MenuBuilder from './menu';
 
 // unhandled excetions debug
 // const unhandled = require('electron-unhandled');
@@ -31,7 +33,6 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
-let childWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -88,22 +89,7 @@ const createWindow = async () => {
     },
   });
 
-  childWindow = new BrowserWindow({
-    frame: false,
-    titleBarStyle: 'hiddenInset',
-    show: false,
-    width: 1240,
-    height: 720,
-    center: true,
-    backgroundColor: '#1B2431',
-    icon: getAssetPath('logo.png'),
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  });
-  childWindow.loadURL(`file://${__dirname}/components/Dashboard/index.html`);
-
-  mainWindow.loadURL(`file://${__dirname}/components/Login/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
@@ -160,14 +146,14 @@ app.on('activate', () => {
 });
 
 ipcMain.on('show-dash', () => {
-  childWindow.show();
+  mainWindow.hide();
 });
 
-ipcMain.on('send-info', (event, arg) => {
-  console.log('Passing event from main process', event);
-  // production debug
-  // childWindow.webContents.openDevTools();
-  childWindow.show();
-  mainWindow.hide();
-  childWindow.webContents.send('pass-login-info', arg);
-});
+// ipcMain.on('send-info', (event, arg) => {
+//   console.log('Passing event from main process', event);
+//   // production debug
+//   // childWindow.webContents.openDevTools();
+//   childWindow.show();
+//   mainWindow.hide();
+//   childWindow.webContents.send('pass-login-info', arg);
+// });
