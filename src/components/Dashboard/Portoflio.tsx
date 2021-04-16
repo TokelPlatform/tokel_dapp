@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 import PortfolioItem from './Portofolio/PortoflioItem';
-import Header from './Portofolio/Header';
 
 const Container = styled.div`
   position: absolute;
@@ -20,15 +19,23 @@ type PortfolioProps = {
 };
 
 const Portfolio = ({ address, balance }: PortfolioProps): ReactElement => {
-  console.log(address);
   return (
     <Container>
-      <Header amount={balance} value={1.5} address={address} />
+      <PortfolioItem
+        amount={balance}
+        value={1.5}
+        address={address}
+        header
+        selected
+      />
       <PortfolioItem
         name="Komodo"
         tickerName="KMD"
         amount={balance}
         value={1.5}
+        address={address}
+        header={false}
+        selected={false}
       />
     </Container>
   );
