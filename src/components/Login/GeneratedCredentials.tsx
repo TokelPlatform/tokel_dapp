@@ -1,10 +1,12 @@
 import React from 'react';
+
 import styled from '@emotion/styled';
-import Button from '../_General/Button';
-import SmallButton from '../_General/SmallButton';
+
+import BackButton from 'components/_General/BackButton';
+import { Button } from 'components/_General/buttons';
+import Logo from 'components/_General/Logo';
 import CredentialsRow from './CredentialsRow';
 import Warning from './Warning';
-import Logo from '../_General/Logo';
 
 type GeneratedCredentialProps = {
   goBack: () => void;
@@ -34,21 +36,15 @@ const Confidential = styled.div`
   width: 500px;
   background: rgba(248, 7, 89, 0.05);
   border: 1px solid var(--color-danger);
-  box-sizing: border-box;
   border-radius: var(--border-radius);
 `;
 
-const GeneratedCredential = ({
-  wifkey,
-  seed,
-  forward,
-  goBack,
-}: GeneratedCredentialProps) => {
+const GeneratedCredential = ({ wifkey, seed, forward, goBack }: GeneratedCredentialProps) => {
   return (
     <Container>
       <Logo />
       <BtnWrapper>
-        <SmallButton onClick={goBack} />
+        <BackButton onClick={goBack} />
       </BtnWrapper>
       <h1>Your WIF and your Seed Phrase</h1>
       <Confidential>
@@ -65,12 +61,9 @@ const GeneratedCredential = ({
       </Confidential>
       <Warning />
 
-      <Button
-        onClick={forward}
-        customWidth="170px"
-        buttonText="Next"
-        theme="gray"
-      />
+      <Button onClick={forward} customWidth="170px" theme="gray">
+        Next
+      </Button>
     </Container>
   );
 };

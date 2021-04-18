@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 const rootDir = fs.realpathSync(process.cwd());
-const resolveRoot = (relativePath) => path.resolve(rootDir, relativePath);
+const resolveRoot = relativePath => path.resolve(rootDir, relativePath);
 
 export default {
   rootDir,

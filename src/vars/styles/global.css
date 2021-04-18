@@ -1,5 +1,6 @@
 body {
   background-color: var(--color-black);
+  color: var(--color-white);
   font-family: source-sans-pro, sans-serif;
   transition: 0.2s;
   margin: 0;
@@ -7,8 +8,13 @@ body {
   -webkit-app-region: drag;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 button {
   font-family: source-sans-pro, sans-serif;
+  cursor: pointer;
   -webkit-app-region: no-drag;
 }
 

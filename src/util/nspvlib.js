@@ -1,17 +1,18 @@
-const got = require('got');
+import got from 'got';
 
 const NSPV_SERVER = 'http://127.0.0.1:7771';
-const methods = {
-  getinfo: 'getinfo',
-  getnewaddress: 'getnewaddress',
-  listunspent: 'listunspent',
-  login: 'login',
+
+const Method = {
+  GET_INFO: 'getinfo',
+  GET_NEW_ADDRESS: 'getnewaddress',
+  LIST_UNSPENT: 'listunspent',
+  LOGIN: 'login',
 };
 
 /**
  * Returns a newly generated address
  */
-export const getnewaddress = () => {
+export const getNewAddress = () => {
   // returns test data at the moment not to create too many wallets
   // return {
   //   address: 'RJfjdEYQPzbKtENYqRsJF6qpkhVrwGwZxU',
@@ -24,11 +25,11 @@ export const getnewaddress = () => {
   //   wifprefix: 188,
   // };
   return (async () => {
-    const { body } = await got.post('http://127.0.0.1:7771', {
+    const { body } = await got.post(NSPV_SERVER, {
       json: {
         jsonrpc: '2.0',
         id: 'curltest',
-        method: methods.getnewaddress,
+        method: Method.GET_NEW_ADDRESS,
         params: [],
       },
       responseType: 'json',
@@ -53,11 +54,11 @@ export const getnewaddress = () => {
  *  }
  */
 
-export const login = async (key) => {
+export const login = async key => {
   const { body } = await got.post(NSPV_SERVER, {
     json: {
       jsonrpc: '2.0',
-      method: methods.login,
+      method: Method.LOGIN,
       params: [key],
     },
     responseType: 'json',
@@ -96,12 +97,12 @@ export const login = async (key) => {
  *  "lastpeer" : 136.243.58.134:7770
  * }
  */
-export const listnunspent = async () => {
-  console.log('Calling listunspent');
+export const listUnspent = async () => {
+  console.log('Calling listUnspent');
   const { body } = await got.post(NSPV_SERVER, {
     json: {
       jsonrpc: '2.0',
-      method: methods.listunspent,
+      method: Method.LIST_UNSPENT,
       params: [],
     },
     responseType: 'json',
@@ -113,5 +114,3 @@ export const listnunspent = async () => {
   console.log(body);
   throw new Error('Incorrect login details');
 };
-
-export const hello = () => 'hello';

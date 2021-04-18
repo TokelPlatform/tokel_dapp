@@ -9,6 +9,7 @@
   --color-lessSaturatedBlue: #5362c4;
   --color-gray: #7f8fa4;
   --color-darkerGray: #8492b4;
+  --color-slateGray: #354353;
   --color-danger: #e6195f;
 
   --color-link: var(--color-lightpurple);
@@ -17,6 +18,7 @@
   --border-dark: 1px solid var(--color-lighterBlack);
   --border-purple: 1px solid var(--color-lightpurple);
   --border-radius: 4px;
+  --border-radius-big: 8px;
 
   /* --gradient-purple-direct: linear-gradient(
     167.56deg,

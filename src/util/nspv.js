@@ -18,15 +18,15 @@ class NspvSingleton {
     const nspv = spawn(path.join(cwd, 'nspv'), ['KMD'], { cwd });
     nspv.stdout.setEncoding('utf8');
 
-    nspv.stdout.on('data', (data) => {
+    nspv.stdout.on('data', data => {
       console.log('------', data);
     });
 
-    nspv.stderr.on('data', (err) => {
+    nspv.stderr.on('data', err => {
       console.error(`stderr: ${err}`);
     });
 
-    nspv.on('exit', (code) => {
+    nspv.on('exit', code => {
       console.log('exit', code);
       // Handle exit
     });

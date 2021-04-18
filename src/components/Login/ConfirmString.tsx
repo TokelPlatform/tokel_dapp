@@ -1,10 +1,12 @@
 import React, { ChangeEvent, useState } from 'react';
+
 import styled from '@emotion/styled';
-import TextArea from '../_General/TextArea';
-import Button from '../_General/Button';
-import Logo from '../_General/Logo';
-import SmallButton from '../_General/SmallButton';
-import ErrorMessage from '../_General/ErrorMessage';
+
+import BackButton from 'components/_General/BackButton';
+import { Button } from 'components/_General/buttons';
+import ErrorMessage from 'components/_General/ErrorMessage';
+import Logo from 'components/_General/Logo';
+import TextArea from 'components/_General/TextArea';
 
 type CredentialsRowProps = {
   title: string;
@@ -33,13 +35,7 @@ const Container = styled.div`
   }
 `;
 
-const ConfirmString = ({
-  title,
-  desc,
-  goBack,
-  forward,
-  originalString,
-}: CredentialsRowProps) => {
+const ConfirmString = ({ title, desc, goBack, forward, originalString }: CredentialsRowProps) => {
   const [error, setError] = useState('');
   const [value, setValue] = useState('');
 
@@ -53,24 +49,19 @@ const ConfirmString = ({
   return (
     <Container>
       <Logo />
-      <SmallButton onClick={goBack} />
+      <BackButton onClick={goBack} />
       <h1>{title}</h1>
       <p>{desc}</p>
       <TextArea
         value={value}
-        onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-          setValue(e.currentTarget.value)
-        }
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setValue(e.currentTarget.value)}
         height="72px"
         width="464px"
       />
       <ErrorMessage>{error}</ErrorMessage>
-      <Button
-        onClick={handleClick}
-        customWidth="170px"
-        buttonText="Confirm"
-        theme="purple"
-      />
+      <Button onClick={handleClick} customWidth="170px" theme="purple">
+        Confirm
+      </Button>
     </Container>
   );
 };

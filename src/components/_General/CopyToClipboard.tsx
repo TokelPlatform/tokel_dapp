@@ -1,9 +1,10 @@
 import React, { useRef } from 'react';
-import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
-
 import ReactTooltip from 'react-tooltip';
-import copyIcon from './assets/copy.svg';
+
+import styled from '@emotion/styled';
+
+import copyIcon from 'assets/copy.svg';
 
 const COPIED = 'Copied!';
 const IconWrapper = styled.div`
@@ -12,7 +13,6 @@ const IconWrapper = styled.div`
 const ImgClickableWrapper = styled.button`
   background: transparent;
   border: none;
-  cursor: pointer;
 `;
 
 const CopyToClipboard = ({ textToCopy }) => {

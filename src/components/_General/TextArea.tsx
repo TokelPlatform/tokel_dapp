@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react';
+
 import styled from '@emotion/styled';
 
 type InputProps = {
@@ -16,10 +17,9 @@ type TextAreaType = {
 const Styled = styled.textarea<TextAreaType>`
   background: transparent;
   border: var(--border-purple);
-  box-sizing: border-box;
   border-radius: var(--border-radius);
-  height: ${(p) => p.height};
-  width: ${(p) => p.width};
+  height: ${p => p.height};
+  width: ${p => p.width};
   color: var(--color-white);
   font-size: var(--font-size-additional-p);
   resize: none;
@@ -27,9 +27,7 @@ const Styled = styled.textarea<TextAreaType>`
 `;
 
 const TextArea = ({ height, width, value, onChange }: InputProps) => {
-  return (
-    <Styled value={value} onChange={onChange} height={height} width={width} />
-  );
+  return <Styled value={value} onChange={onChange} height={height} width={width} />;
 };
 
 export default TextArea;

@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import styled from '@emotion/styled';
 
 import password from 'assets/password.svg';
-import { sendInfo, showDash } from 'util/electron';
-import { listnunspent, login } from 'util/nspvlib';
+import { dispatch } from 'store/rematch';
 
-import Button from 'components/_General/Button';
+import { Button } from 'components/_General/buttons';
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Input from 'components/_General/Input';
 import Link from 'components/_General/Link';
@@ -36,21 +35,10 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [loginValue, setloginValue] = useState('');
   const [error, setError] = useState('');
 
-  const loginUser = (value) => {
-    setError('');
-    login(value)
-      .then(() => {
-        return listnunspent();
-      })
-      .then((res) => {
-        sendInfo(res);
-        showDash();
-        return 1;
-      })
-      .catch((e) => {
-        setError(e.message);
-      });
-  };
+  const handleKeyDown = useCallback(
+    e => e.key === 'Enter' && dispatch.account.login({ key: loginValue, setError }),
+    [loginValue, setError]
+  );
 
   return (
     <Container>
@@ -58,16 +46,16 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       <h1>Welcome to TOKEL</h1>
       <p className="welcome">Komodo ecosystem Token Platform</p>
       <Input
-        onChange={(e) => setloginValue(e.target.value)}
+        autoFocus
+        onChange={e => setloginValue(e.target.value)}
+        onKeyDown={handleKeyDown}
         icon={password}
         value={loginValue}
         placeholder="Key or Seed Phrase"
       />
-      <Button
-        onClick={() => loginUser(loginValue)}
-        theme="purple"
-        buttonText="Login"
-      />
+      <Button onClick={() => dispatch.account.login({ key: loginValue, setError })} theme="purple">
+        Login
+      </Button>
       <div style={{ marginBottom: '2rem' }}>
         <ErrorMessage>{error}</ErrorMessage>
       </div>

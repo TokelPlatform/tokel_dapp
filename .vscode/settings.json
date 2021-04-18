@@ -5,12 +5,21 @@
     ".prettierrc": "jsonc",
     ".eslintignore": "ignore"
   },
-
-  "javascript.validate.enable": false,
+  "editor.formatOnSave": true,
   "javascript.format.enable": false,
-  "typescript.format.enable": false,
+  "javascript.suggest.autoImports": true,
+  "javascript.suggest.enabled": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.validate.enable": false,
+  "sort-imports.default-sort-style": "supernotes",
   "sort-imports.on-save": true,
-
+  "typescript.format.enable": false,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "search.exclude": {
     ".git": true,
     ".eslintcache": true,

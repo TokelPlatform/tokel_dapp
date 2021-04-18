@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styled from '@emotion/styled';
 
 type InputProps = {
@@ -11,7 +12,6 @@ const Styled = styled.button`
   color: var(--color-link);
   text-decoration: underline;
   background-color: transparent;
-  cursor: pointer;
   font-size: var(--font-size-p);
   transition: 0.2s;
 

@@ -1,41 +1,43 @@
 import React from 'react';
+
 import styled from '@emotion/styled';
 
-type ProgressBarProps = {
-  length: string;
-  percentage: string;
-};
-
-type BarProps = {
-  length: string;
-};
-
-const Bar = styled.div<BarProps>`
-  height: 4px;
-  background-color: var(--color-lightpurple);
-  width: ${(p) => p.length}px;
-  border-radius: 10;
-  margin: 0.25rem 0;
-`;
-const Container = styled.div`
+const ProgressBarRoot = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  background-color: 10px;
+  width: 100%;
+  height: 20px;
   align-items: center;
-  p {
-    margin: 0;
-    margin-left: 0.5rem;
-    font-size: var(--font-size-additional-p);
-  }
 `;
 
-const ProgressBar = ({ length, percentage }: ProgressBarProps) => {
-  return (
-    <Container>
-      <Bar length={length} />
-      <p>{percentage}%</p>
-    </Container>
-  );
+const Bar = styled.div`
+  border-radius: var(--border-radius-big);
+  height: 10px;
+  flex: 1;
+  overflow: hidden;
+  background-color: var(--color-black);
+`;
+
+const BarFill = styled.div`
+  background-color: var(--color-lightpurple);
+  height: 100%;
+`;
+
+const Label = styled.span`
+  padding-left: 8px;
+`;
+
+type ProgressBarProps = {
+  percentage: number;
 };
+
+const ProgressBar = ({ percentage }: ProgressBarProps) => (
+  <ProgressBarRoot>
+    <Bar>
+      <BarFill style={{ width: `${percentage}%` }} />
+    </Bar>
+    <Label>{percentage}%</Label>
+  </ProgressBarRoot>
+);
 
 export default ProgressBar;

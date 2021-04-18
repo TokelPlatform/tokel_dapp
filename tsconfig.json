@@ -7,7 +7,7 @@
       "electron*": ["src/electron*"],
       "assets*": ["src/assets*"],
       "store*": ["src/store*"],
-      "styles*": ["src/styles*"],
+      "vars*": ["src/vars*"],
       "util*": ["src/util*"],
       "~/*": ["src/*"]
     },
