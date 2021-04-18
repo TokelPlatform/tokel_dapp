@@ -1,17 +1,10 @@
 import React from 'react';
-import styled from '@emotion/styled';
 
-type InputProps = {
-  icon: string;
-  placeholder: string;
-  value: string;
-  onChange: (e) => void;
-};
+import styled from '@emotion/styled';
 
 const StyledInput = styled.input`
   background: var(--color-almostBlack);
   border: var(--border-dark);
-  box-sizing: border-box;
   border-radius: var(--border-radius);
   margin: 0.75rem;
   height: 36px;
@@ -25,14 +18,25 @@ const Icon = styled.img`
   margin: 1.35rem 0 0 1.5rem;
 `;
 
-const Input = ({ onChange, value, icon, placeholder }: InputProps) => {
+type InputProps = {
+  icon: string;
+  placeholder: string;
+  value: string;
+  autoFocus: boolean;
+  onChange: (e) => void;
+  onKeyDown: (e) => void;
+};
+
+const Input = ({ onChange, onKeyDown, value, icon, placeholder, autoFocus }: InputProps) => {
   return (
     <div>
       <Icon src={icon} />
       <StyledInput
         onChange={onChange}
+        onKeyDown={onKeyDown}
         value={value}
         placeholder={placeholder}
+        autoFocus={autoFocus}
       />
     </div>
   );

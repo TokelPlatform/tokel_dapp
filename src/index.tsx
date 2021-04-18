@@ -1,27 +1,18 @@
-import React from 'react';
-import {
-  MemoryRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
-import { render } from 'react-dom';
+import 'vars/styles/global.css';
+import 'vars/styles/variables.css';
+import 'assets/fonts/fonts.css';
 
-import 'styles/global.css';
-import 'styles/variables.css';
-import AcccountContextProvider from 'store/AccountContext';
-import Dashboard from 'components/Dashboard/Dashboard';
-import Login from 'components/Login/Login';
+import React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+
+import store from 'store/rematch';
+
+import App from 'components/App';
 
 render(
-  <AcccountContextProvider>
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Dashboard} />
-        <Route exact path="/login" component={Login} />
-        <Route component={() => <Redirect to="/" />} />
-      </Switch>
-    </Router>
-  </AcccountContextProvider>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );

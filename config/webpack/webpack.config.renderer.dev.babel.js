@@ -1,16 +1,16 @@
 import { execSync, spawn } from 'child_process';
+import fs from 'fs';
+import path from 'path';
 
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import chalk from 'chalk';
-import fs from 'fs';
-import { merge } from 'webpack-merge';
-import path from 'path';
 import webpack from 'webpack';
+import { merge } from 'webpack-merge';
 
 import CheckNodeEnv from '../scripts/CheckNodeEnv';
+import paths from '../scripts/paths';
 import baseConfig from './webpack.config.base';
 import module from './webpack.config.renderer.dev.module.babel';
-import paths from '../scripts/paths';
 
 // When an ESLint server is running, we can't set the NODE_ENV so we'll check if it's
 // at the dev webpack config is not accidentally run in a production environment
@@ -41,11 +41,7 @@ export default merge(baseConfig, {
 
   module,
 
-  entry: [
-    'core-js',
-    'regenerator-runtime/runtime',
-    require.resolve(paths.appIndex),
-  ],
+  entry: ['core-js', 'regenerator-runtime/runtime', require.resolve(paths.appIndex)],
 
   output: {
     publicPath: `http://localhost:${port}/dist/`,
@@ -104,8 +100,8 @@ export default merge(baseConfig, {
         env: process.env,
         stdio: 'inherit',
       })
-        .on('close', (code) => process.exit(code))
-        .on('error', (spawnError) => console.error(spawnError));
+        .on('close', code => process.exit(code))
+        .on('error', spawnError => console.error(spawnError));
     },
   },
 });

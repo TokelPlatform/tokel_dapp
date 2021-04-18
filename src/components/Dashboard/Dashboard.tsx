@@ -1,46 +1,22 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import AssetsGraph from './AssetsGraph';
-import SideMenu from './Menu/SideMenu';
-import TopBar from './Menu/TopBar';
-import PortfolioValueGraph from './PortfolioValueGraph';
-import Portfolio from './Portofolio/Portfolio';
-import RecentActivity from './RecentActivity';
+import AssetView from './AssetView';
+import Portfolio from './Portfolio/Portfolio';
 
-const { ipcRenderer } = require('electron');
-
-const Container = styled.div`
+const DashboardRoot = styled.div`
+  display: flex;
+  height: 100%;
   background-color: var(--color-black);
-  margin: 0;
-  width: 1240px;
-  height: 720px;
+  /* width: 100%; */
 `;
 
-const Dashboard = (): ReactElement => {
-  const [address, setAddress] = useState(null);
-  const [utxos, setUtxos] = useState(null);
-  const [balance, setBalance] = useState(null);
-
-  ipcRenderer.on('pass-login-info', (event, arg) => {
-    console.log(arg, event);
-    setBalance(arg.balance);
-    setUtxos(arg.utxos);
-    setAddress(arg.address);
-  });
-
-  useEffect(() => {}, []);
-  return (
-    <Container>
-      <SideMenu />
-      <TopBar />
-      <Portfolio balance={balance} address={address} />
-      <PortfolioValueGraph />
-      <RecentActivity utxos={utxos} />
-      <AssetsGraph />
-    </Container>
-  );
-};
+const Dashboard = (): ReactElement => (
+  <DashboardRoot>
+    <Portfolio />
+    <AssetView />
+  </DashboardRoot>
+);
 
 export default Dashboard;

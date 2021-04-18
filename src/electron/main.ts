@@ -1,5 +1,7 @@
 /* eslint global-require: off, no-console: off */
 
+import path from 'path';
+
 /**
  * This module executes inside of electron's main process. You can start
  * electron renderer process from here and communicate with the other processes
@@ -11,13 +13,12 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import path from 'path';
-
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
-
 import '../util/nspv';
+
+import { BrowserWindow, app, ipcMain, session, shell } from 'electron';
+import log from 'electron-log';
+import { autoUpdater } from 'electron-updater';
+
 import MenuBuilder from './menu';
 
 // unhandled excetions debug
@@ -39,31 +40,25 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install();
 }
 
-if (
-  process.env.NODE_ENV === 'development' ||
-  process.env.DEBUG_PROD === 'true'
-) {
+if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
   require('electron-debug')();
 }
 
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS'];
+  const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
 
   return installer
     .default(
-      extensions.map((name) => installer[name]),
+      extensions.map(name => installer[name]),
       forceDownload
     )
     .catch(console.log);
 };
 
 const createWindow = async () => {
-  if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.DEBUG_PROD === 'true'
-  ) {
+  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
   }
 
@@ -86,6 +81,7 @@ const createWindow = async () => {
     icon: getAssetPath('logo.png'),
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
     },
   });
 
@@ -138,6 +134,11 @@ app.on('window-all-closed', () => {
 });
 
 app.whenReady().then(createWindow).catch(console.log);
+
+app.on('ready', async () => {
+  const extPath = '/Users/connor/Downloads/extension';
+  await session.defaultSession.loadExtension(extPath);
+});
 
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the

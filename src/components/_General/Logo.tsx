@@ -1,5 +1,8 @@
 import React from 'react';
+
 import styled from '@emotion/styled';
+
+import logoPath from 'assets/logo.png';
 
 const StyledLogo = styled.img`
   height: 50px;
@@ -7,8 +10,6 @@ const StyledLogo = styled.img`
   margin-bottom: 1.5rem;
 `;
 
-const Logo = () => (
-  <StyledLogo alt="tokel-logo" src="../../../assets/logo.png" />
-);
+const Logo = () => <StyledLogo alt="tokel-logo" src={logoPath} />;
 
 export default Logo;

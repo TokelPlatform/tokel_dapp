@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
+
 import styled from '@emotion/styled';
+
+import { dispatch } from 'store/rematch';
+import { getNewAddress } from 'util/nspvlib';
+
+import ConfirmString from './ConfirmString';
 import GeneratedCredential from './GeneratedCredentials';
 import LoginForm from './LoginForm';
-import ConfirmString from './ConfirmString';
-import { getnewaddress, listnunspent, login } from '../../util/nspvlib';
-import { sendInfo, showDash } from '../../util/electron';
 
 const LoginScreen = styled.div`
+  margin-top: -10%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 5rem;
   h1 {
     margin: 0;
     color: var(--color-white);
@@ -32,25 +35,13 @@ const Login = () => {
   useEffect(() => {
     if (step === STEP2) {
       (async () => {
-        const result = await getnewaddress();
+        const result = await getNewAddress();
         setKey(result.wif);
         setSeed(result.seed);
       })();
     }
   }, [step]);
 
-  const showDashboard = () => {
-    login(key)
-      .then(() => {
-        return listnunspent();
-      })
-      .then((res) => {
-        sendInfo(res);
-        showDash();
-        return 1;
-      })
-      .catch((e) => console.log(e));
-  };
   const back = () => setStep(step - 1);
   const forward = () => setStep(step + 1);
   return (
@@ -79,7 +70,7 @@ const Login = () => {
           desc="You will use your seed phrase in case you need to restore access to your account. Please confirm it."
           originalString={seed}
           goBack={() => back()}
-          forward={() => showDashboard()}
+          forward={() => dispatch.account.login({ key, setError: console.log })}
         />
       )}
     </LoginScreen>

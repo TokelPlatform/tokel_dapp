@@ -30,11 +30,7 @@ const Info = styled.div`
   }
 `;
 
-const CredentialsRow = ({
-  label,
-  sublabel,
-  credential,
-}: CredentialsRowProps) => {
+const CredentialsRow = ({ label, sublabel, credential }: CredentialsRowProps) => {
   return (
     <div>
       <Label>
