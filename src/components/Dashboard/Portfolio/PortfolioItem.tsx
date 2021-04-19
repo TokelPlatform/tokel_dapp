@@ -1,8 +1,12 @@
 import React, { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
 import happyIcon from 'assets/happy.svg';
+import parse from 'html-react-parser';
+import { identicon } from 'minidenticons';
+import { selectAccountAddress } from 'store/selectors';
 
 import ProgressBar from 'components/_General/ProgressBar';
 
@@ -20,10 +24,10 @@ const PortfolioItemRoot = styled.div`
   }
 `;
 
-const Icon = styled.img`
+const IconWrapper = styled.div`
   display: block;
-  height: 26px;
-  width: 26px;
+  height: 32px;
+  width: 32px;
 `;
 
 const Information = styled.div`
@@ -48,21 +52,37 @@ type PortfolioItemProps = {
   name: string;
   subtitle: string;
   percentage?: number;
+  header?: boolean;
 };
 
-const PortfolioItem = ({ name, subtitle, percentage }: PortfolioItemProps): ReactElement => (
-  <PortfolioItemRoot>
-    <Icon alt={`${name}-icon`} src={happyIcon} />
-    <Information>
-      <Name>{name}</Name>
-      <Amount>{subtitle}</Amount>
-      {percentage && <ProgressBar percentage={percentage} />}
-    </Information>
-  </PortfolioItemRoot>
-);
+const PortfolioItem = ({
+  name,
+  subtitle,
+  percentage,
+  header,
+}: PortfolioItemProps): ReactElement => {
+  const address = useSelector(selectAccountAddress);
+  return (
+    <PortfolioItemRoot>
+      <IconWrapper>
+        {header ? (
+          parse(identicon(address || 'sample'))
+        ) : (
+          <img alt={`${name}-icon`} src={happyIcon} />
+        )}
+      </IconWrapper>
+      <Information>
+        <Name>{name}</Name>
+        <Amount>{subtitle}</Amount>
+        {percentage && <ProgressBar percentage={percentage} />}
+      </Information>
+    </PortfolioItemRoot>
+  );
+};
 
 PortfolioItem.defaultProps = {
   percentage: null,
+  header: false,
 };
 
 export default PortfolioItem;
