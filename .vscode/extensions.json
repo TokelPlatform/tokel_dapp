@@ -2,6 +2,9 @@
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "EditorConfig.EditorConfig",
-    "msjsdiag.debugger-for-chrome"
+    "msjsdiag.debugger-for-chrome",
+    "esbenp.prettier-vscode",
+    "amatiasq.sort-imports",
+    "jpoissonnier.vscode-styled-components"
   ]
 }
