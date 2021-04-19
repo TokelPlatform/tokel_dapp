@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectUnspentBalance } from 'store/selectors';
+import { dispatch } from 'store/rematch';
+import { selectChosenAsset } from 'store/selectors';
 
 import PortfolioItem from './PortfolioItem';
 
@@ -18,6 +19,12 @@ const PortfolioRoot = styled.div`
 
 const assets = [
   {
+    name: 'Tokel',
+    ticker: 'TKL',
+    balance: 10,
+    usd_value: 1.12,
+  },
+  {
     name: 'Komodo',
     ticker: 'KMD',
     balance: 100,
@@ -28,15 +35,17 @@ const assets = [
 const totalValue = assets.reduce((total, { balance, usd_value }) => total + balance * usd_value, 0);
 
 const Portfolio = (): ReactElement => {
-  const balance = useSelector(selectUnspentBalance);
-  console.log(balance);
+  const chosenAsset = useSelector(selectChosenAsset);
+  const setChosenAsset = name => dispatch.wallet.SET_CHOSEN_ASSET(name);
+  const headerName = 'Total Holdings';
 
   return (
     <PortfolioRoot>
       <PortfolioItem
-        header
-        name="Total Holdings"
+        name={headerName}
         subtitle={`${assets.length} assets ≈ $${totalValue}`}
+        selected={chosenAsset === headerName}
+        onClick={() => setChosenAsset(headerName)}
       />
       {assets.map(asset => (
         <PortfolioItem
@@ -44,6 +53,8 @@ const Portfolio = (): ReactElement => {
           name={`${asset.name} (${asset.ticker})`}
           subtitle={`${asset.balance} ≈ $${asset.balance * asset.usd_value}`}
           percentage={40}
+          selected={asset.name === chosenAsset}
+          onClick={() => setChosenAsset(asset.name)}
         />
       ))}
     </PortfolioRoot>
