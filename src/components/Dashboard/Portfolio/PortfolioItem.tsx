@@ -6,11 +6,16 @@ import happyIcon from 'assets/happy.svg';
 
 import ProgressBar from 'components/_General/ProgressBar';
 
-const PortfolioItemRoot = styled.div`
+type PortfolioItemRootProps = { selected: boolean };
+
+const PortfolioItemRoot = styled.div<PortfolioItemRootProps>`
   display: flex;
   align-items: center;
   height: 92px;
-  background-color: var(--color-almostBlack);
+  background-color: ${props =>
+    props.selected ? 'var(--color-almostBlack2)' : 'var(--color-almostBlack))'};
+  border-left: 2px solid transparent;
+  border-image: ${props => (props.selected ? 'var(--gradient-purple-direct) 1 100%' : 'none')};
   color: var(--color-white);
   cursor: pointer;
   flex-direction: row;
@@ -48,10 +53,18 @@ type PortfolioItemProps = {
   name: string;
   subtitle: string;
   percentage?: number;
+  selected?: boolean;
+  onClick?: () => void;
 };
 
-const PortfolioItem = ({ name, subtitle, percentage }: PortfolioItemProps): ReactElement => (
-  <PortfolioItemRoot>
+const PortfolioItem = ({
+  name,
+  subtitle,
+  percentage,
+  selected,
+  onClick,
+}: PortfolioItemProps): ReactElement => (
+  <PortfolioItemRoot selected={selected} onClick={onClick}>
     <Icon alt={`${name}-icon`} src={happyIcon} />
     <Information>
       <Name>{name}</Name>
@@ -63,6 +76,8 @@ const PortfolioItem = ({ name, subtitle, percentage }: PortfolioItemProps): Reac
 
 PortfolioItem.defaultProps = {
   percentage: null,
+  selected: false,
+  onClick: () => console.log('me clickit'),
 };
 
 export default PortfolioItem;
