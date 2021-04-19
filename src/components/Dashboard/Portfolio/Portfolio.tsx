@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
 import { selectChosenAsset } from 'store/selectors';
+import { dashboardPanels } from 'vars/styles/styles';
 
 import PortfolioItem from './PortfolioItem';
 
@@ -13,7 +14,7 @@ const PortfolioRoot = styled.div`
   height: 100%;
   width: 280px;
   color: var(--color-white);
-  border-radius: var(--border-radius-big);
+  ${dashboardPanels}
   overflow-y: scroll;
 `;
 
