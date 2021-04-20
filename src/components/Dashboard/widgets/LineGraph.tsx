@@ -2,13 +2,10 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import { dashboardPanels } from 'vars/styles/styles';
-
 import { WidgetContainer, WidgetTitle } from './common';
 
 const LineGraphRoot = styled(WidgetContainer)`
   grid-column: span 5;
-  ${dashboardPanels}
 `;
 
 const LineGraph = (): ReactElement => {
