@@ -2,19 +2,24 @@ import React, { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
-
-import happyIcon from 'assets/happy.svg';
 import parse from 'html-react-parser';
 import { identicon } from 'minidenticons';
+
+import happyIcon from 'assets/happy.svg';
 import { selectAccountAddress } from 'store/selectors';
 
 import ProgressBar from 'components/_General/ProgressBar';
 
-const PortfolioItemRoot = styled.div`
+type PortfolioItemRootProps = { selected: boolean };
+
+const PortfolioItemRoot = styled.div<PortfolioItemRootProps>`
   display: flex;
   align-items: center;
   height: 92px;
-  background-color: var(--color-almostBlack);
+  background-color: ${props =>
+    props.selected ? 'var(--color-almostBlack2)' : 'var(--color-almostBlack))'};
+  border-left: 2px solid transparent;
+  border-image: ${props => (props.selected ? 'var(--gradient-purple-direct) 1 100%' : 'none')};
   color: var(--color-white);
   cursor: pointer;
   flex-direction: row;
@@ -53,6 +58,8 @@ type PortfolioItemProps = {
   subtitle: string;
   percentage?: number;
   header?: boolean;
+  selected?: boolean;
+  onClick?: () => void;
 };
 
 const PortfolioItem = ({
@@ -60,10 +67,12 @@ const PortfolioItem = ({
   subtitle,
   percentage,
   header,
+  selected,
+  onClick,
 }: PortfolioItemProps): ReactElement => {
   const address = useSelector(selectAccountAddress);
   return (
-    <PortfolioItemRoot>
+    <PortfolioItemRoot selected={selected} onClick={onClick}>
       <IconWrapper>
         {header ? (
           parse(identicon(address || 'sample'))
@@ -83,6 +92,8 @@ const PortfolioItem = ({
 PortfolioItem.defaultProps = {
   percentage: null,
   header: false,
+  selected: false,
+  onClick: () => console.log('me clickit'),
 };
 
 export default PortfolioItem;
