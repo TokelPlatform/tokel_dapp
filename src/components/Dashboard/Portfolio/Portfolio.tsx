@@ -33,7 +33,11 @@ const Portfolio = (): ReactElement => {
 
   return (
     <PortfolioRoot>
-      <PortfolioItem name="Total Holdings" subtitle={`${assets.length} assets ≈ $${totalValue}`} />
+      <PortfolioItem
+        header
+        name="Total Holdings"
+        subtitle={`${assets.length} assets ≈ $${totalValue}`}
+      />
       {assets.map(asset => (
         <PortfolioItem
           key={asset.name}
