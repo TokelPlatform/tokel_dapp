@@ -5,16 +5,15 @@ import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
 import { selectChosenAsset } from 'store/selectors';
-import { dashboardPanels } from 'vars/styles/styles';
 
+import { WidgetContainer } from '../widgets/common';
 import PortfolioItem from './PortfolioItem';
 
-const PortfolioRoot = styled.div`
-  background-color: var(--color-almostBlack);
+const PortfolioRoot = styled(WidgetContainer)`
+  padding: 0;
   height: 100%;
   width: 280px;
   color: var(--color-white);
-  ${dashboardPanels}
   overflow-y: scroll;
 `;
 
