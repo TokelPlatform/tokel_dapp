@@ -42,6 +42,7 @@ const Portfolio = (): ReactElement => {
   return (
     <PortfolioRoot>
       <PortfolioItem
+        header
         name={headerName}
         subtitle={`${assets.length} assets ≈ $${totalValue}`}
         selected={chosenAsset === headerName}
