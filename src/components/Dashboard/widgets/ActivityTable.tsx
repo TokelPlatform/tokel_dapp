@@ -9,7 +9,7 @@ import { WidgetContainer, WidgetTitle } from './common';
 
 const chosenAsset = {
   name: 'TKLTEST',
-  fiatValue: 3.5,
+  usd_value: 3.5,
 };
 
 const ActivityTableRoot = styled(WidgetContainer)`
@@ -30,10 +30,6 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
   padding: 16px 0 0 0;
-  .txAmount {
-    text-align: right;
-    margin: 0 0 2px 0;
-  }
   .info {
     margin: 0 0 2px 0;
   }
@@ -58,9 +54,7 @@ const ActivityTable = (): ReactElement => {
         <TransactionWrapper key={tx.txid}>
           <Transactions>
             <Column>
-              <p className="datetime" style={{ alignSelf: 'start' }}>
-                {tx.height}
-              </p>
+              <p className="datetime">{tx.height}</p>
             </Column>
             <Column>
               <p className="info">{tx.vout ? 'Received' : 'Sent'}</p>
@@ -71,7 +65,7 @@ const ActivityTable = (): ReactElement => {
                 {tx.value.toFixed(8)} {chosenAsset.name}
               </p>
               <p className="additionalInfo" style={{ textAlign: 'right' }}>
-                ${(tx.value * chosenAsset.fiatValue).toFixed(8)}
+                ${(tx.value * chosenAsset.usd_value).toFixed(8)}
               </p>
             </Column>
           </Transactions>
