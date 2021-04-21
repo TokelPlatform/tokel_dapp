@@ -6,9 +6,11 @@ export const WidgetContainer = styled.div`
   border-radius: var(--border-radius);
 `;
 
-export const WidgetTitle = styled.h3`
-  padding-top: 14px;
+export const WidgetTitle = styled.h2`
   padding-left: 28px;
+  padding-top: 28px;
+  padding-bottom: 1rem;
+  margin: 0;
   color: var(--color-white);
   line-height: 24px;
 `;
