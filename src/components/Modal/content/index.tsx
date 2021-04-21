@@ -15,6 +15,6 @@ interface ModalCollectionType {
 }
 
 export default {
-  [ModalName.RECEIVE]: { title: 'GET PAIIDDDD', children: <Receive /> },
+  [ModalName.RECEIVE]: { title: 'Your wallet address', children: <Receive /> },
   [ModalName.FEEDBACK]: { title: 'SUBMIT FEEDBACK', children: <Feedback /> },
 } as ModalCollectionType;

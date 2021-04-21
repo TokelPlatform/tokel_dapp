@@ -6,11 +6,11 @@ import type { RootModel } from './models';
 
 export interface EnvironmentState {
   view?: string;
-  modal?: string;
+  receiveModal?: string;
 }
 
 export default createModel<RootModel>()({
-  state: { view: ViewType.DASHBOARD, modal: ModalName.RECEIVE } as EnvironmentState,
+  state: { view: ViewType.DASHBOARD, receiveModal: ModalName.RECEIVE } as EnvironmentState,
   reducers: {
     SET_VIEW: (state, view: string) => ({
       ...state,

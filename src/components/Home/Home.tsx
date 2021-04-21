@@ -3,12 +3,10 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectModal, selectView } from 'store/selectors';
+import { selectView } from 'store/selectors';
 import { ViewType } from 'vars/defines';
 
 import Dashboard from 'components/Dashboard/Dashboard';
-import modals from 'components/Modal/content';
-import Modal from 'components/Modal/Modal';
 import SideMenu from './Menu/SideMenu';
 import TopBar from './TopBar';
 
@@ -45,7 +43,6 @@ const renderView = viewType => {
 
 const Home = () => {
   const currentView = useSelector(selectView);
-  const modalProps = modals[useSelector(selectModal)];
 
   return (
     <HomeRoot>
@@ -54,7 +51,6 @@ const Home = () => {
         <SideMenu />
         <ViewWrapper>{renderView(currentView)}</ViewWrapper>
       </HorzContainer>
-      {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
     </HomeRoot>
   );
 };
