@@ -3,12 +3,13 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "assets*": ["src/assets*"],
       "components*": ["src/components*"],
       "electron*": ["src/electron*"],
-      "assets*": ["src/assets*"],
+      "hooks*": ["src/hooks*"],
       "store*": ["src/store*"],
-      "vars*": ["src/vars*"],
       "util*": ["src/util*"],
+      "vars*": ["src/vars*"],
       "~/*": ["src/*"]
     },
     "target": "ES2018",
@@ -26,6 +27,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     /* Module Resolution Options */
+    "skipLibCheck": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
