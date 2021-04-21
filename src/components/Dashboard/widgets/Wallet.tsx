@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 
 import { Asset } from 'store/models/wallet';
 
+import { Button } from 'components/_General/buttons';
 import ActivityTable from './ActivityTable';
 import { WidgetContainer, WidgetTitle } from './common';
 
@@ -43,6 +44,14 @@ const WalletContainer = styled.div`
     font-weight: 400;
   }
 `;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  button {
+    margin: 12px;
+  }
+`;
 type WalletProps = {
   asset: Asset;
 };
@@ -51,11 +60,14 @@ const tabs = ['Wallet', 'Recent Activity'];
 
 const Wallet = ({ asset }: WalletProps): ReactElement => {
   const [active, setActive] = useState(tabs[0]);
+
+  const handleClick = (): void => {
+    console.log('click');
+  };
+
   return (
     <WalletRoot>
       <div style={{ display: 'flex' }}>
-        {/* <WalletTitle>{asset.name} Wallet</WalletTitle>
-         */}
         {tabs.map(type => (
           <WalletTitle key={type} active={active === type} onClick={() => setActive(type)}>
             {type}
@@ -63,20 +75,30 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
         ))}
       </div>
       {active === 'Wallet' && (
-        <WalletContainer>
-          <div>
-            <p className="colTitle">Holdings</p>
-            <p className="colValue">0.07770000 {asset.ticker}</p>
-          </div>
-          <div>
-            <p className="colTitle">{asset.name} price</p>
-            <p className="colValue">$8,242</p>
-          </div>
-          <div>
-            <p className="colTitle">{asset.name} holdings value</p>
-            <p className="colValue">$6,404.04</p>
-          </div>
-        </WalletContainer>
+        <div>
+          <WalletContainer>
+            <div>
+              <p className="colTitle">Holdings</p>
+              <p className="colValue">0.07770000 {asset.ticker}</p>
+            </div>
+            <div>
+              <p className="colTitle">{asset.name} price</p>
+              <p className="colValue">$8,242</p>
+            </div>
+            <div>
+              <p className="colTitle">{asset.name} holdings value</p>
+              <p className="colValue">$6,404.04</p>
+            </div>
+          </WalletContainer>
+          <ButtonWrapper>
+            <Button onClick={handleClick} customWidth="170px" theme="gray">
+              Send
+            </Button>
+            <Button onClick={handleClick} customWidth="170px" theme="gray">
+              Receive
+            </Button>
+          </ButtonWrapper>
+        </div>
       )}
       {active === 'Recent Activity' && <ActivityTable />}
     </WalletRoot>
