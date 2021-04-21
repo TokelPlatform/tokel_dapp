@@ -2,14 +2,15 @@ import { createModel } from '@rematch/core';
 
 import type { RootModel } from './models';
 
+export type Asset = {
+  name: string;
+  ticker: string;
+  amount: number;
+  price: number;
+};
 export interface WalletState {
   chosenAsset?: string;
-  assets: Array<{
-    name: string;
-    ticker: string;
-    amount: number;
-    price: number;
-  }>;
+  assets: Array<Asset>;
 }
 
 export default createModel<RootModel>()({
