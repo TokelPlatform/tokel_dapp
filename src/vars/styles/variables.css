@@ -12,6 +12,12 @@
   --color-slateGray: #354353;
   --color-danger: #e6195f;
 
+  --color-modal-overlay: rgba(0, 0, 0, 0.8);
+  --color-modal-bg: #212b3b;
+  --color-modal-border: #2e3d51;
+  --color-modal-fg: #ffffff;
+  --color-modal-fg-lc: #7b90a6;
+
   --color-link: var(--color-lightpurple);
   --color-link-hover: var(--color-lessSaturatedBlue);
 
@@ -27,11 +33,7 @@
   ); */
   --gradient-purple-direct: linear-gradient(180deg, #687bf7 0%, #8050ef 97.78%);
 
-  --gradient-purple-horizontal: linear-gradient(
-    97.43deg,
-    #973af5 0%,
-    #4ca6fe 100%
-  );
+  --gradient-purple-horizontal: linear-gradient(97.43deg, #973af5 0%, #4ca6fe 100%);
   --gradient-gray: linear-gradient(180deg, #516173 3.03%, #3b4857 97.78%);
 
   --font-size-h1: 1.625rem; /** 26px **/

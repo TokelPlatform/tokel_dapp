@@ -1,6 +1,7 @@
 import { RootState } from './rematch';
 
 export const selectView = (state: RootState) => state.environment.view;
+export const selectModal = (state: RootState) => state.environment.modal;
 
 export const selectAccountAddress = (state: RootState) => state.account.address;
 export const selectUnspentAddress = (state: RootState) => state.account.unspent?.address;

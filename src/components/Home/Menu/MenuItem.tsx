@@ -46,7 +46,7 @@ const MenuIcon = styled.div<MenuIconProps>`
   mask-size: contain;
   mask-position: center;
   mask-repeat: no-repeat;
-  mask-image: url("${p => p.icon}");
+  mask-image: url('${p => p.icon}');
 `;
 
 const MenuItem = ({ name, icon, selected, onClick }: MenuItemProps): ReactElement => {
