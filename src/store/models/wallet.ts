@@ -14,7 +14,7 @@ export interface WalletState {
 
 export default createModel<RootModel>()({
   state: {
-    chosenAsset: 'Total Holdings',
+    chosenAsset: null,
     assets: [
       {
         name: 'Tokel Test',

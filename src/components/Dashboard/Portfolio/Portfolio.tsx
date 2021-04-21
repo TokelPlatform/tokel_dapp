@@ -45,8 +45,8 @@ const Portfolio = (): ReactElement => {
         header
         name={headerName}
         subtitle={`${assets.length} assets ≈ $${totalValue}`}
-        selected={chosenAsset === headerName}
-        onClick={() => setChosenAsset(headerName)}
+        selected={!chosenAsset}
+        onClick={() => setChosenAsset(null)}
       />
       {assets.map(asset => (
         <PortfolioItem
