@@ -19,8 +19,7 @@ const ActivityTableRoot = styled(WidgetContainer)`
 const Transactions = styled.div`
   display: grid;
   grid-template-columns: 30% 30% 40%;
-  padding-left: 28px;
-  padding-right: 28px;
+  padding: 0 28px;
 
   .datetime {
     color: var(--color-gray);
@@ -59,7 +58,7 @@ const ActivityTable = (): ReactElement => {
         <TransactionWrapper key={tx.txid}>
           <Transactions>
             <Column>
-              <p className="datetime" style={{ 'align-self': 'start' }}>
+              <p className="datetime" style={{ alignSelf: 'start' }}>
                 {tx.height}
               </p>
             </Column>
@@ -68,10 +67,10 @@ const ActivityTable = (): ReactElement => {
               <p className="additionalInfo">{tx.vout ? 'Deposit' : 'Withdrawal'}</p>
             </Column>
             <Column>
-              <p className="info" style={{ 'text-align': 'right' }}>
+              <p className="info" style={{ textAlign: 'right' }}>
                 {tx.value.toFixed(8)} {chosenAsset.name}
               </p>
-              <p className="additionalInfo" style={{ 'text-align': 'right' }}>
+              <p className="additionalInfo" style={{ textAlign: 'right' }}>
                 ${(tx.value * chosenAsset.fiatValue).toFixed(8)}
               </p>
             </Column>
