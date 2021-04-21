@@ -1,3 +1,4 @@
+/* eslint-ignore */
 :root {
   --color-white: #ffffff;
   --color-black: #1b2431;
@@ -41,4 +42,6 @@
   --font-size-h3: 1.125rem; /** 18px **/
   --font-size-p: 1rem; /** 16px **/
   --font-size-additional-p: 0.875rem; /** 14px **/
+  --font-size-tiny-p: 0.75rem; /** 12px **/
+  --font-size-tinytiny-p: 0.5rem; /** 8px **/
 }
