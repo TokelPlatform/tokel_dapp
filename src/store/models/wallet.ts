@@ -25,7 +25,7 @@ export default createModel<RootModel>()({
       {
         name: 'Tokel',
         ticker: 'TKL',
-        amount: 0.000002342,
+        amount: 3.0002342,
         price: 4,
       },
     ],

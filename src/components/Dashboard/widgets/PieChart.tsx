@@ -19,7 +19,7 @@ const CustomPieChart = styled(PieChart)`
   position: relative;
   z-index: 1;
   .desc {
-    font-size: var(--font-size-tiny-p);
+    font-size: 0.6rem;
     fill: var(--color-white);
   }
   .small {
