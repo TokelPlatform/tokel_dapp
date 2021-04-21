@@ -1,10 +1,14 @@
 import React, { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+
+import { selectAssets, selectChosenAsset } from 'store/selectors';
 
 import ActivityTable from './widgets/ActivityTable';
 import LineGraph from './widgets/LineGraph';
 import PieChart from './widgets/PieChart';
+import Wallet from './widgets/Wallet';
 
 const AssetViewRoot = styled.div`
   flex: 1;
@@ -16,12 +20,16 @@ const AssetViewRoot = styled.div`
   overflow-y: scroll;
 `;
 
-const AssetView = (): ReactElement => (
-  <AssetViewRoot>
-    <LineGraph />
-    <ActivityTable />
-    <PieChart />
-  </AssetViewRoot>
-);
-
+const AssetView = (): ReactElement => {
+  const chosenAsset = useSelector(selectChosenAsset);
+  const theAsset = useSelector(selectAssets).find(item => item.name === chosenAsset);
+  return (
+    <AssetViewRoot>
+      <LineGraph />
+      {!chosenAsset && <ActivityTable />}
+      {!chosenAsset && <PieChart />}
+      {chosenAsset && <Wallet asset={theAsset} />}
+    </AssetViewRoot>
+  );
+};
 export default AssetView;
