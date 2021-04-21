@@ -2,9 +2,11 @@ import React, { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+import { util } from 'prettier';
 
 import { dispatch } from 'store/rematch';
-import { selectChosenAsset } from 'store/selectors';
+import { selectAssets, selectChosenAsset } from 'store/selectors';
+import { Config } from 'vars/defines';
 
 import { WidgetContainer } from '../widgets/common';
 import PortfolioItem from './PortfolioItem';
@@ -17,27 +19,15 @@ const PortfolioRoot = styled(WidgetContainer)`
   overflow-y: scroll;
 `;
 
-const assets = [
-  {
-    name: 'Tokel',
-    ticker: 'TKL',
-    balance: 10,
-    usd_value: 1.12,
-  },
-  {
-    name: 'Komodo',
-    ticker: 'KMD',
-    balance: 100,
-    usd_value: 3.12,
-  },
-];
-
-const totalValue = assets.reduce((total, { balance, usd_value }) => total + balance * usd_value, 0);
-
 const Portfolio = (): ReactElement => {
   const chosenAsset = useSelector(selectChosenAsset);
   const setChosenAsset = name => dispatch.wallet.SET_CHOSEN_ASSET(name);
+  const assets = useSelector(selectAssets);
   const headerName = 'Total Holdings';
+  const totalValue = assets.reduce(
+    (total, { balance, usd_value }) => total + balance * usd_value,
+    0
+  );
 
   return (
     <PortfolioRoot>
@@ -52,7 +42,9 @@ const Portfolio = (): ReactElement => {
         <PortfolioItem
           key={asset.name}
           name={`${asset.name} (${asset.ticker})`}
-          subtitle={`${asset.balance} ≈ $${asset.balance * asset.usd_value}`}
+          subtitle={`${asset.balance} ≈ $${(asset.balance * asset.usd_value).toFixed(
+            Config.DECIMAL_PLACES
+          )}`}
           percentage={40}
           selected={asset.name === chosenAsset}
           onClick={() => setChosenAsset(asset.name)}
