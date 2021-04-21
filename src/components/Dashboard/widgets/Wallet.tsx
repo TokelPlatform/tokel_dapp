@@ -5,8 +5,9 @@ import styled from '@emotion/styled';
 
 import UpArrow from 'assets/UpArrow.svg';
 import { Asset } from 'store/models/wallet';
+import { dispatch } from 'store/rematch';
 import { selectModal } from 'store/selectors';
-import { Config } from 'vars/defines';
+import { Config, ModalName } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import modals from 'components/Modal/content';
@@ -80,16 +81,13 @@ const tabs = ['Wallet', 'Recent Activity'];
 
 const Wallet = ({ asset }: WalletProps): ReactElement => {
   const [active, setActive] = useState(tabs[0]);
-  const [receiveModal, setReceivemodal] = useState(false);
   const modalProps = modals[useSelector(selectModal)];
-  console.log(modalProps);
 
   const handleSend = (): void => {
-    console.log('click');
+    dispatch.environment.SET_MODAL(ModalName.RECEIVE);
   };
   const handleReceive = (): void => {
-    console.log('click');
-    setReceivemodal(true);
+    dispatch.environment.SET_MODAL(ModalName.RECEIVE);
   };
 
   return (
@@ -133,7 +131,7 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
           </ButtonWrapper>
         </div>
       )}
-      {receiveModal && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
+      {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
       {active === 'Recent Activity' && <ActivityTable />}
     </WalletRoot>
   );
