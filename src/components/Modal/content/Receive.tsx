@@ -60,7 +60,7 @@ const Receive = () => {
   return (
     <ReceiveRoot>
       <QRCodeWrapper>
-        <QRCode value={address} rendersAs="svg" />
+        <QRCode value={address} />
       </QRCodeWrapper>
       <AddressInput>
         {address}
