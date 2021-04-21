@@ -1,9 +1,10 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import styled from '@emotion/styled';
 
 import { Asset } from 'store/models/wallet';
 
+import ActivityTable from './ActivityTable';
 import { WidgetContainer, WidgetTitle } from './common';
 
 const WalletRoot = styled(WidgetContainer)`
@@ -11,12 +12,23 @@ const WalletRoot = styled(WidgetContainer)`
 `;
 
 const WalletTitle = styled(WidgetTitle)`
-  width: 100%;
+  font-size: 20px;
+  padding: 10px 60px;
+  cursor: pointer;
+  opacity: 0.6;
+  border: 0;
+  outline: 0;
+  ${({ active }) =>
+    active &&
+    `
+    border-bottom: 2px solid var(--color-purple);
+    opacity: 1;
+  `}
 `;
 
 const WalletContainer = styled.div`
   margin-left: 28px;
-  /* border-top: 1px solid var(--color-almostBlack2); */
+  border-top: 1px solid var(--color-almostBlack2);
   display: grid;
   grid-template-columns: 45% 25% 30%;
 
@@ -35,27 +47,38 @@ type WalletProps = {
   asset: Asset;
 };
 
+const tabs = ['Wallet', 'Recent Activity'];
+
 const Wallet = ({ asset }: WalletProps): ReactElement => {
-  console.log(asset.name);
+  const [active, setActive] = useState(tabs[0]);
   return (
     <WalletRoot>
-      <div>
-        <WalletTitle>{asset.name} Wallet</WalletTitle>
+      <div style={{ display: 'flex' }}>
+        {/* <WalletTitle>{asset.name} Wallet</WalletTitle>
+         */}
+        {tabs.map(type => (
+          <WalletTitle key={type} active={active === type} onClick={() => setActive(type)}>
+            {type}
+          </WalletTitle>
+        ))}
       </div>
-      <WalletContainer>
-        <div>
-          <p className="colTitle">Holdings</p>
-          <p className="colValue">0.07770000 {asset.ticker}</p>
-        </div>
-        <div>
-          <p className="colTitle">{asset.name} price</p>
-          <p className="colValue">$8,242</p>
-        </div>
-        <div>
-          <p className="colTitle">{asset.name} holdings value</p>
-          <p className="colValue">$6,404.04</p>
-        </div>
-      </WalletContainer>
+      {active === 'Wallet' && (
+        <WalletContainer>
+          <div>
+            <p className="colTitle">Holdings</p>
+            <p className="colValue">0.07770000 {asset.ticker}</p>
+          </div>
+          <div>
+            <p className="colTitle">{asset.name} price</p>
+            <p className="colValue">$8,242</p>
+          </div>
+          <div>
+            <p className="colTitle">{asset.name} holdings value</p>
+            <p className="colValue">$6,404.04</p>
+          </div>
+        </WalletContainer>
+      )}
+      {active === 'Recent Activity' && <ActivityTable />}
     </WalletRoot>
   );
 };
