@@ -16,6 +16,7 @@ export enum ModalName {
   RECEIVE = 'receive',
   FEEDBACK = 'feedback',
 }
+
 export const Config = {
   DECIMAL_PLACES: 8,
 };
