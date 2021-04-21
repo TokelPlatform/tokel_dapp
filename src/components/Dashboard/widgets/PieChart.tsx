@@ -1,7 +1,12 @@
 import React, { ReactElement } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+
+import { selectAssets } from 'store/selectors';
+import { randomColor } from 'util/helpers';
+import { Config } from 'vars/defines';
 
 import { WidgetContainer } from './common';
 
@@ -23,23 +28,23 @@ const CustomPieChart = styled(PieChart)`
   }
 `;
 const PieChartWdiget = (): ReactElement => {
+  const assets = useSelector(selectAssets);
+  const totalValue = assets.reduce((total, { amount, price }) => total + amount * price, 0);
+  const data = assets.map(a => {
+    return {
+      title: a.name,
+      value: Math.ceil((a.amount * a.price * 100) / totalValue),
+      color: randomColor(),
+    };
+  });
   return (
     <PieChartRoot>
-      {/* @todo pass portfolio assets */}
-      <CustomPieChart
-        lineWidth={20}
-        radius={45}
-        data={[
-          { title: 'One', value: 70, color: '#423A76' },
-          { title: 'Two', value: 15, color: '#3A4778' },
-          { title: 'Three', value: 15, color: 'purple' },
-        ]}
-      >
+      <CustomPieChart lineWidth={20} radius={45} data={data}>
         <text className="desc small" x="50" y="43" dominantBaseline="central" textAnchor="middle">
-          2 assets{' '}
+          {data.length} assets{' '}
         </text>
         <text className="desc" x="50" y="55" dominantBaseline="central" textAnchor="middle">
-          $9,383.54
+          ${totalValue.toFixed(Config.DECIMAL_PLACES)}
         </text>
       </CustomPieChart>
     </PieChartRoot>

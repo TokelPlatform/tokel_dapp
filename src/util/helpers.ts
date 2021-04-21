@@ -18,3 +18,6 @@ export const Responsive = {
   above: responsiveFactory('min-width'),
   below: responsiveFactory('max-width'),
 };
+
+export const randomColor = () =>
+  'hsla('.concat((360 * Math.random()).toString(), ', ', '70%,', '80%,1)');

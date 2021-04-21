@@ -9,3 +9,4 @@ export const selectUnspentBalance = (state: RootState) => state.account.unspent?
 export const selectUnspentUtxos = (state: RootState) => state.account.unspent?.utxos || [];
 
 export const selectChosenAsset = (state: RootState) => state.wallet.chosenAsset;
+export const selectAssets = (state: RootState) => state.wallet.assets;
