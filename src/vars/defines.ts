@@ -26,3 +26,7 @@ export const Config = {
 export const Colors = {
   WHITE: 1,
 };
+
+export const Config = {
+  DECIMAL_PLACES: 8,
+};
