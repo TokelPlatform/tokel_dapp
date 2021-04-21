@@ -27,7 +27,7 @@ const CustomPieChart = styled(PieChart)`
     font-size: var(--font-size-tinytiny-p);
   }
 `;
-const PieChartWdiget = (): ReactElement => {
+const PieChartWidget = (): ReactElement => {
   const assets = useSelector(selectAssets);
   const totalValue = assets.reduce((total, { amount, price }) => total + amount * price, 0);
   const data = assets.map(a => {
@@ -51,4 +51,4 @@ const PieChartWdiget = (): ReactElement => {
   );
 };
 
-export default PieChartWdiget;
+export default PieChartWidget;
