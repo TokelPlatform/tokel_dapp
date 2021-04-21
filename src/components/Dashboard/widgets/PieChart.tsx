@@ -29,11 +29,14 @@ const CustomPieChart = styled(PieChart)`
 `;
 const PieChartWidget = (): ReactElement => {
   const assets = useSelector(selectAssets);
-  const totalValue = assets.reduce((total, { amount, price }) => total + amount * price, 0);
+  const totalValue = assets.reduce(
+    (total, { balance, usd_value }) => total + balance * usd_value,
+    0
+  );
   const data = assets.map(a => {
     return {
       title: a.name,
-      value: Math.ceil((a.amount * a.price * 100) / totalValue),
+      value: Math.ceil((a.balance * a.usd_value * 100) / totalValue),
       color: randomColor(),
     };
   });

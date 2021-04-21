@@ -5,8 +5,8 @@ import type { RootModel } from './models';
 export type Asset = {
   name: string;
   ticker: string;
-  amount: number;
-  price: number;
+  balance: number;
+  usd_value: number;
 };
 export interface WalletState {
   chosenAsset?: string;
@@ -20,14 +20,14 @@ export default createModel<RootModel>()({
       {
         name: 'Tokel Test',
         ticker: 'TKLTEST',
-        amount: 1.2,
-        price: 3,
+        balance: 1.2,
+        usd_value: 3,
       },
       {
         name: 'Tokel',
         ticker: 'TKL',
-        amount: 3.0002342,
-        price: 4,
+        balance: 3.0002342,
+        usd_value: 4,
       },
     ],
   } as WalletState,
