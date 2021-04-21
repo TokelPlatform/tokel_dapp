@@ -3,6 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { Asset } from 'store/models/wallet';
+import { Config } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import ActivityTable from './ActivityTable';
@@ -83,11 +84,13 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
             </div>
             <div>
               <p className="colTitle">{asset.name} price</p>
-              <p className="colValue">$8,242</p>
+              <p className="colValue">{asset.balance.toFixed(Config.DECIMAL_PLACES)}</p>
             </div>
             <div>
               <p className="colTitle">{asset.name} holdings value</p>
-              <p className="colValue">$6,404.04</p>
+              <p className="colValue">
+                ${(asset.balance * asset.usd_value).toFixed(Config.DECIMAL_PLACES)}
+              </p>
             </div>
           </WalletContainer>
           <ButtonWrapper>
