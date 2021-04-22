@@ -31,6 +31,10 @@ const Container = styled.div`
   }
 `;
 
+const Spacer = styled.div`
+  height: 0.75rem;
+`;
+
 const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [loginValue, setloginValue] = useState('');
   const [error, setError] = useState('');
@@ -53,6 +57,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
         value={loginValue}
         placeholder="Key or Seed Phrase"
       />
+      <Spacer />
       <Button onClick={() => dispatch.account.login({ key: loginValue, setError })} theme="purple">
         Login
       </Button>
