@@ -8,7 +8,6 @@ import warning from 'assets/friendlyWarning.svg';
 import { selectAccountAddress } from 'store/selectors';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
-import TextArea from 'components/_General/TextArea';
 
 const ReceiveRoot = styled.div`
   display: flex;

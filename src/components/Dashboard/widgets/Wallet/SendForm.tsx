@@ -3,9 +3,10 @@ import React, { ReactElement, useState } from 'react';
 
 import styled from '@emotion/styled';
 
-import { formatFiat, limitLength, stripNonNumbers } from 'util/helpers';
+import { formatFiat, isAddressValid, limitLength, stripNonNumbers } from 'util/helpers';
 
 import { Button } from 'components/_General/buttons';
+import ErrorMessage from 'components/_General/ErrorMessage';
 import Input from 'components/_General/Input';
 import { VSpaceBig, VSpaceMed, VSpaceTiny } from '../common';
 
@@ -63,6 +64,7 @@ const SendForm = (): ReactElement => {
   const [recepient, setRecepient] = useState('');
   const [amount, setAmount] = useState('');
   const [fiatAmount, setFiatAmount] = useState('');
+  const [error, setError] = useState('');
   const remaining = balance - Number(amount);
 
   const handleSetAmount = e => {
@@ -75,6 +77,13 @@ const SendForm = (): ReactElement => {
     }
     setAmount(v);
     setFiatAmount(formatFiat(v * fiatValue));
+  };
+
+  const handleSubmit = () => {
+    setError('');
+    if (!isAddressValid(recepient)) {
+      setError('Invalid recepient address');
+    }
   };
 
   return (
@@ -90,9 +99,9 @@ const SendForm = (): ReactElement => {
           placeholder={'Enter '.concat(currency, ' address')}
           width="390px"
           autoFocus
-        />
+        />{' '}
+        <ErrorMessage>{error}</ErrorMessage>
       </label>
-      <VSpaceMed />
       <label htmlFor="amount">
         <span>Amount</span>
         <VSpaceTiny />
@@ -139,12 +148,13 @@ const SendForm = (): ReactElement => {
         </Row>
       </div>
       <VSpaceBig />
-      <VSpaceBig />
+      <VSpaceMed />
       <RowWrapper>
-        <Button onClick={() => ''} customWidth="170px" theme="purple">
+        <Button onClick={handleSubmit} customWidth="170px" theme="purple">
           Send
         </Button>
       </RowWrapper>
+      <VSpaceMed />
     </SendFormRoot>
   );
 };

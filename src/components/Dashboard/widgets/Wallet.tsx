@@ -19,7 +19,11 @@ const WalletRoot = styled(WidgetContainer)`
   grid-column: span 5;
 `;
 
-const TabTitle = styled(WidgetTitle)`
+type TabTitleProps = {
+  active: boolean;
+};
+
+const TabTitle = styled(WidgetTitle)<TabTitleProps>`
   font-size: 20px;
   padding-right: 28px;
   cursor: pointer;

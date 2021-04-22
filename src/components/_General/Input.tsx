@@ -23,7 +23,7 @@ const Icon = styled.img`
 `;
 
 type InputProps = {
-  id: string;
+  id?: string;
   icon?: string;
   placeholder: string;
   value: string;
@@ -61,6 +61,7 @@ const Input = ({
 };
 
 Input.defaultProps = {
+  id: '',
   icon: '',
   autoFocus: false,
   width: '240px',
