@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
 import { selectAssets, selectChosenAsset } from 'store/selectors';
+import { formatFiat } from 'util/helpers';
 import { Config } from 'vars/defines';
 
 import { WidgetContainer } from '../widgets/common';
@@ -23,9 +24,8 @@ const Portfolio = (): ReactElement => {
   const setChosenAsset = name => dispatch.wallet.SET_CHOSEN_ASSET(name);
   const assets = useSelector(selectAssets);
   const headerName = 'Total Holdings';
-  const totalValue = assets.reduce(
-    (total, { balance, usd_value }) => total + balance * usd_value,
-    0
+  const totalValue = formatFiat(
+    assets.reduce((total, { balance, usd_value }) => total + balance * usd_value, 0)
   );
 
   return (
@@ -41,9 +41,7 @@ const Portfolio = (): ReactElement => {
         <PortfolioItem
           key={asset.name}
           name={`${asset.name} (${asset.ticker})`}
-          subtitle={`${asset.balance} ≈ $${(asset.balance * asset.usd_value).toFixed(
-            Config.DECIMAL
-          )}`}
+          subtitle={`${asset.balance} ≈ $${formatFiat(asset.balance * asset.usd_value)}`}
           percentage={40}
           selected={asset.name === chosenAsset}
           onClick={() => setChosenAsset(asset.name)}

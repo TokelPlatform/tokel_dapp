@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { selectAssets } from 'store/selectors';
-import { randomColor } from 'util/helpers';
+import { formatFiat, randomColor } from 'util/helpers';
 import { Config } from 'vars/defines';
 
 import { WidgetContainer } from './common';
@@ -47,7 +47,7 @@ const PieChartWidget = (): ReactElement => {
           {data.length} assets{' '}
         </text>
         <text className="desc" x="50" y="55" dominantBaseline="central" textAnchor="middle">
-          ${totalValue.toFixed(Config.DECIMAL)}
+          ${formatFiat(totalValue)}
         </text>
       </CustomPieChart>
     </PieChartRoot>

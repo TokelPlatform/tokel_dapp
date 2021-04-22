@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { selectUnspentUtxos } from 'store/selectors';
+import { formatFiat } from 'util/helpers';
 
 import { WidgetContainer, WidgetTitle } from './common';
 
@@ -62,10 +63,10 @@ const ActivityTable = (): ReactElement => {
             </Column>
             <Column>
               <p className="info" style={{ textAlign: 'right' }}>
-                {tx.value.toFixed(8)} {chosenAsset.name}
+                {formatFiat(tx.value)} {chosenAsset.name}
               </p>
               <p className="additionalInfo" style={{ textAlign: 'right' }}>
-                ${(tx.value * chosenAsset.usd_value).toFixed(8)}
+                ${formatFiat(tx.value * chosenAsset.usd_value)}
               </p>
             </Column>
           </Transactions>
