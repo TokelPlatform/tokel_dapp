@@ -43,7 +43,7 @@ const Portfolio = (): ReactElement => {
           key={asset.name}
           name={`${asset.name} (${asset.ticker})`}
           subtitle={`${asset.balance} ≈ $${(asset.balance * asset.usd_value).toFixed(
-            Config.DECIMAL_PLACES
+            Config.DECIMAL
           )}`}
           percentage={40}
           selected={asset.name === chosenAsset}

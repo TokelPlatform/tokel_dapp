@@ -19,5 +19,6 @@ export enum ModalName {
 }
 
 export const Config = {
-  DECIMAL_PLACES: 8,
+  DECIMAL: 8,
+  DECIMAL_FIAT: 2,
 };

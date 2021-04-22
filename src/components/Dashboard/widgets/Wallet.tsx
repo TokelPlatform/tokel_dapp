@@ -84,7 +84,7 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
   const modalProps = modals[useSelector(selectModal)];
 
   const handleSend = (): void => {
-    dispatch.environment.SET_MODAL(ModalName.RECEIVE);
+    dispatch.environment.SET_MODAL(ModalName.SEND);
   };
   const handleReceive = (): void => {
     dispatch.environment.SET_MODAL(ModalName.RECEIVE);
@@ -108,7 +108,7 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
             </div>
             <div>
               <p className="colTitle">{asset.name} price</p>
-              <p className="colValue">{asset.balance.toFixed(Config.DECIMAL_PLACES)}</p>
+              <p className="colValue">{asset.balance.toFixed(Config.DECIMAL)}</p>
               <PriceChange>
                 <img alt="arrowup" src={UpArrow} />
                 <p>28 %</p>
@@ -117,7 +117,7 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
             <div>
               <p className="colTitle">{asset.name} holdings value</p>
               <p className="colValue">
-                ${(asset.balance * asset.usd_value).toFixed(Config.DECIMAL_PLACES)}
+                ${(asset.balance * asset.usd_value).toFixed(Config.DECIMAL)}
               </p>
             </div>
           </WalletContainer>

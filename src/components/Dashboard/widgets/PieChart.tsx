@@ -47,7 +47,7 @@ const PieChartWidget = (): ReactElement => {
           {data.length} assets{' '}
         </text>
         <text className="desc" x="50" y="55" dominantBaseline="central" textAnchor="middle">
-          ${totalValue.toFixed(Config.DECIMAL_PLACES)}
+          ${totalValue.toFixed(Config.DECIMAL)}
         </text>
       </CustomPieChart>
     </PieChartRoot>
