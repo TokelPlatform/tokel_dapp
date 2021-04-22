@@ -100,7 +100,9 @@ const SendForm = (): ReactElement => {
           width="390px"
           autoFocus
         />{' '}
-        <ErrorMessage>{error}</ErrorMessage>
+        <div style={{ textAlign: 'right' }}>
+          <ErrorMessage>{error}</ErrorMessage>
+        </div>
       </label>
       <label htmlFor="amount">
         <span>Amount</span>
