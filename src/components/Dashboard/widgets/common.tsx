@@ -15,6 +15,13 @@ export const WidgetTitle = styled.h2`
   line-height: 24px;
 `;
 
+export const GrayLabel = styled.p`
+  font-size: var(--font-size-additional-p);
+  color: var(--color-darkerGray);
+  margin: 0;
+  padding: 0;
+`;
+
 export const HSpaceBig = styled.div`
   width: 32px;
 `;

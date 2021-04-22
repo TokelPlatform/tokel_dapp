@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from '@emotion/styled';
 
 import SendForm from 'components/Dashboard/widgets/Wallet/SendForm';
+import TxConfirmation from 'components/Dashboard/widgets/Wallet/TxConfirmation';
 
 const SendRoot = styled.div`
   display: flex;
@@ -12,9 +13,12 @@ const SendRoot = styled.div`
 `;
 
 const Send = () => {
+  const [confirmation, setConfirmation] = useState(false);
+
   return (
     <SendRoot>
-      <SendForm />
+      {!confirmation && <SendForm onSubmit={() => setConfirmation(true)} />}
+      {confirmation && <TxConfirmation />}
     </SendRoot>
   );
 };

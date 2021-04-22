@@ -8,7 +8,7 @@ import { formatFiat, isAddressValid, limitLength, stripNonNumbers } from 'util/h
 import { Button } from 'components/_General/buttons';
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Input from 'components/_General/Input';
-import { VSpaceBig, VSpaceMed, VSpaceTiny } from '../common';
+import { GrayLabel, VSpaceBig, VSpaceMed, VSpaceTiny } from '../common';
 
 const SendFormRoot = styled.div`
   display: flex;
@@ -17,6 +17,7 @@ const SendFormRoot = styled.div`
   justify-content: start;
   font-size: var(--font-size-additional-p);
   color: var(--color-gray);
+  height: 340px;
 `;
 
 const RowWrapper = styled.div`
@@ -60,7 +61,11 @@ const fiatValue = 1.4;
 const networkFee = 0.0003;
 const balance = 10;
 
-const SendForm = (): ReactElement => {
+type SendFormProps = {
+  onSubmit: () => void;
+};
+
+const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
   const [recepient, setRecepient] = useState('');
   const [amount, setAmount] = useState('');
   const [fiatAmount, setFiatAmount] = useState('');
@@ -81,15 +86,18 @@ const SendForm = (): ReactElement => {
 
   const handleSubmit = () => {
     setError('');
+    // @todo check that the amount is valid
     if (!isAddressValid(recepient)) {
       setError('Invalid recepient address');
+    } else {
+      onSubmit();
     }
   };
 
   return (
     <SendFormRoot>
       <label htmlFor="recepient">
-        <span>Recepient</span>
+        <GrayLabel>Recepient</GrayLabel>
         <VSpaceTiny />
         <Input
           id="recepient"
@@ -105,7 +113,7 @@ const SendForm = (): ReactElement => {
         </div>
       </label>
       <label htmlFor="amount">
-        <span>Amount</span>
+        <GrayLabel>Amount</GrayLabel>
         <VSpaceTiny />
         <RowWrapper>
           <RowWrapper>
