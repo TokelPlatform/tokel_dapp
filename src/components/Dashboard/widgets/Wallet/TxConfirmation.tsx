@@ -3,8 +3,10 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
+import { dispatch } from 'store/rematch';
 import { selectAccountAddress } from 'store/selectors';
 
+import { Button } from 'components/_General/buttons';
 import { GrayLabel } from '../common';
 
 const TxConfirmationRoot = styled.div`
@@ -40,6 +42,15 @@ const TxConfirmation = (): ReactElement => {
         <GrayLabel>TX ID</GrayLabel>
         <Value>80f4603e008a387a08fe2c62a825a026cdcc3968cf709</Value>
       </Row>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Button
+          customWidth="180px"
+          onClick={() => dispatch.environment.SET_MODAL(null)}
+          theme="gray"
+        >
+          Close
+        </Button>
+      </div>
     </TxConfirmationRoot>
   );
 };
