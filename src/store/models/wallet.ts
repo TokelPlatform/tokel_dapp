@@ -1,5 +1,7 @@
 import { createModel } from '@rematch/core';
 
+import { spend } from 'util/nspvlib';
+
 import type { RootModel } from './models';
 
 export type Asset = {
@@ -11,6 +13,11 @@ export type Asset = {
 export interface WalletState {
   chosenAsset?: string;
   assets: Array<Asset>;
+}
+
+interface SpendArgs {
+  address: string;
+  amount: string;
 }
 
 export default createModel<RootModel>()({
@@ -36,5 +43,15 @@ export default createModel<RootModel>()({
       ...state,
       chosenAsset,
     }),
+  },
+  effects: {
+    async spend({ address, amount }: SpendArgs) {
+      return spend(address, amount)
+        .then(res => {
+          console.log(res);
+          return null;
+        })
+        .catch(e => console.log(e.message));
+    },
   },
 });
