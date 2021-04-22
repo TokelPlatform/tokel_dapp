@@ -14,12 +14,9 @@ export enum ViewType {
 
 export enum ModalName {
   RECEIVE = 'receive',
+  SEND = 'send',
   FEEDBACK = 'feedback',
 }
-
-export const Config = {
-  DECIMAL_PLACES: 8,
-};
 
 export const Config = {
   DECIMAL_PLACES: 8,
