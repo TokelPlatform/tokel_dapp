@@ -8,7 +8,7 @@ import { Asset } from 'store/models/wallet';
 import { dispatch } from 'store/rematch';
 import { selectModal } from 'store/selectors';
 import { formatFiat } from 'util/helpers';
-import { Config, ModalName } from 'vars/defines';
+import { ModalName } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import modals from 'components/Modal/content';

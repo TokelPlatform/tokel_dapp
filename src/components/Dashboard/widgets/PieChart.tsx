@@ -6,7 +6,6 @@ import styled from '@emotion/styled';
 
 import { selectAssets } from 'store/selectors';
 import { formatFiat, randomColor } from 'util/helpers';
-import { Config } from 'vars/defines';
 
 import { WidgetContainer } from './common';
 

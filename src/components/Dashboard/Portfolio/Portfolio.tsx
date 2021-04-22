@@ -6,7 +6,6 @@ import styled from '@emotion/styled';
 import { dispatch } from 'store/rematch';
 import { selectAssets, selectChosenAsset } from 'store/selectors';
 import { formatFiat } from 'util/helpers';
-import { Config } from 'vars/defines';
 
 import { WidgetContainer } from '../widgets/common';
 import PortfolioItem from './PortfolioItem';

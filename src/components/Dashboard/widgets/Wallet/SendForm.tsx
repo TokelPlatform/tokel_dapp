@@ -62,7 +62,7 @@ const networkFee = 0.0003;
 const balance = 10;
 
 type SendFormProps = {
-  onSubmit: () => void;
+  onSubmit: (arg1: string, arg2: string) => void;
 };
 
 const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
@@ -90,7 +90,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
     if (!isAddressValid(recepient)) {
       setError('Invalid recepient address');
     } else {
-      onSubmit();
+      onSubmit(recepient, amount);
     }
   };
 
