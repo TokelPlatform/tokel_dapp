@@ -7,6 +7,7 @@ import UpArrow from 'assets/UpArrow.svg';
 import { Asset } from 'store/models/wallet';
 import { dispatch } from 'store/rematch';
 import { selectModal } from 'store/selectors';
+import { formatFiat } from 'util/helpers';
 import { Config, ModalName } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
@@ -108,11 +109,13 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
           <WalletContainer>
             <div>
               <p className="colTitle">Holdings</p>
-              <p className="colValue">0.07770000 {asset.ticker}</p>
+              <p className="colValue">
+                {asset.balance} {asset.ticker}
+              </p>
             </div>
             <div>
               <p className="colTitle">{asset.name} price</p>
-              <p className="colValue">{asset.balance.toFixed(Config.DECIMAL)}</p>
+              <p className="colValue">${formatFiat(asset.usd_value)}</p>
               <PriceChange>
                 <img alt="arrowup" src={UpArrow} />
                 <p>28 %</p>
@@ -120,9 +123,7 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
             </div>
             <div>
               <p className="colTitle">{asset.name} holdings value</p>
-              <p className="colValue">
-                ${(asset.balance * asset.usd_value).toFixed(Config.DECIMAL)}
-              </p>
+              <p className="colValue">${formatFiat(asset.balance * asset.usd_value)}</p>
             </div>
           </WalletContainer>
           <ButtonWrapper>
