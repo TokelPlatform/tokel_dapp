@@ -38,3 +38,6 @@ __snapshots__
 *.css.d.ts
 *.sass.d.ts
 *.scss.d.ts
+
+# ehmmm, fix laterz ?
+src/vars/styles/variables.css
