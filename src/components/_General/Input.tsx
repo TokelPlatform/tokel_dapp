@@ -23,6 +23,7 @@ const Icon = styled.img`
 `;
 
 type InputProps = {
+  id: string;
   icon?: string;
   placeholder: string;
   value: string;
@@ -32,12 +33,21 @@ type InputProps = {
   onKeyDown: (e) => void;
 };
 
-const Input = ({ onChange, onKeyDown, value, icon, placeholder, autoFocus, width }: InputProps) => {
+const Input = ({
+  onChange,
+  onKeyDown,
+  value,
+  icon,
+  placeholder,
+  autoFocus,
+  width,
+  id,
+}: InputProps) => {
   return (
     <div>
       {icon && <Icon src={icon} />}
       <StyledInput
-        id="inputbox"
+        id={id}
         onChange={onChange}
         onKeyDown={onKeyDown}
         value={value}
@@ -52,7 +62,7 @@ const Input = ({ onChange, onKeyDown, value, icon, placeholder, autoFocus, width
 
 Input.defaultProps = {
   icon: '',
-  autoFocus: true,
+  autoFocus: false,
   width: '240px',
 };
 export default Input;

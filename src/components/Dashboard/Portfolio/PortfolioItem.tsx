@@ -93,7 +93,7 @@ PortfolioItem.defaultProps = {
   percentage: null,
   header: false,
   selected: false,
-  onClick: () => console.log('me clickit'),
+  onClick: () => 'me clickit',
 };
 
 export default PortfolioItem;

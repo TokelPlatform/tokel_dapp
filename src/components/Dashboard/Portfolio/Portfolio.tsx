@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
-import { util } from 'prettier';
 
 import { dispatch } from 'store/rematch';
 import { selectAssets, selectChosenAsset } from 'store/selectors';
