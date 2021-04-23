@@ -6,14 +6,15 @@ import styled from '@emotion/styled';
 import UpArrow from 'assets/UpArrow.svg';
 import { Asset } from 'store/models/wallet';
 import { dispatch } from 'store/rematch';
-import { selectModal } from 'store/selectors';
+import { selectModal, selectUnspentUtxos } from 'store/selectors';
 import { formatFiat } from 'util/helpers';
 import { ModalName } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import modals from 'components/Modal/content';
 import Modal from 'components/Modal/Modal';
-import ActivityTable from './ActivityTable';
+import ActivityList from './Activity/ActivityList';
+import ActivityTable from './Activity/ActivityTable';
 import { WidgetContainer, WidgetTitle } from './common';
 
 const WalletRoot = styled(WidgetContainer)`
@@ -41,7 +42,7 @@ const TabTitle = styled(WidgetTitle)<TabTitleProps>`
 
 const WalletContainer = styled.div`
   margin-left: 28px;
-  border-top: 1px solid var(--color-almostBlack2);
+  border-top: var(--border-dark);
   display: grid;
   grid-template-columns: 45% 25% 30%;
 
@@ -87,6 +88,7 @@ const tabs = ['Wallet', 'Recent Activity'];
 const Wallet = ({ asset }: WalletProps): ReactElement => {
   const [active, setActive] = useState(tabs[0]);
   const modalProps = modals[useSelector(selectModal)];
+  const utxos = useSelector(selectUnspentUtxos);
 
   const handleSend = (): void => {
     dispatch.environment.SET_MODAL(ModalName.SEND);
@@ -137,7 +139,7 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
         </div>
       )}
       {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
-      {active === 'Recent Activity' && <ActivityTable />}
+      {active === 'Recent Activity' && <ActivityList transactions={utxos} />}
     </WalletRoot>
   );
 };
