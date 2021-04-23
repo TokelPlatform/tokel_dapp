@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { formatFiat } from 'util/helpers';
 import { UtxoType } from 'util/nspvlib-mock';
 
+import InfoNote from 'components/_General/InfoNote';
 import { GrayLabel, GrayLabelUppercase, HSpaceBig, VSpaceBig } from '../common';
 
 const chosenAsset = {
@@ -57,15 +58,7 @@ type ActivityListProps = {
 const ActivityList = ({ transactions = [] }: ActivityListProps): ReactElement => {
   return (
     <ActivityListRoot>
-      {transactions.length === 0 && (
-        <div>
-          <VSpaceBig />
-          <Message>
-            {' '}
-            <span>No data available</span>
-          </Message>
-        </div>
-      )}
+      {transactions.length === 0 && <InfoNote title="No data available" />}
       {transactions.map(tx => (
         <TransactionWrapper key={tx.txid}>
           <Transactions>

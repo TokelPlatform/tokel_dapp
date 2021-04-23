@@ -18,7 +18,6 @@ const ActivityTitle = styled(WidgetTitle)`
 
 const ActivityTable = (): ReactElement => {
   const utxos = useSelector(selectUnspentUtxos);
-  // const utxos = [];
 
   return (
     <ActivityTableRoot>
