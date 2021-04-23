@@ -25,10 +25,10 @@ const InfoNote = ({ title, subtitle }: InputProps) => {
       <VSpaceBig />
       <Message>
         {' '}
-        <text>
+        <span>
           {title}
-          <br /> <br /> <text className="subtitle"> {subtitle}</text>{' '}
-        </text>
+          <br /> <br /> <span className="subtitle"> {subtitle}</span>{' '}
+        </span>
       </Message>
     </div>
   );
