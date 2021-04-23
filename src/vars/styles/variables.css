@@ -25,6 +25,7 @@
 
   --border-dark: 1px solid var(--color-lighterBlack);
   --border-purple: 1px solid var(--color-lightpurple);
+  --border-widgets: 1px solid var(--color-almostBlack2);
   --border-radius: 4px;
   --border-radius-big: 8px;
 

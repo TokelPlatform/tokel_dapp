@@ -22,6 +22,10 @@ export const GrayLabel = styled.p`
   padding: 0;
 `;
 
+export const GrayLabelUppercase = styled(GrayLabel)`
+  text-transform: uppercase;
+`;
+
 export const HSpaceBig = styled.div`
   width: 32px;
 `;

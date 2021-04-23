@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { selectAssets, selectChosenAsset } from 'store/selectors';
 
-import ActivityTable from './widgets/ActivityTable';
+import ActivityTable from './widgets/Activity/ActivityTable';
 import LineGraph from './widgets/LineGraph';
 import PieChart from './widgets/PieChart';
 import Wallet from './widgets/Wallet';
