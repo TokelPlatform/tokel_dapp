@@ -43,7 +43,7 @@ const Portfolio = (): ReactElement => {
           subtitle={`${asset.balance} ≈ $${formatFiat(asset.balance * asset.usd_value)}`}
           percentage={40}
           selected={asset.name === chosenAsset}
-          onClick={() => setChosenAsset(asset.name)}
+          onClick={() => setChosenAsset(asset.ticker)}
         />
       ))}
     </PortfolioRoot>

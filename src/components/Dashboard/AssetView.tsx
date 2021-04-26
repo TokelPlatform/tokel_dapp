@@ -22,7 +22,7 @@ const AssetViewRoot = styled.div`
 
 const AssetView = (): ReactElement => {
   const chosenAsset = useSelector(selectChosenAsset);
-  const theAsset = useSelector(selectAssets).find(item => item.name === chosenAsset);
+  const theAsset = useSelector(selectAssets).find(item => item.ticker === chosenAsset);
   return (
     <AssetViewRoot>
       <LineGraph />
