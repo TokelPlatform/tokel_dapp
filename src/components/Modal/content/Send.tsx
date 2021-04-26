@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import wallet from 'store/models/wallet';
 import { dispatch } from 'store/rematch';
 import { selectChosenAsset } from 'store/selectors';
 

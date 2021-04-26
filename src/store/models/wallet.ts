@@ -16,7 +16,6 @@ export interface WalletState {
   currentTx: {
     id: string;
     status: number;
-    broadcast: number;
   };
 }
 
@@ -45,7 +44,6 @@ export default createModel<RootModel>()({
     currentTx: {
       id: '',
       status: 0,
-      broadcast: 0,
     },
   } as WalletState,
   reducers: {
@@ -58,13 +56,6 @@ export default createModel<RootModel>()({
       currentTx: {
         ...state.currentTx,
         id: txid,
-      },
-    }),
-    SET_BROADCAST_STATUS: (state, txbroadcast: number) => ({
-      ...state,
-      currentTx: {
-        ...state.currentTx,
-        broadcast: txbroadcast,
       },
     }),
     SET_CURRENT_TX_STATUS: (state, txstatus: number) => ({
