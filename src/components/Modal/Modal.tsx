@@ -81,19 +81,23 @@ const Modal = ({ title, children }: ModalProps) => {
   // close the modal if the overlay is clicked (but not a child of it)
   const overlayRef = useRef();
   const [mouseMemory, setMouseMemory] = useState<EventTarget | undefined>();
-  const handleOverlayClick = useCallback(
-    e => {
-      if (e.target === mouseMemory && e.target === overlayRef.current) {
-        close();
-      }
-    },
-    [mouseMemory]
-  );
+
+  // @todo make this functionality conditional (?) as some potential future modals in the app might use it.
+  // The current payment modal should not be closed by clicking outside of it
+
+  // const handleOverlayClick = useCallback(
+  //   e => {
+  //     if (e.target === mouseMemory && e.target === overlayRef.current) {
+  //       close();
+  //     }
+  //   },
+  //   [mouseMemory]
+  // );
 
   return (
     <ModalRoot
       ref={overlayRef}
-      onClick={handleOverlayClick}
+      // onClick={handleOverlayClick}
       onMouseDown={e => setMouseMemory(e.target)}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

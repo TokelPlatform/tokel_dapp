@@ -5,6 +5,7 @@ import got from 'got';
 const NSPV_SERVER = 'http://127.0.0.1:7771';
 
 const Method = {
+  BROADCAST: 'broadcast',
   GET_INFO: 'getinfo',
   GET_NEW_ADDRESS: 'getnewaddress',
   LIST_UNSPENT: 'listunspent',
@@ -134,3 +135,5 @@ export const listUnspent = async () => requestNSPV(Method.LIST_UNSPENT);
 }
  */
 export const spend = async (address, amount) => requestNSPV(Method.SPEND, [address, amount]);
+
+export const broadcast = async hex => requestNSPV(Method.BROADCAST, [hex]);
