@@ -39,11 +39,11 @@ const getNote = name => (
     title={name.concat(' functionality is not available currently')}
     subtitle={[
       'Please have a look at our ',
-      <a key="tokellink" href={links.website}>
+      <a key="tokellink" href={links.website} rel="noreferrer" target="_blank">
         roadmap
       </a>,
       ' or reach out to us in ',
-      <a key="discordLink" href={links.discord}>
+      <a key="discordLink" href={links.discord} rel="noreferrer" target="_blank">
         Discord
       </a>,
     ]}
