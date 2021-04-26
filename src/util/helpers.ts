@@ -30,8 +30,6 @@ export const formatFiat = num => {
   return num.toFixed(Config.DECIMAL_FIAT);
 };
 
-export const stripNonNumbers = value => value.replace(/\D/g, '');
-
 export const limitLength = (value, len) => value.substr(0, len);
 
 export const isAddressValid = address => /^[a-km-zA-HJ-NP-Z1-9]{26,35}$/.test(address);
