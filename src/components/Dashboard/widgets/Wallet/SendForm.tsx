@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 
 import styled from '@emotion/styled';
 
-import { formatFiat, isAddressValid, limitLength, stripNonNumbers } from 'util/helpers';
+import { formatDec, formatFiat, isAddressValid, limitLength, stripNonNumbers } from 'util/helpers';
 
 import { Button } from 'components/_General/buttons';
 import ErrorMessage from 'components/_General/ErrorMessage';
@@ -77,13 +77,23 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
     if (v > balance) {
       v = balance;
     } else {
-      v = stripNonNumbers(v);
       v = limitLength(v, 10);
     }
     setAmount(v);
     setFiatAmount(formatFiat(v * fiatValue));
   };
 
+  const handleSetFiatAmount = e => {
+    let v = e.target.value;
+    if (v > balance) {
+      v = balance;
+    } else {
+      v = limitLength(v, 10);
+    }
+    setFiatAmount(v);
+    const res = v / fiatValue;
+    setAmount(formatDec(res));
+  };
   const handleSubmit = () => {
     setError('');
     // @todo check that the amount is valid
@@ -124,6 +134,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
               value={amount}
               placeholder="0.00"
               width="175px"
+              type="number"
             />
             <CurrencyWrapper>{currency}</CurrencyWrapper>
           </RowWrapper>
@@ -131,10 +142,11 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
           <RowWrapper>
             <Input
               id="amount"
-              onChange={e => setFiatAmount(e.target.value)}
+              onChange={e => handleSetFiatAmount(e)}
               onKeyDown={() => ''}
               value={fiatAmount}
               placeholder="0.00"
+              type="number"
               width="175px"
             />
             <CurrencyWrapper>{fiatCurrency}</CurrencyWrapper>
