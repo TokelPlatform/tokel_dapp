@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { selectView } from 'store/selectors';
+import links from 'util/links';
 import { ViewType } from 'vars/defines';
 
 import InfoNote from 'components/_General/InfoNote';
@@ -38,11 +39,11 @@ const getNote = name => (
     title={name.concat(' functionality is not available currently')}
     subtitle={[
       'Please have a look at our ',
-      <a key="tokellink" href="https://tokel.io">
+      <a key="tokellink" href={links.website}>
         roadmap
       </a>,
       ' or reach out to us in ',
-      <a key="discordLink" href="https://discord.gg/MHxJZVFkqa">
+      <a key="discordLink" href={links.discord}>
         Discord
       </a>,
     ]}
