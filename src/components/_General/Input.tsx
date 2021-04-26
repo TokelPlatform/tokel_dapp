@@ -29,6 +29,7 @@ type InputProps = {
   value: string;
   autoFocus?: boolean;
   width?: string;
+  type?: string;
   onChange: (e) => void;
   onKeyDown: (e) => void;
 };
@@ -42,6 +43,7 @@ const Input = ({
   autoFocus,
   width,
   id,
+  type,
 }: InputProps) => {
   return (
     <div>
@@ -55,6 +57,7 @@ const Input = ({
         autoFocus={autoFocus}
         width={width}
         icon={icon !== ''}
+        type={type}
       />
     </div>
   );
@@ -65,5 +68,6 @@ Input.defaultProps = {
   icon: '',
   autoFocus: false,
   width: '240px',
+  type: 'text',
 };
 export default Input;
