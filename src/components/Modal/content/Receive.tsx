@@ -53,6 +53,7 @@ const Copy = styled.span`
   border-left: 1px solid var(--color-lighterBlack);
   margin-left: 16px;
   padding-left: 12px;
+  padding-top: 4px;
 `;
 
 const Receive = () => {
