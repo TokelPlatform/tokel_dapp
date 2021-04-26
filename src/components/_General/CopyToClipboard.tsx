@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 
 import styled from '@emotion/styled';
 
 import copyIcon from 'assets/copy.svg';
+import copyWhite from 'assets/copyWhite.svg';
 
 const COPIED = 'Copied!';
 const IconWrapper = styled.div`
@@ -15,7 +15,12 @@ const ImgClickableWrapper = styled.button`
   border: none;
 `;
 
-const CopyToClipboard = ({ textToCopy }) => {
+type CopyProps = {
+  textToCopy: string;
+  color?: string;
+};
+
+const CopyToClipboard = ({ textToCopy, color }: CopyProps) => {
   const idRef = useRef(null);
 
   const copy = () => {
@@ -27,7 +32,7 @@ const CopyToClipboard = ({ textToCopy }) => {
     <IconWrapper onClick={() => copy()}>
       <div data-tip={COPIED} ref={idRef} />
       <ImgClickableWrapper onClick={() => copy()} onKeyDown={() => copy()}>
-        <img alt="copy" src={copyIcon} />
+        <img alt="copy" src={color === 'white' ? copyWhite : copyIcon} />
       </ImgClickableWrapper>
       <ReactTooltip
         className="react-tooltip"
@@ -42,10 +47,7 @@ const CopyToClipboard = ({ textToCopy }) => {
   );
 };
 
-CopyToClipboard.propTypes = {
-  textToCopy: PropTypes.string,
-};
 CopyToClipboard.defaultProps = {
-  textToCopy: '',
+  color: 'var(--color-danger)',
 };
 export default CopyToClipboard;

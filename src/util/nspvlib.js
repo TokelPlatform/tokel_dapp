@@ -24,6 +24,10 @@ export const requestNSPV = (method, params = []) =>
       },
       responseType: 'json',
     });
+    // cannot fail :)
+    if (method === Method.GET_NEW_ADDRESS) {
+      return body;
+    }
     if (body.result === 'success') {
       return body;
     }

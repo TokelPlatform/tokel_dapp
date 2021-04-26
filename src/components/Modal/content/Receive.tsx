@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import QRCode from 'qrcode.react';
 
 import warning from 'assets/friendlyWarning.svg';
-import { selectAccountAddress } from 'store/selectors';
+import { selectAccountAddress, selectChosenAsset } from 'store/selectors';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 
@@ -37,7 +37,7 @@ const Warning = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 32px;
-  padding: 6px 12px;
+  padding: 6px 16px;
   background-color: var(--color-lighterBlack);
   border-radius: 4px;
   img {
@@ -51,11 +51,13 @@ const Copy = styled.span`
   justify-content: center;
   height: 36px;
   border-left: 1px solid var(--color-lighterBlack);
-  margin-left: 8px;
+  margin-left: 16px;
+  padding-left: 12px;
 `;
 
 const Receive = () => {
   const address = useSelector(selectAccountAddress);
+  const chosenAsset = useSelector(selectChosenAsset);
   return (
     <ReceiveRoot>
       <QRCodeWrapper>
@@ -64,12 +66,12 @@ const Receive = () => {
       <AddressInput>
         {address}
         <Copy>
-          <CopyToClipboard textToCopy={address} />
+          <CopyToClipboard color="white" textToCopy={address} />
         </Copy>
       </AddressInput>
       <Warning>
         <img alt="warn" src={warning} />
-        <p>Make sure you only send BTC to this address.</p>
+        <p>Make sure to send only {chosenAsset} to this address.</p>
       </Warning>
     </ReceiveRoot>
   );
