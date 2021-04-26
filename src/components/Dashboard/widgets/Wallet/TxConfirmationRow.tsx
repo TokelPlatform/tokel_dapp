@@ -2,7 +2,7 @@ import React, { ReactChild, ReactChildren, ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import { GrayLabel, HSpaceMed, VSpaceMed, VSpaceSmall } from '../common';
+import { GrayLabel, HSpaceMed } from '../common';
 
 const Value = styled.p`
   margin: 4px 0 16px 0;

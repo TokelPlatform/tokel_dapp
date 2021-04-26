@@ -1,6 +1,8 @@
 import { createModel } from '@rematch/core';
 
-import { UnspentType, listUnspent, login as nspvLogin } from 'util/nspvlib-mock';
+import { listUnspent, login as nspvLogin } from 'util/nspvlib';
+// import { UnspentType, listUnspent, login as nspvLogin } from 'util/nspvlib-mock';
+import { UnspentType } from 'util/nspvlib-mock';
 
 import type { RootModel } from './models';
 
@@ -34,6 +36,7 @@ export default createModel<RootModel>()({
           const unspent = await listUnspent();
           this.SET_UNSPENT(unspent);
           this.SET_ADDRESS(account.address);
+          console.log(unspent);
           return null;
         })
         .catch(e => setError(e.message));

@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 
 import styled from '@emotion/styled';
 
-import { formatDec, formatFiat, isAddressValid, limitLength, stripNonNumbers } from 'util/helpers';
+import { formatDec, formatFiat, isAddressValid, limitLength } from 'util/helpers';
 
 import { Button } from 'components/_General/buttons';
 import ErrorMessage from 'components/_General/ErrorMessage';

@@ -13,9 +13,8 @@ import { ModalName } from 'vars/defines';
 import { Button } from 'components/_General/buttons';
 import modals from 'components/Modal/content';
 import Modal from 'components/Modal/Modal';
-import ActivityList from './Activity/ActivityList';
-import ActivityTable from './Activity/ActivityTable';
-import { WidgetContainer, WidgetTitle } from './common';
+import ActivityList from '../Activity/ActivityList';
+import { WidgetContainer, WidgetTitle } from '../common';
 
 const WalletRoot = styled(WidgetContainer)`
   grid-column: span 5;

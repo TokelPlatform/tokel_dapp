@@ -49,16 +49,13 @@ const TxConfirmation = ({
 
   const [currentTxId, setCurrentTxId] = useState(null);
 
-  console.log('TX STATUS ', txStatus);
-  console.log(txid);
+  const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
 
   if (txStatus === 1) {
     setCurrentTxId(limitLength(txid, 36).concat('...'));
-    console.log('currentTxId', currentTxId);
-    // dispatch.wallet.SET_CURRENT_TX_ID(null);
     dispatch.wallet.SET_CURRENT_TX_STATUS(0);
   }
-  const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
+
   return (
     <TxConfirmationRoot>
       {!currentTxId && txStatus === 0 && (
@@ -69,10 +66,7 @@ const TxConfirmation = ({
       )}
       {!currentTxId && txStatus < 0 && (
         <div>
-          <ErrorMessage>
-            Error in sending your transaction. <br />
-            <br /> Please try again later.
-          </ErrorMessage>
+          <ErrorMessage>Error in sending your transaction. Please try again later.</ErrorMessage>
         </div>
       )}
       {currentTxId && (
@@ -87,15 +81,17 @@ const TxConfirmation = ({
           </Row>
           <Column>
             <TxConfirmationRow label="TX id" value={currentTxId}>
-              <CopyToClipboard textToCopy={txid} />
-              <a
-                href={links.explorers[currency].concat('/tx/', currentTxId)}
-                rel="noreferrer"
-                target="_blank"
-                style={{ marginLeft: '8px' }}
-              >
-                <img src={link} alt="explorerLink" />
-              </a>
+              <div>
+                <CopyToClipboard textToCopy={txid} />
+                <a
+                  href={links.explorers[currency].concat('/tx/', currentTxId)}
+                  rel="noreferrer"
+                  target="_blank"
+                  style={{ marginLeft: '8px' }}
+                >
+                  <img src={link} alt="explorerLink" />
+                </a>
+              </div>
             </TxConfirmationRow>
           </Column>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '12px' }}>

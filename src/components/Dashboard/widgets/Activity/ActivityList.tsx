@@ -6,7 +6,6 @@ import { formatFiat } from 'util/helpers';
 import { UtxoType } from 'util/nspvlib-mock';
 
 import InfoNote from 'components/_General/InfoNote';
-import { GrayLabel, GrayLabelUppercase, HSpaceBig, VSpaceBig } from '../common';
 
 const chosenAsset = {
   name: 'TKLTEST',
@@ -43,12 +42,6 @@ const Column = styled.div`
 
 const TransactionWrapper = styled.div`
   border-top: var(--border-dark);
-`;
-
-const Message = styled(GrayLabelUppercase)`
-  display: flex;
-  justify-content: center;
-  align-content: center;
 `;
 
 type ActivityListProps = {

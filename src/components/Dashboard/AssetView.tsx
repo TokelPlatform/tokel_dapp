@@ -8,7 +8,7 @@ import { selectAssets, selectChosenAsset } from 'store/selectors';
 import ActivityTable from './widgets/Activity/ActivityTable';
 import LineGraph from './widgets/LineGraph';
 import PieChart from './widgets/PieChart';
-import Wallet from './widgets/Wallet';
+import Wallet from './widgets/Wallet/Wallet';
 
 const AssetViewRoot = styled.div`
   flex: 1;

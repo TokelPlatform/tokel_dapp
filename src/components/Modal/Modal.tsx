@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useRef } from 'react';
 
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
@@ -80,7 +80,7 @@ const Modal = ({ title, children }: ModalProps) => {
 
   // close the modal if the overlay is clicked (but not a child of it)
   const overlayRef = useRef();
-  const [mouseMemory, setMouseMemory] = useState<EventTarget | undefined>();
+  // const [mouseMemory, setMouseMemory] = useState<EventTarget | undefined>();
 
   // @todo make this functionality conditional (?) as some potential future modals in the app might use it.
   // The current payment modal should not be closed by clicking outside of it
@@ -98,7 +98,7 @@ const Modal = ({ title, children }: ModalProps) => {
     <ModalRoot
       ref={overlayRef}
       // onClick={handleOverlayClick}
-      onMouseDown={e => setMouseMemory(e.target)}
+      // onMouseDown={e => setMouseMemory(e.target)}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.12 }}
