@@ -3,7 +3,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 type ErrorMessageProps = {
-  children: JSX.Element | JSX.Element[];
+  children: JSX.Element | JSX.Element[] | string;
 };
 const StyledError = styled.div`
   height: 1rem;
