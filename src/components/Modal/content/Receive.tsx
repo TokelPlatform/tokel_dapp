@@ -5,9 +5,11 @@ import styled from '@emotion/styled';
 import QRCode from 'qrcode.react';
 
 import { selectAccountAddress, selectChosenAsset } from 'store/selectors';
+import { Colors } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import FriendlyWarning from 'components/_General/WarningFriendly';
+import { VSpaceBig } from 'components/Dashboard/widgets/common';
 
 const ReceiveRoot = styled.div`
   display: flex;
@@ -22,7 +24,6 @@ const QRCodeWrapper = styled.div`
   height: 150px;
 `;
 const AddressInput = styled.div`
-  margin-top: 32px;
   height: 36px;
   width: 360px;
   border: 1px solid var(--color-lighterBlack);
@@ -52,10 +53,11 @@ const Receive = () => {
       <QRCodeWrapper>
         <QRCode value={address} />
       </QRCodeWrapper>
+      <VSpaceBig />
       <AddressInput>
         {address}
         <Copy>
-          <CopyToClipboard color="white" textToCopy={address} />
+          <CopyToClipboard color={Colors.WHITE} textToCopy={address} />
         </Copy>
       </AddressInput>
       <FriendlyWarning

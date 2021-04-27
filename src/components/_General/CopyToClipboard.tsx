@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 
 import copyIcon from 'assets/copy.svg';
 import copyWhite from 'assets/copyWhite.svg';
+import { Colors } from 'vars/defines';
 
 const COPIED = 'Copied!';
 const IconWrapper = styled.div`
@@ -17,7 +18,7 @@ const ImgClickableWrapper = styled.button`
 
 type CopyProps = {
   textToCopy: string;
-  color?: string;
+  color?: number;
 };
 
 const CopyToClipboard = ({ textToCopy, color }: CopyProps) => {
@@ -32,7 +33,7 @@ const CopyToClipboard = ({ textToCopy, color }: CopyProps) => {
     <IconWrapper onClick={() => copy()}>
       <div data-tip={COPIED} ref={idRef} />
       <ImgClickableWrapper onClick={() => copy()} onKeyDown={() => copy()}>
-        <img alt="copy" src={color === 'white' ? copyWhite : copyIcon} />
+        <img alt="copy" src={color === Colors.WHITE ? copyWhite : copyIcon} />
       </ImgClickableWrapper>
       <ReactTooltip
         className="react-tooltip"

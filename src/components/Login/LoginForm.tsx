@@ -10,6 +10,7 @@ import ErrorMessage from 'components/_General/ErrorMessage';
 import Input from 'components/_General/Input';
 import Link from 'components/_General/Link';
 import Logo from 'components/_General/Logo';
+import { VSpaceSmall } from 'components/Dashboard/widgets/common';
 
 type LoginFormProps = {
   addNewWallet: () => void;
@@ -29,10 +30,6 @@ const Container = styled.div`
   button {
     margin-bottom: 0rem;
   }
-`;
-
-const Spacer = styled.div`
-  height: 0.75rem;
 `;
 
 const LoginForm = ({ addNewWallet }: LoginFormProps) => {
@@ -57,7 +54,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
         value={loginValue}
         placeholder="Key or Seed Phrase"
       />
-      <Spacer />
+      <VSpaceSmall />
       <Button onClick={() => dispatch.account.login({ key: loginValue, setError })} theme="purple">
         Login
       </Button>

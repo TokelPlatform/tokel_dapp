@@ -22,3 +22,7 @@ export const Config = {
   DECIMAL: 8,
   DECIMAL_FIAT: 2,
 };
+
+export const Colors = {
+  WHITE: 1,
+};
