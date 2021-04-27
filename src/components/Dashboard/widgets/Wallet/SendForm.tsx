@@ -6,8 +6,9 @@ import styled from '@emotion/styled';
 import { formatDec, formatFiat, isAddressValid, limitLength } from 'util/helpers';
 
 import { Button } from 'components/_General/buttons';
-import ErrorMessage from 'components/_General/ErrorMessage';
 import Input from 'components/_General/Input';
+import InputWithLabel from 'components/_General/InputWithLabel';
+import ValueRow from 'components/_General/ValueRow';
 import { GrayLabel, VSpaceBig, VSpaceMed, VSpaceTiny } from '../common';
 
 const SendFormRoot = styled.div`
@@ -40,15 +41,6 @@ const CurrencyWrapper = styled.div`
   font-size: var(--font-size-p);
 `;
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  p {
-    margin: 0;
-  }
-`;
-
 const Approx = styled.p`
   margin: 0 1rem;
   padding-top: 0.5rem;
@@ -72,31 +64,24 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
   const [error, setError] = useState('');
   const remaining = balance - Number(amount);
 
-  const handleSetAmount = e => {
+  const handleSetAmount = (e, fiat) => {
     let v = e.target.value;
     if (v > balance) {
       v = balance;
     } else {
       v = limitLength(v, 10);
     }
-    setAmount(v);
-    setFiatAmount(formatFiat(v * fiatValue));
+    if (fiat) {
+      setFiatAmount(v);
+      setAmount(formatDec(v / fiatValue));
+    } else {
+      setAmount(v);
+      setFiatAmount(formatFiat(v * fiatValue));
+    }
   };
 
-  const handleSetFiatAmount = e => {
-    let v = e.target.value;
-    if (v > balance) {
-      v = balance;
-    } else {
-      v = limitLength(v, 10);
-    }
-    setFiatAmount(v);
-    const res = v / fiatValue;
-    setAmount(formatDec(res));
-  };
   const handleSubmit = () => {
     setError('');
-    // @todo check that the amount is valid
     if (!isAddressValid(recepient)) {
       setError('Invalid recepient address');
     } else {
@@ -106,22 +91,17 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
 
   return (
     <SendFormRoot>
-      <label htmlFor="recepient">
-        <GrayLabel>Recepient</GrayLabel>
-        <VSpaceTiny />
-        <Input
-          id="recepient"
-          onChange={e => setRecepient(e.target.value)}
-          onKeyDown={() => ''}
-          value={recepient}
-          placeholder={'Enter '.concat(currency, ' address')}
-          width="390px"
-          autoFocus
-        />{' '}
-        <div style={{ textAlign: 'right' }}>
-          <ErrorMessage>{error}</ErrorMessage>
-        </div>
-      </label>
+      <InputWithLabel
+        id="recepient"
+        onChange={e => setRecepient(e.target.value)}
+        onKeyDown={() => ''}
+        value={recepient}
+        placeholder={'Enter '.concat(currency, ' address')}
+        width="390px"
+        autoFocus
+        label="Recepient"
+        error={error}
+      />
       <label htmlFor="amount">
         <GrayLabel>Amount</GrayLabel>
         <VSpaceTiny />
@@ -129,7 +109,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
           <RowWrapper>
             <Input
               id="amount"
-              onChange={e => handleSetAmount(e)}
+              onChange={e => handleSetAmount(e, false)}
               onKeyDown={() => ''}
               value={amount}
               placeholder="0.00"
@@ -141,8 +121,8 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
           <Approx>≈</Approx>
           <RowWrapper>
             <Input
-              id="amount"
-              onChange={e => handleSetFiatAmount(e)}
+              id="amountUSD"
+              onChange={e => handleSetAmount(e, true)}
               onKeyDown={() => ''}
               value={fiatAmount}
               placeholder="0.00"
@@ -154,23 +134,16 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
         </RowWrapper>
       </label>
       <VSpaceBig />
-      <div style={{ width: '100%' }}>
-        <Row>
-          <p>Network Fee</p>
-          <p>
-            {networkFee} {currency} ≈ ${formatFiat(networkFee * fiatValue)}
-          </p>
-        </Row>
-        <VSpaceMed />
-        <Row>
-          <p>Remaining balance</p>
-          <p>
-            {remaining} {currency} ≈ ${formatFiat(remaining * fiatValue)}
-          </p>
-        </Row>
-      </div>
-      <VSpaceBig />
+      <ValueRow
+        keyProp="Network Fee"
+        value={`${networkFee} ${currency} ≈ ${formatFiat(networkFee * fiatValue)}`}
+      />
       <VSpaceMed />
+      <ValueRow
+        keyProp="Remaining balance"
+        value={`${remaining} ${currency} ≈ ${formatFiat(remaining * fiatValue)}`}
+      />
+      <VSpaceBig />
       <RowWrapper>
         <Button onClick={handleSubmit} customWidth="170px" theme="purple">
           Send

@@ -61,7 +61,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       <div style={{ marginBottom: '2rem' }}>
         <ErrorMessage>{error}</ErrorMessage>
       </div>
-      <Link onClick={addNewWallet} linkText="Add New Wallet" />
+      <Link onClick={addNewWallet} linkText="Generate New Address" />
     </Container>
   );
 };
