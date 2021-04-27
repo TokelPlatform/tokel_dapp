@@ -5,9 +5,15 @@ import styled from '@emotion/styled';
 
 import link from 'assets/link.svg';
 import { dispatch } from 'store/rematch';
-import { selectAccountAddress, selectCurrentTxId, selectCurrentTxStatus } from 'store/selectors';
+import {
+  selectAccountAddress,
+  selectCurrentTxError,
+  selectCurrentTxId,
+  selectCurrentTxStatus,
+} from 'store/selectors';
 import { formatFiat, limitLength } from 'util/helpers';
 import links from 'util/links';
+import { Colors } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
@@ -46,6 +52,7 @@ const TxConfirmation = ({
   const txid = useSelector(selectCurrentTxId);
   const address = useSelector(selectAccountAddress);
   const txStatus = useSelector(selectCurrentTxStatus);
+  const txError = useSelector(selectCurrentTxError);
 
   const [currentTxId, setCurrentTxId] = useState(null);
 
@@ -66,7 +73,12 @@ const TxConfirmation = ({
       )}
       {!currentTxId && txStatus < 0 && (
         <div>
-          <ErrorMessage>Error in sending your transaction. Please try again later.</ErrorMessage>
+          <ErrorMessage>
+            <p>There was an error with your transaction.</p>
+            <br />
+            <b>Error</b>
+            <p>{txError}</p>
+          </ErrorMessage>
         </div>
       )}
       {currentTxId && (
@@ -81,17 +93,15 @@ const TxConfirmation = ({
           </Row>
           <Column>
             <TxConfirmationRow label="TX id" value={currentTxId}>
-              <div>
-                <CopyToClipboard textToCopy={txid} />
-                <a
-                  href={links.explorers[currency].concat('/tx/', currentTxId)}
-                  rel="noreferrer"
-                  target="_blank"
-                  style={{ marginLeft: '8px' }}
-                >
-                  <img src={link} alt="explorerLink" />
-                </a>
-              </div>
+              <CopyToClipboard textToCopy={txid} color={Colors.WHITE} />
+              <a
+                href={links.explorers[currency].concat('/tx/', txid)}
+                rel="noreferrer"
+                target="_blank"
+                style={{ marginLeft: '8px' }}
+              >
+                <img src={link} alt="explorerLink" />
+              </a>
             </TxConfirmationRow>
           </Column>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '12px' }}>

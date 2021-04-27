@@ -16,6 +16,7 @@ export interface WalletState {
   currentTx: {
     id: string;
     status: number;
+    error: string;
   };
 }
 

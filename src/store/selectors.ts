@@ -12,3 +12,4 @@ export const selectChosenAsset = (state: RootState) => state.wallet.chosenAsset;
 export const selectAssets = (state: RootState) => state.wallet.assets;
 export const selectCurrentTxId = (state: RootState) => state.wallet.currentTx.id;
 export const selectCurrentTxStatus = (state: RootState) => state.wallet.currentTx.status;
+export const selectCurrentTxError = (state: RootState) => state.wallet.currentTx.error;

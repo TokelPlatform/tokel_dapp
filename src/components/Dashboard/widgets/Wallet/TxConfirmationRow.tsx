@@ -1,13 +1,16 @@
-import React, { ReactChild, ReactChildren, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
 import { GrayLabel, HSpaceMed } from '../common';
 
-const Value = styled.p`
+const Value = styled.div`
   margin: 4px 0 16px 0;
   display: flex;
   flex-direction: row;
+  p {
+    margin: 0;
+  }
 `;
 
 const ColumnRoot = styled.div`
@@ -20,7 +23,7 @@ const ColumnRoot = styled.div`
 type TxConfirmationProps = {
   label: string;
   value: string;
-  children?: ReactChild | ReactChildren;
+  children?: JSX.Element | JSX.Element[];
 };
 
 const TxConfirmationRow = ({ label, value, children }: TxConfirmationProps): ReactElement => {
@@ -28,7 +31,7 @@ const TxConfirmationRow = ({ label, value, children }: TxConfirmationProps): Rea
     <ColumnRoot>
       <GrayLabel>{label}</GrayLabel>
       <Value>
-        {value}
+        <p>{value}</p>
         <HSpaceMed />
         {children}
       </Value>
