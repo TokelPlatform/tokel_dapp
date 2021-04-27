@@ -24,6 +24,16 @@ interface SpendArgs {
   amount: string;
 }
 
+const updateCurrTx = (state, key, value) => {
+  return {
+    ...state,
+    currentTx: {
+      ...state.currentTx,
+      [key]: value,
+    },
+  };
+};
+
 export default createModel<RootModel>()({
   state: {
     chosenAsset: null,
@@ -51,20 +61,9 @@ export default createModel<RootModel>()({
       ...state,
       chosenAsset,
     }),
-    SET_CURRENT_TX_ID: (state, txid: string) => ({
-      ...state,
-      currentTx: {
-        ...state.currentTx,
-        id: txid,
-      },
-    }),
-    SET_CURRENT_TX_STATUS: (state, txstatus: number) => ({
-      ...state,
-      currentTx: {
-        ...state.currentTx,
-        status: txstatus,
-      },
-    }),
+    SET_CURRENT_TX_ID: (state, txid: string) => updateCurrTx(state, 'id', txid),
+    SET_CURRENT_TX_STATUS: (state, txstatus: number) => updateCurrTx(state, 'status', txstatus),
+    SET_CURRENT_TX_ERROR: (state, error: string) => updateCurrTx(state, 'error', error),
   },
   effects: {
     async spend({ address, amount }: SpendArgs) {
@@ -88,6 +87,7 @@ export default createModel<RootModel>()({
         })
         .catch(e => {
           this.SET_CURRENT_TX_STATUS(-1);
+          this.SET_CURRENT_TX_ERROR(e.message);
           console.log(e.message);
         });
     },
