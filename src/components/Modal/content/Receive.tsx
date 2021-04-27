@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import QRCode from 'qrcode.react';
 
-import warning from 'assets/friendlyWarning.svg';
 import { selectAccountAddress, selectChosenAsset } from 'store/selectors';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
+import FriendlyWarning from 'components/_General/WarningFriendly';
 
 const ReceiveRoot = styled.div`
   display: flex;
@@ -31,18 +31,6 @@ const AddressInput = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const Warning = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 32px;
-  padding: 6px 16px;
-  background-color: var(--color-lighterBlack);
-  border-radius: 4px;
-  img {
-    margin-right: 8px;
-  }
 `;
 
 const Copy = styled.span`
@@ -70,10 +58,9 @@ const Receive = () => {
           <CopyToClipboard color="white" textToCopy={address} />
         </Copy>
       </AddressInput>
-      <Warning>
-        <img alt="warn" src={warning} />
-        <p>Make sure to send only {chosenAsset} to this address.</p>
-      </Warning>
+      <FriendlyWarning
+        message={'Make sure to send only '.concat(chosenAsset, ' to this address.')}
+      />
     </ReceiveRoot>
   );
 };
