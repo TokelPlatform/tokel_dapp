@@ -22,8 +22,3 @@ export const Config = {
   DECIMAL: 8,
   DECIMAL_FIAT: 2,
 };
-
-export enum WarningType {
-  CRITICAL = 1,
-  FRIENDLY = 2,
-}
