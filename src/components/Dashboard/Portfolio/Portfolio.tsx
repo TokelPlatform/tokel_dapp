@@ -40,7 +40,7 @@ const Portfolio = (): ReactElement => {
           key={asset.name}
           name={`${asset.name} (${asset.ticker})`}
           subtitle={`${asset.balance} ≈ $${formatFiat(asset.balance * asset.usd_value)}`}
-          percentage={40}
+          percentage={100}
           selected={asset.name === chosenAsset}
           onClick={() => dispatch.wallet.SET_CHOSEN_ASSET(asset.ticker)}
         />
