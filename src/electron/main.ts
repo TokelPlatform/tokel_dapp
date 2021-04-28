@@ -13,13 +13,13 @@ import path from 'path';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import '../util/nspv';
-
 import { BrowserWindow, app, ipcMain, session, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
 import MenuBuilder from './menu';
+
+// import '../util/nspv';
 
 // unhandled excetions debug
 // const unhandled = require('electron-unhandled');
