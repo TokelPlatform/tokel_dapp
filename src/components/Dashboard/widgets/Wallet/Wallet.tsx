@@ -7,7 +7,7 @@ import UpArrow from 'assets/UpArrow.svg';
 import { Asset } from 'store/models/wallet';
 import { dispatch } from 'store/rematch';
 import { selectModal, selectParsedTransactions } from 'store/selectors';
-import { formatFiat } from 'util/helpers';
+import { formatDec, formatFiat } from 'util/helpers';
 import { Colors, ModalName } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
@@ -112,7 +112,7 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
             <div>
               <p className="colTitle">Holdings</p>
               <p className="colValue">
-                {asset.balance} {asset.ticker}
+                {formatDec(asset.balance)} {asset.ticker}
               </p>
             </div>
             <div>
