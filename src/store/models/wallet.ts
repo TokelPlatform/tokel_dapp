@@ -45,12 +45,6 @@ export default createModel<RootModel>()({
         balance: 1.2,
         usd_value: 3,
       },
-      {
-        name: 'Komodo',
-        ticker: 'KMD',
-        balance: 3.0002342,
-        usd_value: 4,
-      },
     ],
     currentTx: {
       id: '',
@@ -84,7 +78,7 @@ export default createModel<RootModel>()({
             const success = Number(broadcasted.retcode === 1);
             this.SET_CURRENT_TX_STATUS(success);
             if (success) {
-              dispatch.account.ADD_NEW_TX(tx);
+              dispatch.account.ADD_NEW_TX(tx, address);
             }
           }
 

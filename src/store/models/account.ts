@@ -13,6 +13,7 @@ export interface AccountState {
     [address: string]: Array<TxType>;
   };
   parsedTxs: Array<TxType>;
+  chosenTx: TxType;
 }
 
 interface LoginArgs {
@@ -34,8 +35,9 @@ export default createModel<RootModel>()({
         [address]: txs,
       },
     }),
-    ADD_NEW_TX: (state, tx: TxType) => {
+    ADD_NEW_TX: (state, tx: TxType, address: string) => {
       const parsedTx = parseSpendTx(tx);
+      parsedTx.recepient = address;
       state.parsedTxs.unshift(parsedTx);
       return { ...state };
     },
@@ -46,6 +48,10 @@ export default createModel<RootModel>()({
     SET_UNSPENT: (state, unspent: UnspentType) => ({
       ...state,
       unspent,
+    }),
+    SET_CHOSEN_TX: (state, chosenTx: TxType) => ({
+      ...state,
+      chosenTx,
     }),
   },
   effects: {

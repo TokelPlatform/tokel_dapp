@@ -29,7 +29,7 @@ type TxConfirmationProps = {
   currency?: string;
   recepient: string;
   amount: string;
-  usdValue?: string;
+  usdValue?: number;
   txid: string;
   address: string;
 };
@@ -80,7 +80,7 @@ const TxInformation = ({
 };
 
 TxInformation.defaultProps = {
-  usdValue: '100',
+  usdValue: 100,
   currency: 'KMD',
 };
 export default TxInformation;
