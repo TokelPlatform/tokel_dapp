@@ -50,6 +50,14 @@ export interface UnspentType {
   lastpeer: string;
 }
 
+export interface TxType {
+  height: number;
+  txid: string;
+  value: number;
+  vin?: number;
+  received?: boolean;
+}
+
 export const listUnspent = async (fail = false): Promise<UnspentType> => {
   if (fail) {
     throw new Error('Incorrect login details');

@@ -9,6 +9,7 @@ const Method = {
   GET_INFO: 'getinfo',
   GET_NEW_ADDRESS: 'getnewaddress',
   LIST_UNSPENT: 'listunspent',
+  LIST_TRANSACTIONS: 'listtransactions',
   LOGIN: 'login',
   SPEND: 'spend',
 };
@@ -141,3 +142,31 @@ export const listUnspent = async () => requestNSPV(Method.LIST_UNSPENT);
 export const spend = async (address, amount) => requestNSPV(Method.SPEND, [address, amount]);
 
 export const broadcast = async hex => requestNSPV(Method.BROADCAST, [hex]);
+
+/**
+{
+  "result": "success",
+  "txids": [
+    {
+      "height": 2367771,
+      "txid": "5bea56c439a145ed123ab760c1aa9573d25a5d31d18c10308d05207578e89a11",
+      "value": -0.061906,
+      "vin": 0
+    },
+    {
+      "height": 2367771,
+      "txid": "5bea56c439a145ed123ab760c1aa9573d25a5d31d18c10308d05207578e89a11",
+      "value": 0.061396,
+      "vout": 1
+    }
+  ],
+  "address": "RKagfH9Fjcm2ddaDRcc3FfmrAViBzApXfp",
+  "isCC": 0,
+  "height": 2368887,
+  "numtxids": 73,
+  "skipcount": 0,
+  "filter": 0,
+  "lastpeer": "45.32.19.196:7770"
+}
+ */
+export const listTransactions = async address => requestNSPV(Method.LIST_TRANSACTIONS, [address]);

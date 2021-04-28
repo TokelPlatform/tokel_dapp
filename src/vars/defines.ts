@@ -20,9 +20,11 @@ export enum ModalName {
 
 export const Config = {
   DECIMAL: 8,
-  DECIMAL_FIAT: 2,
+  DECIMAL_FIAT: 4,
 };
 
 export const Colors = {
   WHITE: 1,
 };
+
+export const FEE = 0.0001;

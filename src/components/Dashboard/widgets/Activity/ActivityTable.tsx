@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectUnspentUtxos } from 'store/selectors';
+import { selectParsedTransactions } from 'store/selectors';
 
 import { WidgetContainer, WidgetTitle } from '../common';
 import ActivityList from './ActivityList';
@@ -17,12 +17,12 @@ const ActivityTitle = styled(WidgetTitle)`
 `;
 
 const ActivityTable = (): ReactElement => {
-  const utxos = useSelector(selectUnspentUtxos);
+  const txs = useSelector(selectParsedTransactions);
 
   return (
     <ActivityTableRoot>
       <ActivityTitle>Recent Activity</ActivityTitle>
-      <ActivityList transactions={utxos} />
+      <ActivityList transactions={txs} />
     </ActivityTableRoot>
   );
 };

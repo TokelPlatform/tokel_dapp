@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import { formatFiat } from 'util/helpers';
-import { UtxoType } from 'util/nspvlib-mock';
+import { formatDec, formatFiat } from 'util/helpers';
+import { TxType } from 'util/nspvlib-mock';
 
 import InfoNote from 'components/_General/InfoNote';
 
@@ -45,7 +45,7 @@ const TransactionWrapper = styled.div`
 `;
 
 type ActivityListProps = {
-  transactions: Array<UtxoType>;
+  transactions: Array<TxType>;
 };
 
 const ActivityList = ({ transactions = [] }: ActivityListProps): ReactElement => {
@@ -59,12 +59,12 @@ const ActivityList = ({ transactions = [] }: ActivityListProps): ReactElement =>
               <p className="datetime">{tx.height}</p>
             </Column>
             <Column>
-              <p className="info">{tx.vout ? 'Received' : 'Sent'}</p>
-              <p className="additionalInfo">{tx.vout ? 'Deposit' : 'Withdrawal'}</p>
+              <p className="info">{tx.received ? 'Received' : 'Sent'}</p>
+              <p className="additionalInfo">{tx.received ? 'Deposit' : 'Withdrawal'}</p>
             </Column>
             <Column>
               <p className="info" style={{ textAlign: 'right' }}>
-                {formatFiat(tx.value)} {chosenAsset.name}
+                {(tx.received ? '+' : '-').concat(formatDec(tx.value))} {chosenAsset.name}
               </p>
               <p className="additionalInfo" style={{ textAlign: 'right' }}>
                 ${formatFiat(tx.value * chosenAsset.usd_value)}
