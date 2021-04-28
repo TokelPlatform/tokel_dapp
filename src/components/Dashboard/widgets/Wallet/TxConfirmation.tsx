@@ -110,7 +110,7 @@ const TxConfirmation = ({
             <Button
               customWidth="180px"
               onClick={() => dispatch.environment.SET_MODAL(null)}
-              theme="gray"
+              theme={Colors.TRANSPARENT}
             >
               Close
             </Button>

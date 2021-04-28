@@ -22,7 +22,7 @@ const ActivityTable = (): ReactElement => {
   return (
     <ActivityTableRoot>
       <ActivityTitle>Recent Activity</ActivityTitle>
-      <ActivityList transactions={txs} />
+      <ActivityList fullView={false} transactions={txs} />
     </ActivityTableRoot>
   );
 };
