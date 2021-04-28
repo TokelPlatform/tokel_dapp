@@ -12,6 +12,7 @@ const fiatValue = 1.4;
 const TxDetail = () => {
   const address = useSelector(selectAccountAddress);
   const chosenTx = useSelector(selectChosenTransaction);
+  console.log(chosenTx);
   return (
     <TxInformation
       currency={TICKER}
