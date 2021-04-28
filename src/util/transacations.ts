@@ -44,5 +44,6 @@ export const parseSpendTx = tx => {
     txid: tx.txid,
     height: tx.height ? tx.height : '-',
     value: Number(tx.total) - Number(tx.change) - FEE,
+    recepient: null,
   };
 };

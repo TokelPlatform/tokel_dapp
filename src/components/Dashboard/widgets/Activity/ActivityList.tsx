@@ -1,20 +1,20 @@
 import React, { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
 import receiveIcon from 'assets/receiveIcon.svg';
 import withdrawIcon from 'assets/withdrawIcon.svg';
+import { dispatch } from 'store/rematch';
+import { selectChosenAsset, selectModal } from 'store/selectors';
 import { formatDec, formatFiat } from 'util/helpers';
 import { TxType } from 'util/nspvlib-mock';
-import { Colors } from 'vars/defines';
+import { CURRENCY, Colors, ModalName, USD_VALUE } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import InfoNote from 'components/_General/InfoNote';
-
-const chosenAsset = {
-  name: 'TKLTEST',
-  usd_value: 3.5,
-};
+import modals from 'components/Modal/content';
+import Modal from 'components/Modal/Modal';
 
 const ActivityListRoot = styled.div`
   grid-column: span 3;
@@ -27,7 +27,6 @@ type TransactionsProps = {
 const Transactions = styled.div<TransactionsProps>`
   display: grid;
   grid-template-columns: ${props => {
-    console.log(props.fullView);
     return props.fullView ? '20% 15% 20% 25% 20%' : '30% 30% 40%';
   }};
   padding: 0 28px;
@@ -62,8 +61,15 @@ type ActivityListProps = {
 };
 
 const ActivityList = ({ transactions = [], fullView }: ActivityListProps): ReactElement => {
+  const modalProps = modals[useSelector(selectModal)];
+
+  const handleTxDetailView = tx => {
+    dispatch.account.SET_CHOSEN_TX(tx);
+    dispatch.environment.SET_MODAL(ModalName.TX_DETAIL);
+  };
   return (
     <ActivityListRoot>
+      {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
       {transactions.length === 0 && <InfoNote title="No data available" />}
       {transactions.map(tx => (
         <TransactionWrapper key={tx.txid}>
@@ -82,15 +88,21 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
             </Column>
             <Column style={{ justifySelf: 'flex-end' }}>
               <p className="info" style={{ textAlign: 'right' }}>
-                {(tx.received ? '+' : '-').concat(formatDec(tx.value))} {chosenAsset.name}
+                {(tx.received ? '+' : '-').concat(formatDec(tx.value))} {CURRENCY}
               </p>
               <p className="additionalInfo" style={{ textAlign: 'right' }}>
-                ${formatFiat(tx.value * chosenAsset.usd_value)}
+                ${formatFiat(tx.value * USD_VALUE)}
               </p>
             </Column>
             {fullView && (
               <Column style={{ justifySelf: 'flex-end' }}>
-                <Button customWidth="86px" theme={Colors.BLACK}>
+                <Button
+                  onClick={() =>
+                    handleTxDetailView({ txid: tx.txid, value: tx.value, recepient: tx.recepient })
+                  }
+                  customWidth="86px"
+                  theme={Colors.BLACK}
+                >
                   View
                 </Button>
               </Column>

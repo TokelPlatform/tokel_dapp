@@ -4,6 +4,7 @@ import React, { ReactElement, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { formatDec, formatFiat, isAddressValid, limitLength } from 'util/helpers';
+import { CURRENCY, FEE, FIAT_CURRENCY, USD_VALUE } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import Input from 'components/_General/Input';
@@ -47,10 +48,6 @@ const Approx = styled.p`
   color: var(--color-darkerGray);
 `;
 
-const currency = 'TKL';
-const fiatCurrency = 'USD';
-const fiatValue = 1.4;
-const networkFee = 0.0003;
 const balance = 10;
 
 type SendFormProps = {
@@ -73,10 +70,10 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
     }
     if (fiat) {
       setFiatAmount(v);
-      setAmount(formatDec(v / fiatValue));
+      setAmount(formatDec(v / USD_VALUE));
     } else {
       setAmount(v);
-      setFiatAmount(formatFiat(v * fiatValue));
+      setFiatAmount(formatFiat(v * USD_VALUE));
     }
   };
 
@@ -96,7 +93,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
         onChange={e => setRecepient(e.target.value)}
         onKeyDown={() => ''}
         value={recepient}
-        placeholder={'Enter '.concat(currency, ' address')}
+        placeholder={'Enter '.concat(CURRENCY, ' address')}
         width="390px"
         autoFocus
         label="Recepient"
@@ -116,7 +113,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
               width="175px"
               type="number"
             />
-            <CurrencyWrapper>{currency}</CurrencyWrapper>
+            <CurrencyWrapper>{CURRENCY}</CurrencyWrapper>
           </RowWrapper>
           <Approx>≈</Approx>
           <RowWrapper>
@@ -129,19 +126,19 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
               type="number"
               width="175px"
             />
-            <CurrencyWrapper>{fiatCurrency}</CurrencyWrapper>
+            <CurrencyWrapper>{FIAT_CURRENCY}</CurrencyWrapper>
           </RowWrapper>
         </RowWrapper>
       </label>
       <VSpaceBig />
       <ValueRow
         keyProp="Network Fee"
-        value={`${networkFee} ${currency} ≈ ${formatFiat(networkFee * fiatValue)}`}
+        value={`${FEE} ${CURRENCY} ≈ ${formatFiat(FEE * USD_VALUE)}`}
       />
       <VSpaceMed />
       <ValueRow
         keyProp="Remaining balance"
-        value={`${remaining} ${currency} ≈ ${formatFiat(remaining * fiatValue)}`}
+        value={`${remaining} ${CURRENCY} ≈ ${formatFiat(remaining * USD_VALUE)}`}
       />
       <VSpaceBig />
       <RowWrapper>
