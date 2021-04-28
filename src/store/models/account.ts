@@ -2,7 +2,7 @@ import { createModel } from '@rematch/core';
 
 import { listTransactions, listUnspent, login as nspvLogin } from 'util/nspvlib';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
-import { parseTransactions } from 'util/transacations';
+import { parseSpendTx, parseTransactions } from 'util/transacations';
 
 import type { RootModel } from './models';
 
@@ -34,6 +34,11 @@ export default createModel<RootModel>()({
         [address]: txs,
       },
     }),
+    ADD_NEW_TX: (state, tx: TxType) => {
+      const parsedTx = parseSpendTx(tx);
+      state.parsedTxs.unshift(parsedTx);
+      return { ...state };
+    },
     SET_PARSED_TXS: (state, parsedTxs: Array<TxType>) => ({
       ...state,
       parsedTxs,

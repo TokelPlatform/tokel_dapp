@@ -66,14 +66,14 @@ export default createModel<RootModel>()({
     SET_CURRENT_TX_STATUS: (state, txstatus: number) => updateCurrTx(state, 'status', txstatus),
     SET_CURRENT_TX_ERROR: (state, error: string) => updateCurrTx(state, 'error', error),
   },
-  effects: {
+  effects: dispatch => ({
     async spend({ address, amount }: SpendArgs) {
+      let tx = null;
       return spend(address, amount)
         .then(res => {
           if (res.result === 'success' && res.hex) {
-            console.log(res);
-            console.log(res.txid);
             this.SET_CURRENT_TX_ID(res.txid);
+            tx = res;
             return broadcast(res.hex);
           }
           return null;
@@ -81,7 +81,11 @@ export default createModel<RootModel>()({
         .then(broadcasted => {
           if (broadcasted) {
             // retcode < 0 .. error, === 1 success
-            this.SET_CURRENT_TX_STATUS(Number(broadcasted.retcode === 1));
+            const success = Number(broadcasted.retcode === 1);
+            this.SET_CURRENT_TX_STATUS(success);
+            if (success) {
+              dispatch.account.ADD_NEW_TX(tx);
+            }
           }
 
           return null;
@@ -92,5 +96,5 @@ export default createModel<RootModel>()({
           console.log(e.message);
         });
     },
-  },
+  }),
 });
