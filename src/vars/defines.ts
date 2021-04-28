@@ -24,7 +24,10 @@ export const Config = {
 };
 
 export const Colors = {
-  WHITE: 1,
+  WHITE: 'white',
+  BLACK: 'black',
+  PURPLE: 'purple',
+  TRANSPARENT: 'transparent',
 };
 
 export const FEE = 0.0001;
