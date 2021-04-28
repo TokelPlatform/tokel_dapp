@@ -51,12 +51,13 @@ export interface UnspentType {
 }
 
 export interface TxType {
-  height: number;
-  txid: string;
+  height?: number;
+  txid?: string;
   value: number;
   vin?: number;
   received?: boolean;
   recepient?: string;
+  newTx?: string;
 }
 
 export const listUnspent = async (fail = false): Promise<UnspentType> => {

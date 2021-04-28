@@ -6,10 +6,10 @@ import styled from '@emotion/styled';
 import receiveIcon from 'assets/receiveIcon.svg';
 import withdrawIcon from 'assets/withdrawIcon.svg';
 import { dispatch } from 'store/rematch';
-import { selectChosenAsset, selectModal } from 'store/selectors';
+import { selectModal } from 'store/selectors';
 import { formatDec, formatFiat } from 'util/helpers';
 import { TxType } from 'util/nspvlib-mock';
-import { CURRENCY, Colors, ModalName, USD_VALUE } from 'vars/defines';
+import { Colors, ModalName, TICKER, USD_VALUE } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import InfoNote from 'components/_General/InfoNote';
@@ -88,7 +88,7 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
             </Column>
             <Column style={{ justifySelf: 'flex-end' }}>
               <p className="info" style={{ textAlign: 'right' }}>
-                {(tx.received ? '+' : '-').concat(formatDec(tx.value))} {CURRENCY}
+                {(tx.received ? '+' : '-').concat(formatDec(tx.value))} {TICKER}
               </p>
               <p className="additionalInfo" style={{ textAlign: 'right' }}>
                 ${formatFiat(tx.value * USD_VALUE)}

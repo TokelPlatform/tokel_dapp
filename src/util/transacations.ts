@@ -1,4 +1,4 @@
-import { FEE } from 'vars/defines';
+import { FEE, TICKER, USD_VALUE } from 'vars/defines';
 
 export const parseTx = tx => {
   // it is an outgoing transaction and some change returned to our address
@@ -42,8 +42,19 @@ export const parseSpendTx = tx => {
   return {
     received: false,
     txid: tx.txid,
-    height: tx.height ? tx.height : '-',
+    height: tx.height ? tx.height : 'TBA',
     value: Number(tx.total) - Number(tx.change) - FEE,
-    recepient: null,
+    recepient: 'See tx at the explorer for details',
   };
+};
+
+export const parseUnspent = unspent => {
+  return [
+    {
+      name: TICKER,
+      ticker: TICKER,
+      balance: unspent.balance,
+      usd_value: USD_VALUE,
+    },
+  ];
 };

@@ -33,6 +33,6 @@ export const Colors = {
 
 export const FEE = 0.0001;
 
-export const CURRENCY = 'TKLTEST';
 export const FIAT_CURRENCY = 'USD';
 export const USD_VALUE = 5;
+export const TICKER = 'KMD';

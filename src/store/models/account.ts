@@ -2,7 +2,7 @@ import { createModel } from '@rematch/core';
 
 import { listTransactions, listUnspent, login as nspvLogin } from 'util/nspvlib';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
-import { parseSpendTx, parseTransactions } from 'util/transacations';
+import { parseSpendTx, parseTransactions, parseUnspent } from 'util/transacations';
 
 import type { RootModel } from './models';
 
@@ -35,11 +35,13 @@ export default createModel<RootModel>()({
         [address]: txs,
       },
     }),
-    ADD_NEW_TX: (state, tx: TxType, address: string) => {
-      const parsedTx = parseSpendTx(tx);
-      parsedTx.recepient = address;
+    ADD_NEW_TX: (state, transaction: TxType) => {
+      const parsedTx = parseSpendTx(transaction.newTx);
+      parsedTx.recepient = transaction.recepient;
       state.parsedTxs.unshift(parsedTx);
-      return { ...state };
+      return {
+        ...state,
+      };
     },
     SET_PARSED_TXS: (state, parsedTxs: Array<TxType>) => ({
       ...state,
@@ -54,7 +56,7 @@ export default createModel<RootModel>()({
       chosenTx,
     }),
   },
-  effects: {
+  effects: dispatch => ({
     async login({ key, setError }: LoginArgs) {
       setError('');
       nspvLogin(key)
@@ -63,12 +65,12 @@ export default createModel<RootModel>()({
           const transactions = await listTransactions();
           this.SET_TXS(transactions.address, transactions.txids);
           this.SET_PARSED_TXS(parseTransactions(transactions.txids));
-          console.log(transactions);
           this.SET_UNSPENT(unspent);
+          dispatch.wallet.SET_ASSETS(parseUnspent(unspent));
           this.SET_ADDRESS(account.address);
           return null;
         })
         .catch(e => setError(e.message));
     },
-  },
+  }),
 });

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { selectAccountAddress, selectChosenTransaction } from 'store/selectors';
 import { formatDec } from 'util/helpers';
-import { CURRENCY } from 'vars/defines';
+import { TICKER } from 'vars/defines';
 
 import TxInformation from 'components/Dashboard/widgets/Wallet/TxInformation';
 
@@ -14,7 +14,7 @@ const TxDetail = () => {
   const chosenTx = useSelector(selectChosenTransaction);
   return (
     <TxInformation
-      currency={CURRENCY}
+      currency={TICKER}
       recepient={chosenTx.recepient}
       amount={formatDec(chosenTx.value)}
       usdValue={fiatValue}

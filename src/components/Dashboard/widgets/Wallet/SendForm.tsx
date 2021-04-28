@@ -4,7 +4,7 @@ import React, { ReactElement, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { formatDec, formatFiat, isAddressValid, limitLength } from 'util/helpers';
-import { CURRENCY, FEE, FIAT_CURRENCY, USD_VALUE } from 'vars/defines';
+import { FEE, FIAT_CURRENCY, TICKER, USD_VALUE } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import Input from 'components/_General/Input';
@@ -93,7 +93,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
         onChange={e => setRecepient(e.target.value)}
         onKeyDown={() => ''}
         value={recepient}
-        placeholder={'Enter '.concat(CURRENCY, ' address')}
+        placeholder={'Enter '.concat(TICKER, ' address')}
         width="390px"
         autoFocus
         label="Recepient"
@@ -113,7 +113,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
               width="175px"
               type="number"
             />
-            <CurrencyWrapper>{CURRENCY}</CurrencyWrapper>
+            <CurrencyWrapper>{TICKER}</CurrencyWrapper>
           </RowWrapper>
           <Approx>≈</Approx>
           <RowWrapper>
@@ -131,14 +131,11 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
         </RowWrapper>
       </label>
       <VSpaceBig />
-      <ValueRow
-        keyProp="Network Fee"
-        value={`${FEE} ${CURRENCY} ≈ ${formatFiat(FEE * USD_VALUE)}`}
-      />
+      <ValueRow keyProp="Network Fee" value={`${FEE} ${TICKER} ≈ ${formatFiat(FEE * USD_VALUE)}`} />
       <VSpaceMed />
       <ValueRow
         keyProp="Remaining balance"
-        value={`${remaining} ${CURRENCY} ≈ ${formatFiat(remaining * USD_VALUE)}`}
+        value={`${remaining} ${TICKER} ≈ ${formatFiat(remaining * USD_VALUE)}`}
       />
       <VSpaceBig />
       <RowWrapper>
