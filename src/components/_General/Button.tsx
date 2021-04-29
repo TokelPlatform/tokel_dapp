@@ -5,6 +5,7 @@ type ButtonProps = {
   buttonText: string;
   theme: string;
   customWidth?: string;
+  btnIcon?: JSX.Element;
   onClick: () => void;
 };
 
@@ -30,14 +31,23 @@ const StyledButton = styled.button<StyledButtonProps>`
   font-size: 14px;
   font-weight: 400;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:focus {
     outline: none;
   }
 `;
-const Button = ({ buttonText, theme, customWidth, onClick }: ButtonProps) => {
+const Button = ({
+  buttonText,
+  theme,
+  btnIcon,
+  customWidth,
+  onClick,
+}: ButtonProps) => {
   return (
     <StyledButton onClick={onClick} theme={theme} customWidth={customWidth}>
-      {buttonText}
+      {btnIcon} {buttonText}
     </StyledButton>
   );
 };

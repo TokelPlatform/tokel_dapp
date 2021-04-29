@@ -8,6 +8,7 @@ import Logo from '../_General/Logo';
 import { listnunspent, login } from '../../util/nspvlib';
 import ErrorMessage from '../_General/ErrorMessage';
 import { sendInfo, showDash } from '../../util/electron';
+import Loader from './Loader';
 
 type LoginFormProps = {
   addNewWallet: () => void;
@@ -32,9 +33,11 @@ const Container = styled.div`
 const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [loginValue, setloginValue] = useState('');
   const [error, setError] = useState('');
+  const [showLoader, setShowLoader] = useState(false);
 
   const loginUser = (value) => {
     setError('');
+    setShowLoader(true);
     login(value)
       .then(() => {
         return listnunspent();
@@ -42,9 +45,11 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       .then((res) => {
         sendInfo(res);
         showDash();
+        setShowLoader(false);
         return 1;
       })
       .catch((e) => {
+        setShowLoader(false);
         setError(e.message);
       });
   };
@@ -63,7 +68,8 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       <Button
         onClick={() => loginUser(loginValue)}
         theme="purple"
-        buttonText="Login"
+        btnIcon={showLoader ? <Loader /> : null}
+        buttonText={showLoader ? '' : 'Login'}
       />
       <div style={{ marginBottom: '2rem' }}>
         <ErrorMessage>{error}</ErrorMessage>
@@ -72,5 +78,4 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
     </Container>
   );
 };
-
 export default LoginForm;
