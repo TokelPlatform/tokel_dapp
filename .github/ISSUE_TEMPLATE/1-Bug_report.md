@@ -1,10 +1,9 @@
 ---
 name: Bug report
 about: You're having technical issues. 🐞
-labels: 'bug'
----
+OS: e.g. Windows10 /Ubuntu 16.04/MacOs Catalina
 
-## Operation System
+---
 
 ## Expected Behavior
 
