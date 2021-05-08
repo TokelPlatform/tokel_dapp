@@ -2,7 +2,7 @@ import { spawn } from 'child_process';
 import path from 'path';
 import os from 'os';
 
-import { OsType } from 'vars/defines';
+import { OsType } from '../vars/defines';
 
 const { app } = require('electron');
 
