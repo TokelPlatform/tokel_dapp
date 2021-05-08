@@ -1,5 +1,8 @@
 import { spawn } from 'child_process';
 import path from 'path';
+import os from 'os';
+
+import { OsType } from 'vars/defines';
 
 const { app } = require('electron');
 
@@ -14,8 +17,12 @@ class NspvSingleton {
     if (process.env.NODE_ENV === 'test') {
       return 'singleton created';
     }
+    let binName = 'nspv';
+    if (os.type === OsType.WINDOWS) {
+      binName = 'nspv.exe';
+    }
     console.log('Starting a new NSPV process in the background.');
-    const nspv = spawn(path.join(cwd, 'nspv'), ['KMD'], { cwd });
+    const nspv = spawn(path.join(cwd, binName), ['KMD'], { cwd });
     nspv.stdout.setEncoding('utf8');
 
     nspv.stdout.on('data', data => {
