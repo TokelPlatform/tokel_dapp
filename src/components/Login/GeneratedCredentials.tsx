@@ -5,8 +5,8 @@ import styled from '@emotion/styled';
 import BackButton from 'components/_General/BackButton';
 import { Button } from 'components/_General/buttons';
 import Logo from 'components/_General/Logo';
+import Warning from '../_General/WarningCritical';
 import CredentialsRow from './CredentialsRow';
-import Warning from './Warning';
 
 type GeneratedCredentialProps = {
   goBack: () => void;
@@ -59,7 +59,15 @@ const GeneratedCredential = ({ wifkey, seed, forward, goBack }: GeneratedCredent
           credential={seed}
         />
       </Confidential>
-      <Warning />
+      <Warning
+        title="Important: please back up your seed phrase and WIF now!"
+        subtitle={[
+          ' We recommend storing it offline. ',
+          <a href="#" key="securitylink">
+            Learn security best practices
+          </a>,
+        ]}
+      />
 
       <Button onClick={forward} customWidth="170px" theme="gray">
         Next

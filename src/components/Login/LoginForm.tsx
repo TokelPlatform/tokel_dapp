@@ -10,6 +10,7 @@ import ErrorMessage from 'components/_General/ErrorMessage';
 import Input from 'components/_General/Input';
 import Link from 'components/_General/Link';
 import Logo from 'components/_General/Logo';
+import { VSpaceSmall } from 'components/Dashboard/widgets/common';
 
 type LoginFormProps = {
   addNewWallet: () => void;
@@ -53,13 +54,14 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
         value={loginValue}
         placeholder="Key or Seed Phrase"
       />
+      <VSpaceSmall />
       <Button onClick={() => dispatch.account.login({ key: loginValue, setError })} theme="purple">
         Login
       </Button>
       <div style={{ marginBottom: '2rem' }}>
         <ErrorMessage>{error}</ErrorMessage>
       </div>
-      <Link onClick={addNewWallet} linkText="Add New Wallet" />
+      <Link onClick={addNewWallet} linkText="Generate New Address" />
     </Container>
   );
 };

@@ -1,6 +1,7 @@
 import { createModel } from '@rematch/core';
 
-import { UnspentType, listUnspent, login as nspvLogin } from 'util/nspvlib-mock';
+import { listUnspent, login as nspvLogin } from 'util/nspvlib';
+import { UnspentType } from 'util/nspvlib-mock';
 
 import type { RootModel } from './models';
 

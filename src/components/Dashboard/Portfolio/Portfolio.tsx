@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
-import { selectChosenAsset } from 'store/selectors';
+import { selectAssets, selectChosenAsset } from 'store/selectors';
+import { formatFiat } from 'util/helpers';
 
 import { WidgetContainer } from '../widgets/common';
 import PortfolioItem from './PortfolioItem';
@@ -17,27 +18,13 @@ const PortfolioRoot = styled(WidgetContainer)`
   overflow-y: scroll;
 `;
 
-const assets = [
-  {
-    name: 'Tokel',
-    ticker: 'TKL',
-    balance: 10,
-    usd_value: 1.12,
-  },
-  {
-    name: 'Komodo',
-    ticker: 'KMD',
-    balance: 100,
-    usd_value: 3.12,
-  },
-];
-
-const totalValue = assets.reduce((total, { balance, usd_value }) => total + balance * usd_value, 0);
-
 const Portfolio = (): ReactElement => {
   const chosenAsset = useSelector(selectChosenAsset);
-  const setChosenAsset = name => dispatch.wallet.SET_CHOSEN_ASSET(name);
+  const assets = useSelector(selectAssets);
   const headerName = 'Total Holdings';
+  const totalValue = formatFiat(
+    assets.reduce((total, { balance, usd_value }) => total + balance * usd_value, 0)
+  );
 
   return (
     <PortfolioRoot>
@@ -46,16 +33,16 @@ const Portfolio = (): ReactElement => {
         name={headerName}
         subtitle={`${assets.length} assets ≈ $${totalValue}`}
         selected={!chosenAsset}
-        onClick={() => setChosenAsset(null)}
+        onClick={() => dispatch.wallet.SET_CHOSEN_ASSET(null)}
       />
       {assets.map(asset => (
         <PortfolioItem
           key={asset.name}
           name={`${asset.name} (${asset.ticker})`}
-          subtitle={`${asset.balance} ≈ $${asset.balance * asset.usd_value}`}
+          subtitle={`${asset.balance} ≈ $${formatFiat(asset.balance * asset.usd_value)}`}
           percentage={40}
           selected={asset.name === chosenAsset}
-          onClick={() => setChosenAsset(asset.name)}
+          onClick={() => dispatch.wallet.SET_CHOSEN_ASSET(asset.ticker)}
         />
       ))}
     </PortfolioRoot>
