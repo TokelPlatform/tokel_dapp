@@ -44,7 +44,9 @@ a:hover {
 }
 
 input:focus {
-  outline: var(--color-link-hover) dashed 0.1px;
+  outline: none;
+  border: var(--color-link-hover) solid 0.1px;
+  border-radius: var(--border-radius);
 }
 
 textarea:focus {
@@ -53,4 +55,10 @@ textarea:focus {
 
 button:focus {
   outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

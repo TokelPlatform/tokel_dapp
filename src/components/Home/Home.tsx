@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectModal, selectView } from 'store/selectors';
+import { selectView } from 'store/selectors';
+import links from 'util/links';
 import { ViewType } from 'vars/defines';
 
+import InfoNote from 'components/_General/InfoNote';
 import Dashboard from 'components/Dashboard/Dashboard';
-import modals from 'components/Modal/content';
-import Modal from 'components/Modal/Modal';
 import SideMenu from './Menu/SideMenu';
 import TopBar from './TopBar';
 
@@ -34,18 +34,38 @@ const ViewWrapper = styled.div`
   overflow: scroll;
 `;
 
+const getNote = name => (
+  <InfoNote
+    title={name.concat(' functionality is not available currently')}
+    subtitle={[
+      'Please have a look at our ',
+      <a key="tokellink" href={links.website} rel="noreferrer" target="_blank">
+        roadmap
+      </a>,
+      ' or reach out to us in ',
+      <a key="discordLink" href={links.discord} rel="noreferrer" target="_blank">
+        Discord
+      </a>,
+    ]}
+  />
+);
 const renderView = viewType => {
   switch (viewType) {
     case ViewType.DASHBOARD:
       return <Dashboard />;
+    case ViewType.DEX:
+      return getNote('Decentralized Exchange');
+    case ViewType.NFT_MARKET:
+      return getNote('NFT Marketplace');
+    case ViewType.SETTINGS:
+      return getNote('Setting');
     default:
-      return <div>{viewType} not implemented</div>;
+      return getNote('This functionality');
   }
 };
 
 const Home = () => {
   const currentView = useSelector(selectView);
-  const modalProps = modals[useSelector(selectModal)];
 
   return (
     <HomeRoot>
@@ -54,7 +74,6 @@ const Home = () => {
         <SideMenu />
         <ViewWrapper>{renderView(currentView)}</ViewWrapper>
       </HorzContainer>
-      {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
     </HomeRoot>
   );
 };

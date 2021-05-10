@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactChild } from 'react';
 
 import styled from '@emotion/styled';
 
 import warning from 'assets/warningIcon.svg';
 
-const Container = styled.div`
+const WarningRoot = styled.div`
   display: flex;
   flex-direction: row;
   img {
@@ -26,17 +26,20 @@ const Container = styled.div`
   margin-bottom: 2rem;
 `;
 
-const Warning = () => {
+type WarningProps = {
+  title: string;
+  subtitle: Array<string | ReactChild>;
+};
+
+const Warning = ({ title, subtitle }: WarningProps) => {
   return (
-    <Container>
+    <WarningRoot>
       <img alt="warning" src={warning} />
       <div>
-        <h3>Important: please back up your seed phrase and WIF now!</h3>
-        <p>
-          We recommend storing it offline. <a href="#">Learn security best practices</a>
-        </p>
+        <h3>{title}</h3>
+        <p>{subtitle}</p>
       </div>
-    </Container>
+    </WarningRoot>
   );
 };
 

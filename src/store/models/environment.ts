@@ -10,7 +10,7 @@ export interface EnvironmentState {
 }
 
 export default createModel<RootModel>()({
-  state: { view: ViewType.DASHBOARD, modal: ModalName.RECEIVE } as EnvironmentState,
+  state: { view: ViewType.DASHBOARD, modal: null } as EnvironmentState,
   reducers: {
     SET_VIEW: (state, view: string) => ({
       ...state,

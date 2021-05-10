@@ -1,18 +1,18 @@
 import React, { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectUnspentUtxos } from 'store/selectors';
+import { formatFiat } from 'util/helpers';
+import { UtxoType } from 'util/nspvlib-mock';
 
-import { WidgetContainer, WidgetTitle } from './common';
+import InfoNote from 'components/_General/InfoNote';
 
 const chosenAsset = {
   name: 'TKLTEST',
   usd_value: 3.5,
 };
 
-const ActivityTableRoot = styled(WidgetContainer)`
+const ActivityListRoot = styled.div`
   grid-column: span 3;
 `;
 
@@ -41,16 +41,18 @@ const Column = styled.div`
 `;
 
 const TransactionWrapper = styled.div`
-  border-top: 1px solid var(--color-almostBlack2);
+  border-top: var(--border-dark);
 `;
 
-const ActivityTable = (): ReactElement => {
-  const utxos = useSelector(selectUnspentUtxos);
+type ActivityListProps = {
+  transactions: Array<UtxoType>;
+};
 
+const ActivityList = ({ transactions = [] }: ActivityListProps): ReactElement => {
   return (
-    <ActivityTableRoot>
-      <WidgetTitle>Recent Activity</WidgetTitle>
-      {utxos.map(tx => (
+    <ActivityListRoot>
+      {transactions.length === 0 && <InfoNote title="No data available" />}
+      {transactions.map(tx => (
         <TransactionWrapper key={tx.txid}>
           <Transactions>
             <Column>
@@ -62,17 +64,17 @@ const ActivityTable = (): ReactElement => {
             </Column>
             <Column>
               <p className="info" style={{ textAlign: 'right' }}>
-                {tx.value.toFixed(8)} {chosenAsset.name}
+                {formatFiat(tx.value)} {chosenAsset.name}
               </p>
               <p className="additionalInfo" style={{ textAlign: 'right' }}>
-                ${(tx.value * chosenAsset.usd_value).toFixed(8)}
+                ${formatFiat(tx.value * chosenAsset.usd_value)}
               </p>
             </Column>
           </Transactions>
         </TransactionWrapper>
       ))}
-    </ActivityTableRoot>
+    </ActivityListRoot>
   );
 };
 
-export default ActivityTable;
+export default ActivityList;
