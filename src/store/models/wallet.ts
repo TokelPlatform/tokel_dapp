@@ -68,11 +68,11 @@ export default createModel<RootModel>()({
   },
   effects: {
     async spend({ address, amount }: SpendArgs) {
+      this.SET_CURRENT_TX_ID(null);
+      this.SET_CURRENT_TX_ERROR(null);
       return spend(address, amount)
         .then(res => {
           if (res.result === 'success' && res.hex) {
-            console.log(res);
-            console.log(res.txid);
             this.SET_CURRENT_TX_ID(res.txid);
             return broadcast(res.hex);
           }

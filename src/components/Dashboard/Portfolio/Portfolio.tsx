@@ -20,7 +20,6 @@ const PortfolioRoot = styled(WidgetContainer)`
 
 const Portfolio = (): ReactElement => {
   const chosenAsset = useSelector(selectChosenAsset);
-  const setChosenAsset = name => dispatch.wallet.SET_CHOSEN_ASSET(name);
   const assets = useSelector(selectAssets);
   const headerName = 'Total Holdings';
   const totalValue = formatFiat(
@@ -34,7 +33,7 @@ const Portfolio = (): ReactElement => {
         name={headerName}
         subtitle={`${assets.length} assets ≈ $${totalValue}`}
         selected={!chosenAsset}
-        onClick={() => setChosenAsset(null)}
+        onClick={() => dispatch.wallet.SET_CHOSEN_ASSET(null)}
       />
       {assets.map(asset => (
         <PortfolioItem
@@ -43,7 +42,7 @@ const Portfolio = (): ReactElement => {
           subtitle={`${asset.balance} ≈ $${formatFiat(asset.balance * asset.usd_value)}`}
           percentage={40}
           selected={asset.name === chosenAsset}
-          onClick={() => setChosenAsset(asset.ticker)}
+          onClick={() => dispatch.wallet.SET_CHOSEN_ASSET(asset.ticker)}
         />
       ))}
     </PortfolioRoot>

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -58,10 +58,12 @@ const TxConfirmation = ({
 
   const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
 
-  if (txStatus === 1) {
-    setCurrentTxId(limitLength(txid, 36).concat('...'));
-    dispatch.wallet.SET_CURRENT_TX_STATUS(0);
-  }
+  useEffect(() => {
+    if (txStatus === 1) {
+      setCurrentTxId(limitLength(txid, 36).concat('...'));
+      dispatch.wallet.SET_CURRENT_TX_STATUS(0);
+    }
+  }, [txStatus]);
 
   return (
     <TxConfirmationRoot>
