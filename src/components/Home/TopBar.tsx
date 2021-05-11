@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import account from 'store/models/account';
 import { dispatch } from 'store/rematch';
 import { Colors, ModalName } from 'vars/defines';
 
