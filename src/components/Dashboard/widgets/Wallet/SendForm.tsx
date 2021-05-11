@@ -93,7 +93,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
         onChange={e => setRecepient(e.target.value)}
         onKeyDown={() => ''}
         value={recepient}
-        placeholder={'Enter '.concat(TICKER, ' address')}
+        placeholder={`Enter ${TICKER} address`}
         width="390px"
         autoFocus
         label="Recepient"

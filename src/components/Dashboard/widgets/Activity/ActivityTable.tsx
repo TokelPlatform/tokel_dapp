@@ -17,8 +17,7 @@ const ActivityTitle = styled(WidgetTitle)`
 `;
 
 const ActivityTable = (): ReactElement => {
-  let txs = useSelector(selectParsedTransactions);
-  txs = txs.length > 3 ? txs.slice(0, 3) : txs;
+  const txs = useSelector(selectParsedTransactions).slice(0, 3);
 
   return (
     <ActivityTableRoot>

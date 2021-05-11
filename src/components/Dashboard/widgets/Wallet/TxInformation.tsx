@@ -50,14 +50,14 @@ const TxInformation = ({
 
       <Row>
         <TxConfirmationRow label="Amount" value={amount} />
-        <TxConfirmationRow label="Value (then)" value={'≈ $'.concat(usdValueTemp)} />
-        <TxConfirmationRow label="Value (now)" value={'≈ $'.concat(usdValueTemp)} />
+        <TxConfirmationRow label="Value (then)" value={`≈ $ ${usdValueTemp}`} />
+        <TxConfirmationRow label="Value (now)" value={`≈ $ ${usdValueTemp}`} />
       </Row>
       <Column>
-        <TxConfirmationRow label="TX id" value={limitLength(txid, 36).concat('...')}>
+        <TxConfirmationRow label="TX id" value={`${limitLength(txid, 36)} ...`}>
           <CopyToClipboard textToCopy={txid} color={Colors.WHITE} />
           <a
-            href={links.explorers[currency].concat('/tx/', txid)}
+            href={`${links.explorers[currency]}/tx/${txid}`}
             rel="noreferrer"
             target="_blank"
             style={{ marginLeft: '8px' }}

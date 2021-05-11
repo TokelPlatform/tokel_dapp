@@ -60,9 +60,7 @@ const Receive = () => {
           <CopyToClipboard color={Colors.WHITE} textToCopy={address} />
         </Copy>
       </AddressInput>
-      <FriendlyWarning
-        message={'Make sure to send only '.concat(chosenAsset, ' to this address.')}
-      />
+      <FriendlyWarning message={`Make sure to send only ${chosenAsset} to this address.`} />
     </ReceiveRoot>
   );
 };

@@ -60,13 +60,14 @@ type ActivityListProps = {
   fullView?: boolean;
 };
 
+const handleTxDetailView = tx => {
+  dispatch.account.SET_CHOSEN_TX(tx);
+  dispatch.environment.SET_MODAL(ModalName.TX_DETAIL);
+};
+
 const ActivityList = ({ transactions = [], fullView }: ActivityListProps): ReactElement => {
   const modalProps = modals[useSelector(selectModal)];
 
-  const handleTxDetailView = tx => {
-    dispatch.account.SET_CHOSEN_TX(tx);
-    dispatch.environment.SET_MODAL(ModalName.TX_DETAIL);
-  };
   return (
     <ActivityListRoot>
       {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
@@ -88,7 +89,7 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
             </Column>
             <Column style={{ justifySelf: 'flex-end' }}>
               <p className="info" style={{ textAlign: 'right' }}>
-                {(tx.received ? '+' : '-').concat(formatDec(tx.value))} {TICKER}
+                {` ${tx.received ? '+' : '-'}${formatDec(tx.value)} ${TICKER}`}
               </p>
               <p className="additionalInfo" style={{ textAlign: 'right' }}>
                 ${formatFiat(tx.value * USD_VALUE)}

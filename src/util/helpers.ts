@@ -19,8 +19,7 @@ export const Responsive = {
   below: responsiveFactory('max-width'),
 };
 
-export const randomColor = () =>
-  'hsla('.concat((360 * Math.random()).toString(), ', ', '70%,', '80%,1)');
+export const randomColor = () => `hsla(${(360 * Math.random()).toString()}, 70%, 80%, 1)`;
 
 // Number().toString() to cut down unnecessary trailing 0s
 export const formatDec = num => {

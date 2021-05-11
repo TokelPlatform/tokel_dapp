@@ -21,13 +21,11 @@ const Send = () => {
   const chosenAsset = useSelector(selectChosenAsset);
 
   const handleSubmit = (address, amount) => {
-    dispatch.wallet.SET_CURRENT_TX_ID(null);
-    setRecepient(address);
-    setAmountToSend(amount);
-    dispatch.wallet.spend({ address, amount });
     setRecepient(address);
     setAmountToSend(amount);
     setConfirmation(true);
+    dispatch.wallet.SET_CURRENT_TX_ID(null);
+    dispatch.wallet.spend({ address, amount });
   };
   return (
     <SendRoot>
