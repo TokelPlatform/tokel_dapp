@@ -1,4 +1,5 @@
 import { createModel } from '@rematch/core';
+import dotProp from 'dot-prop-immutable';
 
 import { listTransactions, listUnspent, login as nspvLogin } from 'util/nspvlib';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
@@ -38,10 +39,7 @@ export default createModel<RootModel>()({
     ADD_NEW_TX: (state, transaction: TxType) => {
       const parsedTx = parseSpendTx(transaction.newTx);
       parsedTx.recepient = transaction.recepient;
-      state.parsedTxs.unshift(parsedTx);
-      return {
-        ...state,
-      };
+      return dotProp.set(state, 'parsedTxs', list => [parsedTx, ...list]);
     },
     SET_PARSED_TXS: (state, parsedTxs: Array<TxType>) => ({
       ...state,

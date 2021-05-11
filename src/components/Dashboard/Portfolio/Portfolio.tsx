@@ -25,7 +25,6 @@ const Portfolio = (): ReactElement => {
   const totalValue = formatFiat(
     assets.reduce((total, { balance, usd_value }) => total + balance * usd_value, 0)
   );
-  console.log(assets);
 
   return (
     <PortfolioRoot>

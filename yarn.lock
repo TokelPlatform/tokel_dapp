@@ -4656,7 +4656,7 @@ domutils@^2.4.4, domutils@^2.5.2, domutils@^2.6.0:
     domelementtype "^2.2.0"
     domhandler "^4.2.0"
 
-dot-prop-immutable@^2.1.0:
+dot-prop-immutable@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/dot-prop-immutable/-/dot-prop-immutable-2.1.0.tgz#aa08d57b7b4c8ba1aac1b8f9b058bb3f37027af6"
   integrity sha512-8IIkxeXjLkKbhbqwmqCdFzRup1wFwH4tuY7/s5ScVpzYXgjZ+lw5ocvtDG1KR9VG+/AIGgGpWBdzmq+QUFANoA==

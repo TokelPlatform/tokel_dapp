@@ -1,4 +1,5 @@
 import { createModel } from '@rematch/core';
+import dotProp from 'dot-prop-immutable';
 
 import { broadcast, spend } from 'util/nspvlib';
 import { TICKER } from 'vars/defines';
@@ -57,19 +58,17 @@ export default createModel<RootModel>()({
       ...state,
       assets,
     }),
-    UPDATE_ASSET_BALANCE: (state, asset: Asset) => ({
-      ...state,
-      ...state.assets.map(a => {
-        if (a.name === asset.name) {
-          a.balance += asset.balance;
-        }
-        return a;
-      }),
-    }),
+    UPDATE_ASSET_BALANCE: (state, asset: Asset) => {
+      const indx = state.assets.findIndex(a => a.name === asset.name);
+      return dotProp.set(state, `assets.${indx}.balance`, v => v + asset.balance);
+    },
   },
   effects: dispatch => ({
     async spend({ address, amount }: SpendArgs) {
       let newTx = null;
+      this.SET_CURRENT_TX_ERROR(null);
+      this.SET_CURRENT_TX_ID(null);
+      this.SET_CURRENT_TX_STATUS(0);
       return spend(address, amount)
         .then(res => {
           if (res.result === 'success' && res.hex) {

@@ -24,7 +24,6 @@ const Send = () => {
     setRecepient(address);
     setAmountToSend(amount);
     setConfirmation(true);
-    dispatch.wallet.SET_CURRENT_TX_ID(null);
     dispatch.wallet.spend({ address, amount });
   };
   return (

@@ -79,7 +79,7 @@ const TxConfirmation = ({
             <p>There was an error with your transaction.</p>
             <br />
             <b>Error</b>
-            <p>{txError}</p>
+            <p style={{ overflowWrap: 'break-word' }}>{txError}</p>
           </ErrorMessage>
         </div>
       )}
@@ -97,7 +97,7 @@ const TxConfirmation = ({
             <TxConfirmationRow label="TX id" value={currentTxId}>
               <CopyToClipboard textToCopy={txid} color={Colors.WHITE} />
               <a
-                href={`${links.explorers[currency]}/tx/${txid})`}
+                href={`${links.explorers[currency]}/tx/${txid}`}
                 rel="noreferrer"
                 target="_blank"
                 style={{ marginLeft: '8px' }}
