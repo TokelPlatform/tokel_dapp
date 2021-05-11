@@ -17,10 +17,7 @@ class NspvSingleton {
     if (process.env.NODE_ENV === 'test') {
       return 'singleton created';
     }
-    let binName = 'nspv';
-    if (os.type === OsType.WINDOWS) {
-      binName = 'nspv.exe';
-    }
+    const binName = os.type === OsType.WINDOWS ? 'nspv.exe' : 'nspv';
     console.log('Starting a new NSPV process in the background.');
     const nspv = spawn(path.join(cwd, binName), ['KMD'], { cwd });
     nspv.stdout.setEncoding('utf8');
