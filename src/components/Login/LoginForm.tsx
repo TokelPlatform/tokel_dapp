@@ -10,7 +10,8 @@ import ErrorMessage from 'components/_General/ErrorMessage';
 import Input from 'components/_General/Input';
 import Link from 'components/_General/Link';
 import Logo from 'components/_General/Logo';
-import { VSpaceSmall } from 'components/Dashboard/widgets/common';
+import Spinner from 'components/_General/Spinner';
+import { VSpaceMed, VSpaceSmall } from 'components/Dashboard/widgets/common';
 
 type LoginFormProps = {
   addNewWallet: () => void;
@@ -35,6 +36,7 @@ const Container = styled.div`
 const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [loginValue, setloginValue] = useState('');
   const [error, setError] = useState('');
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const handleKeyDown = useCallback(
     e => e.key === 'Enter' && dispatch.account.login({ key: loginValue, setError }),
@@ -55,10 +57,18 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
         placeholder="Key or Seed Phrase"
       />
       <VSpaceSmall />
-      <Button onClick={() => dispatch.account.login({ key: loginValue, setError })} theme="purple">
+      <Button
+        onClick={() => {
+          setShowSpinner(true);
+          dispatch.account.login({ key: loginValue, setError });
+        }}
+        theme="purple"
+      >
         Login
       </Button>
-      <div style={{ marginBottom: '2rem' }}>
+      <VSpaceMed />
+      <div style={{ height: '30px' }}>{showSpinner && <Spinner />}</div>
+      <div style={{ marginBottom: '1rem' }}>
         <ErrorMessage>{error}</ErrorMessage>
       </div>
       <Link onClick={addNewWallet} linkText="Generate New Address" />

@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { dispatch } from 'store/rematch';
 import { getNewAddress } from 'util/nspvlib';
 
+import Spinner from 'components/_General/Spinner';
 import ConfirmString from './ConfirmString';
 import GeneratedCredential from './GeneratedCredentials';
 import LoginForm from './LoginForm';
@@ -31,6 +32,7 @@ const Login = () => {
   const [step, setStep] = useState(STEP1);
   const [key, setKey] = useState('Loading...');
   const [seed, setSeed] = useState('Loading...');
+  const [showSpinner, setShowSpinner] = useState(false);
 
   useEffect(() => {
     if (step === STEP2) {

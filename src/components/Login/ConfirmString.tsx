@@ -6,7 +6,9 @@ import BackButton from 'components/_General/BackButton';
 import { Button } from 'components/_General/buttons';
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Logo from 'components/_General/Logo';
+import Spinner from 'components/_General/Spinner';
 import TextArea from 'components/_General/TextArea';
+import { VSpaceMed } from 'components/Dashboard/widgets/common';
 
 type CredentialsRowProps = {
   title: string;
@@ -38,9 +40,11 @@ const Container = styled.div`
 const ConfirmString = ({ title, desc, goBack, forward, originalString }: CredentialsRowProps) => {
   const [error, setError] = useState('');
   const [value, setValue] = useState('');
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const handleClick = (): void => {
     if (value === originalString) {
+      setShowSpinner(true);
       forward();
     } else {
       setError('The value you entered is not the same as the generated one');
@@ -62,6 +66,8 @@ const ConfirmString = ({ title, desc, goBack, forward, originalString }: Credent
       <Button onClick={handleClick} customWidth="170px" theme="purple">
         Confirm
       </Button>
+      <VSpaceMed />
+      <div style={{ height: '30px' }}>{showSpinner && <Spinner />}</div>
     </Container>
   );
 };

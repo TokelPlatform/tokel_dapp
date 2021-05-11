@@ -18,7 +18,8 @@ import { Colors } from 'vars/defines';
 import { Button } from 'components/_General/buttons';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ErrorMessage from 'components/_General/ErrorMessage';
-import { GrayLabel } from '../common';
+import Spinner from 'components/_General/Spinner';
+import { GrayLabel, VSpaceMed } from '../common';
 import TxConfirmationRow from './TxConfirmationRow';
 
 const TxConfirmationRoot = styled.div`
@@ -71,6 +72,8 @@ const TxConfirmation = ({
         <div style={{ textAlign: 'center' }}>
           <h2>Your transaction is being broadcasted</h2>
           <GrayLabel>Please allow up to a minute for the broadcast to come through.</GrayLabel>
+          <VSpaceMed />
+          <Spinner />
         </div>
       )}
       {!currentTxId && txStatus < 0 && (
