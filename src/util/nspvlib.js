@@ -11,6 +11,7 @@ const Method = {
   LIST_UNSPENT: 'listunspent',
   LIST_TRANSACTIONS: 'listtransactions',
   LOGIN: 'login',
+  LOGOUT: 'logout',
   SPEND: 'spend',
 };
 
@@ -67,6 +68,8 @@ export const getNewAddress = () => requestNSPV(Method.GET_NEW_ADDRESS);
  *  }
  */
 export const login = async key => requestNSPV(Method.LOGIN, [key]);
+
+export const logout = () => requestNSPV(Method.LOGOUT, []);
 
 /**
  *
