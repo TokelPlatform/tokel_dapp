@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectAccountAddress } from 'store/selectors';
+import { selectAccountAddress, selectTransactions, selectUnspent } from 'store/selectors';
 
 import Home from 'components/Home/Home';
 import Login from 'components/Login/Login';
@@ -19,6 +19,8 @@ const AppRoot = styled.div`
 
 export default function App() {
   const address = useSelector(selectAccountAddress);
+  const unspent = useSelector(selectUnspent);
+  const txs = useSelector(selectTransactions);
 
-  return <AppRoot>{address ? <Home /> : <Login />}</AppRoot>;
+  return <AppRoot>{address && txs && unspent ? <Home /> : <Login />}</AppRoot>;
 }
