@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { spawn } from 'child_process';
 import path from 'path';
 import os from 'os';
@@ -19,21 +20,29 @@ class NspvSingleton {
     }
     const binName = os.type === OsType.WINDOWS ? 'nspv.exe' : 'nspv';
     console.log('Starting a new NSPV process in the background.');
-    const nspv = spawn(path.join(cwd, binName), ['KMD'], { cwd });
-    nspv.stdout.setEncoding('utf8');
+    this.nspv = spawn(path.join(cwd, binName), ['KMD'], { cwd });
+    this.nspv.stdout.setEncoding('utf8');
 
-    nspv.stdout.on('data', data => {
+    this.nspv.stdout.on('data', data => {
       console.log('------', data);
     });
 
-    nspv.stderr.on('data', err => {
+    this.nspv.stderr.on('data', err => {
       console.error(`stderr: ${err}`);
     });
 
-    nspv.on('exit', code => {
+    this.nspv.on('exit', code => {
       console.log('exit', code);
       // Handle exit
     });
+  }
+
+  get() {
+    return this.nspv;
+  }
+
+  cleanup() {
+    this.nspv.kill();
   }
 }
 

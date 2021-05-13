@@ -1,7 +1,12 @@
 import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 
-import { listTransactions, listUnspent, login as nspvLogin } from 'util/nspvlib';
+import {
+  listTransactions,
+  listUnspent,
+  login as nspvLogin,
+  logout as nspvLogout,
+} from 'util/nspvlib';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
 import { parseSpendTx, parseTransactions, parseUnspent } from 'util/transacations';
 
@@ -69,6 +74,10 @@ export default createModel<RootModel>()({
           return null;
         })
         .catch(e => setError(e.message));
+    },
+    async logout() {
+      this.SET_ADDRESS(null);
+      return nspvLogout();
     },
   }),
 });

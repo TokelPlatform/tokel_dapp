@@ -13,12 +13,11 @@ import path from 'path';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import '../util/nspv';
-
 import { BrowserWindow, app, ipcMain, session, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
+import nspv from '../util/nspv';
 import MenuBuilder from './menu';
 
 // unhandled excetions debug
@@ -104,6 +103,7 @@ const createWindow = async () => {
   });
 
   mainWindow.on('closed', () => {
+    nspv.cleanup();
     mainWindow = null;
   });
 

@@ -3,16 +3,18 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
-import { ModalName } from 'vars/defines';
+import { Colors, ModalName } from 'vars/defines';
 
 import { ButtonSmall } from 'components/_General/buttons';
-import User from './User';
+import { HSpaceSmall } from 'components/Dashboard/widgets/common';
+
+// import User from './User';
 
 const TopBarRoot = styled.div`
   background-color: var(--color-almostBlack);
   width: 100%;
   display: flex;
-  padding: 6px 12px;
+  padding: 12px 12px;
   justify-content: flex-end;
   align-items: center;
   z-index: 100;
@@ -28,8 +30,12 @@ const TopBar = (): ReactElement => {
       <ButtonSmall onClick={() => dispatch.environment.SET_MODAL(ModalName.FEEDBACK)}>
         Feedback
       </ButtonSmall>
+      <HSpaceSmall />
+      <ButtonSmall theme={Colors.TRANSPARENT} onClick={() => dispatch.account.logout()}>
+        Logout
+      </ButtonSmall>
       <Spacer />
-      <User />
+      {/* <User /> */}
     </TopBarRoot>
   );
 };
