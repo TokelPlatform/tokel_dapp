@@ -73,7 +73,7 @@ const TxConfirmation = ({
           <h2>Your transaction is being broadcasted</h2>
           <GrayLabel>Please allow up to a minute for the broadcast to come through.</GrayLabel>
           <VSpaceMed />
-          <Spinner />
+          <Spinner bgColor="var(--color-modal-bg)" />
         </div>
       )}
       {!currentTxId && txStatus < 0 && (

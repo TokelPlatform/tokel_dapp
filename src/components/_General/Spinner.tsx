@@ -17,22 +17,34 @@ const SpinnerRoot = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  background: rgb(63, 249, 220);
-  background: linear-gradient(0deg, rgba(63, 249, 220, 0.1) 33%, rgba(63, 249, 220, 1) 100%);
+  background: var(--color-spinner-aqua);
+  background: var(--gradient-spinner-aqua);
   animation: spin 0.8s linear 0s infinite;
 `;
 
-const SpinnerCore = styled.div`
+type SpinnerCoreProps = {
+  bgCoreColor: string;
+};
+
+const SpinnerCore = styled.div<SpinnerCoreProps>`
   width: 90%;
   height: 90%;
-  background-color: #1d2630;
+  background-color: ${p => p.bgCoreColor};
   border-radius: 50%;
 `;
 
-export default function Loader() {
+type LoaderProps = {
+  bgColor?: string;
+};
+const Loader = ({ bgColor }: LoaderProps) => {
   return (
     <SpinnerRoot>
-      <SpinnerCore />
+      <SpinnerCore bgCoreColor={bgColor} />
     </SpinnerRoot>
   );
-}
+};
+
+Loader.defaultProps = {
+  bgColor: 'var(--color-black)',
+};
+export default Loader;

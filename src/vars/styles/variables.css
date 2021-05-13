@@ -14,6 +14,7 @@
   --color-slateGray: #354353;
   --color-danger: #e6195f;
   --color-growth: #2ac940;
+  --color-spinner-aqua: #3ff9dc;
 
   --color-modal-overlay: rgba(0, 0, 0, 0.8);
   --color-modal-bg: #212b3b;
@@ -39,6 +40,12 @@
 
   --gradient-purple-horizontal: linear-gradient(97.43deg, #973af5 0%, #4ca6fe 100%);
   --gradient-gray: linear-gradient(180deg, #516173 3.03%, #3b4857 97.78%);
+
+  --gradient-spinner-aqua: linear-gradient(
+    0deg,
+    rgba(63, 249, 220, 0.1) 33%,
+    var(--color-spinner-aqua) 100%
+  );
 
   --font-size-h1: 1.625rem; /** 26px **/
   --font-size-h2: 1.25rem; /** 20px **/
