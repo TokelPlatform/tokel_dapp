@@ -11,6 +11,7 @@ import { TxType, UnspentType } from 'util/nspvlib-mock';
 import { parseSpendTx, parseTransactions, parseUnspent } from 'util/transacations';
 import { combineTxs, getStillUnconfirmed } from 'util/txHelper';
 
+import environment from './environment';
 import type { RootModel } from './models';
 
 export interface AccountState {
@@ -19,6 +20,7 @@ export interface AccountState {
   txs: {
     [address: string]: Array<TxType>;
   };
+  key: string;
   parsedTxs: Array<TxType>;
   unconfirmedTxs: Array<TxType>;
   chosenTx: TxType;
@@ -34,6 +36,7 @@ export default createModel<RootModel>()({
     address: null,
     unspent: null,
     txs: {},
+    key: null,
     parsedTxs: [],
     unconfirmedTxs: [],
   } as AccountState,
@@ -77,11 +80,19 @@ export default createModel<RootModel>()({
       ...state,
       chosenTx,
     }),
+    SET_KEY: (state, key: string) => ({
+      ...state,
+      key,
+    }),
   },
   effects: dispatch => ({
-    async login({ key, setError }: LoginArgs) {
+    async login({ key = null, setError }: LoginArgs) {
       setError('');
-      nspvLogin(key)
+      const userKey = key || this.key;
+      if (!this.key) {
+        this.SET_KEY(key);
+      }
+      nspvLogin(userKey)
         .then(async account => {
           this.SET_ADDRESS(account.address);
 
@@ -98,6 +109,8 @@ export default createModel<RootModel>()({
     },
     async logout() {
       this.SET_ADDRESS(null);
+      this.SET_KEY(null);
+      this.SET_UNSPENT(null);
       return nspvLogout();
     },
   }),
