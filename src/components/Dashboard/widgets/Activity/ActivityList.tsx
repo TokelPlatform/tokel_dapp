@@ -1,24 +1,34 @@
 import React, { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { formatFiat } from 'util/helpers';
-import { UtxoType } from 'util/nspvlib-mock';
+import receiveIcon from 'assets/receiveIcon.svg';
+import withdrawIcon from 'assets/withdrawIcon.svg';
+import { dispatch } from 'store/rematch';
+import { selectModal } from 'store/selectors';
+import { formatDec, formatFiat } from 'util/helpers';
+import { TxType } from 'util/nspvlib-mock';
+import { Colors, ModalName, TICKER, USD_VALUE } from 'vars/defines';
 
+import { Button } from 'components/_General/buttons';
 import InfoNote from 'components/_General/InfoNote';
-
-const chosenAsset = {
-  name: 'TKLTEST',
-  usd_value: 3.5,
-};
+import modals from 'components/Modal/content';
+import Modal from 'components/Modal/Modal';
 
 const ActivityListRoot = styled.div`
   grid-column: span 3;
 `;
 
-const Transactions = styled.div`
+type TransactionsProps = {
+  fullView: boolean;
+};
+
+const Transactions = styled.div<TransactionsProps>`
   display: grid;
-  grid-template-columns: 30% 30% 40%;
+  grid-template-columns: ${props => {
+    return props.fullView ? '20% 15% 20% 25% 20%' : '30% 30% 40%';
+  }};
   padding: 0 28px;
 
   .datetime {
@@ -29,6 +39,7 @@ const Transactions = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   padding: 16px 0 0 0;
   .info {
     margin: 0 0 2px 0;
@@ -45,36 +56,65 @@ const TransactionWrapper = styled.div`
 `;
 
 type ActivityListProps = {
-  transactions: Array<UtxoType>;
+  transactions: Array<TxType>;
+  fullView?: boolean;
 };
 
-const ActivityList = ({ transactions = [] }: ActivityListProps): ReactElement => {
+const handleTxDetailView = tx => {
+  dispatch.account.SET_CHOSEN_TX(tx);
+  dispatch.environment.SET_MODAL(ModalName.TX_DETAIL);
+};
+
+const ActivityList = ({ transactions = [], fullView }: ActivityListProps): ReactElement => {
+  const modalProps = modals[useSelector(selectModal)];
+
   return (
     <ActivityListRoot>
+      {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
       {transactions.length === 0 && <InfoNote title="No data available" />}
       {transactions.map(tx => (
         <TransactionWrapper key={tx.txid}>
-          <Transactions>
+          <Transactions fullView={fullView}>
             <Column>
               <p className="datetime">{tx.height}</p>
             </Column>
+            {fullView && (
+              <Column>
+                <img alt="walletIcon" width="23px" src={tx.received ? receiveIcon : withdrawIcon} />
+              </Column>
+            )}
             <Column>
-              <p className="info">{tx.vout ? 'Received' : 'Sent'}</p>
-              <p className="additionalInfo">{tx.vout ? 'Deposit' : 'Withdrawal'}</p>
+              <p className="info">{tx.received ? 'Received' : 'Sent'}</p>
+              <p className="additionalInfo">{tx.received ? 'Deposit' : 'Withdrawal'}</p>
             </Column>
-            <Column>
+            <Column style={{ justifySelf: 'flex-end' }}>
               <p className="info" style={{ textAlign: 'right' }}>
-                {formatFiat(tx.value)} {chosenAsset.name}
+                {` ${tx.received ? '+' : '-'}${formatDec(tx.value)} ${TICKER}`}
               </p>
               <p className="additionalInfo" style={{ textAlign: 'right' }}>
-                ${formatFiat(tx.value * chosenAsset.usd_value)}
+                ${formatFiat(tx.value * USD_VALUE)}
               </p>
             </Column>
+            {fullView && (
+              <Column style={{ justifySelf: 'flex-end' }}>
+                <Button
+                  onClick={() =>
+                    handleTxDetailView({ txid: tx.txid, value: tx.value, recepient: tx.recepient })
+                  }
+                  customWidth="86px"
+                  theme={Colors.BLACK}
+                >
+                  View
+                </Button>
+              </Column>
+            )}
           </Transactions>
         </TransactionWrapper>
       ))}
     </ActivityListRoot>
   );
 };
-
+ActivityList.defaultProps = {
+  fullView: false,
+};
 export default ActivityList;

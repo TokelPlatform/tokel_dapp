@@ -19,15 +19,15 @@ export const Responsive = {
   below: responsiveFactory('max-width'),
 };
 
-export const randomColor = () =>
-  'hsla('.concat((360 * Math.random()).toString(), ', ', '70%,', '80%,1)');
+export const randomColor = () => `hsla(${(360 * Math.random()).toString()}, 70%, 80%, 1)`;
 
+// Number().toString() to cut down unnecessary trailing 0s
 export const formatDec = num => {
-  return num.toFixed(Config.DECIMAL);
+  return Number(num.toFixed(Config.DECIMAL)).toString();
 };
 
 export const formatFiat = num => {
-  return num.toFixed(Config.DECIMAL_FIAT);
+  return Number(num.toFixed(Config.DECIMAL_FIAT)).toString();
 };
 
 export const limitLength = (value, len) => value.substr(0, len);

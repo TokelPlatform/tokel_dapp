@@ -60,7 +60,7 @@ const TxConfirmation = ({
 
   useEffect(() => {
     if (txStatus === 1) {
-      setCurrentTxId(limitLength(txid, 36).concat('...'));
+      setCurrentTxId(`${limitLength(txid, 36)}...`);
       dispatch.wallet.SET_CURRENT_TX_STATUS(0);
     }
   }, [txStatus]);
@@ -79,7 +79,7 @@ const TxConfirmation = ({
             <p>There was an error with your transaction.</p>
             <br />
             <b>Error</b>
-            <p>{txError}</p>
+            <p style={{ overflowWrap: 'break-word' }}>{txError}</p>
           </ErrorMessage>
         </div>
       )}
@@ -90,14 +90,14 @@ const TxConfirmation = ({
 
           <Row>
             <TxConfirmationRow label="Amount" value={amount} />
-            <TxConfirmationRow label="Value (then)" value={'≈ '.concat(usdValueTemp)} />
-            <TxConfirmationRow label="Value (now)" value={'≈ '.concat(usdValueTemp)} />
+            <TxConfirmationRow label="Value (then)" value={`≈ $ ${usdValueTemp}`} />
+            <TxConfirmationRow label="Value (now)" value={`≈ $ ${usdValueTemp}`} />
           </Row>
           <Column>
             <TxConfirmationRow label="TX id" value={currentTxId}>
               <CopyToClipboard textToCopy={txid} color={Colors.WHITE} />
               <a
-                href={links.explorers[currency].concat('/tx/', txid)}
+                href={`${links.explorers[currency]}/tx/${txid}`}
                 rel="noreferrer"
                 target="_blank"
                 style={{ marginLeft: '8px' }}
@@ -110,7 +110,7 @@ const TxConfirmation = ({
             <Button
               customWidth="180px"
               onClick={() => dispatch.environment.SET_MODAL(null)}
-              theme="gray"
+              theme={Colors.TRANSPARENT}
             >
               Close
             </Button>

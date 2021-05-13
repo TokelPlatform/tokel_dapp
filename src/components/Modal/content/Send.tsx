@@ -21,10 +21,10 @@ const Send = () => {
   const chosenAsset = useSelector(selectChosenAsset);
 
   const handleSubmit = (address, amount) => {
-    dispatch.wallet.spend({ address, amount });
     setRecepient(address);
     setAmountToSend(amount);
     setConfirmation(true);
+    dispatch.wallet.spend({ address, amount });
   };
   return (
     <SendRoot>

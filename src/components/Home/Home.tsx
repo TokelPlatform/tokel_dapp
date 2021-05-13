@@ -36,7 +36,7 @@ const ViewWrapper = styled.div`
 
 const getNote = name => (
   <InfoNote
-    title={name.concat(' functionality is not available currently')}
+    title={`${name} functionality is not available currently`}
     subtitle={[
       'Please have a look at our ',
       <a key="tokellink" href={links.website} rel="noreferrer" target="_blank">

@@ -18,7 +18,7 @@ const ImgClickableWrapper = styled.button`
 
 type CopyProps = {
   textToCopy: string;
-  color?: number;
+  color?: string;
 };
 
 const CopyToClipboard = ({ textToCopy, color }: CopyProps) => {

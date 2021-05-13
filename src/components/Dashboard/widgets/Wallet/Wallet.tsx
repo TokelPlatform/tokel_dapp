@@ -6,9 +6,9 @@ import styled from '@emotion/styled';
 import UpArrow from 'assets/UpArrow.svg';
 import { Asset } from 'store/models/wallet';
 import { dispatch } from 'store/rematch';
-import { selectModal, selectUnspentUtxos } from 'store/selectors';
-import { formatFiat } from 'util/helpers';
-import { ModalName } from 'vars/defines';
+import { selectModal, selectParsedTransactions } from 'store/selectors';
+import { formatDec, formatFiat } from 'util/helpers';
+import { Colors, ModalName } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import modals from 'components/Modal/content';
@@ -87,7 +87,8 @@ const tabs = ['Wallet', 'Recent Activity'];
 const Wallet = ({ asset }: WalletProps): ReactElement => {
   const [active, setActive] = useState(tabs[0]);
   const modalProps = modals[useSelector(selectModal)];
-  const utxos = useSelector(selectUnspentUtxos);
+  let txs = useSelector(selectParsedTransactions);
+  txs = txs.length > 3 ? txs.slice(0, 3) : txs;
 
   const handleSend = (): void => {
     dispatch.environment.SET_MODAL(ModalName.SEND);
@@ -111,7 +112,7 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
             <div>
               <p className="colTitle">Holdings</p>
               <p className="colValue">
-                {asset.balance} {asset.ticker}
+                {formatDec(asset.balance)} {asset.ticker}
               </p>
             </div>
             <div>
@@ -128,17 +129,17 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
             </div>
           </WalletContainer>
           <ButtonWrapper>
-            <Button onClick={handleSend} customWidth="170px" theme="gray">
+            <Button onClick={handleSend} customWidth="170px" theme={Colors.TRANSPARENT}>
               Send
             </Button>
-            <Button onClick={handleReceive} customWidth="170px" theme="gray">
+            <Button onClick={handleReceive} customWidth="170px" theme={Colors.TRANSPARENT}>
               Receive
             </Button>
           </ButtonWrapper>
         </div>
       )}
       {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
-      {active === 'Recent Activity' && <ActivityList transactions={utxos} />}
+      {active === 'Recent Activity' && <ActivityList fullView transactions={txs} />}
     </WalletRoot>
   );
 };
