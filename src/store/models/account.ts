@@ -8,10 +8,14 @@ import {
   logout as nspvLogout,
 } from 'util/nspvlib';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
-import { parseSpendTx, parseTransactions, parseUnspent } from 'util/transacations';
-import { combineTxs, getStillUnconfirmed } from 'util/txHelper';
+import {
+  combineTxs,
+  getStillUnconfirmed,
+  parseSpendTx,
+  parseTransactions,
+  parseUnspent,
+} from 'util/transactions';
 
-import environment from './environment';
 import type { RootModel } from './models';
 
 export interface AccountState {
