@@ -98,9 +98,7 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
             {fullView && (
               <Column style={{ justifySelf: 'flex-end' }}>
                 <Button
-                  onClick={() =>
-                    handleTxDetailView({ txid: tx.txid, value: tx.value, recepient: tx.recepient })
-                  }
+                  onClick={() => handleTxDetailView(tx)}
                   customWidth="86px"
                   theme={Colors.BLACK}
                 >

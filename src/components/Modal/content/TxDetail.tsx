@@ -21,6 +21,7 @@ const TxDetail = () => {
       usdValue={fiatValue}
       txid={chosenTx.txid}
       address={address}
+      received={chosenTx.received}
     />
   );
   // return <h1>Hello</h1>;
