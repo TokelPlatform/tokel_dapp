@@ -13,8 +13,11 @@ import Portfolio from './Portfolio/Portfolio';
 const DashboardRoot = styled.div`
   display: flex;
   height: 100%;
+  width: 100%;
+  flex: 1;
   background-color: var(--color-black);
-  /* width: 100%; */
+  padding: 20px;
+  margin: 0;
 `;
 
 const HALFMINUTE = 30000;

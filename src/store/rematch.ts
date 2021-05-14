@@ -3,6 +3,8 @@ import storage from 'redux-persist/lib/storage';
 import { RematchDispatch, RematchRootState, init } from '@rematch/core';
 import persistPlugin from '@rematch/persist';
 
+import { IS_PROD } from 'vars/defines';
+
 import { RootModel, models } from './models/models';
 
 const persistConfig = {
@@ -12,7 +14,7 @@ const persistConfig = {
 
 const store = init({
   models,
-  plugins: [persistPlugin(persistConfig)],
+  plugins: [IS_PROD && persistPlugin(persistConfig)].filter(Boolean),
   redux: {
     devtoolOptions: {
       disabled: process.env.NODE_ENV === 'production',

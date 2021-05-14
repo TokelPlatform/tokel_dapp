@@ -48,10 +48,9 @@ export const Button = styled.button<ButtonProps>`
 `;
 
 export const ButtonSmall = styled.button`
-  cursor: pointer;
   border-radius: var(--border-radius);
   color: var(--color-white);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   padding: 4px 12px;
   ${props => getTheme(props.theme)};
