@@ -13,11 +13,12 @@ import path from 'path';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import { BrowserWindow, app, ipcMain, session, shell } from 'electron';
+import { BrowserWindow, app, ipcMain, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
 import nspv from '../util/nspv';
+import { WindowControl } from '../vars/defines';
 import MenuBuilder from './menu';
 
 // unhandled excetions debug
@@ -46,7 +47,9 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
+  // const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
+  // TODO: extensions disabled for now, figure out why they don't get properly installed
+  const extensions = [];
 
   return installer
     .default(
@@ -70,13 +73,15 @@ const createWindow = async () => {
   };
 
   mainWindow = new BrowserWindow({
-    frame: false,
-    titleBarStyle: 'hiddenInset',
     show: false,
     width: 1240,
     height: 720,
     center: true,
+    frame: false,
+    titleBarStyle: 'hidden',
+    trafficLightPosition: { x: 18, y: 26 },
     backgroundColor: '#222c3c',
+    resizable: true,
     icon: getAssetPath('logo.png'),
     webPreferences: {
       nodeIntegration: true,
@@ -135,26 +140,25 @@ app.on('window-all-closed', () => {
 
 app.whenReady().then(createWindow).catch(console.log);
 
-app.on('ready', async () => {
-  const extPath = '/Users/connor/Downloads/extension';
-  await session.defaultSession.loadExtension(extPath);
-});
-
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
 });
 
-ipcMain.on('show-dash', () => {
-  mainWindow.hide();
+// custom events
+ipcMain.on('window-controls', async (_, arg) => {
+  if (mainWindow) {
+    if (arg === WindowControl.MIN) {
+      mainWindow.minimize();
+    } else if (arg === WindowControl.MAX) {
+      if (mainWindow.isMaximized()) {
+        mainWindow.unmaximize();
+      } else {
+        mainWindow.maximize();
+      }
+    } else if (arg === WindowControl.CLOSE) {
+      mainWindow.close();
+    }
+  }
 });
-
-// ipcMain.on('send-info', (event, arg) => {
-//   console.log('Passing event from main process', event);
-//   // production debug
-//   // childWindow.webContents.openDevTools();
-//   childWindow.show();
-//   mainWindow.hide();
-//   childWindow.webContents.send('pass-login-info', arg);
-// });

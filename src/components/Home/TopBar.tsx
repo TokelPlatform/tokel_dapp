@@ -1,41 +1,51 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 
+import { Platform, usePlatform } from 'hooks/platform';
 import { dispatch } from 'store/rematch';
-import { Colors, ModalName } from 'vars/defines';
+import { Colors, ModalName, TOPBAR_HEIGHT } from 'vars/defines';
 
 import { ButtonSmall } from 'components/_General/buttons';
 import { HSpaceSmall } from 'components/Dashboard/widgets/common';
+import WindowControls from './WindowControls';
 
 // import User from './User';
 
 const TopBarRoot = styled.div`
   background-color: var(--color-almostBlack);
+  height: ${TOPBAR_HEIGHT}px;
   width: 100%;
   display: flex;
-  padding: 12px 12px;
-  justify-content: flex-end;
+  padding: 10px;
+  justify-content: space-between;
   align-items: center;
-  z-index: 100;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
 `;
 
-const Spacer = styled.div`
-  width: 12px;
+const RightSideContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
 `;
 
-const TopBar = (): ReactElement => {
+const TopBar = () => {
+  const isWindowsOrLinux = [Platform.WINDOWS, Platform.LINUX].includes(usePlatform());
+
   return (
     <TopBarRoot>
-      <ButtonSmall onClick={() => dispatch.environment.SET_MODAL(ModalName.FEEDBACK)}>
-        Feedback
-      </ButtonSmall>
-      <HSpaceSmall />
-      <ButtonSmall theme={Colors.TRANSPARENT} onClick={() => dispatch.account.logout()}>
-        Logout
-      </ButtonSmall>
-      <Spacer />
-      {/* <User /> */}
+      {isWindowsOrLinux ? <WindowControls /> : <div />}
+      <RightSideContainer>
+        <ButtonSmall onClick={() => dispatch.environment.SET_MODAL(ModalName.FEEDBACK)}>
+          Feedback
+        </ButtonSmall>
+        <HSpaceSmall />
+        <ButtonSmall theme={Colors.TRANSPARENT} onClick={() => dispatch.account.logout()}>
+          Logout
+        </ButtonSmall>
+      </RightSideContainer>
     </TopBarRoot>
   );
 };
