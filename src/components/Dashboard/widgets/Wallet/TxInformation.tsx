@@ -37,18 +37,19 @@ type TxConfirmationProps = {
 
 const TxInformation = ({
   currency,
-  recepient,
   amount,
   usdValue,
   txid,
   address,
   received,
+  recepient,
 }: TxConfirmationProps): ReactElement => {
   const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
+  const secondAddress = recepient || SEE_EXPLORER;
   return (
     <Column className="wrp">
-      <TxConfirmationRow label="From" value={received ? `${address} (me)` : SEE_EXPLORER} />
-      <TxConfirmationRow label="To" value={received ? SEE_EXPLORER : `${address} (me)`} />
+      <TxConfirmationRow label="From" value={received ? `${address} (me)` : secondAddress} />
+      <TxConfirmationRow label="To" value={received ? secondAddress : `${address} (me)`} />
 
       <Row>
         <TxConfirmationRow label="Amount" value={amount} />
