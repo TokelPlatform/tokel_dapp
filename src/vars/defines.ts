@@ -13,6 +13,12 @@ export const WindowSize = {
   S: 420,
 };
 
+export const WindowControl = {
+  CLOSE: 'close',
+  MIN: 'minimize',
+  MAX: 'maximize',
+};
+
 export enum ViewType {
   DASHBOARD = 'dashboard',
   DEX = 'dex',
