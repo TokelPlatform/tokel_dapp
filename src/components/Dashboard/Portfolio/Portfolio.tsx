@@ -15,7 +15,7 @@ const PortfolioRoot = styled(WidgetContainer)`
   height: 100%;
   width: 280px;
   color: var(--color-white);
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const Portfolio = (): ReactElement => {

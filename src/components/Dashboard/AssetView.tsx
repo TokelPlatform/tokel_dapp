@@ -12,12 +12,13 @@ import Wallet from './widgets/Wallet/Wallet';
 
 const AssetViewRoot = styled.div`
   flex: 1;
-  margin: 0 20px;
+  height: 100%;
+  margin-left: 20px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(2, 1fr);
   grid-gap: 20px;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const AssetView = (): ReactElement => {

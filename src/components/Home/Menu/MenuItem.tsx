@@ -1,8 +1,8 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 
-type ContainerProps = {
+type MenuItemRootProps = {
   selected: boolean;
 };
 
@@ -18,13 +18,12 @@ type MenuItemProps = {
   selected: boolean;
 };
 
-const Container = styled.div<ContainerProps>`
+const MenuItemRoot = styled.div<MenuItemRootProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 80px;
-  width: 96px;
   font-size: 13px;
   color: ${p => (p.selected ? 'var(--color-white)' : 'var(--color-darkerGray)')};
   text-align: center;
@@ -49,13 +48,11 @@ const MenuIcon = styled.div<MenuIconProps>`
   mask-image: url('${p => p.icon}');
 `;
 
-const MenuItem = ({ name, icon, selected, onClick }: MenuItemProps): ReactElement => {
-  return (
-    <Container onClick={onClick} selected={selected}>
-      <MenuIcon icon={icon} selected={selected} />
-      <p>{name}</p>
-    </Container>
-  );
-};
+const MenuItem = ({ name, icon, selected, onClick }: MenuItemProps) => (
+  <MenuItemRoot onClick={onClick} selected={selected}>
+    <MenuIcon icon={icon} selected={selected} />
+    <p>{name}</p>
+  </MenuItemRoot>
+);
 
 export default MenuItem;

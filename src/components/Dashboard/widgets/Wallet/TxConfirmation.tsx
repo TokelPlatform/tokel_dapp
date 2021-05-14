@@ -64,7 +64,7 @@ const TxConfirmation = ({
       setCurrentTxId(`${limitLength(txid, 36)}...`);
       dispatch.wallet.SET_CURRENT_TX_STATUS(0);
     }
-  }, [txStatus]);
+  }, [txStatus, txid]);
 
   return (
     <TxConfirmationRoot>
