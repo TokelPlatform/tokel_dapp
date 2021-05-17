@@ -1,6 +1,6 @@
-import { request } from 'https';
-
 import got from 'got';
+
+import { ErrorMessages } from 'vars/defines';
 
 const NSPV_SERVER = 'http://127.0.0.1:7771';
 
@@ -17,23 +17,31 @@ const Method = {
 
 export const requestNSPV = (method, params = []) =>
   (async () => {
-    const { body } = await got.post(NSPV_SERVER, {
-      json: {
-        jsonrpc: '2.0',
-        id: 'curltest',
-        method,
-        params,
-      },
-      responseType: 'json',
-    });
-    // cannot fail :)
-    if (method === Method.GET_NEW_ADDRESS) {
-      return body;
+    try {
+      const { body } = await got.post(NSPV_SERVER, {
+        json: {
+          jsonrpc: '2.0',
+          id: 'curltest',
+          method,
+          params,
+        },
+        responseType: 'json',
+      });
+      // cannot fail :)
+      if (method === Method.GET_NEW_ADDRESS) {
+        return body;
+      }
+      if (body.result === 'success') {
+        return body;
+      }
+
+      throw new Error(`Whoops something went wrong - ${JSON.stringify(body)}`);
+    } catch (e) {
+      // connection refused ECONNREFUSED
+      console.error(e);
+      e.message = ErrorMessages.NETWORK_ISSUES;
+      throw new Error(e);
     }
-    if (body.result === 'success') {
-      return body;
-    }
-    throw new Error(JSON.stringify(body));
   })();
 
 /**

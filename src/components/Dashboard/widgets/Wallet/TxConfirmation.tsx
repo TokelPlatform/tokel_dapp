@@ -74,9 +74,6 @@ const TxConfirmation = ({ currency, recepient, amount }: TxConfirmationProps): R
       {!currentTxId && txStatus < 0 && (
         <div>
           <ErrorMessage>
-            <p>There was an error with your transaction.</p>
-            <br />
-            <b>Error</b>
             <p style={{ overflowWrap: 'break-word' }}>{txError}</p>
           </ErrorMessage>
         </div>
