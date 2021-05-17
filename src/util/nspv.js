@@ -2,10 +2,13 @@
 import { spawn } from 'child_process';
 import path from 'path';
 import os from 'os';
+import { SIGINT } from 'constants';
 
 import { OsType } from '../vars/defines';
 
 const { app } = require('electron');
+
+const RECONNECT_TIMES = 5;
 
 const binariesDir =
   process.env.NODE_ENV === 'development'
@@ -18,9 +21,14 @@ class NspvSingleton {
     if (process.env.NODE_ENV === 'test') {
       return 'singleton created';
     }
-    const binName = os.type === OsType.WINDOWS ? 'nspv.exe' : 'nspv';
+    this.binName = os.type === OsType.WINDOWS ? 'nspv.exe' : 'nspv';
+    this.connect();
+    this.reconnected = 0;
+  }
+
+  connect() {
     console.log('Starting a new NSPV process in the background.');
-    this.nspv = spawn(path.join(cwd, binName), ['KMD'], { cwd });
+    this.nspv = spawn(path.join(cwd, this.binName), ['KMD'], { cwd });
     this.nspv.stdout.setEncoding('utf8');
 
     this.nspv.stdout.on('data', data => {
@@ -33,7 +41,10 @@ class NspvSingleton {
 
     this.nspv.on('exit', code => {
       console.log('exit', code);
-      // Handle exit
+      if (!this.nukeit && this.reconnected < RECONNECT_TIMES) {
+        this.connect();
+        this.reconnected += 1;
+      }
     });
   }
 
@@ -42,7 +53,9 @@ class NspvSingleton {
   }
 
   cleanup() {
-    this.nspv.kill();
+    console.log('SIGINT by the app');
+    this.nukeit = true;
+    this.nspv.kill(SIGINT);
   }
 }
 

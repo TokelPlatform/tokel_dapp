@@ -44,3 +44,7 @@ export const OsType = {
 };
 
 export const SEE_EXPLORER = 'See explorer link for details';
+
+export const ErrorMessages = {
+  NETWORK_ISSUES: 'You are experiencing network issues. Please restart the app and try again',
+};
