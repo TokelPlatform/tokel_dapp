@@ -53,6 +53,9 @@ export default createModel<RootModel>()({
       let newTxs = [];
       let stillUnconfirmed = [];
       console.log('setting TXS');
+      if (!state.address) {
+        return state;
+      }
       // these are completely new transactions for this address
       if (!state.txs[state.address] || state.txs[state.address].length === 0) {
         newTxs = txs;
@@ -92,7 +95,7 @@ export default createModel<RootModel>()({
   effects: dispatch => ({
     async login({ key = null, setError }: LoginArgs) {
       setError('');
-      const userKey = key || this.key;
+      const userKey = key ?? this.key;
       if (!this.key) {
         this.SET_KEY(key);
       }
