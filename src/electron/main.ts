@@ -66,9 +66,9 @@ const createWindow = async () => {
 
   const RESOURCES_PATH = app.isPackaged
     ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../assets');
+    : path.join(__dirname, '../../assets');
 
-  const getAssetPath = (...paths: string[]): string => {
+  const resolveAsset = (...paths: string[]): string => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
@@ -82,7 +82,7 @@ const createWindow = async () => {
     trafficLightPosition: { x: 18, y: 26 },
     backgroundColor: '#222c3c',
     resizable: true,
-    icon: getAssetPath('logo.png'),
+    icon: resolveAsset('icon.png'),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
