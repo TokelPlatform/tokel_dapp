@@ -7,7 +7,7 @@ import UpArrow from 'assets/UpArrow.svg';
 import { Asset } from 'store/models/wallet';
 import { dispatch } from 'store/rematch';
 import { selectModal, selectParsedTransactions } from 'store/selectors';
-import { formatDec, formatFiat } from 'util/helpers';
+import { formatDec } from 'util/helpers';
 import { Colors, ModalName } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
