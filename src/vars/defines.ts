@@ -42,3 +42,5 @@ export const OsType = {
   MAC: 'Darwin',
   WINDOWS: 'Windows_NT',
 };
+
+export const SEE_EXPLORER = 'See explorer link for details';

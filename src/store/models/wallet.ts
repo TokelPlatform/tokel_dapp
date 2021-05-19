@@ -2,7 +2,7 @@ import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 
 import { broadcast, spend } from 'util/nspvlib';
-import { TICKER } from 'vars/defines';
+import { FEE, TICKER } from 'vars/defines';
 
 import type { RootModel } from './models';
 
@@ -89,7 +89,7 @@ export default createModel<RootModel>()({
               // update the balance after the transaction
               const updatedAsset = {
                 name: TICKER,
-                balance: -value,
+                balance: -value - FEE,
               };
               dispatch.wallet.UPDATE_ASSET_BALANCE(updatedAsset);
             }

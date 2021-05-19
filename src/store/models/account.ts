@@ -8,7 +8,13 @@ import {
   logout as nspvLogout,
 } from 'util/nspvlib';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
-import { parseSpendTx, parseTransactions, parseUnspent } from 'util/transacations';
+import {
+  combineTxs,
+  getStillUnconfirmed,
+  parseSpendTx,
+  parseTransactions,
+  parseUnspent,
+} from 'util/transactions';
 
 import type { RootModel } from './models';
 
@@ -18,7 +24,9 @@ export interface AccountState {
   txs: {
     [address: string]: Array<TxType>;
   };
+  key: string;
   parsedTxs: Array<TxType>;
+  unconfirmedTxs: Array<TxType>;
   chosenTx: TxType;
 }
 
@@ -28,23 +36,44 @@ interface LoginArgs {
 }
 
 export default createModel<RootModel>()({
-  state: { address: null, unspent: null, txs: {} } as AccountState,
+  state: {
+    address: null,
+    unspent: null,
+    txs: {},
+    key: null,
+    parsedTxs: [],
+    unconfirmedTxs: [],
+  } as AccountState,
   reducers: {
     SET_ADDRESS: (state, address: string) => ({
       ...state,
       address,
     }),
-    SET_TXS: (state, address, txs) => ({
-      ...state,
-      txs: {
-        ...txs,
-        [address]: txs,
-      },
-    }),
+    SET_TXS: (state, txs: Array<TxType>) => {
+      let newTxs = [];
+      let stillUnconfirmed = [];
+      console.log('setting TXS');
+      if (!state.address) {
+        return state;
+      }
+      // these are completely new transactions for this address
+      if (!state.txs[state.address] || state.txs[state.address].length === 0) {
+        newTxs = txs;
+      } else {
+        // some transactions will be still unconfirmed and we want to keep those at the top of the list
+        stillUnconfirmed = getStillUnconfirmed(txs, state.unconfirmedTxs);
+        const unconfirmedIds = stillUnconfirmed.map(tx => tx.txid);
+        newTxs = combineTxs(txs, unconfirmedIds, state.unconfirmedTxs);
+      }
+      let newState = dotProp.set(state, `txs.${state.address}`, newTxs);
+      newState = dotProp.set(newState, 'unconfirmedTxs', stillUnconfirmed);
+      return dotProp.set(newState, 'parsedTxs', parseTransactions(newTxs));
+    },
     ADD_NEW_TX: (state, transaction: TxType) => {
       const parsedTx = parseSpendTx(transaction.newTx);
       parsedTx.recepient = transaction.recepient;
-      return dotProp.set(state, 'parsedTxs', list => [parsedTx, ...list]);
+      const newState = dotProp.set(state, 'unconfirmedTxs', list => [parsedTx, ...list]);
+      return dotProp.set(newState, 'parsedTxs', list => [parsedTx, ...list]);
     },
     SET_PARSED_TXS: (state, parsedTxs: Array<TxType>) => ({
       ...state,
@@ -58,25 +87,37 @@ export default createModel<RootModel>()({
       ...state,
       chosenTx,
     }),
+    SET_KEY: (state, key: string) => ({
+      ...state,
+      key,
+    }),
   },
   effects: dispatch => ({
-    async login({ key, setError }: LoginArgs) {
+    async login({ key = null, setError }: LoginArgs) {
       setError('');
-      nspvLogin(key)
+      const userKey = key ?? this.key;
+      if (!this.key) {
+        this.SET_KEY(key);
+      }
+      nspvLogin(userKey)
         .then(async account => {
+          this.SET_ADDRESS(account.address);
+
           const unspent = await listUnspent();
-          const transactions = await listTransactions();
-          this.SET_TXS(transactions.address, transactions.txids);
-          this.SET_PARSED_TXS(parseTransactions(transactions.txids));
           this.SET_UNSPENT(unspent);
           dispatch.wallet.SET_ASSETS(parseUnspent(unspent));
-          this.SET_ADDRESS(account.address);
+
+          const transactions = await listTransactions();
+          this.SET_TXS(transactions.txids);
+
           return null;
         })
         .catch(e => setError(e.message));
     },
     async logout() {
       this.SET_ADDRESS(null);
+      this.SET_KEY(null);
+      this.SET_UNSPENT(null);
       return nspvLogout();
     },
   }),

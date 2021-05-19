@@ -12,8 +12,12 @@ export const selectChosenTransaction = (state: RootState) => state.account.chose
 export const selectTransactions = (state: RootState) =>
   state.account.txs[state.account.address] ?? [];
 export const selectParsedTransactions = (state: RootState) => state.account.parsedTxs ?? [];
+export const selectUncofirmedTransactions = (state: RootState) =>
+  state.account.unconfirmedTxs ?? [];
 export const selectChosenAsset = (state: RootState) => state.wallet.chosenAsset;
 export const selectAssets = (state: RootState) => state.wallet.assets ?? [];
 export const selectCurrentTxId = (state: RootState) => state.wallet.currentTx.id;
 export const selectCurrentTxStatus = (state: RootState) => state.wallet.currentTx.status;
 export const selectCurrentTxError = (state: RootState) => state.wallet.currentTx.error;
+
+export const selectKey = (state: RootState) => state.account.key;

@@ -6,7 +6,7 @@ import link from 'assets/link.svg';
 import { dispatch } from 'store/rematch';
 import { formatFiat, limitLength } from 'util/helpers';
 import links from 'util/links';
-import { Colors } from 'vars/defines';
+import { Colors, SEE_EXPLORER } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
@@ -32,21 +32,24 @@ type TxConfirmationProps = {
   usdValue?: number;
   txid: string;
   address: string;
+  received: boolean;
 };
 
 const TxInformation = ({
   currency,
-  recepient,
   amount,
   usdValue,
   txid,
   address,
+  received,
+  recepient,
 }: TxConfirmationProps): ReactElement => {
   const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
+  const secondAddress = recepient || SEE_EXPLORER;
   return (
     <Column className="wrp">
-      <TxConfirmationRow label="From" value={address} />
-      <TxConfirmationRow label="To" value={recepient} />
+      <TxConfirmationRow label="From" value={received ? `${address} (me)` : secondAddress} />
+      <TxConfirmationRow label="To" value={received ? secondAddress : `${address} (me)`} />
 
       <Row>
         <TxConfirmationRow label="Amount" value={amount} />
