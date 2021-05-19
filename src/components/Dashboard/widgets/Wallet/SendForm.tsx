@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { ReactElement, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
+import { selectUnspentBalance } from 'store/selectors';
 import { formatDec, formatFiat, isAddressValid, limitLength } from 'util/helpers';
 import { FEE, FIAT_CURRENCY, TICKER, USD_VALUE } from 'vars/defines';
 
@@ -48,8 +50,6 @@ const Approx = styled.p`
   color: var(--color-darkerGray);
 `;
 
-const balance = 10;
-
 type SendFormProps = {
   onSubmit: (arg1: string, arg2: string) => void;
 };
@@ -59,7 +59,9 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
   const [amount, setAmount] = useState('');
   const [fiatAmount, setFiatAmount] = useState('');
   const [error, setError] = useState('');
-  const remaining = balance - Number(amount);
+  const balance = useSelector(selectUnspentBalance);
+
+  const remaining = formatFiat(balance - Number(amount) - FEE);
 
   const handleSetAmount = (e, fiat) => {
     let v = e.target.value;
