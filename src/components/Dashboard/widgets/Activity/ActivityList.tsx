@@ -7,9 +7,9 @@ import receiveIcon from 'assets/receiveIcon.svg';
 import withdrawIcon from 'assets/withdrawIcon.svg';
 import { dispatch } from 'store/rematch';
 import { selectModal } from 'store/selectors';
-import { formatDec, formatFiat } from 'util/helpers';
+import { formatDec } from 'util/helpers';
 import { TxType } from 'util/nspvlib-mock';
-import { Colors, ModalName, TICKER, USD_VALUE } from 'vars/defines';
+import { Colors, ModalName, TICKER } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import InfoNote from 'components/_General/InfoNote';
@@ -27,7 +27,7 @@ type TransactionsProps = {
 const Transactions = styled.div<TransactionsProps>`
   display: grid;
   grid-template-columns: ${props => {
-    return props.fullView ? '20% 15% 20% 25% 20%' : '30% 30% 40%';
+    return props.fullView ? '20% 15% 20% 25% 20%' : '40% 20% 40%';
   }};
   padding: 0 28px;
 
@@ -92,8 +92,13 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
                 {` ${tx.received ? '+' : '-'}${formatDec(tx.value)} ${TICKER}`}
               </p>
               <p className="additionalInfo" style={{ textAlign: 'right' }}>
-                ${formatFiat(tx.value * USD_VALUE)}
+                $TBA
               </p>
+              {/*
+              https://github.com/TokelPlatform/tokel_app/issues/67
+              <p className="additionalInfo" style={{ textAlign: 'right' }}>
+                ${formatFiat(tx.value * USD_VALUE)}
+              </p> */}
             </Column>
             {fullView && (
               <Column style={{ justifySelf: 'flex-end' }}>

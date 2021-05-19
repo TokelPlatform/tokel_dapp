@@ -43,6 +43,9 @@
   --gradient-purple-horizontal: linear-gradient(97.43deg, #973af5 0%, #4ca6fe 100%);
   --gradient-gray: linear-gradient(180deg, #516173 3.03%, #3b4857 97.78%);
 
+  --gradient-green-receive: linear-gradient(180deg, #50efa3 0%, #68ddf7 100%);
+  --gradient-red-send: linear-gradient(180deg, #e250ef 0%, #f76868 100%);
+
   --gradient-spinner-aqua: linear-gradient(
     0deg,
     rgba(63, 249, 220, 0.1) 33%,

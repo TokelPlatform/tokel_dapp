@@ -117,15 +117,17 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
             </div>
             <div>
               <p className="colTitle">{asset.name} price</p>
-              <p className="colValue">${formatFiat(asset.usd_value)}</p>
+              <p className="colValue">$TBA</p>
+              {/* <p className="colValue">${formatFiat(asset.usd_value)}</p> */}
               <PriceChange>
                 <img alt="arrowup" src={UpArrow} />
-                <p>28 %</p>
+                <p>10000 %</p>
               </PriceChange>
             </div>
             <div>
               <p className="colTitle">{asset.name} holdings value</p>
-              <p className="colValue">${formatFiat(asset.balance * asset.usd_value)}</p>
+              <p className="colValue">$TBA</p>
+              {/* <p className="colValue">${formatFiat(asset.balance * asset.usd_value)}</p> */}
             </div>
           </WalletContainer>
           <ButtonWrapper>

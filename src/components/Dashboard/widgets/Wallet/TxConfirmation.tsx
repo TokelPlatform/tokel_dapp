@@ -11,7 +11,7 @@ import {
   selectCurrentTxId,
   selectCurrentTxStatus,
 } from 'store/selectors';
-import { formatFiat, limitLength } from 'util/helpers';
+import { limitLength } from 'util/helpers';
 import links from 'util/links';
 import { Colors } from 'vars/defines';
 
@@ -41,15 +41,10 @@ type TxConfirmationProps = {
   currency?: string;
   recepient: string;
   amount: string;
-  usdValue?: string;
+  // usdValue?: string;
 };
 
-const TxConfirmation = ({
-  currency,
-  recepient,
-  amount,
-  usdValue,
-}: TxConfirmationProps): ReactElement => {
+const TxConfirmation = ({ currency, recepient, amount }: TxConfirmationProps): ReactElement => {
   const txid = useSelector(selectCurrentTxId);
   const address = useSelector(selectAccountAddress);
   const txStatus = useSelector(selectCurrentTxStatus);
@@ -57,7 +52,7 @@ const TxConfirmation = ({
 
   const [currentTxId, setCurrentTxId] = useState(null);
 
-  const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
+  // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
 
   useEffect(() => {
     if (txStatus === 1) {
@@ -93,8 +88,12 @@ const TxConfirmation = ({
 
           <Row>
             <TxConfirmationRow label="Amount" value={amount} />
+            <TxConfirmationRow label="Value (then)" value="≈ $TBA" />
+            <TxConfirmationRow label="Value (now)" value="≈ $TBA" />
+            {/*
+            https://github.com/TokelPlatform/tokel_app/issues/67
             <TxConfirmationRow label="Value (then)" value={`≈ $ ${usdValueTemp}`} />
-            <TxConfirmationRow label="Value (now)" value={`≈ $ ${usdValueTemp}`} />
+            <TxConfirmationRow label="Value (now)" value={`≈ $ ${usdValueTemp}`} /> */}
           </Row>
           <Column>
             <TxConfirmationRow label="TX id" value={currentTxId}>
@@ -125,7 +124,7 @@ const TxConfirmation = ({
 };
 
 TxConfirmation.defaultProps = {
-  usdValue: '100',
+  // usdValue: '100',
   currency: 'KMD',
 };
 export default TxConfirmation;
