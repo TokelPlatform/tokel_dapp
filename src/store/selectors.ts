@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 import { RootState } from './rematch';
 
 export const selectView = (state: RootState) => state.environment.view;
@@ -21,3 +23,9 @@ export const selectCurrentTxStatus = (state: RootState) => state.wallet.currentT
 export const selectCurrentTxError = (state: RootState) => state.wallet.currentTx.error;
 
 export const selectKey = (state: RootState) => state.account.key;
+
+// computed
+export const selectAccountReady = createSelector(
+  [selectAccountAddress, selectUnspent, selectTransactions, selectAssets],
+  (address, unspent, txs, assets) => address && txs && unspent && assets.length > 0
+);

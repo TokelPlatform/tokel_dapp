@@ -4,13 +4,8 @@ import { useSelector } from 'react-redux';
 import { Global } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import {
-  selectAccountAddress,
-  selectAssets,
-  selectTransactions,
-  selectUnspent,
-} from 'store/selectors';
 import { Platform, usePlatform } from 'hooks/platform';
+import { selectAccountReady } from 'store/selectors';
 import { scrollbarStyle } from 'vars/styles/platformSpecific';
 
 import Home from 'components/Home/Home';
@@ -26,18 +21,15 @@ const AppRoot = styled.div`
 `;
 
 export default function App() {
-  const address = useSelector(selectAccountAddress);
-  const unspent = useSelector(selectUnspent);
-  const txs = useSelector(selectTransactions);
-  const assets = useSelector(selectAssets);
+  const accountReady = useSelector(selectAccountReady);
 
   const isWindowsOrLinux = [Platform.WINDOWS, Platform.LINUX].includes(usePlatform());
 
   return (
     <AppRoot>
       {isWindowsOrLinux && <Global styles={[scrollbarStyle]} />}
-      <TopBar bgColor={address ? undefined : 'var(--color-black)'} />
-      {address && txs && unspent && assets.length > 0 ? <Home /> : <Login />}
+      <TopBar />
+      {accountReady ? <Home /> : <Login />}
     </AppRoot>
   );
 }

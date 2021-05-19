@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { Platform, usePlatform } from 'hooks/platform';
 import { dispatch } from 'store/rematch';
-import { selectAccountAddress } from 'store/selectors';
+import { selectAccountReady } from 'store/selectors';
 import { Colors, ModalName, TOPBAR_HEIGHT } from 'vars/defines';
 
 import { ButtonSmall } from 'components/_General/buttons';
@@ -14,12 +14,12 @@ import WindowControls from 'components/WindowControls';
 
 // import User from './User';
 
-type TopBarProps = {
+type TopBarRootProps = {
   bgColor?: string;
 };
 
-const TopBarRoot = styled.div<TopBarProps>`
-  background-color: ${({ bgColor }) => bgColor ?? 'var(--color-almostBlack)'};
+const TopBarRoot = styled.div<TopBarRootProps>`
+  background-color: var(${p => p.bgColor});
   height: ${TOPBAR_HEIGHT}px;
   width: 100%;
   display: flex;
@@ -37,14 +37,15 @@ const RightSideContainer = styled.div`
   margin-right: 10px;
 `;
 
-const TopBar = ({ bgColor }: TopBarProps) => {
-  const address = useSelector(selectAccountAddress);
+const TopBar = () => {
+  const accountReady = useSelector(selectAccountReady);
+
   const isWindowsOrLinux = [Platform.WINDOWS, Platform.LINUX].includes(usePlatform());
 
   return (
-    <TopBarRoot bgColor={bgColor}>
+    <TopBarRoot bgColor={accountReady ? '--color-almostBlack' : '--color-black'}>
       {isWindowsOrLinux ? <WindowControls /> : <div />}
-      {address ? (
+      {accountReady ? (
         <RightSideContainer>
           <ButtonSmall onClick={() => dispatch.environment.SET_MODAL(ModalName.FEEDBACK)}>
             Feedback
