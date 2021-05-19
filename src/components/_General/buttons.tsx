@@ -42,6 +42,9 @@ export const Button = styled.button<ButtonProps>`
   &:focus {
     outline: none;
   }
+  &:hover {
+    background: var(--gradient-purple-direct);
+  }
 `;
 
 export const ButtonSmall = styled.button`
