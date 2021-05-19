@@ -8,11 +8,11 @@ import { selectUnspentBalance } from 'store/selectors';
 import { formatDec, formatFiat, isAddressValid, limitLength } from 'util/helpers';
 import { FEE, FIAT_CURRENCY, TICKER, USD_VALUE } from 'vars/defines';
 
-import { Button } from 'components/_General/buttons';
+import { Button, ButtonSmall } from 'components/_General/buttons';
 import Input from 'components/_General/Input';
 import InputWithLabel from 'components/_General/InputWithLabel';
 import ValueRow from 'components/_General/ValueRow';
-import { GrayLabel, VSpaceBig, VSpaceMed, VSpaceTiny } from '../common';
+import { GrayLabel, HSpaceSmall, RowWrapper, VSpaceBig, VSpaceMed, VSpaceSmall } from '../common';
 
 const SendFormRoot = styled.div`
   display: flex;
@@ -21,14 +21,7 @@ const SendFormRoot = styled.div`
   justify-content: start;
   font-size: var(--font-size-additional-p);
   color: var(--color-gray);
-  height: 340px;
-`;
-
-const RowWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: center;
+  height: var(--modal-content-height);
 `;
 
 const CurrencyWrapper = styled.div`
@@ -37,10 +30,10 @@ const CurrencyWrapper = styled.div`
   justify-content: center;
   position: absolute;
   height: 36px;
-  border-left: 1px solid var(--color-lighterBlack);
   padding-left: 8px;
-  margin: 0px 12px 12px 120px;
+  margin: 0px 12px 12px 100px;
   color: var(--color-darkerGray);
+  opacity: 0.6;
   font-size: var(--font-size-p);
 `;
 
@@ -64,9 +57,10 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
   const remaining = formatFiat(balance - Number(amount) - FEE);
 
   const handleSetAmount = (e, fiat) => {
+    setError('');
     let v = e.target.value;
     if (v > balance) {
-      v = balance;
+      v = balance - FEE;
     } else {
       v = limitLength(v, 10);
     }
@@ -82,10 +76,9 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
   const handleSubmit = () => {
     setError('');
     if (!isAddressValid(recepient)) {
-      setError('Invalid recepient address');
-    } else {
-      onSubmit(recepient, amount);
+      return setError('Invalid recepient address');
     }
+    return onSubmit(recepient, amount);
   };
 
   return (
@@ -102,8 +95,11 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
         error={error}
       />
       <label htmlFor="amount">
-        <GrayLabel>Amount</GrayLabel>
-        <VSpaceTiny />
+        <RowWrapper>
+          <GrayLabel style={{ marginLeft: '2px' }}>Amount</GrayLabel>
+          <span style={{ marginLeft: '4px' }}> {`(balance: ${balance})`}</span>
+        </RowWrapper>
+        <VSpaceSmall />
         <RowWrapper>
           <RowWrapper>
             <Input
@@ -111,12 +107,16 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
               onChange={e => handleSetAmount(e, false)}
               onKeyDown={() => ''}
               value={amount}
-              placeholder="0.00"
-              width="175px"
+              placeholder="0.0000"
+              width="146px"
               type="number"
             />
             <CurrencyWrapper>{TICKER}</CurrencyWrapper>
           </RowWrapper>
+          <HSpaceSmall />
+          <ButtonSmall theme="transparent">
+            <span style={{ opacity: 0.6 }}>MAX</span>
+          </ButtonSmall>
           <Approx>≈</Approx>
           <RowWrapper>
             <Input
@@ -124,23 +124,27 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
               onChange={e => handleSetAmount(e, true)}
               onKeyDown={() => ''}
               value={fiatAmount}
-              placeholder="0.00"
+              placeholder="0.0000"
               type="number"
-              width="175px"
+              width="146px"
             />
             <CurrencyWrapper>{FIAT_CURRENCY}</CurrencyWrapper>
           </RowWrapper>
         </RowWrapper>
       </label>
       <VSpaceBig />
-      <ValueRow keyProp="Network Fee" value={`${FEE} ${TICKER} ≈ ${formatFiat(FEE * USD_VALUE)}`} />
+      <ValueRow
+        keyProp="Network Fee"
+        value={`${FEE} ${TICKER} ≈ ${formatFiat(FEE * USD_VALUE)} USD`}
+      />
+
       <VSpaceMed />
       <ValueRow
         keyProp="Remaining balance"
-        value={`${remaining} ${TICKER} ≈ ${formatFiat(remaining * USD_VALUE)}`}
+        value={`${remaining} ${TICKER} ≈ ${formatFiat(Number(remaining) * USD_VALUE)} USD`}
       />
       <VSpaceBig />
-      <RowWrapper>
+      <RowWrapper center>
         <Button onClick={handleSubmit} customWidth="170px" theme="purple">
           Send
         </Button>

@@ -51,3 +51,14 @@ export const VSpaceSmall = styled.div`
 export const VSpaceTiny = styled.div`
   height: 8px;
 `;
+
+type RowProp = {
+  center?: boolean;
+};
+
+export const RowWrapper = styled.div<RowProp>`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: ${p => (p.center ? 'center' : 'flex-start')};
+`;

@@ -33,7 +33,7 @@ export const requestNSPV = (method, params = []) =>
     if (body.result === 'success') {
       return body;
     }
-    throw new Error(`Whoops something went wrong - ${JSON.stringify(body)}`);
+    throw new Error(JSON.stringify(body));
   })();
 
 /**

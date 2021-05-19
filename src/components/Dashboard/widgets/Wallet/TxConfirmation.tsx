@@ -23,7 +23,7 @@ import { GrayLabel, VSpaceMed } from '../common';
 import TxConfirmationRow from './TxConfirmationRow';
 
 const TxConfirmationRoot = styled.div`
-  height: 340px;
+  height: var(--modal-content-height);
 `;
 const Row = styled.div`
   display: flex;
