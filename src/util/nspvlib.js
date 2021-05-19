@@ -34,7 +34,7 @@ export const requestNSPV = async (method, params = []) => {
       return body;
     }
 
-    throw new Error(`Whoops something went wrong - ${JSON.stringify(body)}`);
+    throw new Error(JSON.stringify(body));
   } catch (e) {
     // connection refused ECONNREFUSED
     console.error(e);

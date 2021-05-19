@@ -74,7 +74,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
 
   const handleSetAmount = e => {
     const v = getAmount(e, balance);
-    setAmount(v);
+    setAmount(v.toString());
     // setFiatAmount(formatFiat(v * USD_VALUE));
   };
 
