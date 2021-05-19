@@ -15,12 +15,12 @@ import { scrollbarStyle } from 'vars/styles/platformSpecific';
 
 import Home from 'components/Home/Home';
 import Login from 'components/Login/Login';
+import TopBar from './TopBar';
 
 const AppRoot = styled.div`
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   height: 100vh;
   width: 100vw;
 `;
@@ -36,7 +36,8 @@ export default function App() {
   return (
     <AppRoot>
       {isWindowsOrLinux && <Global styles={[scrollbarStyle]} />}
-      return <AppRoot>{address && txs && unspent && assets.length > 0 ? <Home /> : <Login />}</AppRoot>;
+      <TopBar bgColor={address ? undefined : 'var(--color-black)'} />
+      {address && txs && unspent && assets.length > 0 ? <Home /> : <Login />}
     </AppRoot>
   );
 }

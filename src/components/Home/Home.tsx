@@ -9,16 +9,9 @@ import { TOPBAR_HEIGHT, ViewType } from 'vars/defines';
 
 import InfoNote from 'components/_General/InfoNote';
 import Dashboard from 'components/Dashboard/Dashboard';
-import SideMenu from './Menu/SideMenu';
-import TopBar from './TopBar';
+import SideMenu from 'components/Home/Menu/SideMenu';
 
 const HomeRoot = styled.div`
-  position: relative;
-  height: 100%;
-  width: 100%;
-`;
-
-const HorzContainer = styled.div`
   display: flex;
   width: 100%;
   height: calc(100% - ${TOPBAR_HEIGHT}px);
@@ -66,11 +59,8 @@ const Home = () => {
 
   return (
     <HomeRoot>
-      <TopBar />
-      <HorzContainer>
-        <SideMenu />
-        <ViewWrapper>{renderView(currentView)}</ViewWrapper>
-      </HorzContainer>
+      <SideMenu />
+      <ViewWrapper>{renderView(currentView)}</ViewWrapper>
     </HomeRoot>
   );
 };

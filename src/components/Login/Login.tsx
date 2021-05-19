@@ -4,13 +4,15 @@ import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
 import { getNewAddress } from 'util/nspvlib';
+import { TOPBAR_HEIGHT } from 'vars/defines';
 
 import ConfirmString from './ConfirmString';
 import GeneratedCredential from './GeneratedCredentials';
 import LoginForm from './LoginForm';
 
-const LoginScreen = styled.div`
-  margin-top: -10%;
+const LoginRoot = styled.div`
+  width: 100%;
+  height: calc(100% - ${TOPBAR_HEIGHT}px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -48,7 +50,7 @@ const Login = () => {
   const back = () => setStep(step - 1);
   const forward = () => setStep(step + 1);
   return (
-    <LoginScreen>
+    <LoginRoot>
       {step === STEP1 && <LoginForm addNewWallet={() => forward()} />}
       {step === STEP2 && (
         <GeneratedCredential
@@ -76,7 +78,7 @@ const Login = () => {
           forward={() => dispatch.account.login({ key, setError: console.log })}
         />
       )}
-    </LoginScreen>
+    </LoginRoot>
   );
 };
 
