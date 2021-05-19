@@ -1,19 +1,25 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
 import { Platform, usePlatform } from 'hooks/platform';
 import { dispatch } from 'store/rematch';
+import { selectAccountAddress } from 'store/selectors';
 import { Colors, ModalName, TOPBAR_HEIGHT } from 'vars/defines';
 
 import { ButtonSmall } from 'components/_General/buttons';
 import { HSpaceSmall } from 'components/Dashboard/widgets/common';
-import WindowControls from './WindowControls';
+import WindowControls from 'components/WindowControls';
 
 // import User from './User';
 
-const TopBarRoot = styled.div`
-  background-color: var(--color-almostBlack);
+type TopBarProps = {
+  bgColor?: string;
+};
+
+const TopBarRoot = styled.div<TopBarProps>`
+  background-color: ${({ bgColor }) => bgColor ?? 'var(--color-almostBlack)'};
   height: ${TOPBAR_HEIGHT}px;
   width: 100%;
   display: flex;
@@ -31,21 +37,26 @@ const RightSideContainer = styled.div`
   margin-right: 10px;
 `;
 
-const TopBar = () => {
+const TopBar = ({ bgColor }: TopBarProps) => {
+  const address = useSelector(selectAccountAddress);
   const isWindowsOrLinux = [Platform.WINDOWS, Platform.LINUX].includes(usePlatform());
 
   return (
-    <TopBarRoot>
+    <TopBarRoot bgColor={bgColor}>
       {isWindowsOrLinux ? <WindowControls /> : <div />}
-      <RightSideContainer>
-        <ButtonSmall onClick={() => dispatch.environment.SET_MODAL(ModalName.FEEDBACK)}>
-          Feedback
-        </ButtonSmall>
-        <HSpaceSmall />
-        <ButtonSmall theme={Colors.TRANSPARENT} onClick={() => dispatch.account.logout()}>
-          Logout
-        </ButtonSmall>
-      </RightSideContainer>
+      {address ? (
+        <RightSideContainer>
+          <ButtonSmall onClick={() => dispatch.environment.SET_MODAL(ModalName.FEEDBACK)}>
+            Feedback
+          </ButtonSmall>
+          <HSpaceSmall />
+          <ButtonSmall theme={Colors.TRANSPARENT} onClick={() => dispatch.account.logout()}>
+            Logout
+          </ButtonSmall>
+        </RightSideContainer>
+      ) : (
+        <div />
+      )}
     </TopBarRoot>
   );
 };
