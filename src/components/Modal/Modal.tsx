@@ -17,7 +17,7 @@ export const ModalRoot = styled(motion.div)`
   justify-content: center;
   align-items: center;
   background-color: var(--color-modal-overlay);
-  overflow: scroll;
+  overflow: auto;
   z-index: 100;
   opacity: 0;
 `;

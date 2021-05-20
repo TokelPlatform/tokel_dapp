@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -41,11 +41,12 @@ const SideMenuRoot = styled.div`
   background-color: var(--color-almostBlack);
   height: 100%;
   width: 96px;
-  padding-top: 32px;
-  overflow-y: scroll;
+  flex-direction: column;
+  padding-top: 12px;
+  overflow-y: auto;
 `;
 
-const SideMenu = (): ReactElement => {
+const SideMenu = () => {
   const currentView = useSelector(selectView);
 
   return (

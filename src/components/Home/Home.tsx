@@ -5,33 +5,22 @@ import styled from '@emotion/styled';
 
 import { selectView } from 'store/selectors';
 import links from 'util/links';
-import { ViewType } from 'vars/defines';
+import { TOPBAR_HEIGHT, ViewType } from 'vars/defines';
 
 import InfoNote from 'components/_General/InfoNote';
 import Dashboard from 'components/Dashboard/Dashboard';
-import SideMenu from './Menu/SideMenu';
-import TopBar from './TopBar';
+import SideMenu from 'components/Home/Menu/SideMenu';
 
 const HomeRoot = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-`;
-
-const HorzContainer = styled.div`
-  position: relative;
   display: flex;
   width: 100%;
-  flex: 1;
+  height: calc(100% - ${TOPBAR_HEIGHT}px);
 `;
 
 const ViewWrapper = styled.div`
-  flex: 1;
   height: 100%;
-  padding: 20px;
-  overflow: scroll;
+  flex: 1;
+  overflow: auto;
 `;
 
 const getNote = name => (
@@ -49,6 +38,7 @@ const getNote = name => (
     ]}
   />
 );
+
 const renderView = viewType => {
   switch (viewType) {
     case ViewType.DASHBOARD:
@@ -69,11 +59,8 @@ const Home = () => {
 
   return (
     <HomeRoot>
-      <TopBar />
-      <HorzContainer>
-        <SideMenu />
-        <ViewWrapper>{renderView(currentView)}</ViewWrapper>
-      </HorzContainer>
+      <SideMenu />
+      <ViewWrapper>{renderView(currentView)}</ViewWrapper>
     </HomeRoot>
   );
 };

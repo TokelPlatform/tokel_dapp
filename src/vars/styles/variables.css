@@ -16,6 +16,13 @@
   --color-growth: #2ac940;
   --color-spinner-aqua: #3ff9dc;
 
+  --color-window-close: #ff4f4f;
+  --color-window-close-hover: #f94747;
+  --color-window-minimize: #ffbb00;
+  --color-window-minimize-hover: #efa900;
+  --color-window-maximize: #00cd19;
+  --color-window-maximize-hover: #00b318;
+
   --color-modal-overlay: rgba(0, 0, 0, 0.8);
   --color-modal-bg: #212b3b;
   --color-modal-border: #2e3d51;

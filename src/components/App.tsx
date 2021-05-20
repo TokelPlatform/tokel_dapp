@@ -1,32 +1,35 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import { Global } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import {
-  selectAccountAddress,
-  selectAssets,
-  selectTransactions,
-  selectUnspent,
-} from 'store/selectors';
+import { Platform, usePlatform } from 'hooks/platform';
+import { selectAccountReady } from 'store/selectors';
+import { scrollbarStyle } from 'vars/styles/platformSpecific';
 
 import Home from 'components/Home/Home';
 import Login from 'components/Login/Login';
+import TopBar from './TopBar';
 
 const AppRoot = styled.div`
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   height: 100vh;
   width: 100vw;
 `;
 
 export default function App() {
-  const address = useSelector(selectAccountAddress);
-  const unspent = useSelector(selectUnspent);
-  const txs = useSelector(selectTransactions);
-  const assets = useSelector(selectAssets);
+  const accountReady = useSelector(selectAccountReady);
 
-  return <AppRoot>{address && txs && unspent && assets.length > 0 ? <Home /> : <Login />}</AppRoot>;
+  const isWindowsOrLinux = [Platform.WINDOWS, Platform.LINUX].includes(usePlatform());
+
+  return (
+    <AppRoot>
+      {isWindowsOrLinux && <Global styles={[scrollbarStyle]} />}
+      <TopBar />
+      {accountReady ? <Home /> : <Login />}
+    </AppRoot>
+  );
 }

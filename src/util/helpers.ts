@@ -22,14 +22,14 @@ export const Responsive = {
 export const randomColor = () => `hsla(${(360 * Math.random()).toString()}, 70%, 80%, 1)`;
 
 // Number().toString() to cut down unnecessary trailing 0s
-export const formatDec = num => {
+export const formatDec = (num: number) => {
   return Number(num.toFixed(Config.DECIMAL)).toString();
 };
 
-export const formatFiat = num => {
+export const formatFiat = (num: number) => {
   return Number(num.toFixed(Config.DECIMAL_FIAT)).toString();
 };
 
-export const limitLength = (value, len) => value.substr(0, len);
+export const limitLength = (value: string, len: number) => value.substr(0, len);
 
-export const isAddressValid = address => /^[a-km-zA-HJ-NP-Z1-9]{26,35}$/.test(address);
+export const isAddressValid = (address: string) => /^[a-km-zA-HJ-NP-Z1-9]{26,35}$/.test(address);

@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 type ErrorMessageProps = {
   children: JSX.Element | JSX.Element[] | string;
 };
+
 const StyledError = styled.div`
   height: 1rem;
   margin: 0.5rem 0;
