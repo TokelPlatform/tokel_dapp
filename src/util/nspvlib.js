@@ -1,6 +1,6 @@
-import { request } from 'https';
-
 import got from 'got';
+
+import { ErrorMessages } from 'vars/defines';
 
 const NSPV_SERVER = 'http://127.0.0.1:7771';
 
@@ -15,8 +15,8 @@ const Method = {
   SPEND: 'spend',
 };
 
-export const requestNSPV = (method, params = []) =>
-  (async () => {
+export const requestNSPV = async (method, params = []) => {
+  try {
     const { body } = await got.post(NSPV_SERVER, {
       json: {
         jsonrpc: '2.0',
@@ -33,8 +33,15 @@ export const requestNSPV = (method, params = []) =>
     if (body.result === 'success') {
       return body;
     }
+
     throw new Error(`Whoops something went wrong - ${JSON.stringify(body)}`);
-  })();
+  } catch (e) {
+    // connection refused ECONNREFUSED
+    console.error(e);
+    e.message = ErrorMessages.NETWORK_ISSUES;
+    throw new Error(e);
+  }
+};
 
 /**
  * Returns a newly generated address
