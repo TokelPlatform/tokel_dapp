@@ -9,6 +9,7 @@ const Row = styled.div`
   flex-direction: row;
   justify-content: space-between;
   p {
+    font-size: 14px;
     margin: 0;
   }
 `;

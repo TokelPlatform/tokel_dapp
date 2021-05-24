@@ -31,10 +31,13 @@ const STEP4 = 4;
 
 const Login = () => {
   const [step, setStep] = useState(STEP1);
-  const [key, setKey] = useState('Loading...');
-  const [seed, setSeed] = useState('Loading...');
+  const [key, setKey] = useState(null);
+  const [seed, setSeed] = useState(null);
 
   useEffect(() => {
+    if (key && seed) {
+      return;
+    }
     if (step === STEP2) {
       (async () => {
         const result = await getNewAddress();
@@ -42,7 +45,7 @@ const Login = () => {
         setSeed(result.seed);
       })();
     }
-  }, [step]);
+  }, [step, key, seed]);
 
   const back = () => setStep(step - 1);
   const forward = () => setStep(step + 1);

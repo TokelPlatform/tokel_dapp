@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Input from 'components/_General/Input';
-import { GrayLabel, VSpaceTiny } from 'components/Dashboard/widgets/common';
+import { GrayLabel, VSpaceSmall } from 'components/Dashboard/widgets/common';
 
 type InputWithLabelProps = {
   id?: string;
@@ -32,8 +32,8 @@ const InputWithLabel = ({
 }: InputWithLabelProps): ReactElement => {
   return (
     <label htmlFor={id}>
-      <GrayLabel>{label}</GrayLabel>
-      <VSpaceTiny />
+      <GrayLabel style={{ marginLeft: '2px' }}>{label}</GrayLabel>
+      <VSpaceSmall />
       <Input
         id={id}
         onChange={onChange}

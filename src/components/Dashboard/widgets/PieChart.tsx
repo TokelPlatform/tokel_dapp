@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { selectAssets } from 'store/selectors';
-import { formatFiat, randomColor } from 'util/helpers';
+import { randomColor } from 'util/helpers';
 
 import { WidgetContainer } from './common';
 
@@ -46,7 +46,11 @@ const PieChartWidget = (): ReactElement => {
           {data.length} assets{' '}
         </text>
         <text className="desc" x="50" y="55" dominantBaseline="central" textAnchor="middle">
-          ${formatFiat(totalValue)}
+          $TBA
+          {/*
+            https://github.com/TokelPlatform/tokel_app/issues/67
+            ${formatFiat(totalValue)}
+          */}
         </text>
       </CustomPieChart>
     </PieChartRoot>

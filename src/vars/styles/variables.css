@@ -38,6 +38,8 @@
   --border-radius: 4px;
   --border-radius-big: 8px;
 
+  --modal-content-height: 340px;
+
   /* --gradient-purple-direct: linear-gradient(
     167.56deg,
     #687bf7 9.04%,
@@ -47,6 +49,9 @@
 
   --gradient-purple-horizontal: linear-gradient(97.43deg, #973af5 0%, #4ca6fe 100%);
   --gradient-gray: linear-gradient(180deg, #516173 3.03%, #3b4857 97.78%);
+
+  --gradient-green-receive: linear-gradient(180deg, #50efa3 0%, #68ddf7 100%);
+  --gradient-red-send: linear-gradient(180deg, #e250ef 0%, #f76868 100%);
 
   --gradient-spinner-aqua: linear-gradient(
     0deg,

@@ -8,12 +8,12 @@ type StyledInputProps = {
 };
 
 const StyledInput = styled.input<StyledInputProps>`
-  background: var(--color-almostBlack);
+  background: var(--color-black);
   border: var(--border-dark);
   border-radius: var(--border-radius);
   height: 36px;
   width: ${props => props.width};
-  padding-left: ${({ icon }) => (icon ? '2.25rem' : '0.5rem')};
+  padding-left: ${({ icon }) => (icon ? '2.25rem' : '0.75rem')};
   color: var(--color-white);
 `;
 

@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 import link from 'assets/link.svg';
 import { dispatch } from 'store/rematch';
-import { formatFiat, limitLength } from 'util/helpers';
+import { limitLength } from 'util/helpers';
 import links from 'util/links';
 import { Colors, SEE_EXPLORER } from 'vars/defines';
 
@@ -29,7 +29,7 @@ type TxConfirmationProps = {
   currency?: string;
   recepient: string;
   amount: string;
-  usdValue?: number;
+  // usdValue?: number;
   txid: string;
   address: string;
   received: boolean;
@@ -38,13 +38,12 @@ type TxConfirmationProps = {
 const TxInformation = ({
   currency,
   amount,
-  usdValue,
   txid,
   address,
   received,
   recepient,
 }: TxConfirmationProps): ReactElement => {
-  const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
+  // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
   const secondAddress = recepient || SEE_EXPLORER;
   return (
     <Column className="wrp">
@@ -53,8 +52,12 @@ const TxInformation = ({
 
       <Row>
         <TxConfirmationRow label="Amount" value={amount} />
+        <TxConfirmationRow label="Value (then)" value="≈ $TBA" />
+        <TxConfirmationRow label="Value (now)" value="≈ $TBA" />
+        {/*
+        https://github.com/TokelPlatform/tokel_app/issues/67
         <TxConfirmationRow label="Value (then)" value={`≈ $ ${usdValueTemp}`} />
-        <TxConfirmationRow label="Value (now)" value={`≈ $ ${usdValueTemp}`} />
+        <TxConfirmationRow label="Value (now)" value={`≈ $ ${usdValueTemp}`} /> */}
       </Row>
       <Column>
         <TxConfirmationRow label="TX id" value={`${limitLength(txid, 36)} ...`}>
@@ -83,7 +86,7 @@ const TxInformation = ({
 };
 
 TxInformation.defaultProps = {
-  usdValue: 100,
+  // usdValue: 100,
   currency: 'KMD',
 };
 export default TxInformation;
