@@ -57,6 +57,9 @@ type SendFormProps = {
 
 const getAmount = (e, balance) => {
   const amount = e.target ? e.target.value : e.toString();
+  if (!balance) {
+    return 0;
+  }
   if (amount > balance - FEE) {
     return balance - FEE;
   }
@@ -70,7 +73,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
   const [error, setError] = useState('');
   const balance = useSelector(selectUnspentBalance);
 
-  const remaining = formatFiat(balance - Number(amount) - FEE);
+  const remaining = balance ? formatFiat(balance - Number(amount) - FEE) : 0;
 
   const handleSetAmount = e => {
     const v = getAmount(e, balance);

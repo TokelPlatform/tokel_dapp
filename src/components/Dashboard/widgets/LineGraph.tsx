@@ -7,6 +7,7 @@ import { WidgetContainer } from './common';
 
 const LineGraphRoot = styled(WidgetContainer)`
   grid-column: span 5;
+  height: 310px;
 `;
 
 const LineGraph = (): ReactElement => {
