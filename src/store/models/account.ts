@@ -115,6 +115,7 @@ export default createModel<RootModel>()({
         .catch(e => setError(e.message));
     },
     async logout() {
+      dispatch.wallet.SET_ASSETS(null);
       this.SET_ADDRESS(null);
       this.SET_KEY(null);
       this.SET_UNSPENT(null);
