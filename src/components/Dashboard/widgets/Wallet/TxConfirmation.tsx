@@ -15,7 +15,7 @@ import { limitLength } from 'util/helpers';
 import links from 'util/links';
 import { Colors } from 'vars/defines';
 
-import { Button } from 'components/_General/buttons';
+import CloseModalButton from 'components/_General/CloseButton';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Spinner from 'components/_General/Spinner';
@@ -105,15 +105,7 @@ const TxConfirmation = ({ currency, recepient, amount }: TxConfirmationProps): R
               </a>
             </TxConfirmationRow>
           </Column>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '12px' }}>
-            <Button
-              customWidth="180px"
-              onClick={() => dispatch.environment.SET_MODAL(null)}
-              theme={Colors.TRANSPARENT}
-            >
-              Close
-            </Button>
-          </div>
+          <CloseModalButton />
         </Column>
       )}
     </TxConfirmationRoot>
