@@ -33,6 +33,7 @@ export interface AccountState {
 interface LoginArgs {
   key: string;
   setError: (message: string) => void;
+  setFeedback: (message: string) => void;
 }
 
 export default createModel<RootModel>()({
@@ -41,7 +42,7 @@ export default createModel<RootModel>()({
     unspent: null,
     txs: {},
     key: null,
-    parsedTxs: [],
+    parsedTxs: {},
     unconfirmedTxs: [],
   } as AccountState,
   reducers: {
@@ -67,7 +68,7 @@ export default createModel<RootModel>()({
       }
       let newState = dotProp.set(state, `txs.${state.address}`, newTxs);
       newState = dotProp.set(newState, 'unconfirmedTxs', stillUnconfirmed);
-      return dotProp.set(newState, 'parsedTxs', parseTransactions(newTxs));
+      return dotProp.set(newState, `parsedTxs.${state.address}`, parseTransactions(newTxs));
     },
     ADD_NEW_TX: (state, transaction: TxType) => {
       const parsedTx = parseSpendTx(transaction.newTx);
@@ -93,7 +94,7 @@ export default createModel<RootModel>()({
     }),
   },
   effects: dispatch => ({
-    async login({ key = null, setError }: LoginArgs) {
+    async login({ key = null, setError, setFeedback }: LoginArgs) {
       setError('');
       const userKey = key ?? this.key;
       if (!this.key) {
@@ -102,17 +103,22 @@ export default createModel<RootModel>()({
       nspvLogin(userKey)
         .then(async account => {
           this.SET_ADDRESS(account.address);
+          setFeedback('Connecting to nspv...');
 
           const unspent = await listUnspent();
           this.SET_UNSPENT(unspent);
           dispatch.wallet.SET_ASSETS(parseUnspent(unspent));
 
+          setFeedback('Getting transactions...');
           const transactions = await listTransactions();
           this.SET_TXS(transactions.txids);
 
           return null;
         })
-        .catch(e => setError(e.message));
+        .catch(e => {
+          setFeedback('');
+          setError(e.message);
+        });
     },
     async logout() {
       this.SET_ADDRESS(null);

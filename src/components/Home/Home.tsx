@@ -28,7 +28,7 @@ const getNote = name => (
     title={`${name} functionality is not available currently`}
     subtitle={[
       'Please have a look at our ',
-      <a key="tokellink" href={links.website} rel="noreferrer" target="_blank">
+      <a key="tokellink" href={links.websiteRoadmap} rel="noreferrer" target="_blank">
         roadmap
       </a>,
       ' or reach out to us in ',
