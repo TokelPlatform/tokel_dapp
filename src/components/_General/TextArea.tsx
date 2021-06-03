@@ -22,6 +22,7 @@ const Styled = styled.textarea<TextAreaType>`
   width: ${p => p.width};
   color: var(--color-white);
   font-size: var(--font-size-additional-p);
+  font-family: var(--font-family-primary);
   resize: none;
   margin: 1rem 0;
 `;
