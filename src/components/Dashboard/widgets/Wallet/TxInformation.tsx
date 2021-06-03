@@ -3,12 +3,11 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 
 import link from 'assets/link.svg';
-import { dispatch } from 'store/rematch';
 import { limitLength } from 'util/helpers';
 import links from 'util/links';
 import { Colors, SEE_EXPLORER } from 'vars/defines';
 
-import { Button } from 'components/_General/buttons';
+import CloseModalButton from 'components/_General/CloseButton';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import TxConfirmationRow from './TxConfirmationRow';
 
@@ -72,15 +71,7 @@ const TxInformation = ({
           </a>
         </TxConfirmationRow>
       </Column>
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '12px' }}>
-        <Button
-          customWidth="180px"
-          onClick={() => dispatch.environment.SET_MODAL(null)}
-          theme={Colors.TRANSPARENT}
-        >
-          Close
-        </Button>
-      </div>
+      <CloseModalButton />
     </Column>
   );
 };

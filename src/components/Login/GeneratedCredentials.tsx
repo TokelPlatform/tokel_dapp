@@ -2,6 +2,8 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
+import links from 'util/links';
+
 import BackButton from 'components/_General/BackButton';
 import { Button } from 'components/_General/buttons';
 import Logo from 'components/_General/Logo';
@@ -63,7 +65,7 @@ const GeneratedCredential = ({ wifkey, seed, forward, goBack }: GeneratedCredent
         title="Important: please back up your seed phrase and WIF now!"
         subtitle={[
           ' We recommend storing it offline. ',
-          <a href="#" key="securitylink">
+          <a href={links.security} key="securitylink" rel="noreferrer" target="_blank">
             Learn security best practices
           </a>,
         ]}
