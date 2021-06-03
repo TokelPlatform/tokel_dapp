@@ -33,9 +33,15 @@ const Container = styled.div`
   }
 `;
 
+const Feedback = styled.p`
+  height: '1rem';
+  color: var(--color-gray);
+`;
+
 const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [loginValue, setloginValue] = useState('');
   const [error, setError] = useState('');
+  const [feedback, setFeedback] = useState('');
   const [showSpinner, setShowSpinner] = useState(false);
 
   const handleKeyDown = useCallback(
@@ -60,7 +66,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       <Button
         onClick={() => {
           setShowSpinner(true);
-          dispatch.account.login({ key: loginValue, setError });
+          dispatch.account.login({ key: loginValue, setError, setFeedback });
         }}
         theme="purple"
       >
@@ -68,10 +74,11 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       </Button>
       <VSpaceMed />
       <div style={{ height: '30px' }}>{showSpinner && <Spinner />}</div>
-      <div style={{ marginBottom: '1rem' }}>
-        <ErrorMessage>{error}</ErrorMessage>
+      <div style={{ marginBottom: '1rem', height: '3rem' }}>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {feedback && <Feedback>{feedback}</Feedback>}
       </div>
-      <Link onClick={addNewWallet} linkText="Generate New Address" />
+      <Link onClick={() => addNewWallet} linkText="Generate New Address" />
     </Container>
   );
 };

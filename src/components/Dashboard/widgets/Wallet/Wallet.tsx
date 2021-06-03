@@ -87,8 +87,7 @@ const tabs = ['Wallet', 'Recent Activity'];
 const Wallet = ({ asset }: WalletProps): ReactElement => {
   const [active, setActive] = useState(tabs[0]);
   const modalProps = modals[useSelector(selectModal)];
-  let txs = useSelector(selectParsedTransactions);
-  txs = txs.length > 3 ? txs.slice(0, 3) : txs;
+  const txs = useSelector(selectParsedTransactions).slice(0, 3);
 
   const handleSend = (): void => {
     dispatch.environment.SET_MODAL(ModalName.SEND);
