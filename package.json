@@ -27,18 +27,12 @@
     "publish": "yarn build && electron-builder -mlw --x64 --arm64 --publish always"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "cross-env NODE_ENV=development eslint --cache"
-    ],
+    "*.{js,jsx,ts,tsx}": ["cross-env NODE_ENV=development eslint --cache"],
     "{*.json,.{babelrc,eslintrc,prettierrc}}": [
       "prettier --ignore-path .eslintignore --parser json --write"
     ],
-    "*.{css,scss}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ],
-    "*.{html,md,yml}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ]
+    "*.{css,scss}": ["prettier --ignore-path .eslintignore --single-quote --write"],
+    "*.{html,md,yml}": ["prettier --ignore-path .eslintignore --single-quote --write"]
   },
   "build": {
     "productName": "TokelPlatform",
@@ -71,10 +65,7 @@
     },
     "afterSign": "config/scripts/Notarize.js",
     "mac": {
-      "target": [
-        "dmg",
-        "zip"
-      ],
+      "target": ["dmg", "zip"],
       "type": "distribution",
       "hardenedRuntime": true,
       "entitlements": "assets/entitlements.mac.plist",
@@ -98,15 +89,11 @@
     },
     "win": {
       "icon": "icon.ico",
-      "target": [
-        "nsis"
-      ]
+      "target": ["nsis"]
     },
     "linux": {
       "icon": "icon.png",
-      "target": [
-        "AppImage"
-      ],
+      "target": ["AppImage"],
       "category": "Development"
     }
   },
@@ -124,15 +111,7 @@
   "bugs": {
     "url": "https://github.com/TokelPlatform/tokel_app/issues"
   },
-  "keywords": [
-    "tokel",
-    "komodo",
-    "nftmarketplace",
-    "dex",
-    "token",
-    "wallet",
-    "crypto"
-  ],
+  "keywords": ["tokel", "komodo", "nftmarketplace", "dex", "token", "wallet", "crypto"],
   "homepage": "https://github.com/TokelPlatform/tokel_app#readme",
   "jest": {
     "testURL": "http://localhost/",
@@ -148,23 +127,10 @@
       "^util/(.*)$": "<rootDir>/src/util/$1",
       "^vars/(.*)$": "<rootDir>/src/vars/$1"
     },
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "ts",
-      "tsx",
-      "json"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "src/node_modules"
-    ],
-    "setupFiles": [
-      "./config/scripts/CheckBuildsExist.js"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/?!(minidenticon)"
-    ]
+    "moduleFileExtensions": ["js", "jsx", "ts", "tsx", "json"],
+    "moduleDirectories": ["node_modules", "src/node_modules"],
+    "setupFiles": ["./config/scripts/CheckBuildsExist.js"],
+    "transformIgnorePatterns": ["node_modules/?!(minidenticon)"]
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -289,6 +255,7 @@
     "react-minimal-pie-chart": "8.2.0",
     "react-redux": "^7.2.3",
     "react-tooltip": "4.2.15",
+    "react-tradingview-widget": "1.3.2",
     "redux": "^4.0.5",
     "regenerator-runtime": "^0.13.5",
     "reselect": "^4.0.0",
@@ -301,12 +268,8 @@
   },
   "browserslist": [],
   "renovate": {
-    "extends": [
-      "bliss"
-    ],
-    "baseBranches": [
-      "next"
-    ]
+    "extends": ["bliss"],
+    "baseBranches": ["next"]
   },
   "husky": {
     "hooks": {

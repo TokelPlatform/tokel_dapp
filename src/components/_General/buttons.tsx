@@ -22,6 +22,11 @@ const getTheme = theme => {
       return `
         background: var(--color-almostBlack);
         border: 1px solid var(--color-lighterBlack);`;
+    case Colors.PURPLEBORDER:
+      return `
+        background: var(--color-almostBlack);
+        border: 1px solid var(--color-purple);
+      `;
     default:
       // gray theme
       return `

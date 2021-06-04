@@ -43,6 +43,7 @@ export const Colors = {
   BLACK: 'black',
   PURPLE: 'purple',
   TRANSPARENT: 'transparent',
+  PURPLEBORDER: 'purpleborder',
 };
 
 export const OsType = {
