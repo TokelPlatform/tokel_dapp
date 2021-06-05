@@ -14,6 +14,10 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import { BrowserWindow, app, ipcMain, shell } from 'electron';
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
+} from 'electron-devtools-installer';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
@@ -45,18 +49,10 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
 }
 
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  // const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
-  // TODO: extensions disabled for now, figure out why they don't get properly installed
-  const extensions = [];
-
-  return installer
-    .default(
-      extensions.map(name => installer[name]),
-      forceDownload
-    )
-    .catch(console.log);
+  await installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS], {
+    loadExtensionOptions: { allowFileAccess: true },
+    forceDownload: false,
+  });
 };
 
 const createWindow = async () => {
