@@ -6,13 +6,11 @@ import styled from '@emotion/styled';
 import UpArrow from 'assets/UpArrow.svg';
 import { Asset } from 'store/models/wallet';
 import { dispatch } from 'store/rematch';
-import { selectModal, selectTransactions } from 'store/selectors';
+import { selectTransactions } from 'store/selectors';
 import { formatDec } from 'util/helpers';
 import { Colors, ModalName } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
-import modals from 'components/Modal/content';
-import Modal from 'components/Modal/Modal';
 import ActivityList from '../Activity/ActivityList';
 import { WidgetContainer, WidgetTitle } from '../common';
 
@@ -89,7 +87,6 @@ const tabs = ['Wallet', 'Recent Activity'];
 
 const Wallet = ({ asset }: WalletProps): ReactElement => {
   const [active, setActive] = useState(tabs[0]);
-  const modalProps = modals[useSelector(selectModal)];
   const txs = useSelector(selectTransactions).slice(0, 3);
 
   const handleSend = (): void => {
@@ -143,7 +140,6 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
             </ButtonWrapper>
           </div>
         )}
-        {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
         {active === 'Recent Activity' && <ActivityList fullView transactions={txs} />}
       </WalletContainer>
     </WalletRoot>

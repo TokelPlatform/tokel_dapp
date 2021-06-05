@@ -1,20 +1,16 @@
 import React, { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
 import receiveIcon from 'assets/receiveIcon.svg';
 import withdrawIcon from 'assets/withdrawIcon.svg';
 import { dispatch } from 'store/rematch';
-import { selectModal } from 'store/selectors';
 import { formatDec } from 'util/helpers';
 import { TxType } from 'util/nspvlib-mock';
 import { Colors, ModalName, TICKER } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import InfoNote from 'components/_General/InfoNote';
-import modals from 'components/Modal/content';
-import Modal from 'components/Modal/Modal';
 
 const ActivityListRoot = styled.div`
   grid-column: span 3;
@@ -68,11 +64,8 @@ const handleTxDetailView = tx => {
 };
 
 const ActivityList = ({ transactions = [], fullView }: ActivityListProps): ReactElement => {
-  const modalProps = modals[useSelector(selectModal)];
-
   return (
     <ActivityListRoot>
-      {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
       {transactions.length === 0 && <InfoNote title="No data available" />}
       {transactions.map(tx => (
         <TransactionWrapper key={tx.txid + tx.received}>
