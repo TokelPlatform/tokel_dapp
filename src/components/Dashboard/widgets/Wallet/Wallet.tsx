@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import UpArrow from 'assets/UpArrow.svg';
 import { Asset } from 'store/models/wallet';
 import { dispatch } from 'store/rematch';
-import { selectModal, selectParsedTransactions } from 'store/selectors';
+import { selectModal, selectTransactions } from 'store/selectors';
 import { formatDec } from 'util/helpers';
 import { Colors, ModalName } from 'vars/defines';
 
@@ -87,7 +87,7 @@ const tabs = ['Wallet', 'Recent Activity'];
 const Wallet = ({ asset }: WalletProps): ReactElement => {
   const [active, setActive] = useState(tabs[0]);
   const modalProps = modals[useSelector(selectModal)];
-  const txs = useSelector(selectParsedTransactions).slice(0, 3);
+  const txs = useSelector(selectTransactions).slice(0, 3);
 
   const handleSend = (): void => {
     dispatch.environment.SET_MODAL(ModalName.SEND);

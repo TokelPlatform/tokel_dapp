@@ -29,7 +29,7 @@ const AssetView = (): ReactElement => {
       <LineGraph />
       {!chosenAsset && <ActivityTable />}
       {!chosenAsset && <PieChart />}
-      {chosenAsset && <Wallet asset={theAsset} />}
+      {chosenAsset && theAsset && <Wallet asset={theAsset} />}
     </AssetViewRoot>
   );
 };

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
-import { selectKey } from 'store/selectors';
+import { selectAccountAddress, selectKey } from 'store/selectors';
 import { listTransactions, login } from 'util/nspvlib';
 
 import AssetView from './AssetView';
@@ -25,10 +25,12 @@ const ELEVENMINUTES = 660000;
 
 const Dashboard = (): ReactElement => {
   const key = useSelector(selectKey);
+  const address = useSelector(selectAccountAddress);
   useEffect(() => {
     const loginInterval = setInterval(() => login(key), ELEVENMINUTES);
     const txInterval = setInterval(() => {
-      listTransactions()
+      // @todo get txs after a certain block in the future
+      listTransactions(address)
         .then(txs => dispatch.account.SET_TXS(txs.txids))
         .catch(e => console.log(e));
     }, HALFMINUTE);

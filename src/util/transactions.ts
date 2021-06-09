@@ -10,20 +10,39 @@ export const parseTx = tx => {
   if (tx[1][0].height === 'TBA') {
     return tx[1][0];
   }
-  if (tx[1].length > 1) {
-    return {
-      txid: tx[0],
-      height: tx[1][0].height,
-      value: -(tx[1][0].value + (tx[1][1].value + FEE)),
-      received: false,
-      recepient: 'See tx at the explorer for details',
-    };
+  if (tx[1].length === 2) {
+    return [
+      {
+        txid: tx[0],
+        height: tx[1][0].height,
+        value: -(tx[1][0].value + (tx[1][1].value + FEE)),
+        received: false,
+        recepient: 'See tx at the explorer for details',
+      },
+    ];
+  }
+  // sending to yourself
+  if (tx[1].length === 3) {
+    return [
+      {
+        ...tx[1][0],
+        received: true,
+      },
+      {
+        ...tx[1][0],
+        received: false,
+        recepient: 'See tx at the explorer for details',
+      },
+    ];
   }
   // it is an incoming transaction, save as is
-  return {
-    ...tx[1][0],
-    received: true,
-  };
+  return [
+    {
+      ...tx[1][0],
+      value: Math.abs(tx[1][0].value),
+      received: true,
+    },
+  ];
 };
 
 /**
@@ -32,6 +51,9 @@ export const parseTx = tx => {
  * @returns
  */
 export const parseTransactions = txs => {
+  if (!txs.length) {
+    return [];
+  }
   const parsedTxs = {};
   // @todo change later
   // we only show 3 top transactions at the moment so we dont need to parse everything now
@@ -43,7 +65,7 @@ export const parseTransactions = txs => {
     parsedTxs[tx.txid].push(tx);
   });
   const resultTxs = [];
-  Object.entries(parsedTxs).forEach(k => resultTxs.push(parseTx(k)));
+  Object.entries(parsedTxs).forEach(k => resultTxs.push(...parseTx(k)));
   return resultTxs;
 };
 
@@ -52,16 +74,19 @@ export const parseTransactions = txs => {
  * @param tx spend.tx
  * @returns
  */
-export const parseSpendTx = tx => {
+export const parseSpendTx = newtx => {
   return {
     received: false,
-    txid: tx.txid,
-    height: tx.height ? tx.height : 'TBA',
-    value: Number(tx.total) - Number(tx.change) - FEE,
-    recepient: '',
+    unconfirmed: true,
+    txid: newtx.tx.txid,
+    height: newtx.tx.height ?? 'TBA',
+    value: Number(newtx.tx.total) - Number(newtx.tx.change) - FEE,
+    recepient: newtx.recepient,
   };
 };
 
+// retcode < 0 .. error, === 1 success
+export const spendSuccess = broadcasted => broadcasted.retcode === 1;
 /**
  * Parse listunspent output
  * @param unspent
@@ -84,22 +109,10 @@ export const parseUnspent = unspent => {
  * @param unconfirmed current unconfirmed txs saved in the state
  * @returns
  */
-export const getStillUnconfirmed = (txs, unconfirmed) =>
-  unconfirmed.filter(txid => !txs.find(tx => tx.txid === txid.txid));
-
-/**
- * Combines uncomfirmed transactions with confirmed ones
- * @param txs incoming transactions from listtransactions
- * @param stillUnconfirmed an array of transactions which have not been confirmed yet, cross checked with new incoming txs
- * @param unconfirmed old array of unconfirmed transactions
- * @returns
- */
-export const combineTxs = (txs, stillUnconfirmed, unconfirmed) => {
-  if (stillUnconfirmed.length === 0) {
-    return txs;
+export const getStillUnconfirmed = (newTxs, currentTxs) => {
+  if (!currentTxs || currentTxs.length === 0) {
+    return [];
   }
-  if (stillUnconfirmed.length < unconfirmed.length) {
-    return [...unconfirmed.filter(tx => stillUnconfirmed.indexOf(tx.txid) !== -1), ...txs];
-  }
-  return [...unconfirmed, ...txs];
+  const unconfirmed = currentTxs.filter(tx => tx.unconfirmed);
+  return unconfirmed.filter(txid => !newTxs.find(tx => tx.txid === txid.txid));
 };

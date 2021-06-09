@@ -2,6 +2,7 @@ import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 
 import { broadcast, spend } from 'util/nspvlib';
+import { spendSuccess } from 'util/transactions';
 import { FEE, TICKER } from 'vars/defines';
 
 import type { RootModel } from './models';
@@ -80,12 +81,16 @@ export default createModel<RootModel>()({
         })
         .then(broadcasted => {
           if (broadcasted) {
-            // retcode < 0 .. error, === 1 success
-            const success = Number(broadcasted.retcode === 1);
-            this.SET_CURRENT_TX_STATUS(success);
+            const success = spendSuccess(broadcasted);
+            this.SET_CURRENT_TX_STATUS(Number(success));
             if (success) {
               const value = Number(amount);
-              dispatch.account.ADD_NEW_TX({ newTx, recepient: address, value });
+              dispatch.account.ADD_NEW_TX({
+                tx: newTx,
+                recepient: address,
+                value,
+                unconfirmed: true,
+              });
               // update the balance after the transaction
               const updatedAsset = {
                 name: TICKER,

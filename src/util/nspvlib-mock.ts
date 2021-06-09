@@ -57,7 +57,8 @@ export interface TxType {
   vin?: number;
   received?: boolean;
   recepient?: string;
-  newTx?: string;
+  tx?: string;
+  unconfirmed: boolean;
 }
 
 export const listUnspent = async (fail = false): Promise<UnspentType> => {
