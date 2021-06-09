@@ -79,7 +79,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
         disabled={showSpinner}
       />
       <VSpaceSmall />
-      <Button onClick={() => performLogin()} theme="purple" disabled={showSpinner}>
+      <Button onClick={performLogin} theme="purple" disabled={showSpinner}>
         Login
       </Button>
       <VSpaceMed />

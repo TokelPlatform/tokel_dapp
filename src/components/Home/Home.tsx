@@ -12,6 +12,7 @@ import Dashboard from 'components/Dashboard/Dashboard';
 import SideMenu from 'components/Home/Menu/SideMenu';
 import modals from 'components/Modal/content';
 import Modal from 'components/Modal/Modal';
+import Settings from 'components/Settings/Settings';
 
 const HomeRoot = styled.div`
   display: flex;
@@ -52,7 +53,7 @@ const renderView = (viewType: ViewType[keyof ViewType]) => {
     case ViewType.NFT_MARKET:
       return getNote('NFT Marketplace');
     case ViewType.SETTINGS:
-      return getNote('Settings');
+      return <Settings />;
     default:
       return getNote('This functionality');
   }

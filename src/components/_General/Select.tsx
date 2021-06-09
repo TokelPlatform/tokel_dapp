@@ -16,7 +16,7 @@ const TippyWrapper = styled.div`
   .tippy-content {
     padding: 0;
   }
-  width: 160px;
+  width: 200px;
   min-width: 80px;
   max-width: 100%;
 `;
