@@ -12,6 +12,9 @@ const FeedbackRoot = styled.div`
   h4 {
     font-weight: 400;
   }
+  ul {
+    margin-bottom: 3rem;
+  }
 `;
 
 const Feedback = () => {
