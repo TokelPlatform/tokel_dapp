@@ -81,11 +81,11 @@ export default {
             sourceMap: true,
             importLoaders: 1,
           },
-        },
-        {
-          loader: 'sass-loader',
-        },
-      ],
+    },
+    // SVG
+    {
+      test: /\.svg$/,
+      use: ['@svgr/webpack', 'url-loader'],
     },
     // WOFF Font
     {
@@ -135,17 +135,6 @@ export default {
     {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       use: 'file-loader',
-    },
-    // SVG Font
-    {
-      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-      use: {
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          mimetype: 'image/svg+xml',
-        },
-      },
     },
     // Common Image Formats
     {
