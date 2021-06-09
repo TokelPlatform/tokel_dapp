@@ -240,6 +240,7 @@
     "@emotion/styled": "11.1.5",
     "@rematch/core": "^2.0.1",
     "@rematch/persist": "^2.0.1",
+    "@svgr/webpack": "^5.5.0",
     "caniuse-lite": "^1.0.30001214",
     "dot-prop-immutable": "2.1.0",
     "electron-unhandled": "3.0.2",
