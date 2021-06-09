@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Global } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { Platform, usePlatform } from 'hooks/platform';
-import { selectAccountReady } from 'store/selectors';
+import { selectAccountReady, selectTheme } from 'store/selectors';
+import { cssVarStyle } from 'util/theming';
 import { scrollbarStyle } from 'vars/styles/platformSpecific';
 
 import Home from 'components/Home/Home';
@@ -22,12 +23,17 @@ const AppRoot = styled.div`
 
 export default function App() {
   const accountReady = useSelector(selectAccountReady);
+  const themeName = useSelector(selectTheme);
+
+  useEffect(() => {
+    document.body.dataset.theme = themeName;
+  }, [themeName]);
 
   const isWindowsOrLinux = [Platform.WINDOWS, Platform.LINUX].includes(usePlatform());
 
   return (
     <AppRoot>
-      {isWindowsOrLinux && <Global styles={[scrollbarStyle]} />}
+      <Global styles={[cssVarStyle, isWindowsOrLinux && scrollbarStyle].filter(Boolean)} />
       <TopBar />
       {accountReady ? <Home /> : <Login />}
     </AppRoot>

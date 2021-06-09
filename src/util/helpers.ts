@@ -13,7 +13,6 @@ const responsiveFactory = (property: string) =>
     {}
   ) as ResponsiveType;
 
-// eslint-disable-next-line import/prefer-default-export
 export const Responsive = {
   above: responsiveFactory('min-width'),
   below: responsiveFactory('max-width'),
