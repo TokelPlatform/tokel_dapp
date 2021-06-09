@@ -78,7 +78,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
         {error && <ErrorMessage>{error}</ErrorMessage>}
         {feedback && <Feedback>{feedback}</Feedback>}
       </div>
-      <Link onClick={() => addNewWallet} linkText="Generate New Address" />
+      <Link onClick={addNewWallet} linkText="Generate New Address" />
     </Container>
   );
 };
