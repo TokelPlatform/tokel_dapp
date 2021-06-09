@@ -25,13 +25,12 @@ const QRCodeWrapper = styled.div`
 `;
 const AddressInput = styled.div`
   height: 36px;
-  width: 360px;
+  width: 375px;
   border: 1px solid var(--color-lighterBlack);
   box-sizing: border-box;
   border-radius: 2px;
   display: flex;
   align-items: center;
-  justify-content: center;
 `;
 
 const Copy = styled.span`
@@ -39,9 +38,8 @@ const Copy = styled.span`
   align-items: center;
   justify-content: center;
   height: 36px;
+  width: 36px;
   border-left: 1px solid var(--color-lighterBlack);
-  margin-left: 16px;
-  padding-left: 12px;
   padding-top: 4px;
 `;
 
@@ -55,7 +53,7 @@ const Receive = () => {
       </QRCodeWrapper>
       <VSpaceBig />
       <AddressInput>
-        {address}
+        <p style={{ textAlign: 'center', width: '100%' }}>{address}</p>
         <Copy>
           <CopyToClipboard color={Colors.WHITE} textToCopy={address} />
         </Copy>

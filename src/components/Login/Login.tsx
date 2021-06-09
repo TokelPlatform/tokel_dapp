@@ -68,7 +68,6 @@ const Login = () => {
   const forward = () => setStep(step + 1);
   return (
     <LoginRoot>
-      {console.log(step)}
       <ProgressBarAnimation width={`${(step - 1) * 25}%`} />
       {step === STEP1 && <LoginForm addNewWallet={() => forward()} />}
       {step === STEP2 && (
@@ -97,7 +96,7 @@ const Login = () => {
           forward={() => {
             forward();
             setShowSpinner(true);
-            dispatch.account.login({ key, setError: console.log });
+            dispatch.account.login({ key, setError: console.log, setFeedback });
           }}
         />
       )}

@@ -52,7 +52,9 @@ const Column = styled.div`
 `;
 
 const TransactionWrapper = styled.div`
+  margin-top: -1px;
   border-top: var(--border-dark);
+  padding-bottom: 10px;
 `;
 
 type ActivityListProps = {

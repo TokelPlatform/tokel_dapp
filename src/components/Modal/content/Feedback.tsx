@@ -12,15 +12,12 @@ const FeedbackRoot = styled.div`
   h4 {
     font-weight: 400;
   }
-  ul {
-    margin-bottom: 3rem;
-  }
 `;
 
 const Feedback = () => {
   return (
     <FeedbackRoot>
-      <h4>Give us your feedback so we can further improve Tokel.</h4>
+      <h4>Please, share your feedback with us so we can improve.</h4>
       <ul>
         <li>
           Feel free to create{' '}
@@ -42,7 +39,14 @@ const Feedback = () => {
           </a>
         </li>
       </ul>
-      <CloseModalButton />
+      <p
+        style={{
+          margin: '2rem 1.5rem 2rem 0',
+          textAlign: 'right',
+        }}
+      >
+        Yours sincerely, TOKEL team
+      </p>
     </FeedbackRoot>
   );
 };
