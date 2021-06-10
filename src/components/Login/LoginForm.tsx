@@ -61,6 +61,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
         icon={password}
         value={loginValue}
         placeholder="Key or Seed Phrase"
+        disabled={showSpinner}
       />
       <VSpaceSmall />
       <Button
