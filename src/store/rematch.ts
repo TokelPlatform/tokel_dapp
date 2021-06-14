@@ -33,7 +33,7 @@ const store = init({
             txs: state.account.txs,
           },
           wallet: {
-            chosenAsset: 'KMD',
+            chosenAsset: null,
             assets: [],
             currentTx: {},
           },
