@@ -1,36 +1,39 @@
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 
 import { RematchDispatch, RematchRootState, init } from '@rematch/core';
 import persistPlugin from '@rematch/persist';
 
-import { IS_PROD, ViewType } from 'vars/defines';
+import { ViewType } from 'vars/defines';
 
 import { RootModel, models } from './models/models';
 
-const rootPersistConfig = {
-  key: 'root',
+const accountPersistConfig = {
+  key: 'account',
   storage,
+  whitelist: ['txs'],
+  stateReconciler: autoMergeLevel2,
 };
 
 const store = init({
   models,
-  plugins: [IS_PROD && persistPlugin(rootPersistConfig)].filter(Boolean),
+  plugins: [persistPlugin(accountPersistConfig)].filter(Boolean),
   redux: {
     devtoolOptions: {
       disabled: process.env.NODE_ENV === 'production',
     },
     rootReducers: {
-      RESET_APP: () => {
+      RESET_APP: state => {
         return {
           account: {
             address: null,
-            unspent: null,
-            txs: {},
+            unspent: state.account.unspent,
             key: null,
             nspvFeedback: null,
+            txs: state.account.txs,
           },
           wallet: {
-            chosenAsset: null,
+            chosenAsset: 'KMD',
             assets: [],
             currentTx: {},
           },
