@@ -8,7 +8,7 @@ import { OsType } from '../vars/defines';
 
 const { app } = require('electron');
 
-const RECONNECT_TIMES = 5;
+const RECONNECT_TIMES = 6;
 
 const binariesDir =
   process.env.NODE_ENV === 'development'
@@ -42,8 +42,10 @@ class NspvSingleton {
     this.nspv.on('exit', code => {
       console.log('exit', code);
       if (!this.nukeit && this.reconnected < RECONNECT_TIMES) {
-        this.connect();
-        this.reconnected += 1;
+        setTimeout(() => {
+          this.connect();
+          this.reconnected += 1;
+        }, 10000);
       }
     });
   }
