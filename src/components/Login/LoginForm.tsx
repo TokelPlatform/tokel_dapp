@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 
@@ -40,14 +40,20 @@ const Feedback = styled.p`
 
 const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [loginValue, setloginValue] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
   const [feedback, setFeedback] = useState('');
   const [showSpinner, setShowSpinner] = useState(false);
 
   const handleKeyDown = useCallback(
-    e => e.key === 'Enter' && dispatch.account.login({ key: loginValue, setError }),
+    e => e.key === 'Enter' && dispatch.account.login({ key: loginValue, setError, setFeedback }),
     [loginValue, setError]
   );
+
+  useEffect(() => {
+    if (error) {
+      setShowSpinner(false);
+    }
+  }, [error]);
 
   return (
     <Container>
@@ -70,6 +76,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
           dispatch.account.login({ key: loginValue, setError, setFeedback });
         }}
         theme="purple"
+        disabled={showSpinner}
       >
         Login
       </Button>
