@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import UpArrow from 'assets/UpArrow.svg';
 import { Asset } from 'store/models/wallet';
 import { dispatch } from 'store/rematch';
-import { selectModal, selectParsedTransactions } from 'store/selectors';
+import { selectModal, selectTransactions } from 'store/selectors';
 import { formatDec } from 'util/helpers';
 import { Colors, ModalName } from 'vars/defines';
 
@@ -40,8 +40,11 @@ const TabTitle = styled(WidgetTitle)<TabTitleProps>`
 `;
 
 const WalletContainer = styled.div`
-  margin-left: 28px;
   border-top: var(--border-dark);
+`;
+
+const WalletWrapper = styled.div`
+  margin-left: 28px;
   display: grid;
   grid-template-columns: 45% 25% 30%;
 
@@ -87,7 +90,7 @@ const tabs = ['Wallet', 'Recent Activity'];
 const Wallet = ({ asset }: WalletProps): ReactElement => {
   const [active, setActive] = useState(tabs[0]);
   const modalProps = modals[useSelector(selectModal)];
-  const txs = useSelector(selectParsedTransactions).slice(0, 3);
+  const txs = useSelector(selectTransactions).slice(0, 3);
 
   const handleSend = (): void => {
     dispatch.environment.SET_MODAL(ModalName.SEND);
@@ -105,42 +108,44 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
           </TabTitle>
         ))}
       </div>
-      {active === 'Wallet' && (
-        <div>
-          <WalletContainer>
-            <div>
-              <p className="colTitle">Holdings</p>
-              <p className="colValue">
-                {formatDec(asset.balance)} {asset.ticker}
-              </p>
-            </div>
-            <div>
-              <p className="colTitle">{asset.name} price</p>
-              <p className="colValue">$TBA</p>
-              {/* <p className="colValue">${formatFiat(asset.usd_value)}</p> */}
-              <PriceChange>
-                <img alt="arrowup" src={UpArrow} />
-                <p>10000 %</p>
-              </PriceChange>
-            </div>
-            <div>
-              <p className="colTitle">{asset.name} holdings value</p>
-              <p className="colValue">$TBA</p>
-              {/* <p className="colValue">${formatFiat(asset.balance * asset.usd_value)}</p> */}
-            </div>
-          </WalletContainer>
-          <ButtonWrapper>
-            <Button onClick={handleSend} customWidth="170px" theme={Colors.TRANSPARENT}>
-              Send
-            </Button>
-            <Button onClick={handleReceive} customWidth="170px" theme={Colors.TRANSPARENT}>
-              Receive
-            </Button>
-          </ButtonWrapper>
-        </div>
-      )}
-      {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
-      {active === 'Recent Activity' && <ActivityList fullView transactions={txs} />}
+      <WalletContainer>
+        {active === 'Wallet' && (
+          <div>
+            <WalletWrapper>
+              <div>
+                <p className="colTitle">Holdings</p>
+                <p className="colValue">
+                  {formatDec(asset.balance)} {asset.ticker}
+                </p>
+              </div>
+              <div>
+                <p className="colTitle">{asset.name} price</p>
+                <p className="colValue">$TBA</p>
+                {/* <p className="colValue">${formatFiat(asset.usd_value)}</p> */}
+                <PriceChange>
+                  <img alt="arrowup" src={UpArrow} />
+                  <p>10000 %</p>
+                </PriceChange>
+              </div>
+              <div>
+                <p className="colTitle">{asset.name} holdings value</p>
+                <p className="colValue">$TBA</p>
+                {/* <p className="colValue">${formatFiat(asset.balance * asset.usd_value)}</p> */}
+              </div>
+            </WalletWrapper>
+            <ButtonWrapper>
+              <Button onClick={handleSend} customWidth="170px" theme={Colors.TRANSPARENT}>
+                Send
+              </Button>
+              <Button onClick={handleReceive} customWidth="170px" theme={Colors.TRANSPARENT}>
+                Receive
+              </Button>
+            </ButtonWrapper>
+          </div>
+        )}
+        {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
+        {active === 'Recent Activity' && <ActivityList fullView transactions={txs} />}
+      </WalletContainer>
     </WalletRoot>
   );
 };

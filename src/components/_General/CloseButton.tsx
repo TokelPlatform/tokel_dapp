@@ -10,7 +10,7 @@ import { Button } from './buttons';
 const CloseModalButtonRoot = styled.div`
   display: flex;
   justify-content: center;
-  margin: 3rem 0 1rem 0;
+  margin: 1rem 0 1rem 0;
 `;
 
 const CloseModalButton = () => (

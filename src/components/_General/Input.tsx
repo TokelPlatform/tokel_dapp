@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 type StyledInputProps = {
   width: string;
   icon: boolean;
+  disabled: boolean;
 };
 
 const StyledInput = styled.input<StyledInputProps>`
@@ -15,6 +16,7 @@ const StyledInput = styled.input<StyledInputProps>`
   width: ${props => props.width};
   padding-left: ${({ icon }) => (icon ? '2.25rem' : '0.75rem')};
   color: var(--color-white);
+  ${props => (props.disabled ? 'pointer-events: none; opacity: 0.9; color: var(--color-gray)' : '')}
 `;
 
 const Icon = styled.img`
@@ -32,6 +34,7 @@ type InputProps = {
   type?: string;
   onChange: (e) => void;
   onKeyDown: (e) => void;
+  disabled?: boolean;
 };
 
 const Input = ({
@@ -44,6 +47,7 @@ const Input = ({
   width,
   id,
   type,
+  disabled,
 }: InputProps) => {
   return (
     <div>
@@ -58,6 +62,7 @@ const Input = ({
         width={width}
         icon={icon !== ''}
         type={type}
+        disabled={disabled}
       />
     </div>
   );

@@ -4,8 +4,6 @@ import styled from '@emotion/styled';
 
 import links from 'util/links';
 
-import CloseModalButton from 'components/_General/CloseButton';
-
 const FeedbackRoot = styled.div`
   color: var(--color-gray);
   font-weight: 400;
@@ -17,7 +15,7 @@ const FeedbackRoot = styled.div`
 const Feedback = () => {
   return (
     <FeedbackRoot>
-      <h4>Give us your feedback so we can further improve Tokel.</h4>
+      <h4>Please, share your feedback with us so we can improve.</h4>
       <ul>
         <li>
           Feel free to create{' '}
@@ -39,7 +37,14 @@ const Feedback = () => {
           </a>
         </li>
       </ul>
-      <CloseModalButton />
+      <p
+        style={{
+          margin: '2rem 1.5rem 2rem 0',
+          textAlign: 'right',
+        }}
+      >
+        Yours sincerely, TOKEL team
+      </p>
     </FeedbackRoot>
   );
 };

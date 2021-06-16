@@ -13,10 +13,9 @@ export const selectUnspent = (state: RootState) => state.account.unspent ?? {};
 export const selectChosenTransaction = (state: RootState) => state.account.chosenTx;
 export const selectTransactions = (state: RootState) =>
   state.account.txs[state.account.address] ?? [];
-export const selectParsedTransactions = (state: RootState) =>
-  state.account.parsedTxs[state.account.address] ?? [];
 export const selectUncofirmedTransactions = (state: RootState) =>
-  state.account.unconfirmedTxs ?? [];
+  state.account?.txs[state.account?.address]?.filter(tx => tx.unconfirmed) ?? [];
+
 export const selectChosenAsset = (state: RootState) => state.wallet.chosenAsset;
 export const selectAssets = (state: RootState) => state.wallet.assets ?? [];
 export const selectCurrentTxId = (state: RootState) => state.wallet.currentTx.id;
@@ -27,7 +26,9 @@ export const selectKey = (state: RootState) => state.account.key;
 
 // computed
 export const selectAccountReady = createSelector(
-  [selectAccountAddress, selectUnspent, selectParsedTransactions, selectAssets],
-  (address, unspent, parsedTxs, assets) =>
-    address && parsedTxs.length > 0 && unspent && assets.length > 0
+  [selectAccountAddress, selectAssets, selectTransactions, selectUnspentBalance],
+  (address, assets, txs, balance) =>
+    assets.length > 0 &&
+    address &&
+    ((txs.length === 0 && balance === 0) || (txs.length > 0 && balance > 0))
 );

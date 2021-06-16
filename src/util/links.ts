@@ -3,6 +3,7 @@ export default {
     KMD: 'https://kmd.explorer.dexstats.info',
     TKL: '',
     TKLTEST: 'https://tkltest.explorer.dexstats.info',
+    TKLLIVE: '',
   },
   discord: 'https://discord.gg/MHxJZVFkqa',
   website: 'https://tokel.io',

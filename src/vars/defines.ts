@@ -40,6 +40,7 @@ export const Config = {
 
 export const Colors = {
   WHITE: 'white',
+  GRAY: 'gray',
   BLACK: 'black',
   PURPLE: 'purple',
   TRANSPARENT: 'transparent',

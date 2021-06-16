@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectParsedTransactions } from 'store/selectors';
+import { selectTransactions } from 'store/selectors';
 
 import { WidgetContainer, WidgetTitle } from '../common';
 import ActivityList from './ActivityList';
@@ -17,7 +17,7 @@ const ActivityTitle = styled(WidgetTitle)`
 `;
 
 const ActivityTable = (): ReactElement => {
-  const txs = useSelector(selectParsedTransactions).slice(0, 3);
+  const txs = useSelector(selectTransactions).slice(0, 3);
 
   return (
     <ActivityTableRoot>

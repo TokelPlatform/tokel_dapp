@@ -52,7 +52,9 @@ const Column = styled.div`
 `;
 
 const TransactionWrapper = styled.div`
+  margin-top: -1px;
   border-top: var(--border-dark);
+  padding-bottom: 10px;
 `;
 
 type ActivityListProps = {
@@ -73,7 +75,7 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
       {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
       {transactions.length === 0 && <InfoNote title="No data available" />}
       {transactions.map(tx => (
-        <TransactionWrapper key={tx.txid}>
+        <TransactionWrapper key={tx.txid + tx.received}>
           <Transactions fullView={fullView}>
             <Column>
               <p className="datetime">{tx.height}</p>

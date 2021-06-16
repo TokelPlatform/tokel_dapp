@@ -68,7 +68,6 @@ const Login = () => {
   const forward = () => setStep(step + 1);
   return (
     <LoginRoot>
-      {console.log(step)}
       <ProgressBarAnimation width={`${(step - 1) * 25}%`} />
       {step === STEP1 && <LoginForm addNewWallet={() => forward()} />}
       {step === STEP2 && (
