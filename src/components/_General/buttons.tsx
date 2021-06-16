@@ -7,7 +7,7 @@ type ButtonProps = {
   customWidth?: string;
 };
 
-const getTheme = (theme = 'gray') => {
+const getTheme = theme => {
   switch (theme) {
     case Colors.PURPLE:
       return `
@@ -34,7 +34,7 @@ const getTheme = (theme = 'gray') => {
 export const Button = styled.button<ButtonProps>`
   width: ${props => props.customWidth || '240px'};
   height: 40px;
-  ${props => (props.disabled ? getTheme() : getTheme(props.theme))}
+  ${props => (props.disabled ? getTheme(Colors.GRAY) : getTheme(props.theme))}
   border-radius: var(--border-radius);
   color: var(--color-white);
   font-size: 14px;
@@ -42,15 +42,11 @@ export const Button = styled.button<ButtonProps>`
   &:focus {
     outline: none;
   }
-  ${props => {
-    console.log(props);
-    return (
-      !props.disabled &&
-      `&:hover {
+  ${props =>
+    !props.disabled &&
+    `&:hover {
     background: var(--gradient-purple-direct);
-  }`
-    );
-  }}
+  }`}
 `;
 
 export const ButtonSmall = styled.button`

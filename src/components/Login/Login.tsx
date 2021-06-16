@@ -96,7 +96,7 @@ const Login = () => {
           forward={() => {
             forward();
             setShowSpinner(true);
-            dispatch.account.login({ key, setError: console.log, setFeedback });
+            dispatch.account.login({ key, setError: console.log });
           }}
         />
       )}

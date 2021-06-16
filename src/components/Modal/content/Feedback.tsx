@@ -4,8 +4,6 @@ import styled from '@emotion/styled';
 
 import links from 'util/links';
 
-import CloseModalButton from 'components/_General/CloseButton';
-
 const FeedbackRoot = styled.div`
   color: var(--color-gray);
   font-weight: 400;

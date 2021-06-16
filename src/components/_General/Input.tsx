@@ -34,7 +34,7 @@ type InputProps = {
   type?: string;
   onChange: (e) => void;
   onKeyDown: (e) => void;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 const Input = ({

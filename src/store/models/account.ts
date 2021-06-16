@@ -81,7 +81,7 @@ export default createModel<RootModel>()({
           this.SET_ADDRESS(account.address);
           setFeedback('Loging in to nspv...');
 
-          const unspent = await listUnspent(account.address);
+          const unspent = await listUnspent();
           this.SET_UNSPENT(unspent);
           dispatch.wallet.SET_ASSETS(parseUnspent(unspent));
 
