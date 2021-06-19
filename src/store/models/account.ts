@@ -87,7 +87,8 @@ export default createModel<RootModel>()({
 
           setFeedback('Getting transactions...');
           const transactions = await listTransactions(account.address);
-          return this.SET_TXS(transactions.txids);
+          this.SET_TXS(transactions.txids);
+          return null;
         })
         .catch(e => {
           setFeedback(null);
