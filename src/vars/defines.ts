@@ -1,8 +1,11 @@
+// nspv settings
+export const TICKER = 'TKLTEST1';
+export const RPC_PORT = '62223';
+
 export const TOPBAR_HEIGHT = 38;
 export const FEE = 0.0001;
 export const FIAT_CURRENCY = 'USD';
 export const USD_VALUE = 5;
-export const TICKER = 'KMD';
 export const IS_DEV = process.env.NODE_ENV === 'development';
 export const IS_PROD = process.env.NODE_ENV === 'production';
 
