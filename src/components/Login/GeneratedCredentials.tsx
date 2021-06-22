@@ -6,7 +6,6 @@ import links from 'util/links';
 
 import BackButton from 'components/_General/BackButton';
 import { Button } from 'components/_General/buttons';
-import Logo from 'components/_General/Logo';
 import Warning from '../_General/WarningCritical';
 import CredentialsRow from './CredentialsRow';
 
@@ -18,10 +17,10 @@ type GeneratedCredentialProps = {
 };
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 23% 50% 20%;
+  justify-items: center;
+  align-items: end;
 `;
 
 const BtnWrapper = styled.div`
@@ -44,7 +43,6 @@ const Confidential = styled.div`
 const GeneratedCredential = ({ wifkey, seed, forward, goBack }: GeneratedCredentialProps) => {
   return (
     <Container>
-      <Logo />
       <BtnWrapper>
         <BackButton onClick={goBack} />
       </BtnWrapper>

@@ -6,6 +6,7 @@ import { dispatch } from 'store/rematch';
 import { getNewAddress } from 'util/nspvlib';
 import { TOPBAR_HEIGHT } from 'vars/defines';
 
+import Logo from 'components/_General/Logo';
 import Spinner from 'components/_General/Spinner';
 import ConfirmString from './ConfirmString';
 import GeneratedCredential from './GeneratedCredentials';
@@ -14,12 +15,12 @@ import LoginForm from './LoginForm';
 const LoginRoot = styled.div`
   width: 100%;
   height: calc(100% - ${TOPBAR_HEIGHT}px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: 28% 45%;
+  justify-items: center;
   align-items: center;
   h1 {
-    margin: 0;
+    margin: 1rem 0 1rem 0;
     color: var(--color-white);
     font-weight: 400;
   }
@@ -69,6 +70,9 @@ const Login = () => {
   return (
     <LoginRoot>
       <ProgressBarAnimation width={`${(step - 1) * 25}%`} />
+      <div style={{ marginTop: '10rem', marginBottom: 0 }}>
+        <Logo />
+      </div>
       {step === STEP1 && <LoginForm addNewWallet={() => forward()} />}
       {step === STEP2 && (
         <GeneratedCredential
