@@ -67,6 +67,7 @@ const TxConfirmation = ({ currency, recepient, amount }: TxConfirmationProps): R
         <div style={{ textAlign: 'center' }}>
           <h2>Your transaction is being broadcasted</h2>
           <GrayLabel>Please allow up to a minute for the broadcast to come through.</GrayLabel>
+          <GrayLabel>Closing this window will not affect the outcome of the transaction.</GrayLabel>
           <VSpaceMed />
           <Spinner bgColor="var(--color-modal-bg)" />
         </div>
