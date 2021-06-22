@@ -9,7 +9,6 @@ import { Button } from 'components/_General/buttons';
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Input from 'components/_General/Input';
 import Link from 'components/_General/Link';
-import Logo from 'components/_General/Logo';
 import Spinner from 'components/_General/Spinner';
 import { VSpaceMed, VSpaceSmall } from 'components/Dashboard/widgets/common';
 
@@ -17,16 +16,19 @@ type LoginFormProps = {
   addNewWallet: () => void;
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+const LoginFormRoot = styled.div`
+  display: grid;
+  grid-template-rows: 20% 7% 15% 3%;
+  justify-items: center;
+  align-items: end;
   .welcome {
     color: var(--color-gray);
     font-weight: 400;
     margin: 0;
     margin-bottom: 1rem;
+  }
+  h1 {
+    margin-top: 1rem;
   }
   button {
     margin-bottom: 0rem;
@@ -44,10 +46,13 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [feedback, setFeedback] = useState('');
   const [showSpinner, setShowSpinner] = useState(false);
 
-  const handleKeyDown = useCallback(
-    e => e.key === 'Enter' && dispatch.account.login({ key: loginValue, setError, setFeedback }),
-    [loginValue, setError]
-  );
+  const performLogin = useCallback(() => {
+    if (!loginValue || loginValue === '') {
+      return;
+    }
+    setShowSpinner(true);
+    dispatch.account.login({ key: loginValue, setError, setFeedback });
+  }, [loginValue]);
 
   useEffect(() => {
     if (error) {
@@ -56,14 +61,13 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   }, [error]);
 
   return (
-    <Container>
-      <Logo />
+    <LoginFormRoot>
       <h1>Welcome to TOKEL</h1>
       <p className="welcome">Komodo ecosystem Token Platform</p>
       <Input
         autoFocus
         onChange={e => setloginValue(e.target.value)}
-        onKeyDown={handleKeyDown}
+        onKeyDown={performLogin}
         icon={password}
         value={loginValue}
         placeholder="Key or Seed Phrase"
@@ -87,7 +91,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
         {feedback && <Feedback>{feedback}</Feedback>}
       </div>
       <Link onClick={addNewWallet} linkText="Generate New Address" />
-    </Container>
+    </LoginFormRoot>
   );
 };
 

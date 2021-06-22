@@ -71,7 +71,9 @@ export default createModel<RootModel>()({
   effects: dispatch => ({
     async login({ key = null, setError, setFeedback }: LoginArgs) {
       setError(null);
-      setFeedback('Connecting to nspv...');
+      if (setFeedback) {
+        setFeedback('Connecting to nspv...');
+      }
       const userKey = key ?? this.key;
       if (!this.key) {
         this.SET_KEY(key);
@@ -79,18 +81,23 @@ export default createModel<RootModel>()({
       nspvLogin(userKey)
         .then(async account => {
           this.SET_ADDRESS(account.address);
-          setFeedback('Loging in to nspv...');
+          if (setFeedback) {
+            setFeedback('Loging in to nspv...');
+          }
 
           const unspent = await listUnspent();
           this.SET_UNSPENT(unspent);
           dispatch.wallet.SET_ASSETS(parseUnspent(unspent));
-
-          setFeedback('Getting transactions...');
+          if (setFeedback) {
+            setFeedback('Getting transactions...');
+          }
           const transactions = await listTransactions(account.address);
           return this.SET_TXS(transactions.txids);
         })
         .catch(e => {
-          setFeedback(null);
+          if (setFeedback) {
+            setFeedback(null);
+          }
           setError(e.message);
         });
     },

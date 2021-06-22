@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 import BackButton from 'components/_General/BackButton';
 import { Button } from 'components/_General/buttons';
 import ErrorMessage from 'components/_General/ErrorMessage';
-import Logo from 'components/_General/Logo';
 import TextArea from 'components/_General/TextArea';
 import { VSpaceMed } from 'components/Dashboard/widgets/common';
 
@@ -18,9 +17,9 @@ type CredentialsRowProps = {
 };
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: 26% 10% 45% 12.75%;
+  justify-items: center;
   align-items: center;
   button:nth-of-type(1) {
     position: absolute;
@@ -49,7 +48,6 @@ const ConfirmString = ({ title, desc, goBack, forward, originalString }: Credent
   };
   return (
     <Container>
-      <Logo />
       <BackButton onClick={goBack} />
       <h1>{title}</h1>
       <p>{desc}</p>
