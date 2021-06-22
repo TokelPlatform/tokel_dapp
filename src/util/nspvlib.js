@@ -1,8 +1,8 @@
 import got from 'got';
 
-import { ErrorMessages } from 'vars/defines';
+import { ErrorMessages, RPC_PORT } from 'vars/defines';
 
-const NSPV_SERVER = 'http://127.0.0.1:7771';
+const NSPV_SERVER = `http://127.0.0.1:${RPC_PORT}`;
 
 const Method = {
   BROADCAST: 'broadcast',
