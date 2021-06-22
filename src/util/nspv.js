@@ -15,13 +15,25 @@ const binariesDir =
     ? path.join(app.getAppPath(), '..', '..', 'include', 'binaries')
     : path.join(app.getAppPath(), '..', 'binaries');
 
+const getBinaryName = () => {
+  console.log(os.type());
+  switch (os.type()) {
+    case OsType.MAC:
+      return 'nspv-mac';
+    case OsType.LINUX:
+      return 'nspv-linux';
+    default:
+      return 'nspv.exe';
+  }
+};
+
 const cwd = path.join(binariesDir, 'libnspv');
 class NspvSingleton {
   constructor() {
     if (process.env.NODE_ENV === 'test') {
       return 'singleton created';
     }
-    this.binName = os.type === OsType.WINDOWS ? 'nspv.exe' : 'nspv';
+    this.binName = getBinaryName();
     this.connect();
     this.reconnected = 0;
   }
