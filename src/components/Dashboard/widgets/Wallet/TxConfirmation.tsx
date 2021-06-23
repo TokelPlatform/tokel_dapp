@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import link from 'assets/link.svg';
 import { dispatch } from 'store/rematch';
 import {
   selectAccountAddress,
@@ -12,31 +11,16 @@ import {
   selectCurrentTxStatus,
 } from 'store/selectors';
 import { limitLength } from 'util/helpers';
-import links from 'util/links';
-import { Colors } from 'vars/defines';
 
-import CloseModalButton from 'components/_General/CloseButton';
-import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Spinner from 'components/_General/Spinner';
 import { GrayLabel, VSpaceMed } from '../common';
-import TxConfirmationRow from './TxConfirmationRow';
+import TxInformation from './TxInformation';
 
 const TxConfirmationRoot = styled.div`
   height: var(--modal-content-height);
 `;
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 8px;
-`;
 
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 8px;
-`;
 type TxConfirmationProps = {
   currency?: string;
   recipient: string;
@@ -80,34 +64,14 @@ const TxConfirmation = ({ currency, recipient, amount }: TxConfirmationProps): R
         </div>
       )}
       {currentTxId && (
-        <Column className="wrp">
-          <TxConfirmationRow label="From" value={address} />
-          <TxConfirmationRow label="To" value={recipient} />
-
-          <Row>
-            <TxConfirmationRow label="Amount" value={amount} />
-            <TxConfirmationRow label="Value (then)" value="≈ $TBA" />
-            <TxConfirmationRow label="Value (now)" value="≈ $TBA" />
-            {/*
-            https://github.com/TokelPlatform/tokel_app/issues/67
-            <TxConfirmationRow label="Value (then)" value={`≈ $ ${usdValueTemp}`} />
-            <TxConfirmationRow label="Value (now)" value={`≈ $ ${usdValueTemp}`} /> */}
-          </Row>
-          <Column>
-            <TxConfirmationRow label="TX id" value={currentTxId}>
-              <CopyToClipboard textToCopy={txid} color={Colors.WHITE} />
-              <a
-                href={`${links.explorers[currency]}/tx/${txid}`}
-                rel="noreferrer"
-                target="_blank"
-                style={{ marginLeft: '8px' }}
-              >
-                <img src={link} alt="explorerLink" />
-              </a>
-            </TxConfirmationRow>
-          </Column>
-          <CloseModalButton />
-        </Column>
+        <TxInformation
+          amount={amount}
+          txid={currentTxId}
+          address={address}
+          recipient={recipient}
+          received={false}
+          currency={currency}
+        />
       )}
     </TxConfirmationRoot>
   );

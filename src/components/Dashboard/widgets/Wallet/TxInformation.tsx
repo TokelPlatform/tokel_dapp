@@ -46,8 +46,8 @@ const TxInformation = ({
   const secondAddress = recipient || SEE_EXPLORER;
   return (
     <Column className="wrp">
-      <TxConfirmationRow label="From" value={received ? `${address} (me)` : secondAddress} />
-      <TxConfirmationRow label="To" value={received ? secondAddress : `${address} (me)`} />
+      <TxConfirmationRow label="From" value={!received ? `${address} (me)` : secondAddress} />
+      <TxConfirmationRow label="To" value={!received ? secondAddress : `${address} (me)`} />
 
       <Row>
         <TxConfirmationRow label="Amount" value={amount} />
