@@ -56,8 +56,8 @@ type SendFormProps = {
 };
 
 const getAmount = (e, balance) => {
-  const amount = e.target ? Number(e.target.value) : Number(e);
-  if (!balance || amount <= 0) {
+  const amount = e.target ? e.target.value : e;
+  if (!balance) {
     return 0;
   }
   if (amount > balance - FEE) {
@@ -74,7 +74,6 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
   const [errorAmount, setErrorAmount] = useState('');
   const chosenAsset = useSelector(selectChosenAsset);
   const theAsset = useSelector(selectAssets).find(item => item.ticker === chosenAsset);
-  console.log(theAsset.balance);
 
   const remaining = theAsset.balance ? formatFiat(theAsset.balance - Number(amount) - FEE) : 0;
 
@@ -93,7 +92,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
     setError('');
     setErrorAmount('');
     let err = false;
-    if (Number(amount) === 0) {
+    if (Number(amount) <= 0 || Number(amount) <= FEE) {
       setErrorAmount('Invalid amount');
       err = true;
     }

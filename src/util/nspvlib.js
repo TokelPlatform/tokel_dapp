@@ -35,13 +35,18 @@ export const requestNSPV = async (method, params = []) => {
     }
     throw new Error(JSON.stringify(body));
   } catch (e) {
-    const error = JSON.parse(e.message);
-    if (error.error === NspvErrors.INVALID_ADDR_AMOUNT_SMALL) {
-      e.message = ErrorMessages.INVALID_ADDRESS;
-    } else {
-      e.message = ErrorMessages.NETWORK_ISSUES;
+    try {
+      const error = JSON.parse(e.message);
+      if (error.error === NspvErrors.INVALID_ADDR_AMOUNT_SMALL) {
+        e.message = ErrorMessages.INVALID_ADDRESS;
+      } else {
+        e.message = ErrorMessages.NETWORK_ISSUES;
+      }
+      throw new Error(e.message);
+    } catch (parsingErr) {
+      console.log(e);
+      throw new Error(ErrorMessages.NETWORK_ISSUES);
     }
-    throw new Error(e);
   }
 };
 
