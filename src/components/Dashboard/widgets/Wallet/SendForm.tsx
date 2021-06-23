@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectUnspentBalance } from 'store/selectors';
+import { selectAssets, selectChosenAsset } from 'store/selectors';
 import { formatFiat, isAddressValid, limitLength } from 'util/helpers';
 import { FEE, TICKER } from 'vars/defines';
 
@@ -72,13 +72,15 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
   // const [fiatAmount, setFiatAmount] = useState('');
   const [error, setError] = useState('');
   const [errorAmount, setErrorAmount] = useState('');
-  const balance = useSelector(selectUnspentBalance);
+  const chosenAsset = useSelector(selectChosenAsset);
+  const theAsset = useSelector(selectAssets).find(item => item.ticker === chosenAsset);
+  console.log(theAsset.balance);
 
-  const remaining = balance ? formatFiat(balance - Number(amount) - FEE) : 0;
+  const remaining = theAsset.balance ? formatFiat(theAsset.balance - Number(amount) - FEE) : 0;
 
   const handleSetAmount = e => {
     setErrorAmount('');
-    const v = getAmount(e, balance);
+    const v = getAmount(e, theAsset.balance);
     setAmount(v.toString());
     // setFiatAmount(formatFiat(v * USD_VALUE));
   };
@@ -124,7 +126,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
       <label htmlFor="amount">
         <RowWrapper>
           <GrayLabel style={{ marginLeft: '2px' }}>Amount</GrayLabel>
-          <span style={{ marginLeft: '4px' }}> {`(balance: ${balance})`}</span>
+          <span style={{ marginLeft: '4px' }}> {`(balance: ${theAsset.balance})`}</span>
         </RowWrapper>
         <VSpaceSmall />
         <RowWrapper>
@@ -147,7 +149,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
                 padding: '9px 12px',
               }}
               theme="transparent"
-              onClick={() => handleSetAmount(balance)}
+              onClick={() => handleSetAmount(theAsset.balance)}
             >
               <span style={{ opacity: 0.6 }}>MAX</span>
             </ButtonSmall>
