@@ -67,7 +67,7 @@ const getAmount = (e, balance) => {
 };
 
 const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
-  const [recepient, setRecepient] = useState('');
+  const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('');
   // const [fiatAmount, setFiatAmount] = useState('');
   const [error, setError] = useState('');
@@ -87,23 +87,23 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
 
   const handleSubmit = () => {
     setError('');
-    if (!isAddressValid(recepient)) {
-      return setError('Invalid recepient address');
+    if (!isAddressValid(recipient)) {
+      return setError('Invalid recipient address');
     }
-    return onSubmit(recepient, amount);
+    return onSubmit(recipient, amount);
   };
 
   return (
     <SendFormRoot>
       <InputWithLabel
-        id="recepient"
-        onChange={e => setRecepient(e.target.value)}
+        id="recipient"
+        onChange={e => setRecipient(e.target.value)}
         onKeyDown={() => ''}
-        value={recepient}
+        value={recipient}
         placeholder={`Enter ${TICKER} address`}
         width="390px"
         autoFocus
-        label="Recepient"
+        label="Recipient"
         error={error}
       />
       <label htmlFor="amount">

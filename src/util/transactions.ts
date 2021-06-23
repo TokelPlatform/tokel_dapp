@@ -17,7 +17,7 @@ export const parseTx = tx => {
         height: tx[1][0].height,
         value: -(tx[1][0].value + (tx[1][1].value + FEE)),
         received: false,
-        recepient: 'See tx at the explorer for details',
+        recipient: 'See tx at the explorer for details',
       },
     ];
   }
@@ -31,7 +31,7 @@ export const parseTx = tx => {
       {
         ...tx[1][0],
         received: false,
-        recepient: 'See tx at the explorer for details',
+        recipient: 'See tx at the explorer for details',
       },
     ];
   }
@@ -81,7 +81,7 @@ export const parseSpendTx = newtx => {
     txid: newtx.tx.txid,
     height: newtx.tx.height ?? 'TBA',
     value: Number(newtx.tx.total) - Number(newtx.tx.change) - FEE,
-    recepient: newtx.recepient,
+    recipient: newtx.recipient,
   };
 };
 

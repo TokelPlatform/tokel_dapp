@@ -39,12 +39,12 @@ const Column = styled.div`
 `;
 type TxConfirmationProps = {
   currency?: string;
-  recepient: string;
+  recipient: string;
   amount: string;
   // usdValue?: string;
 };
 
-const TxConfirmation = ({ currency, recepient, amount }: TxConfirmationProps): ReactElement => {
+const TxConfirmation = ({ currency, recipient, amount }: TxConfirmationProps): ReactElement => {
   const txid = useSelector(selectCurrentTxId);
   const address = useSelector(selectAccountAddress);
   const txStatus = useSelector(selectCurrentTxStatus);
@@ -82,7 +82,7 @@ const TxConfirmation = ({ currency, recepient, amount }: TxConfirmationProps): R
       {currentTxId && (
         <Column className="wrp">
           <TxConfirmationRow label="From" value={address} />
-          <TxConfirmationRow label="To" value={recepient} />
+          <TxConfirmationRow label="To" value={recipient} />
 
           <Row>
             <TxConfirmationRow label="Amount" value={amount} />
