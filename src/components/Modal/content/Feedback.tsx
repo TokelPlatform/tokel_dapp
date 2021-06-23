@@ -43,7 +43,7 @@ const Feedback = () => {
           textAlign: 'right',
         }}
       >
-        Yours sincerely, TOKEL team
+        Yours sincerely, Tokel team
       </p>
     </FeedbackRoot>
   );

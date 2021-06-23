@@ -82,7 +82,7 @@ export default createModel<RootModel>()({
         .then(async account => {
           this.SET_ADDRESS(account.address);
           if (setFeedback) {
-            setFeedback('Loging in to nspv...');
+            setFeedback('Logging in to nspv...');
           }
 
           const unspent = await listUnspent();

@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 
 import password from 'assets/password.svg';
 import { dispatch } from 'store/rematch';
+import { ErrorMessages } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import ErrorMessage from 'components/_General/ErrorMessage';
@@ -48,6 +49,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
 
   const performLogin = useCallback(() => {
     if (!loginValue || loginValue === '') {
+      setError(ErrorMessages.ENTER_WIF);
       return;
     }
     setShowSpinner(true);
@@ -62,26 +64,22 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
 
   return (
     <LoginFormRoot>
-      <h1>Welcome to TOKEL</h1>
+      <h1>Welcome to Tokel</h1>
       <p className="welcome">Komodo ecosystem Token Platform</p>
       <Input
         autoFocus
-        onChange={e => setloginValue(e.target.value)}
-        onKeyDown={performLogin}
+        onChange={e => {
+          setError('');
+          setloginValue(e.target.value);
+        }}
+        onKeyDown={e => e.key === 'Enter' && performLogin()}
         icon={password}
         value={loginValue}
         placeholder="Key or Seed Phrase"
         disabled={showSpinner}
       />
       <VSpaceSmall />
-      <Button
-        onClick={() => {
-          setShowSpinner(true);
-          dispatch.account.login({ key: loginValue, setError, setFeedback });
-        }}
-        theme="purple"
-        disabled={showSpinner}
-      >
+      <Button onClick={() => performLogin()} theme="purple" disabled={showSpinner}>
         Login
       </Button>
       <VSpaceMed />
