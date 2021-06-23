@@ -56,14 +56,14 @@ type SendFormProps = {
 };
 
 const getAmount = (e, balance) => {
-  const amount = e.target ? e.target.value : e.toString();
-  if (!balance) {
+  const amount = e.target ? Number(e.target.value) : Number(e);
+  if (!balance || amount <= 0) {
     return 0;
   }
   if (amount > balance - FEE) {
     return balance - FEE;
   }
-  return limitLength(amount, 10);
+  return limitLength(amount.toString(), 10);
 };
 
 const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
@@ -71,11 +71,13 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
   const [amount, setAmount] = useState('');
   // const [fiatAmount, setFiatAmount] = useState('');
   const [error, setError] = useState('');
+  const [errorAmount, setErrorAmount] = useState('');
   const balance = useSelector(selectUnspentBalance);
 
   const remaining = balance ? formatFiat(balance - Number(amount) - FEE) : 0;
 
   const handleSetAmount = e => {
+    setErrorAmount('');
     const v = getAmount(e, balance);
     setAmount(v.toString());
     // setFiatAmount(formatFiat(v * USD_VALUE));
@@ -87,8 +89,18 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
 
   const handleSubmit = () => {
     setError('');
+    setErrorAmount('');
+    let err = false;
+    if (Number(amount) === 0) {
+      setErrorAmount('Invalid amount');
+      err = true;
+    }
     if (!isAddressValid(recipient)) {
-      return setError('Invalid recipient address');
+      setError('Invalid recipient address');
+      err = true;
+    }
+    if (err) {
+      return null;
     }
     return onSubmit(recipient, amount);
   };
@@ -97,7 +109,10 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
     <SendFormRoot>
       <InputWithLabel
         id="recipient"
-        onChange={e => setRecipient(e.target.value)}
+        onChange={e => {
+          setError('');
+          setRecipient(e.target.value);
+        }}
         onKeyDown={() => ''}
         value={recipient}
         placeholder={`Enter ${TICKER} address`}
@@ -122,6 +137,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
               placeholder="0.0000"
               width="336px"
               type="number"
+              error={errorAmount}
             />
             {/* <CurrencyWrapper>{TICKER}</CurrencyWrapper> */}
           </RowWrapper>
