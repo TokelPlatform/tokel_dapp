@@ -49,6 +49,7 @@ export default createModel<RootModel>()({
       if (!state.address) {
         return state;
       }
+      console.log(txs);
       const unconfirmed = getStillUnconfirmed(txs, state.txs[state.address]);
       const newTxs = [...unconfirmed, ...txs];
       return dotProp.set(state, `txs.${state.address}`, parseTransactions(newTxs));

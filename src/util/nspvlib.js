@@ -1,6 +1,6 @@
 import got from 'got';
 
-import { ErrorMessages, RPC_PORT } from 'vars/defines';
+import { ErrorMessages, NspvErrors, RPC_PORT } from 'vars/defines';
 
 const NSPV_SERVER = `http://127.0.0.1:${RPC_PORT}`;
 
@@ -35,9 +35,12 @@ export const requestNSPV = async (method, params = []) => {
     }
     throw new Error(JSON.stringify(body));
   } catch (e) {
-    // connection refused ECONNREFUSED
-    console.error(e);
-    e.message = ErrorMessages.NETWORK_ISSUES;
+    const error = JSON.parse(e.message);
+    if (error.error === NspvErrors.INVALID_ADDR_AMOUNT_SMALL) {
+      e.message = ErrorMessages.INVALID_ADDRESS;
+    } else {
+      e.message = ErrorMessages.NETWORK_ISSUES;
+    }
     throw new Error(e);
   }
 };
