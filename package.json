@@ -249,6 +249,7 @@
     "history": "^5.0.0",
     "html-react-parser": "1.2.5",
     "minidenticons": "0.1.8",
+    "moment": "2.29.1",
     "qrcode.react": "1.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
