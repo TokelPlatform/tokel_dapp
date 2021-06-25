@@ -48,7 +48,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [showSpinner, setShowSpinner] = useState(false);
 
   const performLogin = useCallback(() => {
-    if (!loginValue || loginValue === '') {
+    if (!loginValue) {
       setError(ErrorMessages.ENTER_WIF);
       return;
     }
