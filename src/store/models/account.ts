@@ -9,9 +9,10 @@ import {
 } from 'util/nspvlib';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
 import {
+  getAllTransactionDetails,
   getStillUnconfirmed,
+  parseSerializedTransaction,
   parseSpendTx,
-  parseTransactions,
   parseUnspent,
 } from 'util/transactions';
 
@@ -49,13 +50,19 @@ export default createModel<RootModel>()({
       if (!state.address) {
         return state;
       }
-      console.log(txs);
       const unconfirmed = getStillUnconfirmed(txs, state.txs[state.address]);
       const newTxs = [...unconfirmed, ...txs];
-      return dotProp.set(state, `txs.${state.address}`, parseTransactions(newTxs));
+      return dotProp.set(
+        state,
+        `txs.${state.address}`,
+        newTxs.map(tx => parseSerializedTransaction(tx, state.address))
+      );
     },
     ADD_NEW_TX: (state, transaction: TxType) =>
-      dotProp.set(state, `txs.${state.address}`, list => [parseSpendTx(transaction), ...list]),
+      dotProp.set(state, `txs.${state.address}`, list => [
+        parseSpendTx(transaction, state.address),
+        ...list,
+      ]),
     SET_UNSPENT: (state, unspent: UnspentType) => ({
       ...state,
       unspent,
@@ -93,8 +100,9 @@ export default createModel<RootModel>()({
             setFeedback('Getting transactions...');
           }
           const transactions = await listTransactions(account.address);
-          return this.SET_TXS(transactions.txids);
+          return getAllTransactionDetails(transactions.txids);
         })
+        .then(txs => dispatch.account.SET_TXS(txs))
         .catch(e => {
           if (setFeedback) {
             setFeedback(null);

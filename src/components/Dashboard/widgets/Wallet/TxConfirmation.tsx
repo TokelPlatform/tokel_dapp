@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+import moment from 'moment';
 
 import { dispatch } from 'store/rematch';
 import {
@@ -10,7 +11,6 @@ import {
   selectCurrentTxId,
   selectCurrentTxStatus,
 } from 'store/selectors';
-import { limitLength } from 'util/helpers';
 
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Spinner from 'components/_General/Spinner';
@@ -18,7 +18,7 @@ import { GrayLabel, VSpaceMed } from '../common';
 import TxInformation from './TxInformation';
 
 const TxConfirmationRoot = styled.div`
-  height: var(--modal-content-height);
+  min-height: var(--modal-content-height);
 `;
 
 type TxConfirmationProps = {
@@ -40,7 +40,7 @@ const TxConfirmation = ({ currency, recipient, amount }: TxConfirmationProps): R
 
   useEffect(() => {
     if (txStatus === 1) {
-      setCurrentTxId(`${limitLength(txid, 36)}...`);
+      setCurrentTxId(txid);
       dispatch.wallet.SET_CURRENT_TX_STATUS(0);
     }
   }, [txStatus, txid]);
@@ -67,10 +67,10 @@ const TxConfirmation = ({ currency, recipient, amount }: TxConfirmationProps): R
         <TxInformation
           amount={amount}
           txid={currentTxId}
-          address={address}
+          from={[address]}
           recipient={recipient}
-          received={false}
           currency={currency}
+          time={moment().format('DD/MM/YYYY H:mm:ss')}
         />
       )}
     </TxConfirmationRoot>

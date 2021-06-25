@@ -33,3 +33,16 @@ export const formatFiat = (num: number) => {
 export const limitLength = (value: string, len: number) => value.substr(0, len);
 
 export const isAddressValid = (address: string) => /^[a-km-zA-HJ-NP-Z1-9]{26,35}$/.test(address);
+
+export const parseSenderAddresses = sender => {
+  if (!sender.length) {
+    return null;
+  }
+  if (sender.length === 1) {
+    return sender[0];
+  }
+  if (sender.length === 2) {
+    return `${sender[0]}, ${sender[1]}`;
+  }
+  return `${sender[0]}, ${sender[1]} , ${sender.length - 2} senders`;
+};

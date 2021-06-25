@@ -1,14 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectAccountAddress, selectChosenTransaction } from 'store/selectors';
+import { selectChosenTransaction } from 'store/selectors';
 import { formatDec } from 'util/helpers';
 import { TICKER } from 'vars/defines';
 
 import TxInformation from 'components/Dashboard/widgets/Wallet/TxInformation';
 
 const TxDetail = () => {
-  const address = useSelector(selectAccountAddress);
   const chosenTx = useSelector(selectChosenTransaction);
   return (
     <TxInformation
@@ -16,11 +15,10 @@ const TxDetail = () => {
       recipient={chosenTx.recipient}
       amount={formatDec(chosenTx.value)}
       txid={chosenTx.txid}
-      address={address}
-      received={chosenTx.received}
+      from={chosenTx.from}
+      time={chosenTx.time}
     />
   );
-  // return <h1>Hello</h1>;
 };
 
 export default TxDetail;

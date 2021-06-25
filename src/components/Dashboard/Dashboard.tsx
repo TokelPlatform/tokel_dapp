@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import { dispatch } from 'store/rematch';
 import { selectAccountAddress, selectKey } from 'store/selectors';
 import { listTransactions, login } from 'util/nspvlib';
+import { getAllTransactionDetails } from 'util/transactions';
 
 import AssetView from './AssetView';
 import Portfolio from './Portfolio/Portfolio';
@@ -31,14 +32,15 @@ const Dashboard = (): ReactElement => {
     const txInterval = setInterval(() => {
       // @todo get txs after a certain block in the future
       listTransactions(address)
-        .then(txs => dispatch.account.SET_TXS(txs.txids))
+        .then(txs => getAllTransactionDetails(txs.txids))
+        .then(txs => dispatch.account.SET_TXS(txs))
         .catch(e => console.log(e));
     }, HALFMINUTE);
     return () => {
       clearInterval(loginInterval);
       clearInterval(txInterval);
     };
-  }, []);
+  }, [address, key]);
 
   return (
     <DashboardRoot>
