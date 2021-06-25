@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { ReactElement } from 'react';
 
-import ErrorMessage from 'components/_General/ErrorMessage';
 import Input from 'components/_General/Input';
 import { GrayLabel, VSpaceSmall } from 'components/Dashboard/widgets/common';
 
@@ -14,7 +13,7 @@ type InputWithLabelProps = {
   type?: string;
   onChange: (e) => void;
   onKeyDown: (e) => void;
-  error?: string;
+  error: string;
   label: string;
 };
 
@@ -43,10 +42,8 @@ const InputWithLabel = ({
         width={width}
         autoFocus={autoFocus}
         type={type}
-      />{' '}
-      <div style={{ textAlign: 'right' }}>
-        <ErrorMessage>{error}</ErrorMessage>
-      </div>
+        error={error}
+      />
     </label>
   );
 };
@@ -56,6 +53,5 @@ InputWithLabel.defaultProps = {
   autoFocus: false,
   width: '240px',
   type: 'text',
-  error: null,
 };
 export default InputWithLabel;

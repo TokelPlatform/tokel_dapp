@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectUnspentBalance } from 'store/selectors';
+import { selectAssets, selectChosenAsset } from 'store/selectors';
 import { formatFiat, isAddressValid, limitLength } from 'util/helpers';
 import { FEE, TICKER } from 'vars/defines';
 
@@ -56,27 +56,30 @@ type SendFormProps = {
 };
 
 const getAmount = (e, balance) => {
-  const amount = e.target ? e.target.value : e.toString();
+  const amount = e.target ? e.target.value : e;
   if (!balance) {
     return 0;
   }
   if (amount > balance - FEE) {
     return balance - FEE;
   }
-  return limitLength(amount, 10);
+  return limitLength(amount.toString(), 10);
 };
 
 const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
-  const [recepient, setRecepient] = useState('');
+  const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('');
   // const [fiatAmount, setFiatAmount] = useState('');
   const [error, setError] = useState('');
-  const balance = useSelector(selectUnspentBalance);
+  const [errorAmount, setErrorAmount] = useState('');
+  const chosenAsset = useSelector(selectChosenAsset);
+  const theAsset = useSelector(selectAssets).find(item => item.ticker === chosenAsset);
 
-  const remaining = balance ? formatFiat(balance - Number(amount) - FEE) : 0;
+  const remaining = theAsset.balance ? formatFiat(theAsset.balance - Number(amount) - FEE) : 0;
 
   const handleSetAmount = e => {
-    const v = getAmount(e, balance);
+    setErrorAmount('');
+    const v = getAmount(e, theAsset.balance);
     setAmount(v.toString());
     // setFiatAmount(formatFiat(v * USD_VALUE));
   };
@@ -87,29 +90,42 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
 
   const handleSubmit = () => {
     setError('');
-    if (!isAddressValid(recepient)) {
-      return setError('Invalid recepient address');
+    setErrorAmount('');
+    let err = false;
+    if (Number(amount) <= 0 || Number(amount) <= FEE) {
+      setErrorAmount('Invalid amount');
+      err = true;
     }
-    return onSubmit(recepient, amount);
+    if (!isAddressValid(recipient)) {
+      setError('Invalid recipient address');
+      err = true;
+    }
+    if (err) {
+      return null;
+    }
+    return onSubmit(recipient, amount);
   };
 
   return (
     <SendFormRoot>
       <InputWithLabel
-        id="recepient"
-        onChange={e => setRecepient(e.target.value)}
+        id="recipient"
+        onChange={e => {
+          setError('');
+          setRecipient(e.target.value);
+        }}
         onKeyDown={() => ''}
-        value={recepient}
+        value={recipient}
         placeholder={`Enter ${TICKER} address`}
         width="390px"
         autoFocus
-        label="Recepient"
+        label="Recipient"
         error={error}
       />
       <label htmlFor="amount">
         <RowWrapper>
           <GrayLabel style={{ marginLeft: '2px' }}>Amount</GrayLabel>
-          <span style={{ marginLeft: '4px' }}> {`(balance: ${balance})`}</span>
+          <span style={{ marginLeft: '4px' }}> {`(balance: ${theAsset.balance})`}</span>
         </RowWrapper>
         <VSpaceSmall />
         <RowWrapper>
@@ -122,6 +138,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
               placeholder="0.0000"
               width="336px"
               type="number"
+              error={errorAmount}
             />
             {/* <CurrencyWrapper>{TICKER}</CurrencyWrapper> */}
           </RowWrapper>
@@ -131,7 +148,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
                 padding: '9px 12px',
               }}
               theme="transparent"
-              onClick={() => handleSetAmount(balance)}
+              onClick={() => handleSetAmount(theAsset.balance)}
             >
               <span style={{ opacity: 0.6 }}>MAX</span>
             </ButtonSmall>

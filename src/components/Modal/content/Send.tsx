@@ -16,12 +16,12 @@ const SendRoot = styled.div`
 
 const Send = () => {
   const [confirmation, setConfirmation] = useState(false);
-  const [recepient, setRecepient] = useState(null);
+  const [recipient, setRecipient] = useState(null);
   const [amountToSend, setAmountToSend] = useState(null);
   const chosenAsset = useSelector(selectChosenAsset);
 
   const handleSubmit = (address, amount) => {
-    setRecepient(address);
+    setRecipient(address);
     setAmountToSend(amount);
     setConfirmation(true);
     dispatch.wallet.spend({ address, amount });
@@ -30,7 +30,7 @@ const Send = () => {
     <SendRoot>
       {!confirmation && <SendForm onSubmit={(arg1, arg2) => handleSubmit(arg1, arg2)} />}
       {confirmation && (
-        <TxConfirmation currency={chosenAsset} recepient={recepient} amount={amountToSend} />
+        <TxConfirmation currency={chosenAsset} recipient={recipient} amount={amountToSend} />
       )}
     </SendRoot>
   );

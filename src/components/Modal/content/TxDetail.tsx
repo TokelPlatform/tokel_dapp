@@ -13,7 +13,7 @@ const TxDetail = () => {
   return (
     <TxInformation
       currency={TICKER}
-      recepient={chosenTx.recepient}
+      recipient={chosenTx.recipient}
       amount={formatDec(chosenTx.value)}
       txid={chosenTx.txid}
       address={address}

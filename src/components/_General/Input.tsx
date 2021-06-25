@@ -2,6 +2,8 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
+import ErrorMessage from './ErrorMessage';
+
 type StyledInputProps = {
   width: string;
   icon: boolean;
@@ -35,6 +37,7 @@ type InputProps = {
   onChange: (e) => void;
   onKeyDown: (e) => void;
   disabled?: boolean;
+  error?: string;
 };
 
 const Input = ({
@@ -48,6 +51,7 @@ const Input = ({
   id,
   type,
   disabled,
+  error,
 }: InputProps) => {
   return (
     <div>
@@ -64,6 +68,11 @@ const Input = ({
         type={type}
         disabled={disabled}
       />
+      {typeof error === 'string' && (
+        <div style={{ textAlign: 'right' }}>
+          <ErrorMessage>{error}</ErrorMessage>
+        </div>
+      )}
     </div>
   );
 };
@@ -74,5 +83,6 @@ Input.defaultProps = {
   autoFocus: false,
   width: '240px',
   type: 'text',
+  error: null,
 };
 export default Input;

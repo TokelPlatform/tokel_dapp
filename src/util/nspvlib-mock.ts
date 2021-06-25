@@ -56,7 +56,7 @@ export interface TxType {
   value: number;
   vin?: number;
   received?: boolean;
-  recepient?: string;
+  recipient?: string;
   tx?: string;
   unconfirmed: boolean;
 }

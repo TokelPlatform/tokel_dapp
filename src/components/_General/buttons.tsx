@@ -43,10 +43,11 @@ export const Button = styled.button<ButtonProps>`
     outline: none;
   }
   ${props =>
-    !props.disabled &&
-    `&:hover {
-    background: var(--gradient-purple-direct);
-  }`}
+    !props.disabled
+      ? `&:hover {
+      background: var(--gradient-purple-direct);
+      }`
+      : 'cursor: default'}
 `;
 
 export const ButtonSmall = styled.button`

@@ -87,7 +87,7 @@ export default createModel<RootModel>()({
               const value = Number(amount);
               dispatch.account.ADD_NEW_TX({
                 tx: newTx,
-                recepient: address,
+                recipient: address,
                 value,
                 unconfirmed: true,
               });

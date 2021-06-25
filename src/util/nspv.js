@@ -4,7 +4,7 @@ import path from 'path';
 import os from 'os';
 import { SIGINT } from 'constants';
 
-import { OsType } from '../vars/defines';
+import { OsType, TICKER } from '../vars/defines';
 
 const { app } = require('electron');
 
@@ -40,7 +40,7 @@ class NspvSingleton {
 
   connect() {
     console.log('Starting a new NSPV process in the background.');
-    this.nspv = spawn(path.join(cwd, this.binName), ['KMD'], { cwd });
+    this.nspv = spawn(path.join(cwd, this.binName), [TICKER], { cwd });
     this.nspv.stdout.setEncoding('utf8');
 
     this.nspv.stdout.on('data', data => {

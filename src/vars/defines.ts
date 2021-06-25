@@ -1,8 +1,11 @@
+// nspv settings
+export const TICKER = 'TKLTEST1';
+export const RPC_PORT = '62223';
+
 export const TOPBAR_HEIGHT = 38;
 export const FEE = 0.0001;
 export const FIAT_CURRENCY = 'USD';
 export const USD_VALUE = 5;
-export const TICKER = 'KMD';
 export const IS_DEV = process.env.NODE_ENV === 'development';
 export const IS_PROD = process.env.NODE_ENV === 'production';
 
@@ -54,6 +57,12 @@ export const OsType = {
 
 export const SEE_EXPLORER = 'See explorer link for details';
 
+export const NspvErrors = {
+  INVALID_ADDR_AMOUNT_SMALL: 'invalid address or amount too small',
+};
+
 export const ErrorMessages = {
+  ENTER_WIF: 'Please enter WIF',
   NETWORK_ISSUES: 'You are experiencing network issues. Please restart the app and try again',
+  INVALID_ADDRESS: 'Entered address is not valid. Please check it and try again',
 };
