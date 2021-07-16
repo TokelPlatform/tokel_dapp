@@ -169,7 +169,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
           </RowWrapper> */}
         </RowWrapper>
       </label>
-      <VSpaceBig />
+      <VSpaceSmall />
       <ValueRow
         keyProp="Network Fee"
         value={`${FEE} ${TICKER}`}
