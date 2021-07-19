@@ -30,5 +30,5 @@ export const selectAccountReady = createSelector(
   (address, assets, txs, balance) =>
     assets.length > 0 &&
     address &&
-    ((txs.length === 0 && balance === 0) || (txs.length > 0 && balance > 0))
+    ((txs.length === 0 && balance === 0) || (txs.length > 0 && balance >= 0))
 );
