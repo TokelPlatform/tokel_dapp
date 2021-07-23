@@ -57,6 +57,8 @@ export const OsType = {
 
 export const SEE_EXPLORER = 'See explorer link for details';
 
+export const INFORMATION_N_A = 'This information is currently not available';
+
 export const NspvErrors = {
   INVALID_ADDR_AMOUNT_SMALL: 'invalid address or amount too small',
 };

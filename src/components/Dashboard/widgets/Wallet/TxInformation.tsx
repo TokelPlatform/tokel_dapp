@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import link from 'assets/link.svg';
 import { limitLength, parseSenderAddresses } from 'util/helpers';
 import links from 'util/links';
-import { Colors, SEE_EXPLORER } from 'vars/defines';
+import { Colors, INFORMATION_N_A } from 'vars/defines';
 
 import CloseModalButton from 'components/_General/CloseButton';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
@@ -45,9 +45,9 @@ const TxInformation = ({
   // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
   return (
     <Column className="wrp">
-      <TxConfirmationRow label="From" value={from ? parseSenderAddresses(from) : SEE_EXPLORER} />
-      <TxConfirmationRow label="To" value={recipient ?? SEE_EXPLORER} />
-      <TxConfirmationRow label="Date and time" value={time ?? SEE_EXPLORER} />
+      <TxConfirmationRow label="From" value={from ? parseSenderAddresses(from) : INFORMATION_N_A} />
+      <TxConfirmationRow label="To" value={recipient ?? INFORMATION_N_A} />
+      <TxConfirmationRow label="Date and time" value={time ?? INFORMATION_N_A} />
 
       <Row>
         <TxConfirmationRow label="Amount" value={amount} />
