@@ -4,16 +4,67 @@ import { FEE, TICKER, USD_VALUE } from 'vars/defines';
 
 import getTransactionDetail from './insightApi';
 
+/**
+ * Parse one transaction
+ * @param tx
+ * @returns
+ */
+export const parseListTxsRpcTx = tx => {
+  if (tx.length === 2) {
+    return [
+      {
+        txid: tx[0].txid,
+        height: tx[0].height,
+        value: -(tx[0].value + (tx[1].value + FEE)),
+        received: false,
+        recepient: 'See tx at the explorer for details',
+        recipient: 'See tx at the explorer for details',
+      },
+    ];
+  }
+  // sending to yourself
+  if (tx.length === 3) {
+    return [
+      {
+        ...tx[0],
+        received: true,
+      },
+      {
+        ...tx[0],
+        received: false,
+        recepient: 'See tx at the explorer for details',
+        recipient: 'See tx at the explorer for details',
+      },
+    ];
+  }
+  // it is an incoming transaction, save as is
+  return [
+    {
+      ...tx[0],
+      value: Math.abs(tx[0].value),
+      received: true,
+    },
+  ];
+};
+
 export const parseSerializedTransaction = (tx, address) => {
-  return {
-    value: Number(tx.vout[0].value),
-    from: [...new Set(tx.vin.map(v => v.addr).flat())],
-    recipient: tx.vout[0].scriptPubKey.addresses[0],
-    time: moment.unix(tx.time).format('DD/MM/YYYY H:mm:ss'),
-    txid: tx.txid,
-    height: tx.blockheight,
-    received: tx.vout[0].scriptPubKey.addresses[0] === address,
-  };
+  if (tx.unconfirmed) {
+    return tx;
+  }
+  if (!tx.time) {
+    return parseListTxsRpcTx(tx);
+  }
+  return [
+    {
+      value: Number(tx.vout[0].value),
+      from: [...new Set(tx.vin.map(v => v.addr).flat())],
+      recipient: tx.vout[0].scriptPubKey.addresses[0],
+      time: moment.unix(tx.time).format('DD/MM/YYYY H:mm:ss'),
+      txid: tx.txid,
+      height: tx.blockheight,
+      received: tx.vout[0].scriptPubKey.addresses[0] === address,
+    },
+  ];
 };
 
 /**
@@ -94,7 +145,8 @@ export const getStillUnconfirmed = (newTxs, currentTxs) => {
  * @returns
  */
 export const getAllTransactionDetails = async txs => {
-  const txids = Object.keys(groupTransactions(txs));
-  const promises = txids.map(tx => getTransactionDetail(tx));
+  const grouppedTxs = groupTransactions(txs);
+  const txids = Object.keys(grouppedTxs);
+  const promises = txids.map(tx => getTransactionDetail(tx, grouppedTxs[tx]));
   return Promise.all(promises);
 };

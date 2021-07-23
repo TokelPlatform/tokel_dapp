@@ -79,7 +79,7 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
           <Transactions fullView={fullView}>
             <Column>
               <p style={{ width: '40px', margin: 0 }} className="datetime">
-                {tx.time}
+                {tx.time ? tx.time : 'N/A'}
               </p>
             </Column>
             {fullView && (
