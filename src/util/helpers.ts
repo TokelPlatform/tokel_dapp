@@ -38,6 +38,9 @@ export const parseSenderAddresses = sender => {
   if (!sender.length) {
     return null;
   }
+  if (!Array.isArray(sender)) {
+    return sender;
+  }
   if (sender.length === 1) {
     return sender[0];
   }

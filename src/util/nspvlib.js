@@ -1,3 +1,4 @@
+import axios from 'axios';
 import got from 'got';
 
 import { ErrorMessages, NspvErrors, RPC_PORT } from 'vars/defines';
@@ -16,38 +17,36 @@ const Method = {
 };
 
 export const requestNSPV = async (method, params = []) => {
-  try {
-    const { body } = await got.post(NSPV_SERVER, {
-      json: {
-        jsonrpc: '2.0',
-        id: 'curltest',
-        method,
-        params,
-      },
-      responseType: 'json',
-    });
-    // cannot fail :)
-    if (method === Method.GET_NEW_ADDRESS) {
-      return body;
-    }
-    if (body.result === 'success') {
-      return body;
-    }
-    throw new Error(JSON.stringify(body));
-  } catch (e) {
-    try {
-      const error = JSON.parse(e.message);
-      if (error.error === NspvErrors.INVALID_ADDR_AMOUNT_SMALL) {
-        e.message = ErrorMessages.INVALID_ADDRESS;
-      } else {
-        e.message = ErrorMessages.NETWORK_ISSUES;
+  return axios
+    .post(NSPV_SERVER, {
+      jsonrpc: '2.0',
+      method,
+      params,
+    })
+    .then(({ data }) => {
+      // const {data} = body.data;
+      if (method === Method.GET_NEW_ADDRESS) {
+        return data;
       }
-      throw new Error(e.message);
-    } catch (parsingErr) {
-      console.log(e);
-      throw new Error(ErrorMessages.NETWORK_ISSUES);
-    }
-  }
+      if (data.result === 'success') {
+        return data;
+      }
+      throw new Error(JSON.stringify(data));
+    })
+    .catch(e => {
+      try {
+        const error = JSON.parse(e.message);
+        if (error.error === NspvErrors.INVALID_ADDR_AMOUNT_SMALL) {
+          e.message = ErrorMessages.INVALID_ADDRESS;
+        } else {
+          e.message = ErrorMessages.NETWORK_ISSUES;
+        }
+        throw new Error(e.message);
+      } catch (parsingErr) {
+        console.log(e);
+        throw new Error(ErrorMessages.NETWORK_ISSUES);
+      }
+    });
 };
 
 /**

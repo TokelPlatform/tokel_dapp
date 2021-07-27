@@ -51,12 +51,9 @@ export default createModel<RootModel>()({
         return state;
       }
       const unconfirmed = getStillUnconfirmed(txs, state.txs[state.address]);
-      const newTxs = [...unconfirmed, ...txs];
-      return dotProp.set(
-        state,
-        `txs.${state.address}`,
-        newTxs.map(tx => parseSerializedTransaction(tx, state.address))
-      );
+      let newTxs = [...unconfirmed, ...txs];
+      newTxs = newTxs.map(tx => parseSerializedTransaction(tx, state.address));
+      return dotProp.set(state, `txs.${state.address}`, newTxs.flat());
     },
     ADD_NEW_TX: (state, transaction: TxType) =>
       dotProp.set(state, `txs.${state.address}`, list => [

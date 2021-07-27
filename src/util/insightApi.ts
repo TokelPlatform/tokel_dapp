@@ -1,12 +1,17 @@
-import got from 'got';
+import axios from 'axios';
 
 const INSIGHT_SERVER = `https://kmd.explorer.dexstats.info/insight-api-komodo`;
 
-const getTransactionDetail = async txId => {
+const http404 = 'Request failed with status code 404';
+
+const getTransactionDetail = async (txId, txInfo) => {
   try {
-    const { body } = await got(`${INSIGHT_SERVER}/tx/${txId}`);
-    return JSON.parse(body);
+    const resp = await axios(`${INSIGHT_SERVER}/tx/${txId}`);
+    return JSON.parse(resp.data);
   } catch (e) {
+    if (e.message && e.message === http404) {
+      return txInfo;
+    }
     const error = JSON.parse(e.message);
     throw new Error(error.error);
   }

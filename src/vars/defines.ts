@@ -1,6 +1,6 @@
 // nspv settings
-export const TICKER = 'TKLTEST1';
-export const RPC_PORT = '62223';
+export const TICKER = 'TKLTEST6';
+export const RPC_PORT = '65460';
 
 export const TOPBAR_HEIGHT = 38;
 export const FEE = 0.0001;
@@ -56,6 +56,8 @@ export const OsType = {
 };
 
 export const SEE_EXPLORER = 'See explorer link for details';
+
+export const INFORMATION_N_A = 'This information is currently not available';
 
 export const NspvErrors = {
   INVALID_ADDR_AMOUNT_SMALL: 'invalid address or amount too small',
