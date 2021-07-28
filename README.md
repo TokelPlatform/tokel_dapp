@@ -24,29 +24,44 @@ yarn
 
 The application is using [libnspv](https://github.com/KomodoPlatform/libnspv).
 
-Install the following dependencies for `libnspv` to work. Eventually it will be included and packaged with the app.
-
-### Mac OS
-
-```
-# Install brew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-# Install Xcode, opens a pop-up window to install CLT without installing the entire Xcode package
-xcode-select --install
-# Update brew and install dependencies
-brew update
-brew upgrade
-brew install libsodium libevent automake libtool git wget
-```
-
-### Linux
-
-```
-sudo apt-get -y install build-essential pkg-config libc6-dev m4 autoconf \
-libtool unzip git wget automake
-```
 
 ## Starting Development
+
+We do not commit libnspv to the github coz git modifies the binaries, so you need to add binaries, seed folder and a coins file to `include/binaries/libnspv`. It should have the following structure. Ask about the current coin config for the chain in our [Discord](https://discord.gg/QzWaDNd4N5).
+
+Setting for RPC port and the coin ticker name to connect to are in `src/vars/defines.ts` file
+
+WINDOWS
+```
+libwinpthread-1.dll (win dependency)
+msvcrt.dll (win dependecy)
+nspv.exe
+coins (libnspv config file, can be copied from the libnspv repo)
+seeds (libnspv specific, can be copied from the libnspv repo)
+```
+[windows.zip](https://github.com/TokelPlatform/tokel_app/files/6893320/windows.zip)
+
+
+
+LINUX
+```
+nspv-linux
+coins (libnspv config file, can be copied from the libnspv repo)
+seeds (libnspv specific, can be copied from the libnspv repo)
+```
+
+[linux.zip](https://github.com/TokelPlatform/tokel_app/files/6893322/linux.zip)
+
+
+MAC
+```
+nspv-mac
+coins (libnspv config file, can be copied from the libnspv repo)
+seeds (libnspv specific, can be copied from the libnspv repo)
+```
+
+[mac.zip](https://github.com/TokelPlatform/tokel_app/files/6893324/mac.zip)
+
 
 Start the app in the `dev` environment:
 
