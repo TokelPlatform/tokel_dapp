@@ -21,7 +21,7 @@ const WarningRoot = styled.div`
   }
   p {
     color: var(--color-gray);
-    font-size: var(--font-size-additional-p);
+    font-size: var(--font-size-p);
   }
   margin-bottom: 2rem;
 `;

@@ -49,14 +49,14 @@ const GeneratedCredential = ({ wifkey, seed, forward, goBack }: GeneratedCredent
       <h1>Your WIF and your Seed Phrase</h1>
       <Confidential>
         <CredentialsRow
-          label="Your Key"
-          sublabel="- private key and is used to login to your wallet"
-          credential={wifkey}
-        />
-        <CredentialsRow
           label="Seed Phrase"
           sublabel="- can be used as a backup login option"
           credential={seed}
+        />
+        <CredentialsRow
+          label="Your WIF/Private Key"
+          sublabel="- private key and is used to login to your wallet"
+          credential={wifkey}
         />
       </Confidential>
       <Warning

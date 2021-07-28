@@ -84,18 +84,18 @@ const Login = () => {
       )}
       {step === STEP3 && (
         <ConfirmString
-          title="Confirm Your Key"
-          desc="Your key is important for you to login to your account. Make sure you copied it to a safe place. Please confirm it."
-          originalString={key}
+          title="Confirm Your Seed Phrase"
+          desc="You will use your seed phrase in case you need to restore access to your account. Please confirm it."
+          originalString={seed}
           goBack={() => back()}
           forward={() => forward()}
         />
       )}
       {(step === STEP4 || step === STEP5) && (
         <ConfirmString
-          title="Confirm Your Seed Phrase"
-          desc="You will use your seed phrase in case you need to restore access to your account. Please confirm it."
-          originalString={seed}
+          title="Confirm Your WIF/Private Key"
+          desc="Your key is important for you to login to your account. Make sure you copied it to a safe place. Please confirm it."
+          originalString={key}
           goBack={() => back()}
           forward={() => {
             forward();
