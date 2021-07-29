@@ -13,7 +13,7 @@ Tokel logo represent universe. Tokel is a platform which will allow creation of 
   <img src="assets/colors.png" width="50%" />
 
 
-### Tokel on Dark
+### Tokel Text Logo on Dark
 <img src="assets/TokelTextOnDark.png" width="100%" />
 
 
@@ -27,7 +27,7 @@ Tokel logo represent universe. Tokel is a platform which will allow creation of 
 
 [Tokel x3](https://github.com/TokelPlatform/tokel_app/raw/brand_pack/brand_package/assets/tokel-textx3.png)
 
-### Tokel on White
+### Tokel Text Logo on White
 <img src="assets/TokelTextOnWhite.png" width="100%" />
 
 
@@ -41,8 +41,8 @@ Tokel logo represent universe. Tokel is a platform which will allow creation of 
 
 [Tokel x3](https://github.com/TokelPlatform/tokel_app/raw/brand_pack/brand_package/assets/tokel-black-textx3.png)
 
-### Tokel
-<img src="assets/tokelx3.png" />
+### Tokel Logo
+<img src="assets/tokelx3.png" width="20%"/>
 
 #### SVG
 [Tokel](https://github.com/TokelPlatform/tokel_app/raw/brand_pack/brand_package/assets/tokel.svg)
