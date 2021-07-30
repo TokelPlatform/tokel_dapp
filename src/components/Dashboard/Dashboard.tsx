@@ -17,7 +17,7 @@ const DashboardRoot = styled.div`
   width: 100%;
   flex: 1;
   background-color: var(--color-black);
-  padding: 20px;
+  padding: 18px;
   margin: 0;
 `;
 
