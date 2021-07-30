@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { FEE, TICKER, USD_VALUE } from 'vars/defines';
+import { FEE, INFORMATION_N_A, TICKER, USD_VALUE } from 'vars/defines';
 
 import getTransactionDetail from './insightApi';
 
@@ -17,8 +17,7 @@ export const parseListTxsRpcTx = tx => {
         height: tx[0].height,
         value: -(tx[0].value + (tx[1].value + FEE)),
         received: false,
-        recepient: 'See tx at the explorer for details',
-        recipient: 'See tx at the explorer for details',
+        recepient: INFORMATION_N_A,
       },
     ];
   }
@@ -32,8 +31,7 @@ export const parseListTxsRpcTx = tx => {
       {
         ...tx[0],
         received: false,
-        recepient: 'See tx at the explorer for details',
-        recipient: 'See tx at the explorer for details',
+        recepient: INFORMATION_N_A,
       },
     ];
   }
