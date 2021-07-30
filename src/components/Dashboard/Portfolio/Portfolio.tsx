@@ -40,7 +40,7 @@ const Portfolio = (): ReactElement => {
       {assets.map(asset => (
         <PortfolioItem
           key={asset.name}
-          name={`${asset.name} (${asset.ticker})`}
+          name={`${asset.name}`}
           subtitle={`${formatDec(asset.balance)} ≈ $TBA`}
           // subtitle={`${formatDec(asset.balance)} ≈ $${formatFiat(asset.balance * asset.usd_value)}`}
           percentage={100}
