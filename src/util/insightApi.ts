@@ -7,7 +7,7 @@ const http404 = 'Request failed with status code 404';
 const getTransactionDetail = async (txId, txInfo) => {
   try {
     const resp = await axios(`${INSIGHT_SERVER}/tx/${txId}`);
-    return JSON.parse(resp.data);
+    return resp.data;
   } catch (e) {
     if (e.message && e.message === http404) {
       return txInfo;

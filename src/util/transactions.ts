@@ -136,7 +136,14 @@ export const getStillUnconfirmed = (newTxs, currentTxs) => {
     return [];
   }
   const unconfirmed = currentTxs.filter(tx => tx.unconfirmed);
-  return unconfirmed.filter(txid => !newTxs.find(tx => tx.txid === txid.txid));
+  return unconfirmed.filter(txid => {
+    return !newTxs.find(
+      tx =>
+        // first comparison is for data returned by the insight API,
+        // second comparison is for data returned by nspv
+        tx.txid === txid.txid || tx[0].txid === txid.txid
+    );
+  });
 };
 
 /**
