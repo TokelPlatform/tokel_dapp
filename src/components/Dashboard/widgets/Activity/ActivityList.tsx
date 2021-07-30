@@ -40,7 +40,7 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 16px 0 0 0;
+  padding: 20px 0 8px 0;
   .info {
     margin: 0 0 2px 0;
   }
@@ -78,7 +78,9 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
         <TransactionWrapper key={tx.txid + tx.received}>
           <Transactions fullView={fullView}>
             <Column>
-              <p className="datetime">{tx.height}</p>
+              <p style={{ width: '40px', margin: 0 }} className="datetime">
+                {tx.time ? tx.time : 'N/A'}
+              </p>
             </Column>
             {fullView && (
               <Column>

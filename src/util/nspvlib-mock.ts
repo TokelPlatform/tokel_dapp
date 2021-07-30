@@ -59,6 +59,8 @@ export interface TxType {
   recipient?: string;
   tx?: string;
   unconfirmed: boolean;
+  from: Array<string>;
+  time: string;
 }
 
 export const listUnspent = async (fail = false): Promise<UnspentType> => {

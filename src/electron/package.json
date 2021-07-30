@@ -1,7 +1,7 @@
 {
   "name": "tokel_app",
   "productName": "tokelPlatform",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Komodo ecosystem’s Token Platform",
   "main": "./main.js",
   "author": {

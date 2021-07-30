@@ -1,36 +1,38 @@
+import moment from 'moment';
+
 import { FEE, TICKER, USD_VALUE } from 'vars/defines';
+
+import getTransactionDetail from './insightApi';
 
 /**
  * Parse one transaction
  * @param tx
  * @returns
  */
-export const parseTx = tx => {
-  // it is an outgoing transaction and some change returned to our address
-  if (tx[1][0].height === 'TBA') {
-    return tx[1][0];
-  }
-  if (tx[1].length === 2) {
+export const parseListTxsRpcTx = tx => {
+  if (tx.length === 2) {
     return [
       {
-        txid: tx[0],
-        height: tx[1][0].height,
-        value: -(tx[1][0].value + (tx[1][1].value + FEE)),
+        txid: tx[0].txid,
+        height: tx[0].height,
+        value: -(tx[0].value + (tx[1].value + FEE)),
         received: false,
+        recepient: 'See tx at the explorer for details',
         recipient: 'See tx at the explorer for details',
       },
     ];
   }
   // sending to yourself
-  if (tx[1].length === 3) {
+  if (tx.length === 3) {
     return [
       {
-        ...tx[1][0],
+        ...tx[0],
         received: true,
       },
       {
-        ...tx[1][0],
+        ...tx[0],
         received: false,
+        recepient: 'See tx at the explorer for details',
         recipient: 'See tx at the explorer for details',
       },
     ];
@@ -38,19 +40,39 @@ export const parseTx = tx => {
   // it is an incoming transaction, save as is
   return [
     {
-      ...tx[1][0],
-      value: Math.abs(tx[1][0].value),
+      ...tx[0],
+      value: Math.abs(tx[0].value),
       received: true,
     },
   ];
 };
 
+export const parseSerializedTransaction = (tx, address) => {
+  if (tx.unconfirmed) {
+    return tx;
+  }
+  if (!tx.time) {
+    return parseListTxsRpcTx(tx);
+  }
+  return [
+    {
+      value: Number(tx.vout[0].value),
+      from: [...new Set(tx.vin.map(v => v.addr).flat())],
+      recipient: tx.vout[0].scriptPubKey.addresses[0],
+      time: moment.unix(tx.time).format('DD/MM/YYYY H:mm:ss'),
+      txid: tx.txid,
+      height: tx.blockheight,
+      received: tx.vout[0].scriptPubKey.addresses[0] === address,
+    },
+  ];
+};
+
 /**
- *
- * @param txs listtransactions rpc output
+ * Groups transactions from listtransactions output by txids
+ * @param txs     listtransactions.txids
  * @returns
  */
-export const parseTransactions = txs => {
+export const groupTransactions = txs => {
   if (!txs.length) {
     return [];
   }
@@ -64,9 +86,7 @@ export const parseTransactions = txs => {
     }
     parsedTxs[tx.txid].push(tx);
   });
-  const resultTxs = [];
-  Object.entries(parsedTxs).forEach(k => resultTxs.push(...parseTx(k)));
-  return resultTxs;
+  return parsedTxs;
 };
 
 /**
@@ -74,7 +94,7 @@ export const parseTransactions = txs => {
  * @param tx spend.tx
  * @returns
  */
-export const parseSpendTx = newtx => {
+export const parseSpendTx = (newtx, from) => {
   return {
     received: false,
     unconfirmed: true,
@@ -82,6 +102,8 @@ export const parseSpendTx = newtx => {
     height: newtx.tx.height ?? 'TBA',
     value: Number(newtx.tx.total) - Number(newtx.tx.change) - FEE,
     recipient: newtx.recipient,
+    time: newtx.time,
+    from,
   };
 };
 
@@ -114,5 +136,24 @@ export const getStillUnconfirmed = (newTxs, currentTxs) => {
     return [];
   }
   const unconfirmed = currentTxs.filter(tx => tx.unconfirmed);
-  return unconfirmed.filter(txid => !newTxs.find(tx => tx.txid === txid.txid));
+  return unconfirmed.filter(txid => {
+    return !newTxs.find(
+      tx =>
+        // first comparison is for data returned by the insight API,
+        // second comparison is for data returned by nspv
+        tx.txid === txid.txid || tx[0].txid === txid.txid
+    );
+  });
+};
+
+/**
+ * Gets details of all transactions
+ * @param txs
+ * @returns
+ */
+export const getAllTransactionDetails = async txs => {
+  const grouppedTxs = groupTransactions(txs);
+  const txids = Object.keys(grouppedTxs);
+  const promises = txids.map(tx => getTransactionDetail(tx, grouppedTxs[tx]));
+  return Promise.all(promises);
 };

@@ -3,9 +3,9 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 
 import link from 'assets/link.svg';
-import { limitLength } from 'util/helpers';
+import { limitLength, parseSenderAddresses } from 'util/helpers';
 import links from 'util/links';
-import { Colors, SEE_EXPLORER } from 'vars/defines';
+import { Colors, INFORMATION_N_A } from 'vars/defines';
 
 import CloseModalButton from 'components/_General/CloseButton';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
@@ -14,14 +14,14 @@ import TxConfirmationRow from './TxConfirmationRow';
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 `;
 
 const Column = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 `;
 
 type TxConfirmationProps = {
@@ -30,24 +30,24 @@ type TxConfirmationProps = {
   amount: string;
   // usdValue?: number;
   txid: string;
-  address: string;
-  received: boolean;
+  from: Array<string> | string;
+  time: string;
 };
 
 const TxInformation = ({
   currency,
   amount,
   txid,
-  address,
-  received,
+  from,
+  time,
   recipient,
 }: TxConfirmationProps): ReactElement => {
   // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
-  const secondAddress = recipient || SEE_EXPLORER;
   return (
     <Column className="wrp">
-      <TxConfirmationRow label="From" value={!received ? `${address} (me)` : secondAddress} />
-      <TxConfirmationRow label="To" value={!received ? secondAddress : `${address} (me)`} />
+      <TxConfirmationRow label="From" value={from ? parseSenderAddresses(from) : INFORMATION_N_A} />
+      <TxConfirmationRow label="To" value={recipient ?? INFORMATION_N_A} />
+      <TxConfirmationRow label="Date and time" value={time ?? INFORMATION_N_A} />
 
       <Row>
         <TxConfirmationRow label="Amount" value={amount} />

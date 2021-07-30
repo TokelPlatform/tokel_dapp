@@ -1,10 +1,12 @@
 import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
+import moment from 'moment';
 
 import { broadcast, spend } from 'util/nspvlib';
 import { spendSuccess } from 'util/transactions';
 import { FEE, TICKER } from 'vars/defines';
 
+import account from './account';
 import type { RootModel } from './models';
 
 export type Asset = {
@@ -88,6 +90,8 @@ export default createModel<RootModel>()({
               dispatch.account.ADD_NEW_TX({
                 tx: newTx,
                 recipient: address,
+                from: [account.state.address],
+                time: moment().format('DD/MM/YYYY H:mm:ss'),
                 value,
                 unconfirmed: true,
               });
