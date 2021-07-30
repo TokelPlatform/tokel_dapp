@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import parse from 'html-react-parser';
 import { identicon } from 'minidenticons';
 
-import happyIcon from 'assets/happy.svg';
+import tokelIcon from 'assets/logo.svg';
 import { selectAccountAddress } from 'store/selectors';
 
 import ProgressBar from 'components/_General/ProgressBar';
@@ -77,7 +77,7 @@ const PortfolioItem = ({
         {header ? (
           parse(identicon(address || 'sample'))
         ) : (
-          <img alt={`${name}-icon`} src={happyIcon} />
+          <img alt={`${name}-icon`} src={tokelIcon} />
         )}
       </IconWrapper>
       <Information>

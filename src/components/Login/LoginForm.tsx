@@ -65,7 +65,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   return (
     <LoginFormRoot>
       <h1>Welcome to Tokel</h1>
-      <p className="welcome">Komodo ecosystem Token Platform</p>
+      <p className="welcome">Future of tokenization</p>
       <Input
         autoFocus
         onChange={e => {
