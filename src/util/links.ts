@@ -1,9 +1,13 @@
 export default {
   explorers: {
     KMD: 'https://kmd.explorer.dexstats.info',
-    TKL: '',
+    TOKEL: 'https://tokel.explorer.dexstats.info',
     TKLTEST: 'https://tkltest.explorer.dexstats.info',
     TKLLIVE: '',
+  },
+  insightApi: {
+    TOKEL: 'https://tokel.explorer.dexstats.info/insight-api-komodo',
+    KMD: 'https://kmd.explorer.dexstats.info/insight-api-komodo',
   },
   discord: 'https://discord.gg/MHxJZVFkqa',
   website: 'https://tokel.io',
