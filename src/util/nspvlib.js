@@ -1,5 +1,4 @@
 import axios from 'axios';
-import got from 'got';
 
 import { ErrorMessages, NspvErrors, RPC_PORT } from 'vars/defines';
 
