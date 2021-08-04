@@ -21,21 +21,21 @@ const DashboardRoot = styled.div`
   margin: 0;
 `;
 
-const HALFMINUTE = 30000;
-const ELEVENMINUTES = 660000;
+const TX_FETCH_INTERVAL_MS = 30 * 1000;
+const LOGIN_INTERVAL_MS = 11 * 60 * 1000;
 
 const Dashboard = (): ReactElement => {
   const key = useSelector(selectKey);
   const address = useSelector(selectAccountAddress);
   useEffect(() => {
-    const loginInterval = setInterval(() => login(key), ELEVENMINUTES);
+    const loginInterval = setInterval(() => login(key), LOGIN_INTERVAL_MS);
     const txInterval = setInterval(() => {
       // @todo get txs after a certain block in the future
       listTransactions(address)
         .then(txs => getAllTransactionDetails(txs.txids))
         .then(txs => dispatch.account.SET_TXS(txs))
         .catch(e => console.log(e));
-    }, HALFMINUTE);
+    }, TX_FETCH_INTERVAL_MS);
     return () => {
       clearInterval(loginInterval);
       clearInterval(txInterval);

@@ -14,6 +14,10 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import { BrowserWindow, app, ipcMain, shell } from 'electron';
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
+} from 'electron-devtools-installer';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
@@ -33,34 +37,29 @@ export default class AppUpdater {
   }
 }
 
+const isDev = process.env.NODE_ENV === 'development';
+const isProd = process.env.NODE_ENV === 'production';
+
 let mainWindow: BrowserWindow | null = null;
 
-if (process.env.NODE_ENV === 'production') {
+if (isProd) {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
 }
 
-if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
+if (isDev || process.env.DEBUG_PROD === 'true') {
   require('electron-debug')();
 }
 
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  // const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
-  // TODO: extensions disabled for now, figure out why they don't get properly installed
-  const extensions = [];
-
-  return installer
-    .default(
-      extensions.map(name => installer[name]),
-      forceDownload
-    )
-    .catch(console.log);
+  await installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS], {
+    loadExtensionOptions: { allowFileAccess: true },
+    forceDownload: false,
+  });
 };
 
 const createWindow = async () => {
-  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
+  if (isDev || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
   }
 
@@ -75,7 +74,6 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1240,
-    minWidth: 1240,
     height: 720,
     minHeight: 720,
     center: true,
@@ -123,10 +121,46 @@ const createWindow = async () => {
     shell.openExternal(url);
   });
 
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater();
+  // eslint-disable-next-line no-new
+  // new AppUpdater();
 };
+
+// Autoupdate handlers
+ipcMain.on('update-check', () => {
+  if (isDev) {
+    autoUpdater.checkForUpdates();
+  } else {
+    autoUpdater.checkForUpdatesAndNotify();
+  }
+});
+
+ipcMain.on('update-restart', () => {
+  autoUpdater.quitAndInstall();
+  setTimeout(() => {
+    app.relaunch();
+    app.exit();
+  }, 5000);
+});
+
+autoUpdater.on('error', data => {
+  mainWindow?.webContents.send('update-error', data);
+});
+
+autoUpdater.on('update-not-available', data => {
+  mainWindow?.webContents.send('update-not-available', data);
+});
+
+autoUpdater.on('update-available', data => {
+  mainWindow?.webContents.send('update-available', data);
+});
+
+autoUpdater.on('download-progress', data => {
+  mainWindow?.webContents.send('download-progress', data);
+});
+
+autoUpdater.on('update-downloaded', data => {
+  mainWindow?.webContents.send('update-downloaded', data);
+});
 
 /**
  * Add event listeners...

@@ -23,9 +23,16 @@ module.exports = api => {
       // @babel/preset-env will automatically target our browserslist targets
       require('@babel/preset-env'),
       require('@babel/preset-typescript'),
-      [require('@babel/preset-react'), { development }],
+      [
+        require('@babel/preset-react'),
+        { development, runtime: 'automatic', importSource: '@emotion/react' },
+      ],
     ],
     plugins: [
+      // custom
+      '@emotion/babel-plugin',
+      ['@babel/plugin-proposal-private-methods', { loose: true }],
+
       // Stage 0
       require('@babel/plugin-proposal-function-bind'),
 

@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import { RootState } from './rematch';
 
+export const selectTheme = (state: RootState) => state.environment.theme;
 export const selectView = (state: RootState) => state.environment.view;
 export const selectModal = (state: RootState) => state.environment.modal;
 
