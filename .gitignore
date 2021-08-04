@@ -41,5 +41,3 @@ __snapshots__
 *.css.d.ts
 *.sass.d.ts
 *.scss.d.ts
-
-include/binaries/*
