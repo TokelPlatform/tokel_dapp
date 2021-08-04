@@ -70,7 +70,6 @@
       "repo": "tokel_app",
       "releaseType": "prerelease"
     },
-    "afterSign": "config/scripts/Notarize.js",
     "mac": {
       "target": [
         "dmg",
