@@ -122,7 +122,7 @@ const createWindow = async () => {
   });
 
   // eslint-disable-next-line no-new
-  new AppUpdater();
+  // new AppUpdater();
 };
 
 // Autoupdate handlers

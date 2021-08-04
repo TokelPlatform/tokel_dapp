@@ -6,12 +6,13 @@ import { capitalize } from 'lodash';
 
 import { dispatch } from 'store/rematch';
 import { selectTheme } from 'store/selectors';
-import { Responsive } from 'util/helpers';
+// import { Responsive } from 'util/helpers';
 import { V, themeNames } from 'util/theming';
 
 import GenericPanel from 'components/_General/GenericPanel';
 import Select from 'components/_General/Select';
-import Updater from './Updater';
+
+// import Updater from './Updater';
 
 const SubsectionRoot = styled.div`
   width: 100%;
@@ -68,9 +69,9 @@ const Settings = () => {
           <Select onSelect={console.log} options={currencyOptions} defaultValue="None" />
         </Subsection>
       </SplitSection>
-      <Subsection name="Updates" contrast>
+      {/* <Subsection name="Updates" contrast>
         <Updater />
-      </Subsection>
+      </Subsection> */}
     </GenericPanel>
   );
 };
