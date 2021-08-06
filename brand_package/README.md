@@ -2,7 +2,7 @@
   <img src="../assets/tokel-header.png" width="100%" />
 </div>
 
-# TOKEL brand assets
+# Tokel brand assets
 
 
 ## Logo
