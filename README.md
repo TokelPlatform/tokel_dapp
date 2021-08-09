@@ -42,8 +42,7 @@ nspv.exe
 coins (libnspv config file, can be copied from the libnspv repo)
 seeds (libnspv specific, can be copied from the libnspv repo)
 ```
-[windows.zip](https://github.com/TokelPlatform/tokel_app/files/6893320/windows.zip)
-
+[windows.zip](https://github.com/TokelPlatform/tokel_app/files/6952151/windows.zip)
 
 
 LINUX
@@ -52,8 +51,9 @@ nspv-linux
 coins (libnspv config file, can be copied from the libnspv repo)
 seeds (libnspv specific, can be copied from the libnspv repo)
 ```
+[linux.zip](https://github.com/TokelPlatform/tokel_app/files/6952150/linux.zip)
 
-[linux.zip](https://github.com/TokelPlatform/tokel_app/files/6893322/linux.zip)
+
 
 
 MAC
@@ -62,8 +62,8 @@ nspv-mac
 coins (libnspv config file, can be copied from the libnspv repo)
 seeds (libnspv specific, can be copied from the libnspv repo)
 ```
+[mac.zip](https://github.com/TokelPlatform/tokel_app/files/6952148/mac.zip)
 
-[mac.zip](https://github.com/TokelPlatform/tokel_app/files/6893324/mac.zip)
 
 
 Start the app in the `dev` environment:
