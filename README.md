@@ -1,6 +1,5 @@
 <div align="center">
-  <img src="assets/icon.png" width="10%" />
-	<br>
+<img src="https://user-images.githubusercontent.com/2395326/128694831-8df4ae6f-7547-45e4-88f9-685ccb51fd66.png" width="20%"/>
   <h1>The Future of tokenization</h1>
 	<br>
 	<a title="Downloads" href="https://github.com/TokelPlatform/tokel_app/releases/tag/v1.0.0">
