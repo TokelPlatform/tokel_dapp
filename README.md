@@ -1,5 +1,20 @@
 <div align="center">
-  <img src="assets/tokel-header.png" width="100%" />
+  <img src="assets/icon.png" width="10%" />
+	<br>
+  <h1>The Future of tokenization</h1>
+	<br>
+	<a title="Downloads" href="https://github.com/TokelPlatform/tokel_app/releases/tag/v1.0.0">
+		<img src="https://img.shields.io/github/downloads/TokelPlatform/tokel_app/total.svg">
+	</a>
+	<a title="Release" href="https://github.com/TokelPlatform/tokel_app/releases/latest">
+		<img src="https://badgen.net/github/release/tokelPlatform/tokel_app">
+	</a>
+	<a title="Follow on Twitter" target="_blank" href="https://twitter.com/TokelPlatform">
+		<img src="https://img.shields.io/twitter/follow/TokelPlatform.svg?style=social&label=Follow">
+	</a>
+	<br>
+	<br>
+<img width="1240" alt="nft" src="https://user-images.githubusercontent.com/2395326/128693417-d8633b6b-cbfd-4108-9772-8391a1afd917.png">
 </div>
 
 ## About
