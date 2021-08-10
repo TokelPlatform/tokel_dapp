@@ -1,4 +1,6 @@
 <div align="center">
+
+
 <img src="https://user-images.githubusercontent.com/2395326/128694831-8df4ae6f-7547-45e4-88f9-685ccb51fd66.png" width="20%"/>
   <h1>The Future of tokenization</h1>
 	<br>
@@ -13,7 +15,7 @@
 	</a>
 	<br>
 	<br>
-<img width="1240" alt="nft" src="https://user-images.githubusercontent.com/2395326/128693417-d8633b6b-cbfd-4108-9772-8391a1afd917.png">
+<img width="1240" alt="nft" src="https://user-images.githubusercontent.com/2395326/128871421-cdb733a0-376a-44c7-b2c9-761a499efe3b.png">
 </div>
 
 ## About
