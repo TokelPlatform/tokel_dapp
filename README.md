@@ -33,6 +33,11 @@ It consists of :
 
 For more information about the project please join our [Discord](https://discord.gg/QzWaDNd4N5) or check out [tokel web](https://tokel.io)
 
+## How it works
+
+<img src="https://user-images.githubusercontent.com/2395326/129310169-b3459ac0-1114-43e6-87f6-04f80ed1336d.png" width="60%"/>
+
+
 ## Git branches and development
 The default branch in the Github repo is `development`. However, releases are cut from the `main` branch. In general, PRs should be made against the `development` branch and reviewed by at least one other person before being merged. When ready for a release, a PR should be made from `development` to `main` and reviewed. Once happy with the PR, it can be merged and then a [release can be drafted for distribution](#automatic-github-distribution).
 
