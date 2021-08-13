@@ -2,7 +2,7 @@
 
 
 <img src="https://user-images.githubusercontent.com/2395326/128694831-8df4ae6f-7547-45e4-88f9-685ccb51fd66.png" width="20%"/>
-  <h1>The Future of tokenization</h1>
+  <h1>The Future of Tokenization</h1>
 	<br>
 	<a title="Downloads" href="https://github.com/TokelPlatform/tokel_app/releases/tag/v1.0.0">
 		<img src="https://img.shields.io/github/downloads/TokelPlatform/tokel_app/total.svg">
@@ -24,11 +24,12 @@ Tokel Platform is Komodo ecosystem's token platform.
 It consists of :
 
 - TOKEL coin wallet - release 1
-- Token wallet
+- Token wallet - release 2
+- Token creation tool
 - NFT marketplace
 - DEX
 
-At the moment the app is in development of release 1.
+[Download the latest release here](https://github.com/TokelPlatform/tokel_app/releases)
 
 For more information about the project please join our [Discord](https://discord.gg/QzWaDNd4N5) or check out [tokel web](https://tokel.io)
 
