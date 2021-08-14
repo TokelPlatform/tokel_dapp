@@ -10,6 +10,7 @@ import { Colors, ModalName, TOPBAR_HEIGHT } from 'vars/defines';
 
 import { ButtonSmall } from 'components/_General/buttons';
 import { HSpaceSmall } from 'components/Dashboard/widgets/common';
+import NspvIndicator from 'components/NspvIndicator';
 import WindowControls from 'components/WindowControls';
 
 // import User from './User';
@@ -47,6 +48,7 @@ const TopBar = () => {
       {isWindowsOrLinux ? <WindowControls /> : <div />}
       {accountReady ? (
         <RightSideContainer>
+          <NspvIndicator />
           <ButtonSmall onClick={() => dispatch.environment.SET_MODAL(ModalName.FEEDBACK)}>
             Feedback
           </ButtonSmall>

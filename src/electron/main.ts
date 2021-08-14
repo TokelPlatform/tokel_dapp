@@ -121,9 +121,22 @@ const createWindow = async () => {
     shell.openExternal(url);
   });
 
+  // send NSPV status updates to the renderer process
+  nspv.registerCallback((status: boolean) => {
+    mainWindow.webContents.send('nspv-status', status);
+  });
+
   // eslint-disable-next-line no-new
   // new AppUpdater();
 };
+
+ipcMain.on('toggle-nspv', () => {
+  if (nspv.connected) {
+    nspv.cleanup();
+  } else {
+    nspv.connect();
+  }
+});
 
 // Autoupdate handlers
 ipcMain.on('update-check', () => {
