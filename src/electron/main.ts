@@ -108,8 +108,8 @@ const createWindow = async () => {
   });
 
   mainWindow.on('closed', () => {
-    nspv.cleanup();
     mainWindow = null;
+    nspv.cleanup();
   });
 
   const menuBuilder = new MenuBuilder(mainWindow);
@@ -123,7 +123,9 @@ const createWindow = async () => {
 
   // send NSPV status updates to the renderer process
   nspv.registerCallback((status: boolean) => {
-    mainWindow.webContents.send('nspv-status', status);
+    if (mainWindow) {
+      mainWindow.webContents.send('nspv-status', status);
+    }
   });
 
   // eslint-disable-next-line no-new
