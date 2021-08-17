@@ -60,7 +60,7 @@ export const getStillUnconfirmed = (newTxs, currentTxs) => {
       tx =>
         // first comparison is for data returned by the insight API,
         // second comparison is for data returned by nspv
-        tx.txid === txid.txid || tx[0].txid === txid.txid
+        tx.txid === txid.txid || (tx[0] && tx[0].txid === txid.txid)
     );
   });
 };
@@ -80,14 +80,6 @@ export const isTheSameTx = (tx1, tx2) =>
 export const getVins = tx => tx.filter(t => !t.vout && t.vout !== 0);
 export const getVouts = tx => tx.filter(t => !t.vout && t.vout !== 0);
 
-export const getRecepients = (tx, address) => {
-  let iParticipateInTransaction = false;
-  const recipients = [];
-  tx.vout.forEach(vout => {
-    if (vout.scriptPubKey.addresses.indexOf(address) !== -1) {
-      iParticipateInTransaction = true;
-    }
-    recipients.push(vout.scriptPubKey.addresses);
-  });
-  return { iParticipateInTransaction, recipients };
-};
+export const getRecepients = tx => tx.vout.map(vout => vout.scriptPubKey.addresses).flat();
+
+export const getSenders = tx => [...new Set(tx.vin.map(v => v.addr).flat())];

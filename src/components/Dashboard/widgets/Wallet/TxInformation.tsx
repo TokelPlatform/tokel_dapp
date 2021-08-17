@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 
 import link from 'assets/link.svg';
-import { limitLength, parseAddresses } from 'util/helpers';
+import { limitLength, stringifyAddresses } from 'util/helpers';
 import links from 'util/links';
 import { Colors, INFORMATION_N_A } from 'vars/defines';
 
@@ -45,8 +45,8 @@ const TxInformation = ({
   // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
   return (
     <Column className="wrp">
-      <TxConfirmationRow label="From" value={from ? parseAddresses(from) : INFORMATION_N_A} />
-      <TxConfirmationRow label="To" value={parseAddresses(recipient) ?? INFORMATION_N_A} />
+      <TxConfirmationRow label="From" value={from ? stringifyAddresses(from) : INFORMATION_N_A} />
+      <TxConfirmationRow label="To" value={stringifyAddresses(recipient) ?? INFORMATION_N_A} />
       <TxConfirmationRow label="Date and time" value={time ?? INFORMATION_N_A} />
 
       <Row>

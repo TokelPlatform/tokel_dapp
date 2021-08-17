@@ -33,18 +33,18 @@ export const limitLength = (value: string, len: number) => value.substr(0, len);
 
 export const isAddressValid = (address: string) => /^[a-km-zA-HJ-NP-Z1-9]{26,35}$/.test(address);
 
-export const parseAddresses = address => {
-  if (!address || !address.length) {
+export const stringifyAddresses = addresses => {
+  if (!addresses || !addresses.length) {
     return null;
   }
-  if (!Array.isArray(address)) {
-    return address;
+  if (!Array.isArray(addresses)) {
+    return addresses;
   }
-  if (address.length === 1) {
-    return address[0];
+  if (addresses.length === 1) {
+    return addresses[0];
   }
-  if (address.length === 2) {
-    return `${address[0]}, ${address[1]}`;
+  if (addresses.length === 2) {
+    return `${addresses[0]}, ${addresses[1]}`;
   }
-  return `${address[0]}, ${address[1]} , ${address.length - 2} addresses`;
+  return `${addresses[0]}, ${addresses[1]} , ${addresses.length - 2} addresses`;
 };

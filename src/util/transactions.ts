@@ -3,7 +3,7 @@ import moment from 'moment';
 import { FEE, INFORMATION_N_A, TICKER, USD_VALUE } from 'vars/defines';
 
 import getTransactionDetail from './insightApi';
-import { getRecepients, groupTransactions } from './transactionsHelper';
+import { getRecepients, getSenders, groupTransactions } from './transactionsHelper';
 
 /**
  * Parse one transaction
@@ -46,6 +46,12 @@ export const parseListTxsRpcTx = tx => {
   ];
 };
 
+/**
+ * tx samples https://kmd.explorer.dexstats.info/insight-api-komodo/tx/b0fd208b3653ddeced4eabc5af6d3f50442cf0b5d59c34db79b4091b3163d578
+ * @param tx        {object}   komodo insight api json object
+ * @param address   {string}   current wallet address
+ * @returns
+ */
 export const parseSerializedTransaction = (tx, address) => {
   if (tx.unconfirmed) {
     return tx;
@@ -53,16 +59,19 @@ export const parseSerializedTransaction = (tx, address) => {
   if (!tx.time) {
     return parseListTxsRpcTx(tx);
   }
-  const { iParticipateInTransaction, recipients } = getRecepients(tx, address);
+  const recipients = getRecepients(tx);
+  const senders = getSenders(tx);
+  const iAmSender = senders.find(s => s === address);
+
   return [
     {
       value: Number(tx.vout[0].value),
-      from: [...new Set(tx.vin.map(v => v.addr).flat())],
-      recipient: iParticipateInTransaction ? address : recipients.flat(),
+      from: senders,
+      recipient: iAmSender ? recipients : [address],
       time: moment.unix(tx.time).format('DD/MM/YYYY H:mm:ss'),
       txid: tx.txid,
       height: tx.blockheight,
-      received: iParticipateInTransaction,
+      received: !iAmSender,
     },
   ];
 };
