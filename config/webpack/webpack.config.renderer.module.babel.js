@@ -1,4 +1,6 @@
-export default {
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
+export default isDev => ({
   rules: [
     {
       test: /\.[jt]sx?$/,
@@ -6,16 +8,28 @@ export default {
       use: [
         {
           loader: require.resolve('babel-loader'),
-          options: {
-            plugins: [require.resolve('react-refresh/babel')],
-          },
+          options: isDev
+            ? {
+                plugins: [require.resolve('react-refresh/babel')],
+              }
+            : {},
         },
       ],
     },
     // CSS
     {
       test: /\.css$/,
-      use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+      use: [
+        isDev
+          ? { loader: 'style-loader' }
+          : {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: './',
+              },
+            },
+        'css-loader',
+      ],
     },
     // SVG
     {
@@ -77,4 +91,4 @@ export default {
       use: 'url-loader',
     },
   ],
-};
+});
