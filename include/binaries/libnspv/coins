@@ -13,14 +13,14 @@
     "mm2": 1
   },
  {
-    "coin": "TKLTEST6",
-    "asset": "TKLTEST6",
+    "coin": "TKLTEST",
+    "asset": "TKLTEST",
     "fname": "Tokel Test",
-    "rpcport": 65460,
+    "rpcport": 22025,
     "mm2": 0,
-    "p2p": 65459,
-    "magic": "fba8e510",
-    "nSPV": "167.99.114.240"
+    "p2p": 22024,
+    "magic": "485547f6",
+    "nSPV": "167.99.114.240, 3.19.194.93, 164.132.225.134"
   },
   {
     "coin": "TOKEL",
