@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
 import { selectAccountAddress, selectKey } from 'store/selectors';
-import { listTransactions, login } from 'util/nspvlib';
+import { listTransactions, listUnspent, login } from 'util/nspvlib';
 import { getAllTransactionDetails } from 'util/transactions';
 
 import AssetView from './AssetView';
@@ -31,7 +31,9 @@ const Dashboard = (): ReactElement => {
     const loginInterval = setInterval(() => login(key), LOGIN_INTERVAL_MS);
     const txInterval = setInterval(() => {
       // @todo get txs after a certain block in the future
-      listTransactions(address)
+      listUnspent()
+        .then(unspent => dispatch.account.SET_UNSPENT(unspent))
+        .then(() => listTransactions(address))
         .then(txs => getAllTransactionDetails(txs.txids))
         .then(txs => dispatch.account.SET_TXS(txs))
         .catch(e => console.log(e));

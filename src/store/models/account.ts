@@ -10,11 +10,11 @@ import {
 import { TxType, UnspentType } from 'util/nspvlib-mock';
 import {
   getAllTransactionDetails,
-  getStillUnconfirmed,
   parseSerializedTransaction,
   parseSpendTx,
   parseUnspent,
 } from 'util/transactions';
+import { getStillUnconfirmed } from 'util/transactionsHelper';
 
 import type { RootModel } from './models';
 

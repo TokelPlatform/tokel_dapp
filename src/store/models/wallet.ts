@@ -3,7 +3,7 @@ import dotProp from 'dot-prop-immutable';
 import moment from 'moment';
 
 import { broadcast, spend } from 'util/nspvlib';
-import { spendSuccess } from 'util/transactions';
+import { spendSuccess } from 'util/transactionsHelper';
 import { FEE, TICKER } from 'vars/defines';
 
 import account from './account';
