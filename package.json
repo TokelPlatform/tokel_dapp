@@ -71,6 +71,7 @@
       "releaseType": "prerelease"
     },
     "mac": {
+      "identity": null,
       "target": [
         "dmg",
         "zip"
