@@ -43,6 +43,8 @@ The default branch in the Github repo is `development`. However, releases are cu
 
 ## Install
 
+Make sure you are runing node 15.
+
 ```bash
 yarn
 ```
