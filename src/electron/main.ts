@@ -21,7 +21,7 @@ import installExtension, {
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
-import nspv from '../util/nspv';
+import nspv from '../util/nspv-bitgo';
 import { WindowControl } from '../vars/defines';
 import MenuBuilder from './menu';
 

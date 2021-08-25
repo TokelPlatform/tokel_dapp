@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-import { TICKER } from 'vars/defines';
-
+import { TICKER } from '../vars/defines';
 import links from './links';
 
 const http404 = 'Request failed with status code 404';

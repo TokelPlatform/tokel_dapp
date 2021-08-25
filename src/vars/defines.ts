@@ -1,5 +1,5 @@
 // nspv settings
-export const TICKER = 'TOKEL';
+export const TICKER = 'TKLTEST';
 export const RPC_PORT = '29405';
 
 export const TOPBAR_HEIGHT = 38;

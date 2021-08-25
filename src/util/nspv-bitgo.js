@@ -36,7 +36,10 @@ class NspvBitGoSingleton {
     this.peers.on('peer', peer => {
       console.log('in event: connected to peer', peer.socket.remoteAddress);
     });
-    this.peers.connect();
+    this.connected = false;
+    this.peers.connect(() => {
+      this.connected = true;
+    });
   }
 
   connect() {
@@ -195,6 +198,10 @@ class NspvBitGoSingleton {
   // eslint-disable-next-line class-methods-use-this
   async broadcast(txhex) {
     return null;
+  }
+
+  registerCallback(callbackFn) {
+    this.callbackFn = callbackFn;
   }
 
   cleanup() {
