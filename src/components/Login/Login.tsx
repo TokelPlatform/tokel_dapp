@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
-import { getNewAddress } from 'util/nspvlib';
+import nspv from 'util/nspv-bitgo';
 import { TOPBAR_HEIGHT } from 'vars/defines';
 
 import Logo from 'components/_General/Logo';
@@ -58,7 +58,7 @@ const Login = () => {
     }
     if (step === STEP2) {
       (async () => {
-        const result = await getNewAddress();
+        const result = nspv.getNewAddress();
         setKey(result.wif);
         setSeed(result.seed);
       })();

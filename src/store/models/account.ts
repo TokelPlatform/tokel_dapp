@@ -1,19 +1,9 @@
 import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 
-import {
-  listTransactions,
-  listUnspent,
-  login as nspvLogin,
-  logout as nspvLogout,
-} from 'util/nspvlib';
+import nspv from 'util/nspv-bitgo';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
-import {
-  getAllTransactionDetails,
-  parseSerializedTransaction,
-  parseSpendTx,
-  parseUnspent,
-} from 'util/transactions';
+import { parseSerializedTransaction, parseSpendTx, parseUnspent } from 'util/transactions';
 import { getStillUnconfirmed } from 'util/transactionsHelper';
 
 import type { RootModel } from './models';
@@ -83,33 +73,34 @@ export default createModel<RootModel>()({
       if (!this.key) {
         this.SET_KEY(key);
       }
-      nspvLogin(userKey)
-        .then(async account => {
-          this.SET_ADDRESS(account.address);
-          if (setFeedback) {
-            setFeedback('Logging in to nspv...');
-          }
-
-          const unspent = await listUnspent();
-          this.SET_UNSPENT(unspent);
-          dispatch.wallet.SET_ASSETS(parseUnspent(unspent));
-          if (setFeedback) {
-            setFeedback('Getting transactions...');
-          }
-          const transactions = await listTransactions(account.address);
-          return getAllTransactionDetails(transactions.txids);
-        })
-        .then(txs => dispatch.account.SET_TXS(txs))
-        .catch(e => {
-          if (setFeedback) {
-            setFeedback(null);
-          }
-          setError(e.message);
-        });
+      const account = nspv.login(userKey);
+      this.SET_ADDRESS(account.address);
+      if (setFeedback) {
+        setFeedback('Logging in to nspv...');
+      }
+      try {
+        const unspent = await nspv.listUnspent(account.address);
+        this.SET_UNSPENT(unspent);
+        dispatch.wallet.SET_ASSETS(parseUnspent(unspent));
+        if (setFeedback) {
+          setFeedback('Getting transactions...');
+        }
+        // data from explorer
+        const txs = await nspv.listtransactions(account.address);
+        // data from nspv
+        // const transactions = await listTransactions(account.address)
+        // const txs = await getAllTransactionDetails(transactions.txids);
+        dispatch.account.SET_TXS(txs.txs);
+      } catch (e) {
+        if (setFeedback) {
+          setFeedback(null);
+        }
+        setError(e.message);
+      }
     },
     async logout() {
       dispatch({ type: 'RESET_APP' });
-      return nspvLogout();
+      return nspv.logout();
     },
   }),
 });

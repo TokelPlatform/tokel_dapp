@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { FEE, INFORMATION_N_A, TICKER, USD_VALUE } from 'vars/defines';
 
-import getTransactionDetail from './insightApi';
+import { getTransactionDetail } from './insightApi';
 import { getRecepients, getSenders, groupTransactions } from './transactionsHelper';
 
 /**

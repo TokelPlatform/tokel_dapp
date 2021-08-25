@@ -14,5 +14,7 @@
     "postinstall": "yarn electron-rebuild"
   },
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@tokel/bitgo-komodo-cc-lib": "0.1.3"
+  }
 }
