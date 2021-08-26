@@ -2,13 +2,15 @@
 # yarn lockfile v1
 
 
-"@tokel/bitgo-komodo-cc-lib@0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@tokel/bitgo-komodo-cc-lib/-/bitgo-komodo-cc-lib-0.1.3.tgz#0ee7a32fa054e35d31ec5b40231e92428afae5b1"
-  integrity sha512-hSv/AKayonED/OxTmHvn6IB/5YyBosa+MXy7iJuP4b2iBvcc9X6vFbc8GxuBkth7HCP/uc2VRa+38RU/8Yhvzg==
+"@tokel/bitgo-komodo-cc-lib@0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@tokel/bitgo-komodo-cc-lib/-/bitgo-komodo-cc-lib-0.1.9.tgz#429805a9451fd23ec5fdd27ced9ff06987974e3a"
+  integrity sha512-cEcB0qV7/GFgYqMELAC3DkNxqkgCBy1slH85Nm+7+WNzUNYJjW9JZSGOILf0o1jHLtlON9+zIJCIIzDysTe/Mw==
   dependencies:
+    "@tokel/cryptoconditions" "0.1.0"
     bech32 "0.0.3"
     bigi "1.4.2"
+    bip39 "2.6.0"
     bip66 "^1.1.0"
     bitcoin-ops "^1.3.0"
     bitcoin-protocol "^4.1.3"
@@ -19,7 +21,6 @@
     bufferutil "^4.0.3"
     create-hash "^1.1.0"
     create-hmac "^1.1.3"
-    cryptoconditions-js "git+https://github.com/dimxy/cryptoconditions-js.git#master"
     debug "~3.1.0"
     ecurve "^1.0.0"
     envify "^4.1.0"
@@ -42,6 +43,11 @@
     wif "^2.0.1"
   optionalDependencies:
     secp256k1 "^3.5.2"
+
+"@tokel/cryptoconditions@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@tokel/cryptoconditions/-/cryptoconditions-0.1.0.tgz#ec60dacd9f9b6dbf9948931b53ead562cbb690df"
+  integrity sha512-0B4UGt0SkBh+puJ4scqEtZuLwJ5d8QBOw8xchEr1IlZ2WYrTdNUIvt2alNkQoKli7yzv3Ngfk+4JWB1nIOUo2Q==
 
 base-x@^3.0.2:
   version "3.0.8"
@@ -66,6 +72,17 @@ bindings@^1.5.0:
   integrity sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
   dependencies:
     file-uri-to-path "1.0.0"
+
+bip39@2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/bip39/-/bip39-2.6.0.tgz#9e3a720b42ec8b3fbe4038f1e445317b6a99321c"
+  integrity sha512-RrnQRG2EgEoqO24ea+Q/fftuPUZLmrEM3qNhhGsA3PbaXaCW791LTzPuVyx/VprXQcTbPJ3K3UeTna8ZnVl2sg==
+  dependencies:
+    create-hash "^1.1.0"
+    pbkdf2 "^3.0.9"
+    randombytes "^2.0.1"
+    safe-buffer "^5.0.1"
+    unorm "^1.3.3"
 
 bip66@^1.1.0, bip66@^1.1.5:
   version "1.1.5"
@@ -215,10 +232,6 @@ create-hmac@^1.1.3, create-hmac@^1.1.4:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
-
-"cryptoconditions-js@git+https://github.com/dimxy/cryptoconditions-js.git#master":
-  version "0.1.0"
-  resolved "git+https://github.com/dimxy/cryptoconditions-js.git#3ff7c10d400003037dc87bfb946b0949164a844d"
 
 debug@~3.1.0:
   version "3.1.0"
@@ -426,6 +439,17 @@ options@>=0.0.5:
   resolved "https://registry.yarnpkg.com/options/-/options-0.0.6.tgz#ec22d312806bb53e731773e7cdaefcf1c643128f"
   integrity sha1-7CLTEoBrtT5zF3Pnza788cZDEo8=
 
+pbkdf2@^3.0.9:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.1.2.tgz#dd822aa0887580e52f1a039dc3eda108efae3075"
+  integrity sha512-iuh7L6jA7JEGu2WxDwtQP1ddOpaJNC4KlDEFfdQajSGgGPNi4OyDc2R7QnbY2bR9QjBVGwgvTdNJZoE7RaxUMA==
+  dependencies:
+    create-hash "^1.1.2"
+    create-hmac "^1.1.4"
+    ripemd160 "^2.0.1"
+    safe-buffer "^5.0.1"
+    sha.js "^2.4.8"
+
 process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
@@ -553,6 +577,11 @@ ultron@1.0.x:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
   integrity sha1-rOEWq1V80Zc4ak6I9GhTeMiy5Po=
+
+unorm@^1.3.3:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/unorm/-/unorm-1.6.0.tgz#029b289661fba714f1a9af439eb51d9b16c205af"
+  integrity sha512-b2/KCUlYZUeA7JFUuRJZPUtr4gZvBh7tavtv4fvk4+KV9pfGiR6CQAQAWl49ZpR3ts2dk4FYkP7EIgDJoiOLDA==
 
 utf-8-validate@^5.0.5:
   version "5.0.5"
