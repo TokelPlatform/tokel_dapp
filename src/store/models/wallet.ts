@@ -2,6 +2,7 @@ import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 import moment from 'moment';
 
+import nspv from 'util/nspv-bitgo';
 import { broadcast, spend } from 'util/nspvlib';
 import { spendSuccess } from 'util/transactionsHelper';
 import { FEE, TICKER } from 'vars/defines';
@@ -72,6 +73,10 @@ export default createModel<RootModel>()({
       this.SET_CURRENT_TX_ERROR(null);
       this.SET_CURRENT_TX_ID(null);
       this.SET_CURRENT_TX_STATUS(0);
+      const res = nspv.spend(address, amount);
+      console.log(res);
+      return;
+
       return spend(address, amount)
         .then(res => {
           if (res.result === 'success' && res.hex) {

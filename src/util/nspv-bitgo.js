@@ -192,7 +192,8 @@ class NspvBitGoSingleton {
 
   // eslint-disable-next-line class-methods-use-this
   async spend(address, amount) {
-    return null;
+    const tx = await general.create_normaltx(this.wif, address, amount * 100000000);
+    return tx;
   }
 
   // eslint-disable-next-line class-methods-use-this
