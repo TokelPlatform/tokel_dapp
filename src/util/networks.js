@@ -25,4 +25,4 @@ const networks = {
   },
 };
 
-export default networks;
+module.exports = networks;
