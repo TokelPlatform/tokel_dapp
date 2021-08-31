@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
+import { ipcRenderer } from 'electron';
 
 import { dispatch } from 'store/rematch';
-import nspv from 'util/nspv-bitgo';
 import { TOPBAR_HEIGHT } from 'vars/defines';
 
 import Logo from 'components/_General/Logo';
@@ -51,19 +51,26 @@ const Login = () => {
   const [key, setKey] = useState(null);
   const [seed, setSeed] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
+  const [address, setAddress] = useState(null);
+
+  useEffect(() => {
+    ipcRenderer.send('bitgo', 'GET_NEW_ADDRESS');
+    ipcRenderer.on('bitgo', (_, payload) => {
+      if (payload.type === 'GET_NEW_ADDRESS') {
+        setAddress(payload.data);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (key && seed) {
       return;
     }
-    if (step === STEP2) {
-      (async () => {
-        const result = nspv.getNewAddress();
-        setKey(result.wif);
-        setSeed(result.seed);
-      })();
+    if (step === STEP2 && address) {
+      setKey(address.wif);
+      setSeed(address.seed);
     }
-  }, [step, key, seed]);
+  }, [address, step, key, seed]);
 
   const back = () => setStep(step - 1);
   const forward = () => setStep(step + 1);

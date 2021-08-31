@@ -1,18 +1,18 @@
-import { getTokenDetail, getTransactions } from './insightApi';
-import networks from './networks';
-
 const {
+  ECPair,
   NspvPeerGroup,
+  ccutils,
   general,
   kmdMessages,
-  ccutils,
-  ECPair,
-} = require('../electron/node_modules/@tokel/bitgo-komodo-cc-lib');
+} = require('../node_modules/@tokel/bitgo-komodo-cc-lib');
+
+const networks = require('./networks');
+
+// const { getTokenDetail, getTransactions } = require('./insightApi.');
 
 const defaultPort = 22024;
 const staticPeers = ['167.99.114.240:22024', '3.19.194.93:22024'];
 const network = networks.tkltest;
-
 const params = {
   magic: network.magic,
   defaultPort,
@@ -168,27 +168,27 @@ class NspvBitGoSingleton {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  async tokenv2infotokel(tokenid) {
-    try {
-      const token = await getTokenDetail(tokenid);
-      return token;
-    } catch (e) {
-      console.error(e);
-      throw new Error(e);
-    }
-  }
+  // // eslint-disable-next-line class-methods-use-this
+  // async tokenv2infotokel(tokenid) {
+  //   try {
+  //     const token = await getTokenDetail(tokenid);
+  //     return token;
+  //   } catch (e) {
+  //     console.error(e);
+  //     throw new Error(e);
+  //   }
+  // }
 
-  // eslint-disable-next-line class-methods-use-this
-  async listtransactions(address) {
-    try {
-      const txs = await getTransactions(address);
-      return txs;
-    } catch (e) {
-      console.error(e);
-      throw new Error(e);
-    }
-  }
+  // // eslint-disable-next-line class-methods-use-this
+  // async listtransactions(address) {
+  //   try {
+  //     const txs = await getTransactions(address);
+  //     return txs;
+  //   } catch (e) {
+  //     console.error(e);
+  //     throw new Error(e);
+  //   }
+  // }
 
   // eslint-disable-next-line class-methods-use-this
   async spend(address, amount) {
@@ -211,4 +211,4 @@ class NspvBitGoSingleton {
 }
 
 const nspv = new NspvBitGoSingleton();
-export default nspv;
+module.exports = nspv;

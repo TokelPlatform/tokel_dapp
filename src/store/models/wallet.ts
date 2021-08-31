@@ -2,7 +2,7 @@ import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 import moment from 'moment';
 
-import nspv from 'util/nspv-bitgo';
+// import nspv from 'util/nspv-bitgo';
 import { broadcast, spend } from 'util/nspvlib';
 import { spendSuccess } from 'util/transactionsHelper';
 import { FEE, TICKER } from 'vars/defines';
@@ -69,53 +69,53 @@ export default createModel<RootModel>()({
   },
   effects: dispatch => ({
     async spend({ address, amount }: SpendArgs) {
-      let newTx = null;
+      const newTx = null;
       this.SET_CURRENT_TX_ERROR(null);
       this.SET_CURRENT_TX_ID(null);
       this.SET_CURRENT_TX_STATUS(0);
-      const res = nspv.spend(address, amount);
-      console.log(res);
-      return;
+      // const res = nspv.spend(address, amount);
+      // console.log(res);
+      // return;
 
-      return spend(address, amount)
-        .then(res => {
-          if (res.result === 'success' && res.hex) {
-            this.SET_CURRENT_TX_ID(res.txid);
-            newTx = res;
-            return broadcast(res.hex);
-          }
-          return null;
-        })
-        .then(broadcasted => {
-          if (broadcasted) {
-            const success = spendSuccess(broadcasted);
-            this.SET_CURRENT_TX_STATUS(Number(success));
-            if (success) {
-              const value = Number(amount);
-              dispatch.account.ADD_NEW_TX({
-                tx: newTx,
-                recipient: address,
-                from: [account.state.address],
-                time: moment().format('DD/MM/YYYY H:mm:ss'),
-                value,
-                unconfirmed: true,
-              });
-              // update the balance after the transaction
-              const updatedAsset = {
-                name: TICKER,
-                balance: -value - FEE,
-              };
-              dispatch.wallet.UPDATE_ASSET_BALANCE(updatedAsset);
-            }
-          }
+      // return spend(address, amount)
+      //   .then(res => {
+      //     if (res.result === 'success' && res.hex) {
+      //       this.SET_CURRENT_TX_ID(res.txid);
+      //       newTx = res;
+      //       return broadcast(res.hex);
+      //     }
+      //     return null;
+      //   })
+      //   .then(broadcasted => {
+      //     if (broadcasted) {
+      //       const success = spendSuccess(broadcasted);
+      //       this.SET_CURRENT_TX_STATUS(Number(success));
+      //       if (success) {
+      //         const value = Number(amount);
+      //         dispatch.account.ADD_NEW_TX({
+      //           tx: newTx,
+      //           recipient: address,
+      //           from: [account.state.address],
+      //           time: moment().format('DD/MM/YYYY H:mm:ss'),
+      //           value,
+      //           unconfirmed: true,
+      //         });
+      //         // update the balance after the transaction
+      //         const updatedAsset = {
+      //           name: TICKER,
+      //           balance: -value - FEE,
+      //         };
+      //         dispatch.wallet.UPDATE_ASSET_BALANCE(updatedAsset);
+      //       }
+      //     }
 
-          return null;
-        })
-        .catch(e => {
-          this.SET_CURRENT_TX_STATUS(-1);
-          this.SET_CURRENT_TX_ERROR(e.message);
-          console.log(e.message);
-        });
+      //     return null;
+      //   })
+      //   .catch(e => {
+      //     this.SET_CURRENT_TX_STATUS(-1);
+      //     this.SET_CURRENT_TX_ERROR(e.message);
+      //     console.log(e.message);
+      //   });
     },
   }),
 });

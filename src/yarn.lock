@@ -2,15 +2,14 @@
 # yarn lockfile v1
 
 
-"@tokel/bitgo-komodo-cc-lib@0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@tokel/bitgo-komodo-cc-lib/-/bitgo-komodo-cc-lib-0.1.9.tgz#429805a9451fd23ec5fdd27ced9ff06987974e3a"
-  integrity sha512-cEcB0qV7/GFgYqMELAC3DkNxqkgCBy1slH85Nm+7+WNzUNYJjW9JZSGOILf0o1jHLtlON9+zIJCIIzDysTe/Mw==
+"@tokel/bitgo-komodo-cc-lib@0.1.13":
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/@tokel/bitgo-komodo-cc-lib/-/bitgo-komodo-cc-lib-0.1.13.tgz#b3203407459ee32e64677604de0471735e646586"
+  integrity sha512-a5Q1htoMKo+gYYTLMhHpaS7ycVsjoWt0ewQ/KluyE9upq24bBk5KxttjA9CANUEp5Zi5Dy+HOi6Ib3pe5Jsq+A==
   dependencies:
-    "@tokel/cryptoconditions" "0.1.0"
     bech32 "0.0.3"
     bigi "1.4.2"
-    bip39 "2.6.0"
+    bip39 "^2.3.0"
     bip66 "^1.1.0"
     bitcoin-ops "^1.3.0"
     bitcoin-protocol "^4.1.3"
@@ -21,6 +20,7 @@
     bufferutil "^4.0.3"
     create-hash "^1.1.0"
     create-hmac "^1.1.3"
+    cryptoconditions-js "git+https://github.com/dimxy/cryptoconditions-js.git#master"
     debug "~3.1.0"
     ecurve "^1.0.0"
     envify "^4.1.0"
@@ -39,15 +39,11 @@
     typeforce "^1.11.3"
     utf-8-validate "^5.0.5"
     varuint-bitcoin "^1.0.4"
+    webassembly "0.9.0"
     websocket-stream "^3.3.0"
     wif "^2.0.1"
   optionalDependencies:
     secp256k1 "^3.5.2"
-
-"@tokel/cryptoconditions@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@tokel/cryptoconditions/-/cryptoconditions-0.1.0.tgz#ec60dacd9f9b6dbf9948931b53ead562cbb690df"
-  integrity sha512-0B4UGt0SkBh+puJ4scqEtZuLwJ5d8QBOw8xchEr1IlZ2WYrTdNUIvt2alNkQoKli7yzv3Ngfk+4JWB1nIOUo2Q==
 
 base-x@^3.0.2:
   version "3.0.8"
@@ -73,7 +69,7 @@ bindings@^1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
-bip39@2.6.0:
+bip39@^2.3.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/bip39/-/bip39-2.6.0.tgz#9e3a720b42ec8b3fbe4038f1e445317b6a99321c"
   integrity sha512-RrnQRG2EgEoqO24ea+Q/fftuPUZLmrEM3qNhhGsA3PbaXaCW791LTzPuVyx/VprXQcTbPJ3K3UeTna8ZnVl2sg==
@@ -232,6 +228,10 @@ create-hmac@^1.1.3, create-hmac@^1.1.4:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+"cryptoconditions-js@git+https://github.com/dimxy/cryptoconditions-js.git#master":
+  version "0.1.0"
+  resolved "git+https://github.com/dimxy/cryptoconditions-js.git#3ff7c10d400003037dc87bfb946b0949164a844d"
 
 debug@~3.1.0:
   version "3.1.0"
@@ -608,6 +608,11 @@ varuint-bitcoin@^1.0.1, varuint-bitcoin@^1.0.4:
   integrity sha512-4EVb+w4rx+YfVM32HQX42AbbT7/1f5zwAYhIujKXKk8NQK+JfRVl3pqT3hjNn/L+RstigmGGKVwHA/P0wgITZw==
   dependencies:
     safe-buffer "^5.1.1"
+
+webassembly@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/webassembly/-/webassembly-0.9.0.tgz#eb038cf831499e59a6c988dde17bdb63914c1bbe"
+  integrity sha1-6wOM+DFJnlmmyYjd4XvbY5FMG74=
 
 websocket-stream@^3.3.0:
   version "3.3.3"
