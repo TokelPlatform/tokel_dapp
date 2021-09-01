@@ -47,12 +47,12 @@ const TxInformation = ({
     <Column className="wrp">
       <TxConfirmationRow label="From" value={from ? stringifyAddresses(from) : INFORMATION_N_A} />
       <TxConfirmationRow label="To" value={stringifyAddresses(recipient) ?? INFORMATION_N_A} />
-      <TxConfirmationRow label="Date and time" value={time ?? INFORMATION_N_A} />
+      <Row>
+        <TxConfirmationRow label="Date and time" value={time ?? INFORMATION_N_A} />
+        <TxConfirmationRow label="Amount" value={amount} />
+      </Row>
 
       <Row>
-        <TxConfirmationRow label="Amount" value={amount} />
-        <TxConfirmationRow label="Value (then)" value="≈ $TBA" />
-        <TxConfirmationRow label="Value (now)" value="≈ $TBA" />
         {/*
         https://github.com/TokelPlatform/tokel_app/issues/67
         <TxConfirmationRow label="Value (then)" value={`≈ $ ${usdValueTemp}`} />

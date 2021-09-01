@@ -7,5 +7,8 @@ console.log(`>>>> Worker: Initializing bitgo at ${new Date().toISOString()}`);
 parentPort.on('message', msg => {
   bitgo[msg.type](msg.payload)
     .then(data => parentPort.postMessage({ type: msg.type, data }))
-    .catch(e => console.error(e));
+    .catch(e => {
+      console.error(e);
+      return parentPort.postMessage({ type: msg.type, data: null, error: e.message });
+    });
 });
