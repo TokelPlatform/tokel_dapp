@@ -108,15 +108,19 @@ const createWindow = async () => {
 
   // pass messages back and forth to the bitgo worker
   ipcMain.on('bitgo', (_, msg) => {
-    console.group('IPCMAIN ON');
-    console.log(msg);
-    console.groupEnd();
+    /**
+     * console.group('IPCMAIN ON');
+     * console.log(msg);
+     * console.groupEnd();
+     */
     bitgoWorker.postMessage(msg);
   });
   bitgoWorker.on('message', msg => {
-    console.group('BITGO ON');
-    console.log(msg);
-    console.groupEnd();
+    /**
+     * console.group('BITGO ON');
+     * console.log(msg);
+     * console.groupEnd();
+     */
     mainWindow.webContents.send('bitgo', msg);
   });
 

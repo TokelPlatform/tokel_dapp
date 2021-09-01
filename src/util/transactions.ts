@@ -99,12 +99,12 @@ export const parseSpendTx = (newtx, from) => {
  * @param unspent
  * @returns
  */
-export const parseUnspent = unspent => {
+export const parseUnspent = balance => {
   return [
     {
       name: TICKER,
       ticker: TICKER,
-      balance: unspent.balance,
+      balance,
       usd_value: USD_VALUE,
     },
   ];

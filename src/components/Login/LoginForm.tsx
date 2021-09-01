@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
+import { ipcRenderer } from 'electron';
 
 import password from 'assets/password.svg';
 import { dispatch } from 'store/rematch';
-import { ErrorMessages } from 'vars/defines';
+import { parseUnspent } from 'util/transactions';
+import { LIST_TXS, LIST_UNSPENT, LOGIN, messageTypes } from 'util/workerHelper';
+import { BITGO, ErrorMessages } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import ErrorMessage from 'components/_General/ErrorMessage';
@@ -53,7 +56,8 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       return;
     }
     setShowSpinner(true);
-    dispatch.account.login({ key: loginValue, setError, setFeedback });
+    setFeedback('Connecting...');
+    ipcRenderer.send(BITGO, LOGIN(loginValue));
   }, [loginValue]);
 
   useEffect(() => {
@@ -61,6 +65,24 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       setShowSpinner(false);
     }
   }, [error]);
+
+  useEffect(() => {
+    ipcRenderer.on(BITGO, (_, payload) => {
+      if (payload.type === messageTypes.login) {
+        dispatch.account.login({ data: payload.data, setError, setFeedback });
+        setFeedback('Getting transactions...');
+        ipcRenderer.send(BITGO, LIST_UNSPENT(payload.data.address));
+        ipcRenderer.send(BITGO, LIST_TXS(payload.data.address));
+      }
+      if (payload.type === messageTypes.listUnspent) {
+        dispatch.wallet.SET_ASSETS(parseUnspent(payload.data.balance));
+        dispatch.account.SET_UNSPENT(payload.data);
+      }
+      if (payload.type === messageTypes.listtransactions) {
+        dispatch.account.SET_TXS(payload.data.txs);
+      }
+    });
+  }, []);
 
   return (
     <LoginFormRoot>
