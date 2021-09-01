@@ -188,14 +188,43 @@ class NspvBitGoSingleton {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async spend(address, amount) {
-    const tx = await general.create_normaltx(this.wif, address, amount * 100000000);
-    return tx;
+  async broadcast(txhex) {
+    console.log('broadcasting', txhex);
+    return new Promise((resolve, reject) => {
+      this.peers.nspvBroadcast(
+        '0000000000000000000000000000000000000000000000000000000000000000',
+        txhex,
+        opts,
+        (err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
+        }
+      );
+    });
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async broadcast(txhex) {
-    return null;
+  async spend({ address, amount }) {
+    // const tospend = sb.toBitcoin(amount);
+    try {
+      const txhex = await general.create_normaltx(
+        this.wif,
+        address,
+        5000,
+        this.network,
+        this.peers
+      );
+      console.log('tx', txhex);
+      const txResult = await this.broadcast(txhex);
+      console.log('results of broadcast', txResult);
+      return txResult;
+    } catch (e) {
+      console.log('eeee;');
+      console.error(e);
+      return e;
+    }
   }
 
   registerCallback(callbackFn) {

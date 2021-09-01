@@ -1,16 +1,7 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 import moment from 'moment';
-
-import { dispatch } from 'store/rematch';
-import {
-  selectAccountAddress,
-  selectCurrentTxError,
-  selectCurrentTxId,
-  selectCurrentTxStatus,
-} from 'store/selectors';
 
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Spinner from 'components/_General/Spinner';
@@ -25,29 +16,24 @@ type TxConfirmationProps = {
   currency?: string;
   recipient: string;
   amount: string;
-  // usdValue?: string;
+  txId: string;
+  txStatus: number;
+  txError: string;
+  from: string;
 };
 
-const TxConfirmation = ({ currency, recipient, amount }: TxConfirmationProps): ReactElement => {
-  const txid = useSelector(selectCurrentTxId);
-  const address = useSelector(selectAccountAddress);
-  const txStatus = useSelector(selectCurrentTxStatus);
-  const txError = useSelector(selectCurrentTxError);
-
-  const [currentTxId, setCurrentTxId] = useState(null);
-
-  // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
-
-  useEffect(() => {
-    if (txStatus === 1) {
-      setCurrentTxId(txid);
-      dispatch.wallet.SET_CURRENT_TX_STATUS(0);
-    }
-  }, [txStatus, txid]);
-
+const TxConfirmation = ({
+  currency,
+  recipient,
+  amount,
+  txId,
+  txStatus,
+  txError,
+  from,
+}: TxConfirmationProps): ReactElement => {
   return (
     <TxConfirmationRoot>
-      {!currentTxId && txStatus === 0 && (
+      {!txId && txStatus === 0 && (
         <div style={{ textAlign: 'center' }}>
           <h2>Your transaction is being broadcasted</h2>
           <GrayLabel>Please allow up to a minute for the broadcast to come through.</GrayLabel>
@@ -58,18 +44,18 @@ const TxConfirmation = ({ currency, recipient, amount }: TxConfirmationProps): R
           <Spinner bgColor="var(--color-modal-bg)" />
         </div>
       )}
-      {!currentTxId && txStatus < 0 && (
+      {!txId && txStatus < 0 && (
         <div>
           <ErrorMessage>
             <p style={{ overflowWrap: 'break-word' }}>{txError}</p>
           </ErrorMessage>
         </div>
       )}
-      {currentTxId && (
+      {txId && (
         <TxInformation
           amount={amount}
-          txid={currentTxId}
-          from={[address]}
+          txid={txId}
+          from={[from]}
           recipient={recipient}
           currency={currency}
           time={moment().format('DD/MM/YYYY H:mm:ss')}
