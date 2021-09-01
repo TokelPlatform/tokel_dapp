@@ -4,7 +4,8 @@ import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
 
 import { dispatch } from 'store/rematch';
-import { TOPBAR_HEIGHT } from 'vars/defines';
+import { GET_NEW_ADDRESS, messageTypes } from 'util/workerHelper';
+import { BITGO, TOPBAR_HEIGHT } from 'vars/defines';
 
 import Logo from 'components/_General/Logo';
 import Spinner from 'components/_General/Spinner';
@@ -54,9 +55,8 @@ const Login = () => {
   const [address, setAddress] = useState(null);
 
   useEffect(() => {
-    ipcRenderer.send('bitgo', 'GET_NEW_ADDRESS');
-    ipcRenderer.on('bitgo', (_, payload) => {
-      if (payload.type === 'GET_NEW_ADDRESS') {
+    ipcRenderer.on(BITGO, (_, payload) => {
+      if (payload.type === messageTypes.newaddress) {
         setAddress(payload.data);
       }
     });
@@ -65,6 +65,9 @@ const Login = () => {
   useEffect(() => {
     if (key && seed) {
       return;
+    }
+    if (step === STEP2) {
+      ipcRenderer.send(BITGO, GET_NEW_ADDRESS());
     }
     if (step === STEP2 && address) {
       setKey(address.wif);

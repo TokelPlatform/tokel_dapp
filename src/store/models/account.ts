@@ -15,11 +15,17 @@ export interface AccountState {
     [address: string]: Array<TxType>;
   };
   key: string;
+  pubkey: string;
   chosenTx: TxType;
 }
 
 interface LoginArgs {
-  key: string;
+  data: {
+    wif: string;
+    address: string;
+    seed: string;
+    pubkey: string;
+  };
   setError: (message: string) => void;
   setFeedback: (message: string) => void;
 }
@@ -30,6 +36,7 @@ export default createModel<RootModel>()({
     unspent: null,
     txs: {},
     key: null,
+    pubkey: null,
   } as AccountState,
   reducers: {
     SET_ADDRESS: (state, address: string) => ({
@@ -62,45 +69,19 @@ export default createModel<RootModel>()({
       ...state,
       key,
     }),
+    SET_PUBKEY: (state, pubkey: string) => ({
+      ...state,
+      pubkey,
+    }),
   },
   effects: dispatch => ({
-    async login({ key = null, setError, setFeedback }: LoginArgs) {
-      setError(null);
-      if (setFeedback) {
-        setFeedback('Connecting to nspv...');
-      }
-      const userKey = key ?? this.key;
-      if (!this.key) {
-        this.SET_KEY(key);
-      }
-      // const account = nspv.login(userKey);
-      // this.SET_ADDRESS(account.address);
-      // if (setFeedback) {
-      //   setFeedback('Logging in to nspv...');
-      // }
-      // try {
-      //   const unspent = await nspv.listUnspent(account.address);
-      //   this.SET_UNSPENT(unspent);
-      //   dispatch.wallet.SET_ASSETS(parseUnspent(unspent));
-      //   if (setFeedback) {
-      //     setFeedback('Getting transactions...');
-      //   }
-      //   // data from explorer
-      //   const txs = await nspv.listtransactions(account.address);
-      //   // data from nspv
-      //   // const transactions = await listTransactions(account.address)
-      //   // const txs = await getAllTransactionDetails(transactions.txids);
-      //   dispatch.account.SET_TXS(txs.txs);
-      // } catch (e) {
-      //   if (setFeedback) {
-      //     setFeedback(null);
-      //   }
-      //   setError(e.message);
-      // }
+    login({ data }: LoginArgs) {
+      this.SET_KEY(data.wif);
+      this.SET_PUBKEY(data.pubkey);
+      this.SET_ADDRESS(data.address);
     },
-    async logout() {
+    logout() {
       dispatch({ type: 'RESET_APP' });
-      return nspv.logout();
     },
   }),
 });

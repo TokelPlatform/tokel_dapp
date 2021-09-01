@@ -1,3 +1,4 @@
+const axios = require('axios');
 const {
   ECPair,
   NspvPeerGroup,
@@ -8,7 +9,7 @@ const {
 
 const networks = require('./networks');
 
-// const { getTokenDetail, getTransactions } = require('./insightApi.');
+const SATOSHIS = 100000000;
 
 const defaultPort = 22024;
 const staticPeers = ['167.99.114.240:22024', '3.19.194.93:22024'];
@@ -34,7 +35,7 @@ class NspvBitGoSingleton {
     this.network = network;
     this.peers = new NspvPeerGroup(params, opts);
     this.peers.on('peer', peer => {
-      console.log('in event: connected to peer', peer.socket.remoteAddress);
+      console.log('peers on: connected to peer', peer.socket.remoteAddress);
     });
     this.connected = false;
     this.peers.connect(() => {
@@ -62,7 +63,7 @@ class NspvBitGoSingleton {
    *    result: "success"
    *  }
    */
-  login(key) {
+  async login(key) {
     this.wif = general.keyToWif(key, this.network);
     const keyPair = ECPair.fromWIF(this.wif, this.network);
     this.address = keyPair.getAddress();
@@ -91,7 +92,7 @@ class NspvBitGoSingleton {
       wif: 'Uq6Hy34eqi3W35q8qY8BGqTp8Lr2WWAjcFftJ2YfvBh5UseskYUM',
     };
   */
-  getNewAddress() {
+  async getNewAddress() {
     const seed = general.getSeedPhrase(256);
     const wif = general.keyToWif(seed, this.network);
     const keyPair = ECPair.fromWIF(wif, this.network);
@@ -135,18 +136,13 @@ class NspvBitGoSingleton {
     try {
       const response = await ccutils.getNormalUtxos(this.peers, address);
       const ccUtxos = await ccutils.getCCUtxos(this.peers, address);
-      let balance = 0;
-      response.utxos = response.utxos.map(utxo => {
-        balance += utxo.satoshis;
-        return {
-          ...utxo,
-          txid: utxo.toString('hex'),
-        };
-      });
       return {
-        ...response,
+        height: response.height,
+        skipcount: response.skipcount,
+        filter: response.filter,
+        lastpeer: response.lastpeer,
         cc: ccUtxos,
-        balance: balance / 100000000,
+        balance: response.total / SATOSHIS,
         numutxos: response.utxos.length,
         address: this.address,
       };
@@ -168,27 +164,28 @@ class NspvBitGoSingleton {
     }
   }
 
-  // // eslint-disable-next-line class-methods-use-this
-  // async tokenv2infotokel(tokenid) {
-  //   try {
-  //     const token = await getTokenDetail(tokenid);
-  //     return token;
-  //   } catch (e) {
-  //     console.error(e);
-  //     throw new Error(e);
-  //   }
-  // }
+  // eslint-disable-next-line class-methods-use-this
+  async tokenv2infotokel(tokenid) {
+    try {
+      // const token = await getTokenDetail(tokenid);
+      // return token;
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
 
-  // // eslint-disable-next-line class-methods-use-this
-  // async listtransactions(address) {
-  //   try {
-  //     const txs = await getTransactions(address);
-  //     return txs;
-  //   } catch (e) {
-  //     console.error(e);
-  //     throw new Error(e);
-  //   }
-  // }
+  // eslint-disable-next-line class-methods-use-this
+  async listtransactions(address) {
+    try {
+      const url = `https://tkltest.explorer.dexstats.info/insight-api-komodo/txs?address=${address}`;
+      const resp = await axios(url);
+      return resp.data;
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
 
   // eslint-disable-next-line class-methods-use-this
   async spend(address, amount) {

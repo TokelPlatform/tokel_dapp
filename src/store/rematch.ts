@@ -29,6 +29,7 @@ const store = init({
             address: null,
             unspent: state.account.unspent,
             key: null,
+            pubkey: null,
             nspvFeedback: null,
             txs: state.account.txs,
           },

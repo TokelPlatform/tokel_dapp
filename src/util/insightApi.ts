@@ -43,5 +43,3 @@ export const getTransactions = async address => {
   console.log(resp.data);
   return resp.data;
 };
-
-export default getTransactionDetail;

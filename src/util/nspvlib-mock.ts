@@ -6,8 +6,7 @@ export const getNewAddress = async (fail = false) => {
     address: 'RJfjdEYQPzbKtENYqRsJF6qpkhVrwGwZxU',
     compressed: 1,
     pubkey: '0376094fff1d654f441f82b2a73e1a5769fd67ca9c95bfd03d381e05491aca814d',
-    seed:
-      '1484 1333 615 1854 1035 383 766 506 782 124 317 2040 788 405 1132 2014 1727 258 393 17 748 1111 1920',
+    seed: '1484 1333 615 1854 1035 383 766 506 782 124 317 2040 788 405 1132 2014 1727 258 393 17 748 1111 1920',
     wif: 'Uq6Hy34eqi3W35q8qY8BGqTp8Lr2WWAjcFftJ2YfvBh5UseskYUM',
     wifprefix: 188,
   };
@@ -38,13 +37,11 @@ export interface UtxoType {
 
 export interface UnspentType {
   result: string;
-  utxos: Array<UtxoType>;
+  // utxos: Array<UtxoType>;
   address: string;
-  isCC: number;
   height: number;
   numutxos: number;
   balance: number;
-  rewards: number;
   skipcount: number;
   filter: number;
   lastpeer: string;
