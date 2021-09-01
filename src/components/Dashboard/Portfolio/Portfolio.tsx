@@ -4,51 +4,39 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
-import { selectAssets, selectChosenAsset, selectUnspentBalance } from 'store/selectors';
-import { formatDec } from 'util/helpers';
+import { selectChosenToken, selectCurrentAsset, selectUnspentBalance } from 'store/selectors';
+import { V } from 'util/theming';
 
 import { WidgetContainer } from '../widgets/common';
 import PortfolioItem from './PortfolioItem';
+import Tokens from './Tokens';
 
 const PortfolioRoot = styled(WidgetContainer)`
-  padding: 0;
   height: 100%;
   width: 280px;
-  color: var(--color-white);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  color: ${V.color.front};
 `;
 
 const Portfolio = (): ReactElement => {
-  const chosenAsset = useSelector(selectChosenAsset);
-  const assets = useSelector(selectAssets);
+  const currentAsset = useSelector(selectCurrentAsset);
   const balance = useSelector(selectUnspentBalance);
-  const headerName = 'Total Holdings';
-  // https://github.com/TokelPlatform/tokel_app/issues/67
-  // const totalValue = formatFiat(
-  //   assets.reduce((total, { balance, usd_value }) => total + balance * usd_value, 0)
-  // );
+  const chosenToken = useSelector(selectChosenToken);
 
   return (
     <PortfolioRoot>
-      <PortfolioItem
-        header
-        name={headerName}
-        subtitle={`${assets.length} assets ≈ $TBA`}
-        // subtitle={`${assets.length} assets ≈ $${totalValue}`}
-        selected={!chosenAsset}
-        onClick={() => dispatch.wallet.SET_CHOSEN_ASSET(null)}
-      />
-      {assets.map(asset => (
+      {currentAsset && (
         <PortfolioItem
-          key={asset.name}
-          name={`${asset.name}`}
-          subtitle={`${formatDec(balance)} ≈ $TBA`}
-          // subtitle={`${formatDec(asset.balance)} ≈ $${formatFiat(asset.balance * asset.usd_value)}`}
-          percentage={100}
-          selected={asset.name === chosenAsset}
-          onClick={() => dispatch.wallet.SET_CHOSEN_ASSET(asset.ticker)}
+          key={currentAsset.name}
+          name={`${balance} ${currentAsset.ticker}`}
+          subtitle="big fat nuthin"
+          selected={!chosenToken}
+          onClick={() => dispatch.wallet.SET_CHOSEN_TOKEN(null)}
         />
-      ))}
+      )}
+      <Tokens />
     </PortfolioRoot>
   );
 };

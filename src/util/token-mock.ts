@@ -7,16 +7,16 @@ const simulateCall = async (response: unknown) => {
 };
 
 // tokenAddress
-type TokenAddressArgs = {
-  address: string;
-};
+// type TokenAddressArgs = {
+//   address: string;
+// };
 
 type TokenAddressResponse = {
   result: string;
   balances: Record<string, number>;
 };
 
-export const tokenAddress = async ({ address }: TokenAddressArgs) => {
+export const tokenAddress = async (address: string) => {
   console.log(address);
   const response = await simulateCall({
     result: 'success',

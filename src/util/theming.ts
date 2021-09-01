@@ -31,7 +31,7 @@ const baseTheme = {
     p: '1rem',
     pSmall: '0.875rem',
     pSmaller: '0.75rem',
-    pSmallest: '0.5re',
+    pSmallest: '0.5rem',
   },
   size: {
     borderRadius: '4px',
@@ -50,6 +50,7 @@ export const darkTheme = {
     backHarder: 'hsla(211, 33%, 14%, 1.0)',
     front: 'hsla(0, 100%, 100%, 1.0)',
     frontSoft: 'hsla(211, 20%, 57%, 1.0)',
+    frontSofter: 'hsla(228, 14%, 83%, 1.0)',
     frontOp: {
       50: 'hsla(0, 100%, 100%, 0.5)',
     },
@@ -66,7 +67,8 @@ export const lightTheme = {
     backHard: '#f1f1f1',
     backHarder: '#fff',
     front: '#111',
-    frontSoft: '#222',
+    frontSoft: '#333',
+    frontSofter: '#555',
     frontOp: {
       50: 'hsla(0, 100%, 5%, 0.5)',
     },

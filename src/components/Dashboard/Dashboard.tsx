@@ -10,6 +10,7 @@ import { BITGO } from 'vars/defines';
 
 import AssetView from './AssetView';
 import Portfolio from './Portfolio/Portfolio';
+import TokenView from './TokenView';
 
 const DashboardRoot = styled.div`
   display: flex;
@@ -35,7 +36,7 @@ const Dashboard = (): ReactElement => {
   return (
     <DashboardRoot>
       <Portfolio />
-      <AssetView />
+      {chosenToken ? <TokenView /> : <AssetView />}
     </DashboardRoot>
   );
 };

@@ -249,6 +249,7 @@
     "electron-unhandled": "3.0.2",
     "electron-updater": "^4.3.4",
     "framer-motion": "^4.1.5",
+    "fuse.js": "^6.4.6",
     "history": "^5.0.0",
     "html-react-parser": "1.2.5",
     "lodash-es": "^4.17.21",

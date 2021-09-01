@@ -7,8 +7,7 @@ import { identicon } from 'minidenticons';
 
 import tokelIcon from 'assets/logo.svg';
 import { selectAccountAddress } from 'store/selectors';
-
-import ProgressBar from 'components/_General/ProgressBar';
+import { V } from 'util/theming';
 
 type PortfolioItemRootProps = { selected: boolean };
 
@@ -53,11 +52,26 @@ const Amount = styled.p`
   margin: 0;
 `;
 
+const NFTBadge = styled.div`
+  padding: 0 6px;
+  border: 1px solid ${V.color.frontOp[50]};
+  border-radius: ${V.size.borderRadius};
+  &:before {
+    font-size: ${V.font.pSmaller};
+    color: ${V.color.cornflower};
+    content: 'NFT';
+    position: relative;
+    top: -1px;
+  }
+`;
+
+// const NFTBadge = () => <NFTBadgeRoot />;
+
 type PortfolioItemProps = {
   name: string;
-  subtitle: string;
-  percentage?: number;
+  subtitle?: string;
   header?: boolean;
+  nft?: boolean;
   selected?: boolean;
   onClick?: () => void;
 };
@@ -65,8 +79,8 @@ type PortfolioItemProps = {
 const PortfolioItem = ({
   name,
   subtitle,
-  percentage,
   header,
+  nft,
   selected,
   onClick,
 }: PortfolioItemProps): ReactElement => {
@@ -83,17 +97,17 @@ const PortfolioItem = ({
       <Information>
         <Name>{name}</Name>
         <Amount>{subtitle}</Amount>
-        {percentage && <ProgressBar percentage={percentage} />}
       </Information>
+      {nft && <NFTBadge />}
     </PortfolioItemRoot>
   );
 };
 
-PortfolioItem.defaultProps = {
-  percentage: null,
-  header: false,
-  selected: false,
-  onClick: () => 'me clickit',
-};
+// PortfolioItem.defaultProps = {
+
+//   header: false,
+//   selected: false,
+//   onClick: () => 'me clickit',
+// };
 
 export default PortfolioItem;
