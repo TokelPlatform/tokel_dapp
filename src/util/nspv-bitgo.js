@@ -1,4 +1,5 @@
 const axios = require('axios');
+const sb = require('satoshi-bitcoin');
 const {
   ECPair,
   NspvPeerGroup,
@@ -207,12 +208,11 @@ class NspvBitGoSingleton {
 
   // eslint-disable-next-line class-methods-use-this
   async spend({ address, amount }) {
-    // const tospend = sb.toBitcoin(amount);
     try {
       const txhex = await general.create_normaltx(
         this.wif,
         address,
-        5000,
+        sb.toSatoshi(Number(amount)),
         this.network,
         this.peers
       );
