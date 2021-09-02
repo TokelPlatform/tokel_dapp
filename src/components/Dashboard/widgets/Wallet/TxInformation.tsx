@@ -49,7 +49,7 @@ const TxInformation = ({
       <TxConfirmationRow label="To" value={stringifyAddresses(recipient) ?? INFORMATION_N_A} />
       <Row>
         <TxConfirmationRow label="Date and time" value={time ?? INFORMATION_N_A} />
-        <TxConfirmationRow label="Amount" value={amount} />
+        <TxConfirmationRow label="Amount" value={`${amount} TKL`} />
       </Row>
 
       <Row>
