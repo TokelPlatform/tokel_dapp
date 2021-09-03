@@ -24,6 +24,7 @@ const BitgoOrchestrator = () => {
         if (payload.error) {
           dispatch.currentTransaction.SET_TX_STATUS(-1);
           dispatch.currentTransaction.SET_TX_ERROR(ErrorMessages.NETWORK_ISSUES);
+          dispatch.environment.SET_ERROR(payload.error);
           return;
         }
         const success = spendSuccess(payload.data);
