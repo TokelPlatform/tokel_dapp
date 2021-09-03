@@ -1,3 +1,5 @@
+import { env } from 'process';
+
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -5,7 +7,8 @@ import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
 
 import password from 'assets/password.svg';
-import { selectLoginFeedback } from 'store/selectors';
+import { dispatch } from 'store/rematch';
+import { selectEnvError, selectLoginFeedback } from 'store/selectors';
 import { LOGIN } from 'util/workerHelper';
 import { BITGO, ErrorMessages } from 'vars/defines';
 
@@ -50,26 +53,30 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [feedback, setFeedback] = useState('');
   const [showSpinner, setShowSpinner] = useState(false);
   const loginFeedback = useSelector(selectLoginFeedback);
+  const envError = useSelector(selectEnvError);
 
   const performLogin = useCallback(() => {
+    dispatch.environment.SET_ERROR(null);
     if (!loginValue) {
       setError(ErrorMessages.ENTER_WIF);
       return;
     }
-    setShowSpinner(true);
-    setFeedback('Connecting...');
     ipcRenderer.send(BITGO, LOGIN(loginValue));
   }, [loginValue]);
 
   useEffect(() => {
-    if (error) {
+    setError(envError);
+    if (error || envError) {
       setShowSpinner(false);
     }
-  }, [error]);
+  }, [error, envError]);
 
   useEffect(() => {
     setFeedback(loginFeedback);
-  }, [loginFeedback]);
+    if (loginFeedback) {
+      setShowSpinner(true);
+    }
+  }, [loginFeedback, showSpinner]);
 
   return (
     <LoginFormRoot>

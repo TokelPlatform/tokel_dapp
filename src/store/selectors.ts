@@ -24,6 +24,7 @@ export const selectCurrentTxStatus = (state: RootState) => state.currentTransact
 export const selectCurrentTxError = (state: RootState) => state.currentTransaction.error;
 
 export const selectLoginFeedback = (state: RootState) => state.environment.loginFeedback ?? null;
+export const selectEnvError = (state: RootState) => state.environment.error ?? null;
 
 export const selectKey = (state: RootState) => state.account.key;
 

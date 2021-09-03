@@ -65,16 +65,21 @@ class NspvBitGoSingleton {
    *  }
    */
   async login(key) {
-    this.wif = general.keyToWif(key, this.network);
-    const keyPair = ECPair.fromWIF(this.wif, this.network);
-    this.address = keyPair.getAddress();
-    this.pubkey = keyPair.getPublicKeyBuffer().toString('hex');
-    return {
-      wif: this.wif,
-      address: this.address,
-      pubkey: this.pubkey,
-      result: 'success',
-    };
+    try {
+      this.wif = general.keyToWif(key, this.network);
+      const keyPair = ECPair.fromWIF(this.wif, this.network);
+      this.address = keyPair.getAddress();
+      this.pubkey = keyPair.getPublicKeyBuffer().toString('hex');
+      return {
+        wif: this.wif,
+        address: this.address,
+        pubkey: this.pubkey,
+        result: 'success',
+      };
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
   }
 
   logout() {

@@ -15,6 +15,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@tokel/bitgo-komodo-cc-lib": "0.1.13"
+    "@tokel/bitgo-komodo-cc-lib": "0.1.17"
   }
 }
