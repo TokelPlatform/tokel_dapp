@@ -10,11 +10,13 @@
     "url": "https://daria.engineer"
   },
   "scripts": {
-    "electron-rebuild": "node -r ../config/scripts/BabelRegister.js ../config/scripts/ElectronRebuild.js",
+    "electron-rebuild": "node -r ../../config/scripts/BabelRegister.js ../../config/scripts/ElectronRebuild.js",
     "postinstall": "yarn electron-rebuild"
   },
   "license": "MIT",
   "dependencies": {
-    "@tokel/bitgo-komodo-cc-lib": "0.1.17"
+    "@tokel/bitgo-komodo-cc-lib": "0.1.18",
+    "axios": "0.21.4",
+    "satoshi-bitcoin": "1.0.5"
   }
 }

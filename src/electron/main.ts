@@ -26,7 +26,12 @@ import { WindowControl } from '../vars/defines';
 import MenuBuilder from './menu';
 
 // loading BitGo and Wasm Cryptoconditions in a separate process
-const bitgoWorker = new Worker('./src/electron/worker.js');
+const getWorkerPath = () =>
+  process.env.NODE_ENV === 'development'
+    ? path.join(app.getAppPath(), 'worker.js')
+    : path.join(app.getAppPath(), '..', '/app/worker.js');
+
+const bitgoWorker = new Worker(getWorkerPath());
 
 export default class AppUpdater {
   constructor() {

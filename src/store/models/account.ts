@@ -1,7 +1,6 @@
 import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 
-// import nspv from 'util/nspv-bitgo';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
 import { parseSerializedTransaction, parseSpendTx } from 'util/transactions';
 import { getStillUnconfirmed } from 'util/transactionsHelper';
