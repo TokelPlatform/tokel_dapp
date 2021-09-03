@@ -10,6 +10,7 @@ export interface EnvironmentState {
   view?: string;
   modal?: string;
   loginFeedback: string;
+  error: string;
 }
 
 export default createModel<RootModel>()({
@@ -19,5 +20,6 @@ export default createModel<RootModel>()({
     SET_VIEW: (state, view: string) => ({ ...state, view }),
     SET_MODAL: (state, modal: ModalName | null) => ({ ...state, modal }),
     SET_LOGIN_FEEDBACK: (state, loginFeedback: string) => ({ ...state, loginFeedback }),
+    SET_ERROR: (state, error: string) => ({ ...state, error }),
   },
 });

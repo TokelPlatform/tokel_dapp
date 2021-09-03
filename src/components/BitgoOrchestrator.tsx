@@ -48,6 +48,11 @@ const BitgoOrchestrator = () => {
       }
       // LOGIN
       if (payload.type === messageTypes.login) {
+        if (payload.error) {
+          dispatch.environment.SET_ERROR(payload.error);
+          dispatch.environment.SET_LOGIN_FEEDBACK(null);
+          return;
+        }
         dispatch.account.login({ data: payload.data });
         dispatch.environment.SET_LOGIN_FEEDBACK('Getting transactions...');
         ipcRenderer.send(BITGO, LIST_UNSPENT(payload.data.address));
