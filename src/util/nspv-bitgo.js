@@ -6,7 +6,7 @@ const {
   ccutils,
   general,
   kmdMessages,
-} = require('../node_modules/@tokel/bitgo-komodo-cc-lib');
+} = require('../electron/node_modules/@tokel/bitgo-komodo-cc-lib');
 
 const networks = require('./networks');
 
