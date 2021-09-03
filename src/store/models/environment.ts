@@ -9,6 +9,7 @@ export interface EnvironmentState {
   theme?: ThemeName;
   view?: string;
   modal?: string;
+  loginFeedback: string;
 }
 
 export default createModel<RootModel>()({
@@ -17,5 +18,6 @@ export default createModel<RootModel>()({
     SET_THEME: (state, theme: string) => ({ ...state, theme }),
     SET_VIEW: (state, view: string) => ({ ...state, view }),
     SET_MODAL: (state, modal: ModalName | null) => ({ ...state, modal }),
+    SET_LOGIN_FEEDBACK: (state, loginFeedback: string) => ({ ...state, loginFeedback }),
   },
 });

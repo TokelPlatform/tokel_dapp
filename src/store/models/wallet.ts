@@ -1,13 +1,6 @@
 import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
-import moment from 'moment';
 
-// import nspv from 'util/nspv-bitgo';
-import { broadcast, spend } from 'util/nspvlib';
-import { spendSuccess } from 'util/transactionsHelper';
-import { FEE, TICKER } from 'vars/defines';
-
-import account from './account';
 import type { RootModel } from './models';
 
 export type Asset = {
@@ -26,21 +19,6 @@ export interface WalletState {
   };
 }
 
-interface SpendArgs {
-  address: string;
-  amount: string;
-}
-
-const updateCurrTx = (state, key, value) => {
-  return {
-    ...state,
-    currentTx: {
-      ...state.currentTx,
-      [key]: value,
-    },
-  };
-};
-
 export default createModel<RootModel>()({
   state: {
     chosenAsset: null,
@@ -55,9 +33,6 @@ export default createModel<RootModel>()({
       ...state,
       chosenAsset,
     }),
-    SET_CURRENT_TX_ID: (state, txid: string) => updateCurrTx(state, 'id', txid),
-    SET_CURRENT_TX_STATUS: (state, txstatus: number) => updateCurrTx(state, 'status', txstatus),
-    SET_CURRENT_TX_ERROR: (state, error: string) => updateCurrTx(state, 'error', error),
     SET_ASSETS: (state, assets: Array<Asset>) => ({
       ...state,
       assets,
@@ -67,55 +42,5 @@ export default createModel<RootModel>()({
       return dotProp.set(state, `assets.${indx}.balance`, v => v + asset.balance);
     },
   },
-  effects: dispatch => ({
-    async spend({ address, amount }: SpendArgs) {
-      const newTx = null;
-      this.SET_CURRENT_TX_ERROR(null);
-      this.SET_CURRENT_TX_ID(null);
-      this.SET_CURRENT_TX_STATUS(0);
-      // const res = nspv.spend(address, amount);
-      // console.log(res);
-      // return;
-
-      // return spend(address, amount)
-      //   .then(res => {
-      //     if (res.result === 'success' && res.hex) {
-      //       this.SET_CURRENT_TX_ID(res.txid);
-      //       newTx = res;
-      //       return broadcast(res.hex);
-      //     }
-      //     return null;
-      //   })
-      //   .then(broadcasted => {
-      //     if (broadcasted) {
-      //       const success = spendSuccess(broadcasted);
-      //       this.SET_CURRENT_TX_STATUS(Number(success));
-      //       if (success) {
-      //         const value = Number(amount);
-      //         dispatch.account.ADD_NEW_TX({
-      //           tx: newTx,
-      //           recipient: address,
-      //           from: [account.state.address],
-      //           time: moment().format('DD/MM/YYYY H:mm:ss'),
-      //           value,
-      //           unconfirmed: true,
-      //         });
-      //         // update the balance after the transaction
-      //         const updatedAsset = {
-      //           name: TICKER,
-      //           balance: -value - FEE,
-      //         };
-      //         dispatch.wallet.UPDATE_ASSET_BALANCE(updatedAsset);
-      //       }
-      //     }
-
-      //     return null;
-      //   })
-      //   .catch(e => {
-      //     this.SET_CURRENT_TX_STATUS(-1);
-      //     this.SET_CURRENT_TX_ERROR(e.message);
-      //     console.log(e.message);
-      //   });
-    },
-  }),
+  effects: {},
 });
