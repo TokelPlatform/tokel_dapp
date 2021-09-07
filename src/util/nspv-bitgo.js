@@ -16,7 +16,7 @@ const defaultPort = 22024;
 const staticPeers = ['167.99.114.240:22024', '3.19.194.93:22024'];
 const network = networks.tkltest;
 const params = {
-  magic: network.magic,
+  network,
   defaultPort,
   staticPeers, // dnsSeed works also
   protocolVersion: 170009,
