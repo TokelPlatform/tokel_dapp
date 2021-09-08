@@ -1,14 +1,21 @@
 const axios = require('axios');
 const sb = require('satoshi-bitcoin');
+
+// loading BitGo and Wasm Cryptoconditions in a separate process
+const getBitGoPath = () =>
+  process.env.NODE_ENV === 'development'
+    ? '../electron/node_modules/@tokel/bitgo-komodo-cc-lib'
+    : '@tokel/bitgo-komodo-cc-lib';
+
+// eslint-disable-next-line import/no-dynamic-require
 const {
   ECPair,
   NspvPeerGroup,
   ccutils,
   general,
   kmdMessages,
-} = require('../electron/node_modules/@tokel/bitgo-komodo-cc-lib');
-
-const networks = require('./networks');
+  networks,
+} = require('@tokel/bitgo-komodo-cc-lib');
 
 const SATOSHIS = 100000000;
 
