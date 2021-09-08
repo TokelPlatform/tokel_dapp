@@ -1,5 +1,3 @@
-import { env } from 'process';
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -9,7 +7,7 @@ import { ipcRenderer } from 'electron';
 import password from 'assets/password.svg';
 import { dispatch } from 'store/rematch';
 import { selectEnvError, selectLoginFeedback } from 'store/selectors';
-import { LOGIN } from 'util/workerHelper';
+import { login } from 'util/workerHelper';
 import { BITGO, ErrorMessages } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
@@ -61,7 +59,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       setError(ErrorMessages.ENTER_WIF);
       return;
     }
-    ipcRenderer.send(BITGO, LOGIN(loginValue));
+    ipcRenderer.send(BITGO, login(loginValue));
   }, [loginValue]);
 
   useEffect(() => {

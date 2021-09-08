@@ -8,7 +8,7 @@ import { dispatch } from 'store/rematch';
 import { selectAccountAddress } from 'store/selectors';
 import { parseUnspent } from 'util/transactions';
 import { spendSuccess } from 'util/transactionsHelper';
-import { LIST_TXS, LIST_UNSPENT, messageTypes } from 'util/workerHelper';
+import { listTxs, listUnspent, messageTypes } from 'util/workerHelper';
 import { BITGO, ErrorMessages, FEE, TICKER } from 'vars/defines';
 
 const BitgoOrchestrator = () => {
@@ -56,8 +56,8 @@ const BitgoOrchestrator = () => {
         }
         dispatch.account.login({ data: payload.data });
         dispatch.environment.SET_LOGIN_FEEDBACK('Getting transactions...');
-        ipcRenderer.send(BITGO, LIST_UNSPENT(payload.data.address));
-        ipcRenderer.send(BITGO, LIST_TXS(payload.data.address));
+        ipcRenderer.send(BITGO, listUnspent(payload.data.address));
+        ipcRenderer.send(BITGO, listTxs(payload.data.address));
       }
       // LIST UNSPENT
       if (payload.type === messageTypes.listUnspent) {

@@ -12,7 +12,7 @@ import {
   selectCurrentTxId,
   selectCurrentTxStatus,
 } from 'store/selectors';
-import { SPEND } from 'util/workerHelper';
+import { spend } from 'util/workerHelper';
 import { BITGO } from 'vars/defines';
 
 import SendForm from 'components/Dashboard/widgets/Wallet/SendForm';
@@ -40,7 +40,7 @@ const Send = () => {
     setAmountToSend(amount);
     setConfirmation(true);
     try {
-      ipcRenderer.send(BITGO, SPEND(address, amount));
+      ipcRenderer.send(BITGO, spend(address, amount));
     } catch (e) {
       console.error(e);
     }

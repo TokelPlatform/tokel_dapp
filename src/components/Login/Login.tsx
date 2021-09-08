@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
 
 import { dispatch } from 'store/rematch';
-import { GET_NEW_ADDRESS, messageTypes } from 'util/workerHelper';
+import { getNewAddress, messageTypes } from 'util/workerHelper';
 import { BITGO, TOPBAR_HEIGHT } from 'vars/defines';
 
 import Logo from 'components/_General/Logo';
@@ -67,7 +67,7 @@ const Login = () => {
       return;
     }
     if (step === STEP2) {
-      ipcRenderer.send(BITGO, GET_NEW_ADDRESS());
+      ipcRenderer.send(BITGO, getNewAddress());
     }
     if (step === STEP2 && address) {
       setKey(address.wif);
