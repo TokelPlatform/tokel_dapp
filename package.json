@@ -241,7 +241,6 @@
     "@rematch/persist": "^2.0.1",
     "@svgr/webpack": "^5.5.0",
     "@tippyjs/react": "^4.2.5",
-    "@tokel/bitgo-komodo-cc-lib": "0.1.18",
     "axios": "0.21.1",
     "caniuse-lite": "^1.0.30001214",
     "dot-prop-immutable": "2.1.0",

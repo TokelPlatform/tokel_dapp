@@ -11,6 +11,12 @@ import Login from '../Login';
 
 describe('Login', () => {
   it('should render', () => {
-    expect(true).toBeTruthy();
+    expect(
+      render(
+        <Provider store={store}>
+          <Login />
+        </Provider>
+      )
+    ).toBeTruthy();
   });
 });

@@ -9,7 +9,7 @@ import { selectAccountAddress } from 'store/selectors';
 import { parseUnspent } from 'util/transactions';
 import { spendSuccess } from 'util/transactionsHelper';
 import { listTxs, listUnspent, messageTypes } from 'util/workerHelper';
-import { BITGO, ErrorMessages, FEE, TICKER } from 'vars/defines';
+import { BITGO, ErrorMessages } from 'vars/defines';
 
 const BitgoOrchestrator = () => {
   const myaddress = useSelector(selectAccountAddress);
