@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
 
+import { selectNspvStatus } from 'store/selectors';
 import { V } from 'util/theming';
 
 const NspvIndicatorRoot = styled.div`
@@ -26,20 +28,10 @@ const StatusText = styled.span`
 `;
 
 const NspvIndicator = () => {
-  const [online, setOnline] = useState(true);
-
-  useEffect(() => {
-    ipcRenderer.on('nspv-status', (_, payload) => {
-      setOnline(payload);
-    });
-    return () => {
-      ipcRenderer.removeAllListeners('nspv-status');
-    };
-  }, []);
-
+  const nspvStatus = useSelector(selectNspvStatus);
   return (
     <NspvIndicatorRoot onClick={() => ipcRenderer.send('toggle-nspv')}>
-      <StatusIcon style={{ backgroundColor: online ? V.color.growth : V.color.danger }} />
+      <StatusIcon style={{ backgroundColor: nspvStatus ? V.color.growth : V.color.danger }} />
       <StatusText>nspv</StatusText>
     </NspvIndicatorRoot>
   );

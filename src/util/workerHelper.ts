@@ -4,6 +4,7 @@ export const messageTypes = {
   listUnspent: 'listUnspent',
   listtransactions: 'listtransactions',
   spend: 'spend',
+  reconnect: 'reconnect',
 };
 
 const message = (type, payload) => {

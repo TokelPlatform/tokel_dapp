@@ -5,6 +5,7 @@ import { RootState } from './rematch';
 export const selectTheme = (state: RootState) => state.environment.theme;
 export const selectView = (state: RootState) => state.environment.view;
 export const selectModal = (state: RootState) => state.environment.modal;
+export const selectNspvStatus = (state: RootState) => state.environment.nspvStatus;
 
 export const selectAccountAddress = (state: RootState) => state.account.address;
 export const selectUnspentAddress = (state: RootState) => state.account.unspent?.address;

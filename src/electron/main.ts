@@ -125,10 +125,10 @@ const createWindow = async () => {
     mainWindow.webContents.send('bitgo', msg);
   });
 
-  // mainWindow.on('closed', () => {
-  //   mainWindow = null;
-  //   nspv.cleanup();
-  // });
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+    bitgoWorker.postMessage({ type: 'cleanup' });
+  });
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
@@ -139,24 +139,11 @@ const createWindow = async () => {
     shell.openExternal(url);
   });
 
-  // // send NSPV status updates to the renderer process
-  // nspv.registerCallback((status: boolean) => {
-  //   if (mainWindow) {
-  //     mainWindow.webContents.send('nspv-status', status);
-  //   }
-  // });
-
   // eslint-disable-next-line no-new
   // new AppUpdater();
 };
 
-// ipcMain.on('toggle-nspv', () => {
-//   if (nspv.connected) {
-//     nspv.cleanup();
-//   } else {
-//     nspv.connect();
-//   }
-// });
+ipcMain.on('toggle-nspv', () => bitgoWorker.postMessage({ type: 'reconnect' }));
 
 // Autoupdate handlers
 ipcMain.on('update-check', () => {

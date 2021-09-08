@@ -19,6 +19,10 @@ const BitgoOrchestrator = () => {
       console.group('BITGO ORCHESTRATOR ON');
       console.log(payload);
       console.groupEnd();
+
+      if (payload.type === messageTypes.reconnect) {
+        dispatch.environment.UPDATE_NSPV_STATUS(payload.data);
+      }
       // SPEND
       if (payload.type === messageTypes.spend) {
         if (payload.error) {
