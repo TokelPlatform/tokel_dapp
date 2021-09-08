@@ -85,9 +85,9 @@ export const parseSpendTx = (newtx, from) => {
   return {
     received: false,
     unconfirmed: true,
-    txid: newtx.tx.txid,
-    height: newtx.tx.height ?? 'TBA',
-    value: Number(newtx.tx.total) - Number(newtx.tx.change) - FEE,
+    txid: newtx.txid,
+    // height: newtx.tx.height ?? 'TBA',
+    value: newtx.value,
     recipient: newtx.recipient,
     time: newtx.time,
     from,

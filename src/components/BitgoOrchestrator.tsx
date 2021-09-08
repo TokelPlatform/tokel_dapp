@@ -31,20 +31,14 @@ const BitgoOrchestrator = () => {
         dispatch.currentTransaction.SET_TX_STATUS(success);
         if (success) {
           dispatch.account.ADD_NEW_TX({
-            tx: payload.data.txid,
+            txid: payload.data.txid,
             recipient: payload.data.address,
             from: [myaddress],
             time: moment().format('DD/MM/YYYY H:mm:ss'),
             value: Number(payload.data.amount),
             unconfirmed: true,
           });
-          console.log();
-          const updatedAsset = {
-            name: TICKER,
-            balance: -Number(payload.data.amount) - FEE,
-          };
           dispatch.currentTransaction.SET_TX_ID(payload.data.txid);
-          dispatch.wallet.UPDATE_ASSET_BALANCE(updatedAsset);
         }
       }
       // LOGIN
