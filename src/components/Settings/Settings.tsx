@@ -50,7 +50,8 @@ const SplitSection = styled.div`
 `;
 
 const themeOptions = themeNames.map(name => ({ label: capitalize(name), value: name }));
-const currencyOptions = ['None'].map(currency => ({ label: currency, value: currency }));
+const currencies = ['USD'];
+const currencyOptions = currencies.map(currency => ({ label: currency, value: currency }));
 
 const Settings = () => {
   const theme = useSelector(selectTheme);
@@ -65,8 +66,8 @@ const Settings = () => {
             defaultValue={theme}
           />
         </Subsection>
-        <Subsection name="Default Currency">
-          <Select onSelect={console.log} options={currencyOptions} defaultValue="None" />
+        <Subsection name="Default Fiat Currency">
+          <Select onSelect={console.log} options={currencyOptions} defaultValue={currencies[0]} />
         </Subsection>
       </SplitSection>
       {/* <Subsection name="Updates" contrast>

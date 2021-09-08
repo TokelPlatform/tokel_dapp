@@ -1,10 +1,7 @@
 import { createModel } from '@rematch/core';
 import dp from 'dot-prop-immutable';
-import moment from 'moment';
 
-import { broadcast, spend } from 'util/nspvlib';
-import { spendSuccess } from 'util/transactionsHelper';
-import { FEE, TICKER, TokenFilter } from 'vars/defines';
+import { TICKER, TokenFilter } from 'vars/defines';
 
 import type { RootModel } from './models';
 
@@ -13,11 +10,6 @@ export type Asset = {
   ticker?: string;
   balance?: number;
   usd_value?: number;
-};
-
-type SpendArgs = {
-  address: string;
-  amount: string;
 };
 
 export type TFI = typeof TokenFilter[keyof typeof TokenFilter];
@@ -32,16 +24,6 @@ export type WalletState = {
     id: string;
     status: number;
     error: string;
-  };
-};
-
-const updateCurrTx = (state: WalletState, key: string, value: unknown) => {
-  return {
-    ...state,
-    currentTx: {
-      ...state.currentTx,
-      [key]: value,
-    },
   };
 };
 
@@ -65,9 +47,12 @@ export default createModel<RootModel>()({
       const indx = state.assets.findIndex(a => a.name === asset.name);
       return dp.set(state, `assets.${indx}.balance`, v => v + asset.balance);
     },
+    SET_TOKEN_FILTER_ID: (state, tokenFilterId: TFI) => ({ ...state, tokenFilterId }),
+    SET_TOKEN_SEARCH_TERM: (state, tokenSearchTerm: string) => ({ ...state, tokenSearchTerm }),
     SET_CHOSEN_TOKEN: (state, chosenToken: string) => ({ ...state, chosenToken }),
     SET_TOKEN_BALANCES: (state, tokenBalances: Record<string, number>) => ({
       ...state,
       tokenBalances,
     }),
+  },
 });

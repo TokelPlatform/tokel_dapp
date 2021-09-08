@@ -90,7 +90,7 @@ const SearchIconWrapper = styled.div`
 `;
 
 const fuseOptions = {
-  keys: ['name'],
+  keys: ['tokenid', 'name', 'description'],
 };
 
 const Tokens = () => {

@@ -1,4 +1,4 @@
-import { findIndex } from 'lodash-es';
+import { findIndex, size } from 'lodash-es';
 import { createSelector } from 'reselect';
 
 import { RootState } from './rematch';
@@ -8,24 +8,17 @@ export const selectView = (state: RootState) => state.environment.view;
 export const selectModal = (state: RootState) => state.environment.modal;
 export const selectNspvStatus = (state: RootState) => state.environment.nspvStatus;
 
+export const selectTokelPriceUSD = (state: RootState) => state.environment.tokelPriceUSD;
+
 export const selectAccountAddress = (state: RootState) => state.account.address;
 export const selectUnspentBalance = (state: RootState) => state.account.unspent?.balance;
 export const selectUnspent = (state: RootState) => state.account.unspent ?? {};
 export const selectChosenTransaction = (state: RootState) => state.account.chosenTx;
 export const selectTransactions = (state: RootState) =>
   state.account.txs[state.account.address] ?? [];
-// export const selectUnspentAddress = (state: RootState) => state.account.unspent?.address;
-// export const selectUnspentUtxos = (state: RootState) => state.account.unspent?.utxos ?? [];
-// export const selectUnspent = (state: RootState) => state.account.unspent ?? {};
-// export const selectUnconfirmedTransactions = (state: RootState) =>
-//   state.account?.txs[state.account?.address]?.filter(tx => tx.unconfirmed) ?? [];
 export const selectTokenDetails = (state: RootState) => state.environment.tokenDetails;
 
 export const selectChosenAsset = (state: RootState) => state.wallet.chosenAsset;
-export const selectAssets = (state: RootState) => state.wallet.assets ?? [];
-export const selectCurrentTxId = (state: RootState) => state.currentTransaction.id;
-export const selectCurrentTxStatus = (state: RootState) => state.currentTransaction.status;
-export const selectCurrentTxError = (state: RootState) => state.currentTransaction.error;
 
 export const selectLoginFeedback = (state: RootState) => state.environment.loginFeedback ?? null;
 export const selectEnvError = (state: RootState) => state.environment.error ?? null;
@@ -38,12 +31,16 @@ export const selectActiveTokenIds = (state: RootState) => Object.keys(state.wall
 export const selectTokenFilterId = (state: RootState) => state.wallet.tokenFilterId;
 export const selectTokenSearchTerm = (state: RootState) => state.wallet.tokenSearchTerm;
 
+export const selectCurrentTx = (state: RootState) => state.wallet.currentTx;
 export const selectCurrentTxId = (state: RootState) => state.wallet.currentTx.id;
 export const selectCurrentTxStatus = (state: RootState) => state.wallet.currentTx.status;
 export const selectCurrentTxError = (state: RootState) => state.wallet.currentTx.error;
 
 export const selectKey = (state: RootState) => state.account.key;
 export const selectSeed = (state: RootState) => state.account.seed;
+
+// derived
+export const selectTokenCount = (state: RootState) => size(state.wallet.tokenBalances);
 
 // computed
 export const selectAccountReady = createSelector(

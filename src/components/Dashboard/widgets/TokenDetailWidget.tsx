@@ -7,6 +7,7 @@ import { upperFirst } from 'lodash-es';
 import { ReactComponent as CopyIcon } from 'assets/copy.svg';
 import { ReactComponent as LinkIcon } from 'assets/link.svg';
 import { selectCurrentTokenDetail } from 'store/selectors';
+import { Responsive } from 'util/helpers';
 import { V } from 'util/theming';
 
 import { WidgetContainer, WidgetDivider } from './common';
@@ -14,6 +15,8 @@ import { WidgetContainer, WidgetDivider } from './common';
 const TokenDetailRoot = styled(WidgetContainer)`
   grid-column: span 4;
   grid-row: span 3;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Header = styled.header`
@@ -29,6 +32,34 @@ const Name = styled.div`
 
 const Content = styled.div`
   padding: 20px;
+  display: flex;
+  overflow: hidden;
+  ${Responsive.below.L} {
+    flex-direction: column;
+  }
+`;
+
+const ContentSection = styled.div`
+  overflow-y: auto;
+`;
+
+const MetadataContent = styled(ContentSection)`
+  flex: 1;
+  ${Responsive.below.L} {
+    order: 2;
+  }
+`;
+
+const MediaContent = styled(ContentSection)`
+  display: flex;
+  max-width: 50%;
+  padding-left: 20px;
+  ${Responsive.below.L} {
+    order: 1;
+    max-width: 100%;
+    padding-left: 0;
+    justify-content: center;
+  }
 `;
 
 const Description = styled.p``;
@@ -84,24 +115,42 @@ const MetadataName = styled.div`
 const MetadataValue = styled.div`
   flex-basis: 70%;
   flex-grow: 1;
-  overflow: hidden;
+  overflow: auto;
 `;
 
 const ValueWrapper = styled.div`
   width: 100%;
-  overflow-x: auto;
 `;
 
-const MetadataItem = ({ name, value }: { name: string; value: unknown }) => {
-  return (
-    <MetadataItemRoot>
-      <MetadataName>{upperFirst(name)}</MetadataName>
-      <MetadataValue>
-        <ValueWrapper>{value}</ValueWrapper>
-      </MetadataValue>
-    </MetadataItemRoot>
-  );
-};
+const ContentLink = styled.a`
+  display: block;
+  margin-top: 4px;
+  overflow: auto;
+  color: ${V.color.front};
+`;
+
+const ImageFrame = styled.div`
+  max-width: 412px;
+  padding: 16px;
+  border: 1px solid ${V.color.backSoftest};
+  border-radius: ${V.size.borderRadius};
+  ${Responsive.below.L} {
+    max-width: 300px;
+  }
+`;
+
+const TokenImage = styled.img`
+  width: 100%;
+`;
+
+const MetadataItem = ({ name, value }: { name: string; value: unknown }) => (
+  <MetadataItemRoot>
+    <MetadataName>{upperFirst(name)}</MetadataName>
+    <MetadataValue>
+      <ValueWrapper>{value}</ValueWrapper>
+    </MetadataValue>
+  </MetadataItemRoot>
+);
 
 const TokenDetail = () => {
   const tokenInfo = useSelector(selectCurrentTokenDetail);
@@ -113,17 +162,32 @@ const TokenDetail = () => {
         <ExplorerLink hash={tokenInfo.tokenid} />
       </Header>
       <Content>
-        <Description>{tokenInfo.description}</Description>
-        <Metadata>
-          <MetadataItem name="Supply" value={tokenInfo.supply} />
-          <MetadataItem name="Creator" value={tokenInfo.owner} />
-          <MetadataItem name="Royalty" value={tokenInfo.dataAsJson.royalty} />
-          <MetadataItem name="URL" value={tokenInfo.dataAsJson.url} />
-          <WidgetDivider />
-          {Object.entries(tokenInfo.dataAsJson?.arbitraryAsJson ?? []).map(([k, v]) => (
-            <MetadataItem key={k} name={k} value={v} />
-          ))}
-        </Metadata>
+        <MetadataContent>
+          <Description>
+            {tokenInfo.description}
+            <ContentLink target="_blank" rel="noopener noreferrer" href={tokenInfo.dataAsJson.url}>
+              {tokenInfo.dataAsJson.url}
+            </ContentLink>
+          </Description>
+          <Metadata>
+            <MetadataItem name="Supply" value={tokenInfo.supply} />
+            <MetadataItem name="Creator" value={tokenInfo.owner} />
+            <MetadataItem name="Royalty" value={tokenInfo.dataAsJson.royalty} />
+            <WidgetDivider />
+            {Object.entries(tokenInfo.dataAsJson?.arbitraryAsJson ?? []).map(([k, v]) => (
+              <MetadataItem key={k} name={k} value={v} />
+            ))}
+          </Metadata>
+        </MetadataContent>
+        <MediaContent>
+          <ImageFrame>
+            <TokenImage
+              alt="Big Buck Bunny"
+              src={tokenInfo.dataAsJson.url}
+              title="No video playback capabilities, please download the video below"
+            />
+          </ImageFrame>
+        </MediaContent>
       </Content>
     </TokenDetailRoot>
   );

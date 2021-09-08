@@ -5,8 +5,8 @@ import styled from '@emotion/styled';
 
 import { selectCurrentTokenInfo } from 'store/selectors';
 
+import StandardWidget from './widgets/StandardWidget';
 import TokenDetailWidget from './widgets/TokenDetailWidget';
-import TokenActivityWidget from './widgets/TokenOwnership/TokenActivityWidget';
 import TokenHistoryWidget from './widgets/TokenOwnership/TokenHistoryWidget';
 import TokenTransferWidget from './widgets/TokenOwnership/TokenTransferWidget';
 
@@ -29,7 +29,7 @@ const TokenView = (): ReactElement => {
     <TokenViewRoot>
       <TokenDetailWidget />
       <TokenTransferWidget />
-      {isNFT ? <TokenHistoryWidget /> : <TokenActivityWidget />}
+      {isNFT ? <TokenHistoryWidget /> : <StandardWidget title="Activity">dingus</StandardWidget>}
     </TokenViewRoot>
   );
 };

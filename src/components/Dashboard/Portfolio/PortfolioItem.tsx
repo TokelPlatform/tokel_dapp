@@ -1,12 +1,8 @@
 import React, { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
-import parse from 'html-react-parser';
-import { identicon } from 'minidenticons';
 
 import tokelIcon from 'assets/logo.svg';
-import { selectAccountAddress } from 'store/selectors';
 import { V } from 'util/theming';
 
 type PortfolioItemRootProps = { selected: boolean };
@@ -65,12 +61,10 @@ const NFTBadge = styled.div`
   }
 `;
 
-// const NFTBadge = () => <NFTBadgeRoot />;
-
 type PortfolioItemProps = {
   name: string;
   subtitle?: string;
-  header?: boolean;
+  icon?: boolean;
   nft?: boolean;
   selected?: boolean;
   onClick?: () => void;
@@ -79,21 +73,18 @@ type PortfolioItemProps = {
 const PortfolioItem = ({
   name,
   subtitle,
-  header,
+  icon,
   nft,
   selected,
   onClick,
 }: PortfolioItemProps): ReactElement => {
-  const address = useSelector(selectAccountAddress);
   return (
     <PortfolioItemRoot selected={selected} onClick={onClick}>
-      <IconWrapper>
-        {header ? (
-          parse(identicon(address || 'sample'))
-        ) : (
+      {icon && (
+        <IconWrapper>
           <img alt={`${name}-icon`} src={tokelIcon} />
-        )}
-      </IconWrapper>
+        </IconWrapper>
+      )}
       <Information>
         <Name>{name}</Name>
         <Amount>{subtitle}</Amount>
@@ -102,12 +93,5 @@ const PortfolioItem = ({
     </PortfolioItemRoot>
   );
 };
-
-// PortfolioItem.defaultProps = {
-
-//   header: false,
-//   selected: false,
-//   onClick: () => 'me clickit',
-// };
 
 export default PortfolioItem;

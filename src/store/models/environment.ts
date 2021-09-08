@@ -19,6 +19,7 @@ export interface EnvironmentState {
   view?: string;
   modal?: string;
   tokenDetails: Record<string, TokenDetail>;
+  tokelPriceUSD?: number;
   loginFeedback: string;
   error: string;
   nspvStatus: boolean;
@@ -30,6 +31,7 @@ export default createModel<RootModel>()({
     view: ViewType.DASHBOARD,
     modal: null,
     tokenDetails: {},
+    tokelPriceUSD: null,
     loginFeedback: null,
     error: null,
     nspvStatus: true,
@@ -45,6 +47,7 @@ export default createModel<RootModel>()({
       }
       return dp.set(state, `tokenDetails.${tokenId}`, detail);
     },
+    SET_TOKEL_PRICE_USD: (state, tokelPriceUSD: number) => ({ ...state, tokelPriceUSD }),
     SET_LOGIN_FEEDBACK: (state, loginFeedback: string) => ({ ...state, loginFeedback }),
     SET_ERROR: (state, error: string) => ({ ...state, error }),
     UPDATE_NSPV_STATUS: (state, nspvStatus: boolean) => ({ ...state, nspvStatus }),

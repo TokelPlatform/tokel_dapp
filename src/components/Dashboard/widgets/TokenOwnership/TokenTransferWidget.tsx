@@ -34,7 +34,7 @@ const Holdings = styled.div`
 const HoldingsTitle = styled.h2`
   margin-bottom: 10px;
   text-transform: uppercase;
-  font-size: ${V.font.h2};
+  font-size: ${V.font.h3};
   color: ${V.color.frontSoft};
 `;
 

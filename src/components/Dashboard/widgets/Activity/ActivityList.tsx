@@ -113,11 +113,6 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
               <p className="additionalInfo" style={{ textAlign: 'right' }}>
                 $TBA
               </p>
-              {/*
-              https://github.com/TokelPlatform/tokel_app/issues/67
-              <p className="additionalInfo" style={{ textAlign: 'right' }}>
-                ${formatFiat(tx.value * USD_VALUE)}
-              </p> */}
             </Column>
             {fullView && (
               <Column style={{ justifySelf: 'flex-end' }}>
