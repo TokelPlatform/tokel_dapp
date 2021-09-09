@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
 
-import { dispatch } from 'store/rematch';
-import { getNewAddress, messageTypes } from 'util/workerHelper';
+import { getNewAddress, login, messageTypes } from 'util/workerHelper';
 import { BITGO, TOPBAR_HEIGHT } from 'vars/defines';
 
 import Logo from 'components/_General/Logo';
@@ -110,7 +109,7 @@ const Login = () => {
           forward={() => {
             forward();
             setShowSpinner(true);
-            dispatch.account.login({ key, setError: console.log });
+            ipcRenderer.send(BITGO, login(key));
           }}
         />
       )}
