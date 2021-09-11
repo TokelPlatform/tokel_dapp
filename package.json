@@ -51,7 +51,8 @@
       "index.html",
       "package.json",
       "worker.js",
-      "nspv-bitgo.js"
+      "nspv-bitgo.js",
+      "node_modules"
     ],
     "extraResources": ["assets"],
     "publish": {
@@ -241,7 +242,7 @@
     "@svgr/webpack": "^5.5.0",
     "@tippyjs/react": "^4.2.5",
     "axios": "0.21.1",
-    "bn.js": "5.2.0",
+    "bn.js": "^4.6.4",
     "caniuse-lite": "^1.0.30001214",
     "dot-prop-immutable": "2.1.0",
     "electron-unhandled": "3.0.2",

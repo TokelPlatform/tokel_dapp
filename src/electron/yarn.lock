@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@tokel/bitgo-komodo-cc-lib@0.1.18":
-  version "0.1.18"
-  resolved "https://registry.yarnpkg.com/@tokel/bitgo-komodo-cc-lib/-/bitgo-komodo-cc-lib-0.1.18.tgz#39bf572b18e294077396cb3e277347941c5ac3b2"
-  integrity sha512-Ay0p/lVAZURGT7PYpW4s65Byy5IMJG3i/FwMKFdodlANTvuohR+0U+Ag/vAk9bI9K5v8e8Q5jJuSmULvCfSDuw==
+"@tokel/bitgo-komodo-cc-lib@0.1.22":
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/@tokel/bitgo-komodo-cc-lib/-/bitgo-komodo-cc-lib-0.1.22.tgz#6b6afcb1abddc81809a22e650da8a82bf5bd4d10"
+  integrity sha512-dic8tq/mK33m1OQehJDYbA1HReCF8I54INQoCtAtF/PYanbaKCiuTxQ2fDYF+zLRGGrCvxQHrHPI0i6QzYTRQQ==
   dependencies:
     "@tokel/cryptoconditions" "0.1.0"
     bech32 "0.0.3"

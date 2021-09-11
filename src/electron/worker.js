@@ -163,8 +163,8 @@ class NspvBitGoSingleton {
       return null;
     }
     try {
-      const response = await ccutils.getNormalUtxos(this.peers, address);
-      const ccUtxos = await ccutils.getCCUtxos(this.peers, address);
+      const response = await ccutils.getNormalUtxos(this.peers, address, 0, 0);
+      const ccUtxos = await ccutils.getCCUtxos(this.peers, address, 0, 0);
       return {
         height: response.height,
         skipcount: response.skipcount,
