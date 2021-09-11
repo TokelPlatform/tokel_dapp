@@ -30,7 +30,7 @@ export default {
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx', '.wasm'],
+    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
     modules: [paths.appSrcDir, 'node_modules'],
   },
 
@@ -39,7 +39,4 @@ export default {
       NODE_ENV: 'production',
     }),
   ],
-  experiments: {
-    asyncWebAssembly: true,
-  },
 };

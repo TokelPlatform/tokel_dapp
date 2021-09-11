@@ -48,7 +48,6 @@
         "from": "../../build",
         "to": ""
       },
-      "node_modules/",
       "index.html",
       "package.json",
       "worker.js",
@@ -242,6 +241,7 @@
     "@svgr/webpack": "^5.5.0",
     "@tippyjs/react": "^4.2.5",
     "axios": "0.21.1",
+    "bn.js": "5.2.0",
     "caniuse-lite": "^1.0.30001214",
     "dot-prop-immutable": "2.1.0",
     "electron-unhandled": "3.0.2",

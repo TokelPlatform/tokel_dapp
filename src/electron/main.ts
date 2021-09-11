@@ -125,11 +125,6 @@ const createWindow = async () => {
     mainWindow.webContents.send('bitgo', msg);
   });
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-    bitgoWorker.postMessage({ type: 'cleanup' });
-  });
-
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
