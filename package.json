@@ -17,7 +17,7 @@
     "build:main": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.main.prod.babel.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.renderer.prod.babel.js",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir src",
-    "package": "yarn build && electron-builder build --publish never",
+    "package": "USE_HARD_LINKS=false yarn build && electron-builder build --publish never",
     "package:mac": "electron-builder -m --x64 --publish never",
     "package:mac:arm": "electron-builder -m --arm64 --publish never",
     "package:linux": "electron-builder -l --x64 --publish never",
