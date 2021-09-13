@@ -31,7 +31,7 @@ const getWorkerPath = () =>
     ? path.join(app.getAppPath(), 'worker.js')
     : path.join(app.getAppPath(), '..', '/app/worker.js');
 
-const bitgoWorker = new Worker(getWorkerPath());
+let bitgoWorker = new Worker(getWorkerPath());
 
 export default class AppUpdater {
   constructor() {
@@ -138,8 +138,6 @@ const createWindow = async () => {
   // new AppUpdater();
 };
 
-ipcMain.on('toggle-nspv', () => bitgoWorker.postMessage({ type: 'reconnect' }));
-
 // Autoupdate handlers
 ipcMain.on('update-check', () => {
   if (isDev) {
@@ -195,6 +193,15 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
+});
+
+ipcMain.on('reconnect', async (_, arg) => {
+  if (!arg.status) {
+    bitgoWorker.terminate();
+    return mainWindow.webContents.send('reconnect', { status: false });
+  }
+  bitgoWorker = new Worker(getWorkerPath());
+  return mainWindow.webContents.send('reconnect', { status: true });
 });
 
 // custom events

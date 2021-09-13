@@ -1,5 +1,6 @@
 // nspv settings
 export const TICKER = 'TKLTEST';
+export const NAME = 'TKLTEST';
 export const RPC_PORT = '29405';
 
 export const BITGO = 'bitgo';

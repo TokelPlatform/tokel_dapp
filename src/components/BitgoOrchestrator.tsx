@@ -19,10 +19,6 @@ const BitgoOrchestrator = () => {
       console.group('BITGO ORCHESTRATOR ON');
       console.log(payload);
       console.groupEnd();
-
-      if (payload.type === messageTypes.reconnect) {
-        dispatch.environment.UPDATE_NSPV_STATUS(payload.data);
-      }
       // SPEND
       if (payload.type === messageTypes.spend) {
         if (payload.error) {
@@ -44,6 +40,7 @@ const BitgoOrchestrator = () => {
           });
           dispatch.currentTransaction.SET_TX_ID(payload.data.txid);
         }
+        return;
       }
       // LOGIN
       if (payload.type === messageTypes.login) {
@@ -56,21 +53,31 @@ const BitgoOrchestrator = () => {
         dispatch.environment.SET_LOGIN_FEEDBACK('Getting transactions...');
         ipcRenderer.send(BITGO, listUnspent(payload.data.address));
         ipcRenderer.send(BITGO, listTxs(payload.data.address));
+        return;
       }
       // LIST UNSPENT
       if (payload.type === messageTypes.listUnspent) {
+        if (payload.error) {
+          ipcRenderer.send('reconnect', { status: true });
+          return;
+        }
         dispatch.wallet.SET_ASSETS(parseUnspent(payload.data.balance));
         dispatch.account.SET_UNSPENT(payload.data);
+        return;
       }
       // LISTTRANSACTIONS
       if (payload.type === messageTypes.listtransactions) {
+        if (payload.error) {
+          ipcRenderer.send('reconnect', { status: true });
+          return;
+        }
         dispatch.account.SET_TXS(payload.data.txs);
       }
     });
     return () => {
       ipcRenderer.removeAllListeners(BITGO);
     };
-  }, []);
+  }, [myaddress]);
 
   return <div />;
 };

@@ -38,26 +38,22 @@ class NspvBitGoSingleton {
     this.connect();
   }
 
-  connect() {
-    this.peers = new NspvPeerGroup(params, opts);
-    this.peers.on('peer', peer => {
-      console.log('peers on: connected to peer', peer.socket.remoteAddress);
-    });
-    this.connected = false;
-    this.peers.connect(() => {
-      this.connected = true;
-    });
-  }
-
-  reconnect() {
-    if (this.connected) {
-      console.log('Disconnecting...');
-      this.cleanup();
-      return false;
-    }
-    console.log('Reconnecting...');
-    this.connect();
-    return true;
+  async connect() {
+    return new Promise((resolve, reject) => {
+      this.peers = new NspvPeerGroup(params, opts);
+      this.peers.on('error', e => {
+        console.log(e);
+      });
+      return this.peers.connect(err => {
+        if (err) {
+          console.log('err', err);
+          this.connected = false;
+          reject();
+        }
+        this.connected = true;
+        resolve(true);
+      });
+    }).catch(e => console.log(e));
   }
 
   cleanup() {
@@ -82,9 +78,6 @@ class NspvBitGoSingleton {
    *  }
    */
   async login(key) {
-    if (!this.connected) {
-      return null;
-    }
     try {
       this.wif = general.keyToWif(key, this.network);
       const keyPair = ECPair.fromWIF(this.wif, this.network);
@@ -159,10 +152,10 @@ class NspvBitGoSingleton {
    * }
    */
   async listUnspent(address) {
-    if (!this.connected) {
-      return null;
-    }
     try {
+      if (!this.connected) {
+        await this.connect();
+      }
       const response = await ccutils.getNormalUtxos(this.peers, address, 0, 0);
       const ccUtxos = await ccutils.getCCUtxos(this.peers, address, 0, 0);
       return {
@@ -182,10 +175,10 @@ class NspvBitGoSingleton {
   }
 
   async listUnspentTokens(address) {
-    if (!this.connected) {
-      return null;
-    }
     try {
+      if (!this.connected) {
+        await this.connect();
+      }
       const ccUtxos = await ccutils.getCCUtxos(this.peers, address);
       return {
         ...ccUtxos,
@@ -222,7 +215,7 @@ class NspvBitGoSingleton {
   // eslint-disable-next-line class-methods-use-this
   async broadcast(txhex) {
     if (!this.connected) {
-      return null;
+      await this.connect();
     }
     return new Promise((resolve, reject) => {
       this.peers.nspvBroadcast(
@@ -240,11 +233,12 @@ class NspvBitGoSingleton {
   }
 
   // eslint-disable-next-line class-methods-use-this
+  // eslint-disable-next-line consistent-return
   async spend({ address, amount }) {
-    if (!this.connected) {
-      return null;
-    }
     try {
+      if (!this.connected) {
+        await this.connect();
+      }
       const txhex = await general.create_normaltx(
         this.wif,
         address,
@@ -260,7 +254,6 @@ class NspvBitGoSingleton {
       };
     } catch (e) {
       console.error(e);
-      throw new Error(e);
     }
   }
 }
@@ -271,9 +264,8 @@ const bitgo = new NspvBitGoSingleton();
 console.log(`>>>> Worker: Initializing bitgo at ${new Date().toISOString()}`);
 
 parentPort.on('message', msg => {
-  if (['reconnect', 'connect', 'cleanup', 'get'].indexOf(msg.type) !== -1) {
+  if (['cleanup', 'get'].indexOf(msg.type) !== -1) {
     const data = bitgo[msg.type](msg.payload);
-    console.log({ type: msg.type, data });
     return parentPort.postMessage({ type: msg.type, data });
   }
   return bitgo[msg.type](msg.payload)
@@ -282,7 +274,6 @@ parentPort.on('message', msg => {
       return null;
     })
     .catch(e => {
-      console.error(e);
       return parentPort.postMessage({ type: msg.type, data: null, error: e.message });
     });
 });

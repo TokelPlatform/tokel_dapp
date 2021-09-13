@@ -4,7 +4,6 @@ export const messageTypes = {
   listUnspent: 'listUnspent',
   listtransactions: 'listtransactions',
   spend: 'spend',
-  reconnect: 'reconnect',
 };
 
 const message = (type, payload) => {
@@ -23,5 +22,3 @@ export const listUnspent = address => message(messageTypes.listUnspent, address)
 export const listTxs = address => message(messageTypes.listtransactions, address);
 
 export const spend = (address, amount) => message(messageTypes.spend, { address, amount });
-
-export const hello = 'hello';
