@@ -27,6 +27,7 @@ export const selectLoginFeedback = (state: RootState) => state.environment.login
 export const selectEnvError = (state: RootState) => state.environment.error ?? null;
 
 export const selectKey = (state: RootState) => state.account.key;
+export const selectSeed = (state: RootState) => state.account.seed;
 
 // computed
 export const selectAccountReady = createSelector(

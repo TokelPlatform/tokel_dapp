@@ -19,6 +19,12 @@ const BitgoOrchestrator = () => {
       console.group('BITGO ORCHESTRATOR ON');
       console.log(payload);
       console.groupEnd();
+
+      if (payload.type === messageTypes.newaddress) {
+        dispatch.account.SET_KEY(payload.data.wif);
+        dispatch.account.SET_SEED(payload.data.seed);
+      }
+
       // SPEND
       if (payload.type === messageTypes.spend) {
         if (payload.error) {

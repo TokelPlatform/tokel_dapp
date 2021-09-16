@@ -14,6 +14,7 @@ export interface AccountState {
     [address: string]: Array<TxType>;
   };
   key: string;
+  seed: string;
   pubkey: string;
   chosenTx: TxType;
 }
@@ -67,6 +68,10 @@ export default createModel<RootModel>()({
     SET_KEY: (state, key: string) => ({
       ...state,
       key,
+    }),
+    SET_SEED: (state, seed: string) => ({
+      ...state,
+      seed,
     }),
     SET_PUBKEY: (state, pubkey: string) => ({
       ...state,

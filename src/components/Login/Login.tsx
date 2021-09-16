@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
 
-import { getNewAddress, login, messageTypes } from 'util/workerHelper';
+import { selectAccountAddress, selectKey, selectSeed } from 'store/selectors';
+import { getNewAddress, login } from 'util/workerHelper';
 import { BITGO, TOPBAR_HEIGHT } from 'vars/defines';
 
 import Logo from 'components/_General/Logo';
@@ -48,31 +50,15 @@ const STEP5 = 5;
 
 const Login = () => {
   const [step, setStep] = useState(STEP1);
-  const [key, setKey] = useState(null);
-  const [seed, setSeed] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
-  const [address, setAddress] = useState(null);
+  const key = useSelector(selectKey);
+  const seed = useSelector(selectSeed);
 
   useEffect(() => {
-    ipcRenderer.on(BITGO, (_, payload) => {
-      if (payload.type === messageTypes.newaddress) {
-        setAddress(payload.data);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (key && seed) {
-      return;
-    }
     if (step === STEP2) {
       ipcRenderer.send(BITGO, getNewAddress());
     }
-    if (step === STEP2 && address) {
-      setKey(address.wif);
-      setSeed(address.seed);
-    }
-  }, [address, step, key, seed]);
+  }, [step]);
 
   const back = () => setStep(step - 1);
   const forward = () => setStep(step + 1);
