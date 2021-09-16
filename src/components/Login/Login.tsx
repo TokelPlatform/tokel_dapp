@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
 
-import { selectAccountAddress, selectKey, selectSeed } from 'store/selectors';
+import { selectKey, selectSeed } from 'store/selectors';
 import { getNewAddress, login } from 'util/workerHelper';
 import { BITGO, TOPBAR_HEIGHT } from 'vars/defines';
 

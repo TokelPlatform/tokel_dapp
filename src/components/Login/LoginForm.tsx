@@ -48,7 +48,6 @@ const Feedback = styled.p`
 const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [loginValue, setloginValue] = useState('');
   const [error, setError] = useState(null);
-  const [feedback, setFeedback] = useState('');
   const [showSpinner, setShowSpinner] = useState(false);
   const loginFeedback = useSelector(selectLoginFeedback);
   const envError = useSelector(selectEnvError);
@@ -70,7 +69,6 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   }, [error, envError]);
 
   useEffect(() => {
-    setFeedback(loginFeedback);
     if (loginFeedback) {
       setShowSpinner(true);
     }
@@ -100,7 +98,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       <div style={{ height: '30px' }}>{showSpinner && <Spinner />}</div>
       <div style={{ marginBottom: '1rem', height: '3rem' }}>
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        {feedback && <Feedback>{feedback}</Feedback>}
+        {loginFeedback && <Feedback>{loginFeedback}</Feedback>}
       </div>
       <Link onClick={addNewWallet} linkText="Generate New Address" />
     </LoginFormRoot>

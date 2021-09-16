@@ -26,12 +26,8 @@ import { WindowControl } from '../vars/defines';
 import MenuBuilder from './menu';
 
 // loading BitGo and Wasm Cryptoconditions in a separate process
-const getWorkerPath = () =>
-  process.env.NODE_ENV === 'development'
-    ? path.join(app.getAppPath(), 'worker.js')
-    : path.join(app.getAppPath(), '..', '/app/worker.js');
-
-let bitgoWorker = new Worker(getWorkerPath());
+const workerPath = path.join(app.getAppPath(), 'worker.js');
+let bitgoWorker = new Worker(workerPath);
 
 export default class AppUpdater {
   constructor() {
@@ -200,7 +196,7 @@ ipcMain.on('reconnect', async (_, arg) => {
     bitgoWorker.terminate();
     return mainWindow.webContents.send('reconnect', { status: false });
   }
-  bitgoWorker = new Worker(getWorkerPath());
+  bitgoWorker = new Worker(workerPath);
   return mainWindow.webContents.send('reconnect', { status: true });
 });
 

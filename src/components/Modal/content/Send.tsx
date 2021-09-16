@@ -28,7 +28,7 @@ const Send = () => {
   const [recipient, setRecipient] = useState(null);
   const [amountToSend, setAmountToSend] = useState(null);
   const chosenAsset = useSelector(selectChosenAsset);
-  const myaddress = useSelector(selectAccountAddress);
+  const myAddress = useSelector(selectAccountAddress);
   const currentTxId = useSelector(selectCurrentTxId);
   const currentTxErorr = useSelector(selectCurrentTxError);
   const currentTxStatus = useSelector(selectCurrentTxStatus);
@@ -56,7 +56,7 @@ const Send = () => {
           txId={currentTxId}
           txStatus={currentTxStatus}
           txError={currentTxErorr}
-          from={myaddress}
+          from={myAddress}
         />
       )}
     </SendRoot>
