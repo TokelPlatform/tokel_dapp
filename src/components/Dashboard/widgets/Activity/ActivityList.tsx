@@ -1,20 +1,25 @@
 import React, { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
 import receiveIcon from 'assets/receiveIcon.svg';
 import withdrawIcon from 'assets/withdrawIcon.svg';
 import { dispatch } from 'store/rematch';
+import { selectAccountAddress } from 'store/selectors';
 import { formatDec } from 'util/helpers';
+import links from 'util/links';
 import { TxType } from 'util/nspvlib-mock';
 import { V } from 'util/theming';
 import { Colors, ModalName, TICKER } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import InfoNote from 'components/_General/InfoNote';
+import { GrayLabel } from '../common';
 
 const ActivityListRoot = styled.div`
   grid-column: span 3;
+  padding: 0 28px 6px 28px;
 `;
 
 type TransactionsProps = {
@@ -26,7 +31,6 @@ const Transactions = styled.div<TransactionsProps>`
   grid-template-columns: ${props => {
     return props.fullView ? '20% 10% 20% 5% 25% 20%' : '40% 25% 5% 30%';
   }};
-  padding: 0 28px;
 
   .datetime {
     color: var(--color-gray);
@@ -77,6 +81,7 @@ const handleTxDetailView = tx => {
 };
 
 const ActivityList = ({ transactions = [], fullView }: ActivityListProps): ReactElement => {
+  const myaddress = useSelector(selectAccountAddress);
   return (
     <ActivityListRoot>
       {transactions.length === 0 && <InfoNote title="No data available" />}
@@ -128,6 +133,9 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
           </Transactions>
         </TransactionWrapper>
       ))}
+      <a href={`${links.explorers[TICKER]}/address/${myaddress}`} rel="noreferrer" target="_blank">
+        <GrayLabel>All transactions</GrayLabel>
+      </a>
     </ActivityListRoot>
   );
 };
