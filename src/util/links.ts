@@ -1,11 +1,11 @@
 export default {
   explorers: {
     KMD: 'https://kmd.explorer.dexstats.info',
-    TOKEL: 'https://tokel.explorer.dexstats.info',
+    TKL: 'https://tokel.explorer.dexstats.info',
     TKLTEST: 'http://explorer.komodoplatform.com:20000',
   },
   insightApi: {
-    TOKEL: 'https://tokel.explorer.dexstats.info/insight-api-komodo',
+    TKL: 'https://tokel.explorer.dexstats.info/insight-api-komodo',
     KMD: 'https://kmd.explorer.dexstats.info/insight-api-komodo',
     TKLTEST: 'https://explorer.komodoplatform.com:10000/tkltest/api/',
   },
