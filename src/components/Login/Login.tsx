@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+import { ipcRenderer } from 'electron';
 
-import { dispatch } from 'store/rematch';
-import { getNewAddress } from 'util/nspvlib';
-import { TOPBAR_HEIGHT } from 'vars/defines';
+import { selectKey, selectSeed } from 'store/selectors';
+import { getNewAddress, login } from 'util/workerHelper';
+import { BITGO, TOPBAR_HEIGHT } from 'vars/defines';
 
 import Logo from 'components/_General/Logo';
 import Spinner from 'components/_General/Spinner';
@@ -48,22 +50,15 @@ const STEP5 = 5;
 
 const Login = () => {
   const [step, setStep] = useState(STEP1);
-  const [key, setKey] = useState(null);
-  const [seed, setSeed] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
+  const key = useSelector(selectKey);
+  const seed = useSelector(selectSeed);
 
   useEffect(() => {
-    if (key && seed) {
-      return;
-    }
     if (step === STEP2) {
-      (async () => {
-        const result = await getNewAddress();
-        setKey(result.wif);
-        setSeed(result.seed);
-      })();
+      ipcRenderer.send(BITGO, getNewAddress());
     }
-  }, [step, key, seed]);
+  }, [step]);
 
   const back = () => setStep(step - 1);
   const forward = () => setStep(step + 1);
@@ -100,7 +95,7 @@ const Login = () => {
           forward={() => {
             forward();
             setShowSpinner(true);
-            dispatch.account.login({ key, setError: console.log });
+            ipcRenderer.send(BITGO, login(key));
           }}
         />
       )}

@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { FEE, INFORMATION_N_A, TICKER, USD_VALUE } from 'vars/defines';
 
-import getTransactionDetail from './insightApi';
+import { getTransactionDetail } from './insightApi';
 import { getRecepients, getSenders, groupTransactions } from './transactionsHelper';
 
 /**
@@ -85,9 +85,9 @@ export const parseSpendTx = (newtx, from) => {
   return {
     received: false,
     unconfirmed: true,
-    txid: newtx.tx.txid,
-    height: newtx.tx.height ?? 'TBA',
-    value: Number(newtx.tx.total) - Number(newtx.tx.change) - FEE,
+    txid: newtx.txid,
+    // height: newtx.tx.height ?? 'TBA',
+    value: newtx.value,
     recipient: newtx.recipient,
     time: newtx.time,
     from,
@@ -99,12 +99,12 @@ export const parseSpendTx = (newtx, from) => {
  * @param unspent
  * @returns
  */
-export const parseUnspent = unspent => {
+export const parseUnspent = balance => {
   return [
     {
       name: TICKER,
       ticker: TICKER,
-      balance: unspent.balance,
+      balance,
       usd_value: USD_VALUE,
     },
   ];

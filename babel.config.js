@@ -32,6 +32,7 @@ module.exports = api => {
       // custom
       '@emotion/babel-plugin',
       ['@babel/plugin-proposal-private-methods', { loose: true }],
+      ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
 
       // Stage 0
       require('@babel/plugin-proposal-function-bind'),

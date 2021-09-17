@@ -2,11 +2,11 @@ import React, { ReactElement, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+import { ipcRenderer } from 'electron';
 
-import { dispatch } from 'store/rematch';
-import { selectAccountAddress, selectKey } from 'store/selectors';
-import { listTransactions, listUnspent, login } from 'util/nspvlib';
-import { getAllTransactionDetails } from 'util/transactions';
+import { selectKey } from 'store/selectors';
+import { login } from 'util/workerHelper';
+import { BITGO } from 'vars/defines';
 
 import AssetView from './AssetView';
 import Portfolio from './Portfolio/Portfolio';
@@ -22,27 +22,15 @@ const DashboardRoot = styled.div`
 `;
 
 const TX_FETCH_INTERVAL_MS = 30 * 1000;
-const LOGIN_INTERVAL_MS = 11 * 60 * 1000;
 
 const Dashboard = (): ReactElement => {
   const key = useSelector(selectKey);
-  const address = useSelector(selectAccountAddress);
   useEffect(() => {
-    const loginInterval = setInterval(() => login(key), LOGIN_INTERVAL_MS);
-    const txInterval = setInterval(() => {
-      // @todo get txs after a certain block in the future
-      listUnspent()
-        .then(unspent => dispatch.account.SET_UNSPENT(unspent))
-        .then(() => listTransactions(address))
-        .then(txs => getAllTransactionDetails(txs.txids))
-        .then(txs => dispatch.account.SET_TXS(txs))
-        .catch(e => console.log(e));
-    }, TX_FETCH_INTERVAL_MS);
+    const txInterval = setInterval(() => ipcRenderer.send(BITGO, login(key)), TX_FETCH_INTERVAL_MS);
     return () => {
-      clearInterval(loginInterval);
       clearInterval(txInterval);
     };
-  }, [address, key]);
+  }, [key]);
 
   return (
     <DashboardRoot>

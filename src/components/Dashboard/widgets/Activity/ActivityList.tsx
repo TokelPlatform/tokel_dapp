@@ -7,6 +7,7 @@ import withdrawIcon from 'assets/withdrawIcon.svg';
 import { dispatch } from 'store/rematch';
 import { formatDec } from 'util/helpers';
 import { TxType } from 'util/nspvlib-mock';
+import { V } from 'util/theming';
 import { Colors, ModalName, TICKER } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
@@ -23,7 +24,7 @@ type TransactionsProps = {
 const Transactions = styled.div<TransactionsProps>`
   display: grid;
   grid-template-columns: ${props => {
-    return props.fullView ? '20% 15% 20% 25% 20%' : '40% 20% 40%';
+    return props.fullView ? '20% 10% 20% 5% 25% 20%' : '40% 25% 5% 30%';
   }};
   padding: 0 28px;
 
@@ -53,6 +54,18 @@ const TransactionWrapper = styled.div`
   padding-bottom: 10px;
 `;
 
+type LabelProps = {
+  width: string;
+};
+const Label = styled.p<LabelProps>`
+  font-size: 12px;
+  width: ${p => p.width || '100%'};
+  text-transform: uppercase;
+  border: 1px solid ${V.color.slate};
+  color: ${V.color.slate};
+  border-radius: 4px;
+  padding: 2px 6px;
+`;
 type ActivityListProps = {
   transactions: Array<TxType>;
   fullView?: boolean;
@@ -84,6 +97,10 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
               <p className="info">{tx.received ? 'Received' : 'Sent'}</p>
               <p className="additionalInfo">{tx.received ? 'Deposit' : 'Withdrawal'}</p>
             </Column>
+            {!fullView && <Column>{tx.unconfirmed && <Label width="20px">U</Label>}</Column>}
+            {fullView && (
+              <Column>{tx.unconfirmed && <Label width="90px">Unconfirmed</Label>}</Column>
+            )}
             <Column style={{ justifySelf: 'flex-end' }}>
               <p className="info" style={{ textAlign: 'right' }}>
                 {` ${tx.received ? '+' : '-'}${formatDec(tx.value)} ${TICKER}`}

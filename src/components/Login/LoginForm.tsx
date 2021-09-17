@@ -1,10 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+import { ipcRenderer } from 'electron';
 
 import password from 'assets/password.svg';
 import { dispatch } from 'store/rematch';
-import { ErrorMessages } from 'vars/defines';
+import { selectEnvError, selectLoginFeedback } from 'store/selectors';
+import { login } from 'util/workerHelper';
+import { BITGO, ErrorMessages } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import ErrorMessage from 'components/_General/ErrorMessage';
@@ -44,23 +48,31 @@ const Feedback = styled.p`
 const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [loginValue, setloginValue] = useState('');
   const [error, setError] = useState(null);
-  const [feedback, setFeedback] = useState('');
   const [showSpinner, setShowSpinner] = useState(false);
+  const loginFeedback = useSelector(selectLoginFeedback);
+  const envError = useSelector(selectEnvError);
 
   const performLogin = useCallback(() => {
+    dispatch.environment.SET_ERROR(null);
     if (!loginValue) {
       setError(ErrorMessages.ENTER_WIF);
       return;
     }
-    setShowSpinner(true);
-    dispatch.account.login({ key: loginValue, setError, setFeedback });
+    ipcRenderer.send(BITGO, login(loginValue));
   }, [loginValue]);
 
   useEffect(() => {
-    if (error) {
+    setError(envError);
+    if (error || envError) {
       setShowSpinner(false);
     }
-  }, [error]);
+  }, [error, envError]);
+
+  useEffect(() => {
+    if (loginFeedback) {
+      setShowSpinner(true);
+    }
+  }, [loginFeedback, showSpinner]);
 
   return (
     <LoginFormRoot>
@@ -86,7 +98,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       <div style={{ height: '30px' }}>{showSpinner && <Spinner />}</div>
       <div style={{ marginBottom: '1rem', height: '3rem' }}>
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        {feedback && <Feedback>{feedback}</Feedback>}
+        {loginFeedback && <Feedback>{loginFeedback}</Feedback>}
       </div>
       <Link onClick={addNewWallet} linkText="Generate New Address" />
     </LoginFormRoot>

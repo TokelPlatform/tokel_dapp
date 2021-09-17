@@ -12,10 +12,12 @@ import PlatformProvider from 'hooks/platform';
 import store from 'store/rematch';
 
 import App from 'components/App';
+import BitgoOrchestrator from 'components/BitgoOrchestrator';
 
 render(
   <Provider store={store}>
     <PlatformProvider>
+      <BitgoOrchestrator />
       <App />
     </PlatformProvider>
   </Provider>,

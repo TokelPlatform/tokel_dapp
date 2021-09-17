@@ -1,6 +1,7 @@
 /* eslint global-require: off, no-console: off */
 
 import path from 'path';
+import { Worker } from 'worker_threads';
 
 /**
  * This module executes inside of electron's main process. You can start
@@ -21,13 +22,12 @@ import installExtension, {
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
-import nspv from '../util/nspv';
 import { WindowControl } from '../vars/defines';
 import MenuBuilder from './menu';
 
-// unhandled excetions debug
-// const unhandled = require('electron-unhandled');
-// unhandled();
+// loading BitGo and Wasm Cryptoconditions in a separate process
+const workerPath = path.join(app.getAppPath(), 'worker.js');
+let bitgoWorker = new Worker(workerPath);
 
 export default class AppUpdater {
   constructor() {
@@ -107,9 +107,18 @@ const createWindow = async () => {
     }
   });
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-    nspv.cleanup();
+  // pass messages back and forth to the bitgo worker
+  ipcMain.on('bitgo', (_, msg) => {
+    console.group('IPCMAIN ON');
+    console.log(msg);
+    console.groupEnd();
+    bitgoWorker.postMessage(msg);
+  });
+  bitgoWorker.on('message', msg => {
+    console.group('BITGO ON');
+    console.log(msg);
+    console.groupEnd();
+    mainWindow.webContents.send('bitgo', msg);
   });
 
   const menuBuilder = new MenuBuilder(mainWindow);
@@ -121,24 +130,9 @@ const createWindow = async () => {
     shell.openExternal(url);
   });
 
-  // send NSPV status updates to the renderer process
-  nspv.registerCallback((status: boolean) => {
-    if (mainWindow) {
-      mainWindow.webContents.send('nspv-status', status);
-    }
-  });
-
   // eslint-disable-next-line no-new
   // new AppUpdater();
 };
-
-ipcMain.on('toggle-nspv', () => {
-  if (nspv.connected) {
-    nspv.cleanup();
-  } else {
-    nspv.connect();
-  }
-});
 
 // Autoupdate handlers
 ipcMain.on('update-check', () => {
@@ -195,6 +189,15 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
+});
+
+ipcMain.on('reconnect', async (_, arg) => {
+  if (!arg.status) {
+    bitgoWorker.terminate();
+    return mainWindow.webContents.send('reconnect', { status: false });
+  }
+  bitgoWorker = new Worker(workerPath);
+  return mainWindow.webContents.send('reconnect', { status: true });
 });
 
 // custom events

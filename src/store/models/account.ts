@@ -1,19 +1,8 @@
 import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 
-import {
-  listTransactions,
-  listUnspent,
-  login as nspvLogin,
-  logout as nspvLogout,
-} from 'util/nspvlib';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
-import {
-  getAllTransactionDetails,
-  parseSerializedTransaction,
-  parseSpendTx,
-  parseUnspent,
-} from 'util/transactions';
+import { parseSerializedTransaction, parseSpendTx } from 'util/transactions';
 import { getStillUnconfirmed } from 'util/transactionsHelper';
 
 import type { RootModel } from './models';
@@ -25,11 +14,18 @@ export interface AccountState {
     [address: string]: Array<TxType>;
   };
   key: string;
+  seed: string;
+  pubkey: string;
   chosenTx: TxType;
 }
 
 interface LoginArgs {
-  key: string;
+  data: {
+    wif: string;
+    address: string;
+    seed: string;
+    pubkey: string;
+  };
   setError: (message: string) => void;
   setFeedback: (message: string) => void;
 }
@@ -40,6 +36,7 @@ export default createModel<RootModel>()({
     unspent: null,
     txs: {},
     key: null,
+    pubkey: null,
   } as AccountState,
   reducers: {
     SET_ADDRESS: (state, address: string) => ({
@@ -72,44 +69,23 @@ export default createModel<RootModel>()({
       ...state,
       key,
     }),
+    SET_SEED: (state, seed: string) => ({
+      ...state,
+      seed,
+    }),
+    SET_PUBKEY: (state, pubkey: string) => ({
+      ...state,
+      pubkey,
+    }),
   },
   effects: dispatch => ({
-    async login({ key = null, setError, setFeedback }: LoginArgs) {
-      setError(null);
-      if (setFeedback) {
-        setFeedback('Connecting to nspv...');
-      }
-      const userKey = key ?? this.key;
-      if (!this.key) {
-        this.SET_KEY(key);
-      }
-      nspvLogin(userKey)
-        .then(async account => {
-          this.SET_ADDRESS(account.address);
-          if (setFeedback) {
-            setFeedback('Logging in to nspv...');
-          }
-
-          const unspent = await listUnspent();
-          this.SET_UNSPENT(unspent);
-          dispatch.wallet.SET_ASSETS(parseUnspent(unspent));
-          if (setFeedback) {
-            setFeedback('Getting transactions...');
-          }
-          const transactions = await listTransactions(account.address);
-          return getAllTransactionDetails(transactions.txids);
-        })
-        .then(txs => dispatch.account.SET_TXS(txs))
-        .catch(e => {
-          if (setFeedback) {
-            setFeedback(null);
-          }
-          setError(e.message);
-        });
+    login({ data }: LoginArgs) {
+      this.SET_KEY(data.wif);
+      this.SET_PUBKEY(data.pubkey);
+      this.SET_ADDRESS(data.address);
     },
-    async logout() {
+    logout() {
       dispatch({ type: 'RESET_APP' });
-      return nspvLogout();
     },
   }),
 });

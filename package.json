@@ -17,7 +17,7 @@
     "build:main": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.main.prod.babel.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.renderer.prod.babel.js",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir src",
-    "package": "yarn build && electron-builder build --publish never",
+    "package": "yarn build && USE_HARD_LINKS=false electron-builder build --publish never",
     "package:mac": "electron-builder -m --x64 --publish never",
     "package:mac:arm": "electron-builder -m --arm64 --publish never",
     "package:linux": "electron-builder -l --x64 --publish never",
@@ -27,20 +27,15 @@
     "publish": "yarn build && electron-builder -mlw --x64 --arm64 --publish always"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "cross-env NODE_ENV=development eslint --cache"
-    ],
+    "*.{js,jsx,ts,tsx}": ["cross-env NODE_ENV=development eslint --cache"],
     "{*.json,.{babelrc,eslintrc,prettierrc}}": [
       "prettier --ignore-path .eslintignore --parser json --write"
     ],
-    "*.{css,scss}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ],
-    "*.{html,md,yml}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ]
+    "*.{css,scss}": ["prettier --ignore-path .eslintignore --single-quote --write"],
+    "*.{html,md,yml}": ["prettier --ignore-path .eslintignore --single-quote --write"]
   },
   "build": {
+    "asar": false,
     "productName": "TokelPlatform",
     "appId": "tokel",
     "directories": {
@@ -53,17 +48,13 @@
         "from": "../../build",
         "to": ""
       },
-      "node_modules/",
       "index.html",
-      "package.json"
+      "package.json",
+      "worker.js",
+      "nspv-bitgo.js",
+      "node_modules"
     ],
-    "extraResources": [
-      "assets",
-      {
-        "from": "include",
-        "to": ""
-      }
-    ],
+    "extraResources": ["assets"],
     "publish": {
       "provider": "github",
       "owner": "TokelPlatform",
@@ -72,10 +63,7 @@
     },
     "mac": {
       "identity": null,
-      "target": [
-        "dmg",
-        "zip"
-      ],
+      "target": ["dmg", "zip"],
       "type": "distribution",
       "hardenedRuntime": true,
       "entitlements": "assets/entitlements.mac.plist",
@@ -99,15 +87,11 @@
     },
     "win": {
       "icon": "icon.ico",
-      "target": [
-        "nsis"
-      ]
+      "target": ["nsis"]
     },
     "linux": {
       "icon": "icon.png",
-      "target": [
-        "AppImage"
-      ],
+      "target": ["AppImage"],
       "category": "Development"
     }
   },
@@ -116,7 +100,7 @@
     "url": "git+https://github.com/TokelPlatform/tokel_app"
   },
   "author": {
-    "name": "Daria Mikhailova",
+    "name": "Daria",
     "email": "hello@daria.engineer",
     "url": "https://daria.engineer"
   },
@@ -125,15 +109,7 @@
   "bugs": {
     "url": "https://github.com/TokelPlatform/tokel_app/issues"
   },
-  "keywords": [
-    "tokel",
-    "komodo",
-    "nftmarketplace",
-    "dex",
-    "token",
-    "wallet",
-    "crypto"
-  ],
+  "keywords": ["tokel", "komodo", "nftmarketplace", "dex", "token", "wallet", "crypto"],
   "homepage": "https://github.com/TokelPlatform/tokel_app#readme",
   "jest": {
     "testURL": "http://localhost/",
@@ -149,23 +125,10 @@
       "^util/(.*)$": "<rootDir>/src/util/$1",
       "^vars/(.*)$": "<rootDir>/src/vars/$1"
     },
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "ts",
-      "tsx",
-      "json"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "src/node_modules"
-    ],
-    "setupFiles": [
-      "./config/scripts/CheckBuildsExist.js"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/?!(minidenticon)"
-    ]
+    "moduleFileExtensions": ["js", "jsx", "ts", "tsx", "json"],
+    "moduleDirectories": ["node_modules", "src/electron/node_modules"],
+    "setupFiles": ["./config/scripts/CheckBuildsExist.js"],
+    "transformIgnorePatterns": ["node_modules/?!(minidenticon)"]
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -279,6 +242,7 @@
     "@svgr/webpack": "^5.5.0",
     "@tippyjs/react": "^4.2.5",
     "axios": "0.21.1",
+    "bn.js": "^4.6.4",
     "caniuse-lite": "^1.0.30001214",
     "dot-prop-immutable": "2.1.0",
     "electron-unhandled": "3.0.2",
@@ -298,6 +262,7 @@
     "redux": "^4.0.5",
     "regenerator-runtime": "^0.13.5",
     "reselect": "^4.0.0",
+    "satoshi-bitcoin": "1.0.5",
     "source-map-support": "^0.5.19"
   },
   "engines": {
@@ -307,12 +272,8 @@
   },
   "browserslist": [],
   "renovate": {
-    "extends": [
-      "bliss"
-    ],
-    "baseBranches": [
-      "next"
-    ]
+    "extends": ["bliss"],
+    "baseBranches": ["next"]
   },
   "husky": {
     "hooks": {
