@@ -49,7 +49,7 @@ const TopBar = () => {
       {accountReady ? (
         <RightSideContainer>
           <NspvIndicator />
-          <ButtonSmall onClick={() => dispatch.environment.SET_MODAL(ModalName.FEEDBACK)}>
+          <ButtonSmall onClick={() => dispatch.environment.SET_MODAL_NAME(ModalName.FEEDBACK)}>
             Feedback
           </ButtonSmall>
           <HSpaceSmall />

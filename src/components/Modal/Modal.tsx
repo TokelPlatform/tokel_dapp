@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 
 import timesSvg from 'assets/times.svg';
 import useLockScroll from 'hooks/lock-scroll';
+import { DEFAULT_NULL_MODAL } from 'store/models/environment';
 import { dispatch } from 'store/rematch';
 
 export const ModalRoot = styled(motion.div)`
@@ -58,8 +59,8 @@ const Content = styled.div`
   padding: 25px;
 `;
 
-const close = () => dispatch.environment.SET_MODAL(null);
-const handleEscape = e => e.key === 'Escape' && close();
+const close = () => dispatch.environment.SET_MODAL(DEFAULT_NULL_MODAL);
+const handleEscape = (e: KeyboardEvent) => e.key === 'Escape' && close();
 
 type ModalProps = {
   title: string;
@@ -78,31 +79,8 @@ const Modal = ({ title, children }: ModalProps) => {
     };
   }, []);
 
-  // close the modal if the overlay is clicked (but not a child of it)
-  const overlayRef = useRef();
-  // const [mouseMemory, setMouseMemory] = useState<EventTarget | undefined>();
-
-  // @todo make this functionality conditional (?) as some potential future modals in the app might use it.
-  // The current payment modal should not be closed by clicking outside of it
-
-  // const handleOverlayClick = useCallback(
-  //   e => {
-  //     if (e.target === mouseMemory && e.target === overlayRef.current) {
-  //       close();
-  //     }
-  //   },
-  //   [mouseMemory]
-  // );
-
   return (
-    <ModalRoot
-      ref={overlayRef}
-      // onClick={handleOverlayClick}
-      // onMouseDown={e => setMouseMemory(e.target)}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.12 }}
-    >
+    <ModalRoot initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.12 }}>
       <ModalPanel
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
