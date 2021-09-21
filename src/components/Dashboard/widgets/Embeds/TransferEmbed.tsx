@@ -3,26 +3,13 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
+import { dispatch } from 'store/rematch';
 import { selectCurrentTokenInfo } from 'store/selectors';
 import { V } from 'util/theming';
-import { Colors } from 'vars/defines';
+import { Colors, ModalName } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
-import { WidgetContainer, WidgetTitle } from '../common';
-
-const TokenTransferWidgetRoot = styled(WidgetContainer)`
-  grid-column: span 2;
-  grid-row: span 2;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Content = styled.div`
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-`;
+import { EmbedContentContainer } from './common';
 
 const Holdings = styled.div`
   flex-grow: 1;
@@ -57,31 +44,37 @@ const Buttons = styled.div`
   justify-content: space-evenly;
 `;
 
-const TokenTransferWidget = () => {
+const openSendModal = options => dispatch.environment.SET_MODAL({ name: ModalName.SEND, options });
+const openReceiveModal = () => dispatch.environment.SET_MODAL_NAME(ModalName.RECEIVE);
+
+const TransferEmbed = () => {
   const tokenInfo = useSelector(selectCurrentTokenInfo);
   const isNFT = tokenInfo.supply === 1;
 
   return (
-    <TokenTransferWidgetRoot>
-      <WidgetTitle bottomBorder>Transfer</WidgetTitle>
-      <Content>
-        <Holdings>
-          {isNFT ? (
-            <HoldingsNFTMessage>This is an NFT. You own the only one!</HoldingsNFTMessage>
-          ) : (
-            <>
-              <HoldingsTitle>Holdings</HoldingsTitle>
-              <HoldingsValue>{tokenInfo.balance}</HoldingsValue>
-            </>
-          )}
-        </Holdings>
-        <Buttons>
-          <Button theme={Colors.TRANSPARENT}>Send</Button>
-          {!isNFT && <Button theme={Colors.TRANSPARENT}>Receive</Button>}
-        </Buttons>
-      </Content>
-    </TokenTransferWidgetRoot>
+    <EmbedContentContainer>
+      <Holdings>
+        {isNFT ? (
+          <HoldingsNFTMessage>This is an NFT. You own the only one!</HoldingsNFTMessage>
+        ) : (
+          <>
+            <HoldingsTitle>Holdings</HoldingsTitle>
+            <HoldingsValue>{tokenInfo.balance}</HoldingsValue>
+          </>
+        )}
+      </Holdings>
+      <Buttons>
+        <Button onClick={openSendModal} theme={Colors.TRANSPARENT}>
+          Send
+        </Button>
+        {!isNFT && (
+          <Button onClick={openReceiveModal} theme={Colors.TRANSPARENT}>
+            Receive
+          </Button>
+        )}
+      </Buttons>
+    </EmbedContentContainer>
   );
 };
 
-export default TokenTransferWidget;
+export default TransferEmbed;

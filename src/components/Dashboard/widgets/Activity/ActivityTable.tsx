@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { selectTransactions } from 'store/selectors';
 
 import { WidgetContainer, WidgetTitle } from '../common';
-import ActivityList from './ActivityList';
+import ActivityList from '../Embeds/ActivityList';
 
 const ActivityTableRoot = styled(WidgetContainer)`
   grid-column: span 3;

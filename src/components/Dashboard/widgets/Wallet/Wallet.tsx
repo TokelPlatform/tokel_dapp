@@ -11,8 +11,8 @@ import { formatDec } from 'util/helpers';
 import { Colors, ModalName } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
-import ActivityList from '../Activity/ActivityList';
 import { WidgetContainer, WidgetTitle } from '../common';
+import ActivityList from '../Embeds/ActivityList';
 
 const WalletRoot = styled(WidgetContainer)`
   grid-column: span 5;

@@ -3,12 +3,14 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectCurrentTokenInfo } from 'store/selectors';
+import { selectCurrentTokenInfo, selectTransactions } from 'store/selectors';
 
+import ActivityList from './widgets/Embeds/ActivityList';
+import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
+import TokenHistoryEmbed from './widgets/Embeds/TokenHistoryEmbed';
+import TransferEmbed from './widgets/Embeds/TransferEmbed';
 import StandardWidget from './widgets/StandardWidget';
 import TokenDetailWidget from './widgets/TokenDetailWidget';
-import TokenHistoryWidget from './widgets/TokenOwnership/TokenHistoryWidget';
-import TokenTransferWidget from './widgets/TokenOwnership/TokenTransferWidget';
 
 const TokenViewRoot = styled.div`
   flex: 1;
@@ -24,12 +26,17 @@ const TokenViewRoot = styled.div`
 const TokenView = (): ReactElement => {
   const tokenInfo = useSelector(selectCurrentTokenInfo);
   const isNFT = tokenInfo.supply === 1;
+  const txs = useSelector(selectTransactions);
 
   return (
     <TokenViewRoot>
       <TokenDetailWidget />
-      <TokenTransferWidget />
-      {isNFT ? <TokenHistoryWidget /> : <StandardWidget title="Activity">dingus</StandardWidget>}
+      <StandardWidget title="Transfers">
+        <TransferEmbed />
+      </StandardWidget>
+      <StandardWidget title={isNFT ? 'History' : 'Activity'}>
+        {isNFT ? <TokenHistoryEmbed /> : <ActivityList transactions={txs} fullView />}
+      </StandardWidget>
     </TokenViewRoot>
   );
 };
