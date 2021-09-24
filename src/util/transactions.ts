@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { toBitcoin } from 'satoshi-bitcoin';
 
 import { FEE, INFORMATION_N_A, TICKER, USD_VALUE } from 'vars/defines';
 
@@ -42,6 +43,21 @@ export const parseListTxsRpcTx = tx => {
       ...tx[0],
       value: Math.abs(tx[0].value),
       received: true,
+    },
+  ];
+};
+
+export const parseBlockchainTransaction = (tx, address: string) => {
+  const iAmSender = tx.senders.find(s => s === address);
+  return [
+    {
+      value: toBitcoin(tx.value),
+      from: tx.senders,
+      recipient: tx.recepients,
+      time: moment.unix(tx.time).format('DD/MM/YYYY H:mm:ss'),
+      txid: tx.txid,
+      height: tx.blockheight,
+      received: !iAmSender,
     },
   ];
 };

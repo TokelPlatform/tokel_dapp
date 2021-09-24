@@ -82,7 +82,8 @@ class NspvBitGoSingleton {
       this.wif = general.keyToWif(key, this.network);
       const keyPair = ECPair.fromWIF(this.wif, this.network);
       this.address = keyPair.getAddress();
-      this.pubkey = keyPair.getPublicKeyBuffer().toString('hex');
+      this.pubkeyBuffer = keyPair.getPublicKeyBuffer();
+      this.pubkey = this.pubkeyBuffer.toString('hex');
       return {
         wif: this.wif,
         address: this.address,
@@ -159,10 +160,9 @@ class NspvBitGoSingleton {
       const response = await ccutils.getNormalUtxos(this.peers, address, 0, 0);
       const ccUtxos = await ccutils.getCCUtxos(this.peers, address, 0, 0);
       return {
-        height: response.height,
+        height: response.nodeheight,
         skipcount: response.skipcount,
         filter: response.filter,
-        lastpeer: response.lastpeer,
         cc: ccUtxos,
         balance: response.total / SATOSHIS,
         numutxos: response.utxos.length,
@@ -201,11 +201,17 @@ class NspvBitGoSingleton {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async listtransactions(address) {
+  async listtransactions(address, skipCount = 0) {
     try {
-      const url = `https://tkltest.explorer.dexstats.info/insight-api-komodo/txs?address=${address}`;
-      const resp = await axios(url);
-      return resp.data;
+      const txIds = await ccutils.getTxids(this.peers, this.address, 0, skipCount, 30);
+      const ids = txIds.txids.map(tx => tx.txid.reverse().toString('hex'));
+      const uniqueIds = ids.filter((x, y) => ids.indexOf(x) === y);
+      return ccutils.getTransactionsManyDecoded(
+        this.peers,
+        this.network,
+        this.pubkeyBuffer,
+        uniqueIds
+      );
     } catch (e) {
       console.error(e);
       throw new Error(e);
