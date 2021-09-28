@@ -11,6 +11,11 @@ import { spendSuccess } from 'util/transactionsHelper';
 import { listTxs, listUnspent, messageTypes } from 'util/workerHelper';
 import { BITGO, ErrorMessages } from 'vars/defines';
 
+const commonError = () => {
+  ipcRenderer.send('reconnect', { restart: true });
+  dispatch.environment.SET_LOGIN_FEEDBACK('Trying to connect to nspv...');
+  dispatch.environment.UPDATE_NSPV_STATUS(false);
+};
 const BitgoOrchestrator = () => {
   const myaddress = useSelector(selectAccountAddress);
 
@@ -64,7 +69,7 @@ const BitgoOrchestrator = () => {
       // LIST UNSPENT
       if (payload.type === messageTypes.listUnspent) {
         if (payload.error) {
-          ipcRenderer.send('reconnect', { status: true });
+          commonError();
           return;
         }
         dispatch.wallet.SET_ASSETS(parseUnspent(payload.data.balance));
@@ -74,10 +79,18 @@ const BitgoOrchestrator = () => {
       // LISTTRANSACTIONS
       if (payload.type === messageTypes.listtransactions) {
         if (payload.error) {
-          ipcRenderer.send('reconnect', { status: true });
+          commonError();
           return;
         }
-        dispatch.account.SET_TXS(payload.data.txs);
+        dispatch.account.SET_TXS(payload.data);
+      }
+      // TOKEN V2 ADDRESS
+      if (payload.type === messageTypes.tokenV2address) {
+        if (payload.error) {
+          commonError();
+          return;
+        }
+        dispatch.account.SET_CC_DETAILS(payload.data);
       }
     });
     return () => {
