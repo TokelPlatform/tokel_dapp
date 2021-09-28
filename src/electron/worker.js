@@ -1,13 +1,7 @@
 const { parentPort } = require('worker_threads');
 const sb = require('satoshi-bitcoin');
 
-const {
-  ECPair,
-  ccutils,
-  general,
-  networks,
-  nspvConnect,
-} = require('./.yalc/@tokel/bitgo-komodo-cc-lib');
+const { ECPair, ccutils, general, networks, nspvConnect } = require('@tokel/bitgo-komodo-cc-lib');
 
 const SATOSHIS = 100000000;
 const network = networks.tkltest;
