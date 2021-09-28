@@ -34,13 +34,6 @@ coverage
 # OSX
 .DS_Store
 
-# exclude binary files from libnspv, but not everything
-include/binaries/libnspv/libwinpthread-1.dll
-include/binaries/libnspv/msvcrt.dll
-include/binaries/libnspv/nspv
-include/binaries/libnspv/nspv-linux
-include/binaries/libnspv/nspv-mac
-include/binaries/libnspv/nspv.exe
 
 # Random
 .eslintcache
@@ -49,3 +42,7 @@ __snapshots__
 *.css.d.ts
 *.sass.d.ts
 *.scss.d.ts
+
+# yalc for local package testing
+src/electron/.yalc
+src/electron/yalc.lock
