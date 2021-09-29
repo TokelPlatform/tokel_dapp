@@ -8,7 +8,6 @@ const network = networks.tkltest;
 class NspvBitGoSingleton {
   constructor() {
     this.network = network;
-    this.connected = false;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -18,20 +17,14 @@ class NspvBitGoSingleton {
     }
     try {
       this.peers = await nspvConnect({ network }, {});
-      this.connected = true;
-      console.log('asdasdas', this.peers);
-      return 1;
+      return true;
     } catch (e) {
-      this.connected = false;
-      console.log('asdasdas', this.peers);
-      console.log('Bitgo.connect(): ');
       console.log(e);
       return false;
     }
   }
 
   cleanup() {
-    this.connected = false;
     this.peers.close();
   }
 
@@ -127,7 +120,7 @@ class NspvBitGoSingleton {
    * }
    */
   async listUnspent(address) {
-    if (!this.connected) {
+    if (!this.peers || this.peers.length === 0) {
       throw new Error('Not connected');
     }
     const response = await ccutils.getNormalUtxos(this.peers, address, 0, 0);
@@ -144,13 +137,10 @@ class NspvBitGoSingleton {
   }
 
   async listUnspentTokens(address) {
-    if (!this.connected) {
+    if (!this.peers || this.peers.length === 0) {
       throw new Error('Not connected');
     }
-    const ccUtxos = await ccutils.getCCUtxos(this.peers, address);
-    return {
-      ...ccUtxos,
-    };
+    return ccutils.getCCUtxos(this.peers, address);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -177,7 +167,7 @@ class NspvBitGoSingleton {
 
   // eslint-disable-next-line class-methods-use-this
   async broadcast(txhex) {
-    if (!this.connected) {
+    if (!this.peers || this.peers.length === 0) {
       throw new Error('Not connected');
     }
     return new Promise((resolve, reject) => {
@@ -198,7 +188,7 @@ class NspvBitGoSingleton {
   // eslint-disable-next-line class-methods-use-this
   // eslint-disable-next-line consistent-return
   async spend({ address, amount }) {
-    if (!this.connected) {
+    if (!this.peers || this.peers.length === 0) {
       throw new Error('Not connected');
     }
     const txhex = await general.create_normaltx(

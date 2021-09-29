@@ -1,4 +1,4 @@
-import moment from 'moment';
+import fromUnixTime from 'date-fns/fromUnixTime';
 import { toBitcoin } from 'satoshi-bitcoin';
 
 import { FEE, INFORMATION_N_A, TICKER, USD_VALUE } from 'vars/defines';
@@ -54,7 +54,7 @@ export const parseBlockchainTransaction = (tx, address: string) => {
       value: toBitcoin(tx.value),
       from: tx.senders,
       recipient: tx.recepients,
-      time: moment.unix(tx.time).format('DD/MM/YYYY H:mm:ss'),
+      timestamp: tx.time,
       txid: tx.txid,
       height: tx.blockheight,
       received: !iAmSender,
@@ -78,13 +78,12 @@ export const parseSerializedTransaction = (tx, address) => {
   const recipients = getRecepients(tx);
   const senders = getSenders(tx);
   const iAmSender = senders.find(s => s === address);
-
   return [
     {
       value: Number(tx.vout[0].value),
       from: senders,
       recipient: iAmSender ? recipients : [address],
-      time: moment.unix(tx.time).format('DD/MM/YYYY H:mm:ss'),
+      timestamp: tx.time,
       txid: tx.txid,
       height: tx.blockheight,
       received: !iAmSender,
@@ -105,7 +104,8 @@ export const parseSpendTx = (newtx, from) => {
     // height: newtx.tx.height ?? 'TBA',
     value: newtx.value,
     recipient: newtx.recipient,
-    time: newtx.time,
+    senders: [from],
+    timestamp: newtx.time,
     from,
   };
 };

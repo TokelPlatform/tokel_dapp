@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import format from 'date-fns/format';
 import { ipcRenderer } from 'electron';
-import moment from 'moment';
 
 import { dispatch } from 'store/rematch';
 import { selectAccountAddress } from 'store/selectors';
@@ -45,7 +45,7 @@ const BitgoOrchestrator = () => {
             txid: payload.data.txid,
             recipient: payload.data.address,
             from: [myaddress],
-            time: moment().format('DD/MM/YYYY H:mm:ss'),
+            timestamp: Date.now(),
             value: Number(payload.data.amount),
             unconfirmed: true,
           });

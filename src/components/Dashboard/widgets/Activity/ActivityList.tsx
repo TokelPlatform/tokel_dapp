@@ -7,7 +7,7 @@ import receiveIcon from 'assets/receiveIcon.svg';
 import withdrawIcon from 'assets/withdrawIcon.svg';
 import { dispatch } from 'store/rematch';
 import { selectAccountAddress } from 'store/selectors';
-import { formatDec } from 'util/helpers';
+import { formatDate, formatDec } from 'util/helpers';
 import links from 'util/links';
 import { TxType } from 'util/nspvlib-mock';
 import { V } from 'util/theming';
@@ -90,7 +90,7 @@ const ActivityList = ({ transactions = [], fullView }: ActivityListProps): React
           <Transactions fullView={fullView}>
             <Column>
               <p style={{ width: '40px', margin: 0 }} className="datetime">
-                {tx.time ? tx.time : 'N/A'}
+                {tx.timestamp ? formatDate(tx.timestamp) : 'N/A'}
               </p>
             </Column>
             {fullView && (

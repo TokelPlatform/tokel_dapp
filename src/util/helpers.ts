@@ -1,3 +1,6 @@
+import format from 'date-fns/format';
+import fromUnixTime from 'date-fns/fromUnixTime';
+
 import { Config, WindowSize } from 'vars/defines';
 
 interface ResponsiveType {
@@ -48,3 +51,5 @@ export const stringifyAddresses = addresses => {
   }
   return `${addresses[0]}, ${addresses[1]} , ${addresses.length - 2} addresses`;
 };
+
+export const formatDate = timestamp => format(fromUnixTime(timestamp), 'dd/MM/yyyy H:mm:ss');
