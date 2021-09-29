@@ -145,8 +145,14 @@ class NspvBitGoSingleton {
 
   // eslint-disable-next-line class-methods-use-this
   async tokenv2infotokel(tokenid) {
-    // const token = await getTokenDetail(tokenid);
-    // return token;
+    console.log(tokenid);
+    try {
+      // const token = await getTokenDetail(tokenid);
+      // return token;
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this

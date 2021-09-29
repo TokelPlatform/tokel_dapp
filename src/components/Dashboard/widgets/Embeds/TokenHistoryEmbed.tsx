@@ -4,8 +4,8 @@ import { EmbedContentContainer } from './common';
 
 // const dummyData = [{ hello: 'darkness' }];
 
-const TokenHistoryEmbed = () => {
+const TokenHistory = () => {
   return <EmbedContentContainer>hello</EmbedContentContainer>;
 };
 
-export default TokenHistoryEmbed;
+export default TokenHistory;

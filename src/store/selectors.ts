@@ -67,15 +67,16 @@ export const selectCurrentAsset = createSelector(
 
 export const selectCurrentTokenBalance = createSelector(
   [selectChosenToken, selectTokenBalances],
-  (chosenToken, balances) => balances[chosenToken]
+  (chosenToken, balances) => (chosenToken ? balances[chosenToken] : null)
 );
 
 export const selectCurrentTokenDetail = createSelector(
   [selectChosenToken, selectTokenDetails],
-  (chosenToken, details) => details[chosenToken]
+  (chosenToken, details) => (chosenToken ? details[chosenToken] : null)
 );
 
 export const selectCurrentTokenInfo = createSelector(
   [selectChosenToken, selectTokenBalances, selectTokenDetails],
-  (chosenToken, balances, details) => ({ ...details[chosenToken], balance: balances[chosenToken] })
+  (chosenToken, balances, details) =>
+    chosenToken ? { ...details[chosenToken], balance: balances[chosenToken] } : null
 );

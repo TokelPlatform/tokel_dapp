@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
 
 import { selectChosenToken, selectKey } from 'store/selectors';
+import { V } from 'util/theming';
 import { login } from 'util/workerHelper';
 import { BITGO } from 'vars/defines';
 
@@ -17,7 +18,7 @@ const DashboardRoot = styled.div`
   height: 100%;
   width: 100%;
   flex: 1;
-  background-color: var(--color-black);
+  background-color: ${V.color.back};
   padding: 18px;
   margin: 0;
 `;

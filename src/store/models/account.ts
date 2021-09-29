@@ -3,7 +3,7 @@ import dotProp from 'dot-prop-immutable';
 
 import { TxType, UnspentType } from 'util/nspvlib-mock';
 import { tokenAddress, tokenInfoTokel } from 'util/token-mock';
-import { parseSerializedTransaction, parseSpendTx } from 'util/transactions';
+import { parseBlockchainTransaction, parseSpendTx } from 'util/transactions';
 import { getStillUnconfirmed } from 'util/transactionsHelper';
 
 import type { RootModel } from './models';

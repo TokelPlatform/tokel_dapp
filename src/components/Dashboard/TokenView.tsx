@@ -3,9 +3,8 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectCurrentTokenInfo, selectTransactions } from 'store/selectors';
+import { selectCurrentTokenDetail, selectTransactions } from 'store/selectors';
 
-import ActivityList from './widgets/Embeds/ActivityList';
 import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
 import TokenHistoryEmbed from './widgets/Embeds/TokenHistoryEmbed';
 import TransferEmbed from './widgets/Embeds/TransferEmbed';
@@ -24,8 +23,8 @@ const TokenViewRoot = styled.div`
 `;
 
 const TokenView = (): ReactElement => {
-  const tokenInfo = useSelector(selectCurrentTokenInfo);
-  const isNFT = tokenInfo.supply === 1;
+  const tokenInfo = useSelector(selectCurrentTokenDetail);
+  const isNFT = tokenInfo?.supply === 1;
   const txs = useSelector(selectTransactions);
 
   return (
@@ -35,7 +34,7 @@ const TokenView = (): ReactElement => {
         <TransferEmbed />
       </StandardWidget>
       <StandardWidget title={isNFT ? 'History' : 'Activity'}>
-        {isNFT ? <TokenHistoryEmbed /> : <ActivityList transactions={txs} fullView />}
+        {isNFT ? <TokenHistoryEmbed /> : <ActivityListEmbed transactions={txs} />}
       </StandardWidget>
     </TokenViewRoot>
   );

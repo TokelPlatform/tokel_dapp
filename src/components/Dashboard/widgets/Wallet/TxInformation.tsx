@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import link from 'assets/link.svg';
 import { DEFAULT_NULL_MODAL } from 'store/models/environment';
 import { dispatch } from 'store/rematch';
 import { formatDate, limitLength, stringifyAddresses } from 'util/helpers';

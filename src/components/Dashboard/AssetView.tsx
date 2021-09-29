@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectCurrentAsset } from 'store/selectors';
+import { selectTransactions } from 'store/selectors';
 
+import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
 import LineGraph from './widgets/LineGraph';
-import Wallet from './widgets/Wallet/Wallet';
+import StandardWidget from './widgets/StandardWidget';
 
 const AssetViewRoot = styled.div`
   flex: 1;
@@ -20,12 +21,17 @@ const AssetViewRoot = styled.div`
 `;
 
 const AssetView = (): ReactElement => {
-  const currentAsset = useSelector(selectCurrentAsset);
+  const txs = useSelector(selectTransactions);
 
   return (
     <AssetViewRoot>
       <LineGraph />
-      {currentAsset && <Wallet asset={currentAsset} />}
+      <StandardWidget title="Transfers">
+        <div>transfers</div>
+      </StandardWidget>
+      <StandardWidget title="History">
+        <ActivityListEmbed transactions={txs} />
+      </StandardWidget>
     </AssetViewRoot>
   );
 };

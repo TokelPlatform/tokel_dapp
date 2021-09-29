@@ -34,7 +34,7 @@ const TxConfirmation = ({
     <TxConfirmationRoot>
       {!txId && txStatus === 0 && (
         <div style={{ textAlign: 'center' }}>
-          <h2>Your transaction is being broadcasted</h2>
+          <h2>Your transaction is being broadcast</h2>
           <GrayLabel>Please allow up to a minute for the broadcast to come through.</GrayLabel>
           <GrayLabel>
             Please do not close the window while transaction is being processed.
