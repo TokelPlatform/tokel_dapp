@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import format from 'date-fns/format';
 import { ipcRenderer } from 'electron';
 
 import { dispatch } from 'store/rematch';

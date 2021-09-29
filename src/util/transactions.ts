@@ -1,4 +1,3 @@
-import fromUnixTime from 'date-fns/fromUnixTime';
 import { toBitcoin } from 'satoshi-bitcoin';
 
 import { FEE, INFORMATION_N_A, TICKER, USD_VALUE } from 'vars/defines';
