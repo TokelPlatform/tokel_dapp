@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 
 import link from 'assets/link.svg';
-import { limitLength, stringifyAddresses } from 'util/helpers';
+import { formatDate, limitLength, stringifyAddresses } from 'util/helpers';
 import links from 'util/links';
 import { Colors, INFORMATION_N_A } from 'vars/defines';
 
@@ -31,7 +31,7 @@ type TxConfirmationProps = {
   // usdValue?: number;
   txid: string;
   from: Array<string> | string;
-  time: string;
+  timestamp: number;
 };
 
 const TxInformation = ({
@@ -39,7 +39,7 @@ const TxInformation = ({
   amount,
   txid,
   from,
-  time,
+  timestamp,
   recipient,
 }: TxConfirmationProps): ReactElement => {
   // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
@@ -48,7 +48,7 @@ const TxInformation = ({
       <TxConfirmationRow label="From" value={from ? stringifyAddresses(from) : INFORMATION_N_A} />
       <TxConfirmationRow label="To" value={stringifyAddresses(recipient) ?? INFORMATION_N_A} />
       <Row>
-        <TxConfirmationRow label="Date and time" value={time ?? INFORMATION_N_A} />
+        <TxConfirmationRow label="Date and time" value={formatDate(timestamp) ?? INFORMATION_N_A} />
         <TxConfirmationRow label="Amount" value={`${amount} TKL`} />
       </Row>
 

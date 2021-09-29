@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ipcRenderer } from 'electron';
-import moment from 'moment';
 
 import { dispatch } from 'store/rematch';
 import { selectAccountAddress } from 'store/selectors';
@@ -11,6 +10,11 @@ import { spendSuccess } from 'util/transactionsHelper';
 import { listTxs, listUnspent, messageTypes } from 'util/workerHelper';
 import { BITGO, ErrorMessages } from 'vars/defines';
 
+const commonError = () => {
+  ipcRenderer.send('reconnect', { restart: true });
+  dispatch.environment.SET_LOGIN_FEEDBACK('Trying to connect to nspv...');
+  dispatch.environment.UPDATE_NSPV_STATUS(false);
+};
 const BitgoOrchestrator = () => {
   const myaddress = useSelector(selectAccountAddress);
 
@@ -40,7 +44,7 @@ const BitgoOrchestrator = () => {
             txid: payload.data.txid,
             recipient: payload.data.address,
             from: [myaddress],
-            time: moment().format('DD/MM/YYYY H:mm:ss'),
+            timestamp: Date.now(),
             value: Number(payload.data.amount),
             unconfirmed: true,
           });
@@ -64,7 +68,7 @@ const BitgoOrchestrator = () => {
       // LIST UNSPENT
       if (payload.type === messageTypes.listUnspent) {
         if (payload.error) {
-          ipcRenderer.send('reconnect', { status: true });
+          commonError();
           return;
         }
         dispatch.wallet.SET_ASSETS(parseUnspent(payload.data.balance));
@@ -74,10 +78,18 @@ const BitgoOrchestrator = () => {
       // LISTTRANSACTIONS
       if (payload.type === messageTypes.listtransactions) {
         if (payload.error) {
-          ipcRenderer.send('reconnect', { status: true });
+          commonError();
           return;
         }
-        dispatch.account.SET_TXS(payload.data.txs);
+        dispatch.account.SET_TXS(payload.data);
+      }
+      // TOKEN V2 ADDRESS
+      if (payload.type === messageTypes.tokenV2address) {
+        if (payload.error) {
+          commonError();
+          return;
+        }
+        dispatch.account.SET_CC_DETAILS(payload.data);
       }
     });
     return () => {

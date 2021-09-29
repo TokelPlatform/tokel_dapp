@@ -28,6 +28,7 @@ import MenuBuilder from './menu';
 // loading BitGo and Wasm Cryptoconditions in a separate process
 const workerPath = path.join(app.getAppPath(), 'worker.js');
 let bitgoWorker = new Worker(workerPath);
+bitgoWorker.postMessage({ type: 'connect' });
 
 export default class AppUpdater {
   constructor() {
@@ -191,12 +192,26 @@ app.on('activate', () => {
   if (mainWindow === null) createWindow();
 });
 
+const startBitgo = () => {
+  bitgoWorker = new Worker(workerPath);
+  bitgoWorker.postMessage({ type: 'connect' });
+};
+
+const stopBitgo = () => {
+  bitgoWorker.terminate();
+  bitgoWorker = undefined;
+};
 ipcMain.on('reconnect', async (_, arg) => {
+  if (arg.restart) {
+    stopBitgo();
+    startBitgo();
+    return 1;
+  }
   if (!arg.status) {
-    bitgoWorker.terminate();
+    stopBitgo();
     return mainWindow.webContents.send('reconnect', { status: false });
   }
-  bitgoWorker = new Worker(workerPath);
+  startBitgo();
   return mainWindow.webContents.send('reconnect', { status: true });
 });
 

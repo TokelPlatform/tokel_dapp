@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { toBitcoin } from 'satoshi-bitcoin';
 
 import { FEE, INFORMATION_N_A, TICKER, USD_VALUE } from 'vars/defines';
 
@@ -46,6 +46,21 @@ export const parseListTxsRpcTx = tx => {
   ];
 };
 
+export const parseBlockchainTransaction = (tx, address: string) => {
+  const iAmSender = tx.senders.find(s => s === address);
+  return [
+    {
+      value: toBitcoin(tx.value),
+      from: tx.senders,
+      recipient: tx.recepients,
+      timestamp: tx.time,
+      txid: tx.txid,
+      height: tx.blockheight,
+      received: !iAmSender,
+    },
+  ];
+};
+
 /**
  * tx samples https://kmd.explorer.dexstats.info/insight-api-komodo/tx/b0fd208b3653ddeced4eabc5af6d3f50442cf0b5d59c34db79b4091b3163d578
  * @param tx        {object}   komodo insight api json object
@@ -62,13 +77,12 @@ export const parseSerializedTransaction = (tx, address) => {
   const recipients = getRecepients(tx);
   const senders = getSenders(tx);
   const iAmSender = senders.find(s => s === address);
-
   return [
     {
       value: Number(tx.vout[0].value),
       from: senders,
       recipient: iAmSender ? recipients : [address],
-      time: moment.unix(tx.time).format('DD/MM/YYYY H:mm:ss'),
+      timestamp: tx.time,
       txid: tx.txid,
       height: tx.blockheight,
       received: !iAmSender,
@@ -89,7 +103,8 @@ export const parseSpendTx = (newtx, from) => {
     // height: newtx.tx.height ?? 'TBA',
     value: newtx.value,
     recipient: newtx.recipient,
-    time: newtx.time,
+    senders: [from],
+    timestamp: newtx.time,
     from,
   };
 };

@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
-import moment from 'moment';
 
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Spinner from 'components/_General/Spinner';
@@ -58,7 +57,7 @@ const TxConfirmation = ({
           from={[from]}
           recipient={recipient}
           currency={currency}
-          time={moment().format('DD/MM/YYYY H:mm:ss')}
+          timestamp={Date.now()}
         />
       )}
     </TxConfirmationRoot>

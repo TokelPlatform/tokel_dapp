@@ -2,7 +2,7 @@ import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 
 import { TxType, UnspentType } from 'util/nspvlib-mock';
-import { parseSerializedTransaction, parseSpendTx } from 'util/transactions';
+import { parseBlockchainTransaction, parseSpendTx } from 'util/transactions';
 import { getStillUnconfirmed } from 'util/transactionsHelper';
 
 import type { RootModel } from './models';
@@ -49,7 +49,7 @@ export default createModel<RootModel>()({
       }
       const unconfirmed = getStillUnconfirmed(txs, state.txs[state.address]);
       let newTxs = [...unconfirmed, ...txs];
-      newTxs = newTxs.map(tx => parseSerializedTransaction(tx, state.address));
+      newTxs = newTxs.map(tx => parseBlockchainTransaction(tx, state.address));
       return dotProp.set(state, `txs.${state.address}`, newTxs.flat());
     },
     ADD_NEW_TX: (state, transaction: TxType) =>
@@ -76,6 +76,10 @@ export default createModel<RootModel>()({
     SET_PUBKEY: (state, pubkey: string) => ({
       ...state,
       pubkey,
+    }),
+    SET_CC_DETAILS: (state, ccdetails: string) => ({
+      ...state,
+      ccdetails,
     }),
   },
   effects: dispatch => ({
