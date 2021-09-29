@@ -4,12 +4,11 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { upperFirst } from 'lodash-es';
 
-import { ReactComponent as CopyIcon } from 'assets/copy.svg';
-import { ReactComponent as LinkIcon } from 'assets/link.svg';
 import { selectCurrentTokenDetail } from 'store/selectors';
 import { Responsive } from 'util/helpers';
 import { V } from 'util/theming';
 
+import ExplorerLink from 'components/_General/ExplorerLink';
 import { WidgetContainer, WidgetDivider } from './common';
 
 const TokenDetailRoot = styled(WidgetContainer)`
@@ -68,41 +67,6 @@ const Metadata = styled.div`
   color: ${V.color.frontOp[50]};
 `;
 
-const ExplorerLinkRoot = styled.div`
-  display: flex;
-`;
-
-const Hash = styled.a`
-  color: ${V.color.cornflower};
-  margin-right: 8px;
-  &:hover {
-    color: ${V.color.cornflower};
-  }
-`;
-
-const IconButton = styled.div`
-  height: 20px;
-  width: 20px;
-  margin: 0 4px;
-  cursor: pointer;
-  stroke: ${V.color.frontOp[50]};
-`;
-
-const ExplorerLink = ({ hash }: { hash: string }) => {
-  return (
-    <ExplorerLinkRoot>
-      <Hash>{hash}</Hash>
-      {/* <StyledCopyIcon /> */}
-      <IconButton>
-        <CopyIcon />
-      </IconButton>
-      <IconButton>
-        <LinkIcon />
-      </IconButton>
-    </ExplorerLinkRoot>
-  );
-};
-
 const MetadataItemRoot = styled.div`
   display: flex;
 `;
@@ -153,28 +117,32 @@ const MetadataItem = ({ name, value }: { name: string; value: unknown }) => (
 );
 
 const TokenDetail = () => {
-  const tokenInfo = useSelector(selectCurrentTokenDetail);
+  const tokenDetail = useSelector(selectCurrentTokenDetail);
 
   return (
     <TokenDetailRoot>
       <Header>
-        <Name>{tokenInfo.name}</Name>
-        <ExplorerLink hash={tokenInfo.tokenid} />
+        <Name>{tokenDetail.name}</Name>
+        <ExplorerLink txid={tokenDetail.tokenid} />
       </Header>
       <Content>
         <MetadataContent>
           <Description>
-            {tokenInfo.description}
-            <ContentLink target="_blank" rel="noopener noreferrer" href={tokenInfo.dataAsJson.url}>
-              {tokenInfo.dataAsJson.url}
+            {tokenDetail.description}
+            <ContentLink
+              target="_blank"
+              rel="noopener noreferrer"
+              href={tokenDetail.dataAsJson.url}
+            >
+              {tokenDetail.dataAsJson.url}
             </ContentLink>
           </Description>
           <Metadata>
-            <MetadataItem name="Supply" value={tokenInfo.supply} />
-            <MetadataItem name="Creator" value={tokenInfo.owner} />
-            <MetadataItem name="Royalty" value={tokenInfo.dataAsJson.royalty} />
+            <MetadataItem name="Supply" value={tokenDetail.supply} />
+            <MetadataItem name="Creator" value={tokenDetail.owner} />
+            <MetadataItem name="Royalty" value={tokenDetail.dataAsJson.royalty} />
             <WidgetDivider />
-            {Object.entries(tokenInfo.dataAsJson?.arbitraryAsJson ?? []).map(([k, v]) => (
+            {Object.entries(tokenDetail.dataAsJson?.arbitraryAsJson ?? []).map(([k, v]) => (
               <MetadataItem key={k} name={k} value={v} />
             ))}
           </Metadata>
@@ -183,7 +151,7 @@ const TokenDetail = () => {
           <ImageFrame>
             <TokenImage
               alt="Big Buck Bunny"
-              src={tokenInfo.dataAsJson.url}
+              src={tokenDetail.dataAsJson.url}
               title="No video playback capabilities, please download the video below"
             />
           </ImageFrame>
