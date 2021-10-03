@@ -3,12 +3,11 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectAssets, selectChosenAsset } from 'store/selectors';
+import { selectTransactions } from 'store/selectors';
 
-import ActivityTable from './widgets/Activity/ActivityTable';
+import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
 import LineGraph from './widgets/LineGraph';
-import PieChart from './widgets/PieChart';
-import Wallet from './widgets/Wallet/Wallet';
+import StandardWidget from './widgets/StandardWidget';
 
 const AssetViewRoot = styled.div`
   flex: 1;
@@ -22,14 +21,17 @@ const AssetViewRoot = styled.div`
 `;
 
 const AssetView = (): ReactElement => {
-  const chosenAsset = useSelector(selectChosenAsset);
-  const theAsset = useSelector(selectAssets).find(item => item.ticker === chosenAsset);
+  const txs = useSelector(selectTransactions);
+
   return (
     <AssetViewRoot>
       <LineGraph />
-      {!chosenAsset && <ActivityTable />}
-      {!chosenAsset && <PieChart />}
-      {chosenAsset && theAsset && <Wallet asset={theAsset} />}
+      <StandardWidget title="Transfers">
+        <div>transfers</div>
+      </StandardWidget>
+      <StandardWidget title="History">
+        <ActivityListEmbed transactions={txs} />
+      </StandardWidget>
     </AssetViewRoot>
   );
 };

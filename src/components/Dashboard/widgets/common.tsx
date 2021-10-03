@@ -1,18 +1,25 @@
 import styled from '@emotion/styled';
 
+import { V } from 'util/theming';
+
 export const WidgetContainer = styled.div`
-  background-color: var(--color-almostBlack);
-  border: 1px solid var(--color-lighterBlack);
-  border-radius: var(--border-radius);
+  background-color: ${V.color.back};
+  border: 1px solid ${V.color.backSofter};
+  border-radius: ${V.size.borderRadius};
 `;
 
-export const WidgetTitle = styled.h2`
+export const WidgetTitle = styled.h2<{ bottomBorder?: boolean }>`
   padding-left: 28px;
   padding-top: 28px;
   padding-bottom: 1rem;
   margin: 0;
-  color: var(--color-white);
+  color: ${V.color.front};
   line-height: 24px;
+  border-bottom: 1px solid ${p => (p.bottomBorder ? V.color.backSoftest : 'transparent')};
+`;
+
+export const WidgetDivider = styled.hr`
+  border: 1px solid ${V.color.backSoftest};
 `;
 
 export const GrayLabel = styled.p`

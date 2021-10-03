@@ -15,7 +15,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@tokel/bitgo-komodo-cc-lib": "0.1.32",
+    "@tokel/bitgo-komodo-cc-lib": "0.1.35",
     "axios": "0.21.4",
     "satoshi-bitcoin": "1.0.5"
   }

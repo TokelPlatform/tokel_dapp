@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectModal, selectView } from 'store/selectors';
+import { selectModalName, selectView } from 'store/selectors';
 import links from 'util/links';
 import { TOPBAR_HEIGHT, ViewType } from 'vars/defines';
 
@@ -61,13 +61,13 @@ const renderView = (viewType: ViewType[keyof ViewType]) => {
 
 const Home = () => {
   const currentView = useSelector(selectView);
-  const modalProps = modals[useSelector(selectModal)];
+  const modalProps = modals[useSelector(selectModalName)];
 
   return (
     <HomeRoot>
       <SideMenu />
       <ViewWrapper>{renderView(currentView)}</ViewWrapper>
-      {modalProps && <Modal title={modalProps.title}>{modalProps.children}</Modal>}
+      {modalProps && <Modal title={modalProps.title}>{modalProps.component}</Modal>}
     </HomeRoot>
   );
 };

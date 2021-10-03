@@ -1,14 +1,9 @@
 import React, { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
-import parse from 'html-react-parser';
-import { identicon } from 'minidenticons';
 
 import tokelIcon from 'assets/logo.svg';
-import { selectAccountAddress } from 'store/selectors';
-
-import ProgressBar from 'components/_General/ProgressBar';
+import { V } from 'util/theming';
 
 type PortfolioItemRootProps = { selected: boolean };
 
@@ -53,11 +48,24 @@ const Amount = styled.p`
   margin: 0;
 `;
 
+const NFTBadge = styled.div`
+  padding: 0 6px;
+  border: 1px solid ${V.color.frontOp[50]};
+  border-radius: ${V.size.borderRadius};
+  &:before {
+    font-size: ${V.font.pSmaller};
+    color: ${V.color.cornflower};
+    content: 'NFT';
+    position: relative;
+    top: -1px;
+  }
+`;
+
 type PortfolioItemProps = {
   name: string;
-  subtitle: string;
-  percentage?: number;
-  header?: boolean;
+  subtitle?: string;
+  icon?: boolean;
+  nft?: boolean;
   selected?: boolean;
   onClick?: () => void;
 };
@@ -65,35 +73,25 @@ type PortfolioItemProps = {
 const PortfolioItem = ({
   name,
   subtitle,
-  percentage,
-  header,
+  icon,
+  nft,
   selected,
   onClick,
 }: PortfolioItemProps): ReactElement => {
-  const address = useSelector(selectAccountAddress);
   return (
     <PortfolioItemRoot selected={selected} onClick={onClick}>
-      <IconWrapper>
-        {header ? (
-          parse(identicon(address || 'sample'))
-        ) : (
+      {icon && (
+        <IconWrapper>
           <img alt={`${name}-icon`} src={tokelIcon} />
-        )}
-      </IconWrapper>
+        </IconWrapper>
+      )}
       <Information>
         <Name>{name}</Name>
         <Amount>{subtitle}</Amount>
-        {percentage && <ProgressBar percentage={percentage} />}
       </Information>
+      {nft && <NFTBadge />}
     </PortfolioItemRoot>
   );
-};
-
-PortfolioItem.defaultProps = {
-  percentage: null,
-  header: false,
-  selected: false,
-  onClick: () => 'me clickit',
 };
 
 export default PortfolioItem;

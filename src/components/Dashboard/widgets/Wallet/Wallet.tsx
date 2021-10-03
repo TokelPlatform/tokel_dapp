@@ -11,8 +11,8 @@ import { formatDec } from 'util/helpers';
 import { Colors, ModalName } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
-import ActivityList from '../Activity/ActivityList';
 import { WidgetContainer, WidgetTitle } from '../common';
+import ActivityListEmbed from '../Embeds/ActivityListEmbed';
 
 const WalletRoot = styled(WidgetContainer)`
   grid-column: span 5;
@@ -140,7 +140,7 @@ const Wallet = ({ asset }: WalletProps): ReactElement => {
             </ButtonWrapper>
           </div>
         )}
-        {active === 'Recent Activity' && <ActivityList fullView transactions={txs} />}
+        {active === 'Recent Activity' && <ActivityListEmbed transactions={txs} />}
       </WalletContainer>
     </WalletRoot>
   );
