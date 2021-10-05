@@ -2,12 +2,10 @@ import React, { ReactElement, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
-import { ipcRenderer } from 'electron';
 
 import { selectChosenToken, selectKey } from 'store/selectors';
+import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { V } from 'util/theming';
-import { login } from 'util/workerHelper';
-import { BITGO } from 'vars/defines';
 
 import AssetView from './AssetView';
 import Portfolio from './Portfolio/Portfolio';
@@ -30,7 +28,9 @@ const Dashboard = (): ReactElement => {
   const chosenToken = useSelector(selectChosenToken);
 
   useEffect(() => {
-    const txInterval = setInterval(() => ipcRenderer.send(BITGO, login(key)), TX_FETCH_INTERVAL_MS);
+    const txInterval = setInterval(() => {
+      sendToBitgo(BitgoAction.LOGIN, { key });
+    }, TX_FETCH_INTERVAL_MS);
     return () => {
       clearInterval(txInterval);
     };

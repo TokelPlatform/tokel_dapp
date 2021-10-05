@@ -2,13 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
-import { ipcRenderer } from 'electron';
 
 import password from 'assets/password.svg';
 import { dispatch } from 'store/rematch';
 import { selectEnvError, selectLoginFeedback } from 'store/selectors';
-import { login } from 'util/workerHelper';
-import { BITGO, ErrorMessages } from 'vars/defines';
+import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
+import { ErrorMessages } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import ErrorMessage from 'components/_General/ErrorMessage';
@@ -49,6 +48,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
   const [loginValue, setloginValue] = useState('');
   const [error, setError] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
+
   const loginFeedback = useSelector(selectLoginFeedback);
   const envError = useSelector(selectEnvError);
 
@@ -58,7 +58,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       setError(ErrorMessages.ENTER_WIF);
       return;
     }
-    ipcRenderer.send(BITGO, login(loginValue));
+    sendToBitgo(BitgoAction.LOGIN, { key: loginValue });
   }, [loginValue]);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
     if (loginFeedback) {
       setShowSpinner(true);
     }
-  }, [loginFeedback, showSpinner]);
+  }, [loginFeedback]);
 
   return (
     <LoginFormRoot>

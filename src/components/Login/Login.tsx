@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
-import { ipcRenderer } from 'electron';
 
 import { selectKey, selectSeed } from 'store/selectors';
-import { getNewAddress, login } from 'util/workerHelper';
-import { BITGO, TOPBAR_HEIGHT } from 'vars/defines';
+import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
+import { TOPBAR_HEIGHT } from 'vars/defines';
 
 import Logo from 'components/_General/Logo';
 import Spinner from 'components/_General/Spinner';
@@ -56,7 +55,7 @@ const Login = () => {
 
   useEffect(() => {
     if (step === STEP2) {
-      ipcRenderer.send(BITGO, getNewAddress());
+      sendToBitgo(BitgoAction.NEW_ADDRESS);
     }
   }, [step]);
 
@@ -95,7 +94,7 @@ const Login = () => {
           forward={() => {
             forward();
             setShowSpinner(true);
-            ipcRenderer.send(BITGO, login(key));
+            sendToBitgo(BitgoAction.LOGIN, { key });
           }}
         />
       )}

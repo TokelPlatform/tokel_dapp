@@ -3,15 +3,29 @@ const sb = require('satoshi-bitcoin');
 
 const { ECPair, ccutils, general, networks, nspvConnect } = require('@tokel/bitgo-komodo-cc-lib');
 
+const BitgoAction = {
+  RECONNECT: 'reconnect',
+  NEW_ADDRESS: 'new_address',
+  LOGIN: 'login',
+  LOGOUT: 'logout',
+  LIST_UNSPENT: 'list_unspent',
+  LIST_TRANSACTIONS: 'list_transactions',
+  SPEND: 'spend',
+  BROADCAST: 'broadcast',
+  TOKEN_V2_ADDRESS: 'token_v2_address',
+  TOKEN_V2_INFO_TOKEL: 'token_v2_info_tokel',
+};
+
 const SATOSHIS = 100000000;
 const network = networks.tkltest;
-class NspvBitGoSingleton {
+
+class BitgoSingleton {
   constructor() {
     this.network = network;
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async connect() {
+  async [BitgoAction.RECONNECT]() {
     if (process.env.NODE_ENV === 'test') {
       return 'singleton created';
     }
@@ -24,13 +38,13 @@ class NspvBitGoSingleton {
     }
   }
 
-  cleanup() {
-    this.peers.close();
-  }
+  // cleanup() {
+  //   this.peers.close();
+  // }
 
-  get() {
-    return this.peers;
-  }
+  // get() {
+  //   return this.peers;
+  // }
 
   /**
    * Identifying key can WIF or SEED generated on creating the address
@@ -44,7 +58,8 @@ class NspvBitGoSingleton {
    *    result: "success"
    *  }
    */
-  async login(key) {
+  async [BitgoAction.LOGIN]({ key }) {
+    console.log(key);
     try {
       this.wif = general.keyToWif(key, this.network);
       const keyPair = ECPair.fromWIF(this.wif, this.network);
@@ -63,7 +78,7 @@ class NspvBitGoSingleton {
     }
   }
 
-  logout() {
+  async [BitgoAction.LOGOUT]() {
     this.wif = null;
     this.address = null;
     this.pubkey = null;
@@ -79,7 +94,7 @@ class NspvBitGoSingleton {
       wif: 'Uq6Hy34eqi3W35q8qY8BGqTp8Lr2WWAjcFftJ2YfvBh5UseskYUM',
     };
   */
-  async getNewAddress() {
+  async [BitgoAction.NEW_ADDRESS]() {
     const seed = general.getSeedPhrase(256);
     const wif = general.keyToWif(seed, this.network);
     const keyPair = ECPair.fromWIF(wif, this.network);
@@ -119,7 +134,7 @@ class NspvBitGoSingleton {
    *  "lastpeer" : 136.243.58.134:7770
    * }
    */
-  async listUnspent(address) {
+  async [BitgoAction.LIST_UNSPENT]({ address }) {
     if (!this.peers || this.peers.length === 0) {
       throw new Error('Not connected');
     }
@@ -136,16 +151,16 @@ class NspvBitGoSingleton {
     };
   }
 
-  async listUnspentTokens(address) {
-    if (!this.peers || this.peers.length === 0) {
-      throw new Error('Not connected');
-    }
-    return ccutils.getCCUtxos(this.peers, address);
-  }
+  // async listUnspentTokens(address) {
+  //   if (!this.peers || this.peers.length === 0) {
+  //     throw new Error('Not connected');
+  //   }
+  //   return ccutils.getCCUtxos(this.peers, address);
+  // }
 
   // eslint-disable-next-line class-methods-use-this
-  async tokenv2infotokel(tokenid) {
-    console.log(tokenid);
+  async [BitgoAction.TOKEN_V2_INFO_TOKEL](tokenId) {
+    console.log(tokenId);
     try {
       // const token = await getTokenDetail(tokenid);
       // return token;
@@ -156,11 +171,11 @@ class NspvBitGoSingleton {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async listtransactions(address, skipCount = 0) {
+  async [BitgoAction.LIST_TRANSACTIONS]({ address, skipCount = 0 }) {
     if (!this.peers) {
       throw new Error('Not connected');
     }
-    const txIds = await ccutils.getTxids(this.peers, this.address, 0, skipCount, 30);
+    const txIds = await ccutils.getTxids(this.peers, address, 0, skipCount, 30);
     const ids = txIds.txids.map(tx => tx.txid.reverse().toString('hex'));
     const uniqueIds = ids.filter((x, y) => ids.indexOf(x) === y);
     return ccutils.getTransactionsManyDecoded(
@@ -172,14 +187,14 @@ class NspvBitGoSingleton {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async broadcast(txhex) {
+  async [BitgoAction.BROADCASH]({ txHex }) {
     if (!this.peers || this.peers.length === 0) {
       throw new Error('Not connected');
     }
     return new Promise((resolve, reject) => {
       this.peers.nspvBroadcast(
         '0000000000000000000000000000000000000000000000000000000000000000',
-        txhex,
+        txHex,
         { numPeers: 8 },
         (err, result) => {
           if (err) {
@@ -193,18 +208,18 @@ class NspvBitGoSingleton {
 
   // eslint-disable-next-line class-methods-use-this
   // eslint-disable-next-line consistent-return
-  async spend({ address, amount }) {
+  async [BitgoAction.SPEND]({ address, amount }) {
     if (!this.peers || this.peers.length === 0) {
       throw new Error('Not connected');
     }
-    const txhex = await general.create_normaltx(
+    const txHex = await general.create_normaltx(
       this.wif,
       address,
       sb.toSatoshi(Number(amount)),
       this.network,
       this.peers
     );
-    const txResult = await this.broadcast(txhex);
+    const txResult = await this.broadcast(txHex);
     return {
       ...txResult,
       address,
@@ -213,16 +228,17 @@ class NspvBitGoSingleton {
   }
 }
 
-const bitgo = new NspvBitGoSingleton();
+const bitgo = new BitgoSingleton();
 
 parentPort.on('message', msg => {
-  if (['cleanup', 'get'].indexOf(msg.type) !== -1) {
-    const data = bitgo[msg.type](msg.payload);
-    return parentPort.postMessage({ type: msg.type, data });
-  }
+  console.group('BITGO (WORKER)');
+  console.log(msg);
+  console.groupEnd();
   return bitgo[msg.type](msg.payload)
     .then(data => {
-      if (data) return parentPort.postMessage({ type: msg.type, data });
+      if (data) {
+        return parentPort.postMessage({ type: msg.type, data });
+      }
       return null;
     })
     .catch(e => {

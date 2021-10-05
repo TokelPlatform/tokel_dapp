@@ -22,13 +22,14 @@ import installExtension, {
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
-import { WindowControl } from '../vars/defines';
+import { BitgoAction } from '../util/bitgoHelper';
+import { BITGO_IPC_ID, WindowControl } from '../vars/defines';
 import MenuBuilder from './menu';
 
 // loading BitGo and Wasm Cryptoconditions in a separate process
 const workerPath = path.join(app.getAppPath(), 'worker.js');
-let bitgoWorker = new Worker(workerPath);
-bitgoWorker.postMessage({ type: 'connect' });
+const bitgoWorker = new Worker(workerPath);
+bitgoWorker.postMessage({ type: BitgoAction.RECONNECT });
 
 export default class AppUpdater {
   constructor() {
@@ -58,6 +59,38 @@ const installExtensions = async () => {
     forceDownload: false,
   });
 };
+
+// bitgo events from renderer
+ipcMain.on(BITGO_IPC_ID, (_, msg) => {
+  console.group('BITGO (RENDERER -> [MAIN] -> WORKER)');
+  console.log(msg);
+  console.groupEnd();
+  bitgoWorker.postMessage(msg);
+  // if (msg === BitgoAction.RECONNECT) {
+  //   bitgoWorker.terminate();
+  //   bitgoWorker = new Worker(workerPath);
+  //   bitgoWorker.postMessage({ type: BitgoAction.RECONNECT });
+  // } else {
+  //   bitgoWorker.postMessage(msg);
+  // }
+});
+
+// window events from renderer
+ipcMain.on('window-controls', async (_, arg) => {
+  if (mainWindow) {
+    if (arg === WindowControl.MIN) {
+      mainWindow.minimize();
+    } else if (arg === WindowControl.MAX) {
+      if (mainWindow.isMaximized()) {
+        mainWindow.unmaximize();
+      } else {
+        mainWindow.maximize();
+      }
+    } else if (arg === WindowControl.CLOSE) {
+      mainWindow.close();
+    }
+  }
+});
 
 const createWindow = async () => {
   if (isDev || process.env.DEBUG_PROD === 'true') {
@@ -108,18 +141,12 @@ const createWindow = async () => {
     }
   });
 
-  // pass messages back and forth to the bitgo worker
-  ipcMain.on('bitgo', (_, msg) => {
-    console.group('IPCMAIN ON');
-    console.log(msg);
-    console.groupEnd();
-    bitgoWorker.postMessage(msg);
-  });
+  // pass messages to renderer from bitgo worker
   bitgoWorker.on('message', msg => {
-    console.group('BITGO ON');
+    console.group('BITGO (WORKER -> [MAIN] -> RENDERER)');
     console.log(msg);
     console.groupEnd();
-    mainWindow.webContents.send('bitgo', msg);
+    mainWindow.webContents.send(BITGO_IPC_ID, msg);
   });
 
   const menuBuilder = new MenuBuilder(mainWindow);
@@ -172,10 +199,6 @@ autoUpdater.on('update-downloaded', data => {
   mainWindow?.webContents.send('update-downloaded', data);
 });
 
-/**
- * Add event listeners...
- */
-
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
@@ -184,50 +207,10 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.whenReady().then(createWindow).catch(console.log);
-
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
 });
 
-const startBitgo = () => {
-  bitgoWorker = new Worker(workerPath);
-  bitgoWorker.postMessage({ type: 'connect' });
-};
-
-const stopBitgo = () => {
-  bitgoWorker.terminate();
-  bitgoWorker = undefined;
-};
-ipcMain.on('reconnect', async (_, arg) => {
-  if (arg.restart) {
-    stopBitgo();
-    startBitgo();
-    return 1;
-  }
-  if (!arg.status) {
-    stopBitgo();
-    return mainWindow.webContents.send('reconnect', { status: false });
-  }
-  startBitgo();
-  return mainWindow.webContents.send('reconnect', { status: true });
-});
-
-// custom events
-ipcMain.on('window-controls', async (_, arg) => {
-  if (mainWindow) {
-    if (arg === WindowControl.MIN) {
-      mainWindow.minimize();
-    } else if (arg === WindowControl.MAX) {
-      if (mainWindow.isMaximized()) {
-        mainWindow.unmaximize();
-      } else {
-        mainWindow.maximize();
-      }
-    } else if (arg === WindowControl.CLOSE) {
-      mainWindow.close();
-    }
-  }
-});
+app.whenReady().then(createWindow).catch(console.log);
