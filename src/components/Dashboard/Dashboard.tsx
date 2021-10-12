@@ -16,7 +16,7 @@ const DashboardRoot = styled.div`
   height: 100%;
   width: 100%;
   flex: 1;
-  background-color: ${V.color.back};
+  background-color: ${V.color.backHard};
   padding: 18px;
   margin: 0;
 `;

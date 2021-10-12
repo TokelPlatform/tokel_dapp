@@ -62,10 +62,11 @@ type TriCellProps = {
   icon?: string;
   primary?: string;
   secondary?: string;
+  justify?: 'flex-start' | 'center' | 'flex-end';
 };
 
-const TriCell = ({ icon, primary, secondary }: TriCellProps) => (
-  <TriCellRoot>
+const TriCell = ({ icon, primary, secondary, justify }: TriCellProps) => (
+  <TriCellRoot style={{ justifyContent: justify ?? 'flex-start' }}>
     {icon && <TriCellIcon width="20px" src={icon} alt={icon} />}
     <TriCellInfo>
       <Primary>{primary}</Primary>
@@ -96,7 +97,7 @@ const ActivityList = ({ transactions = [] }: ActivityListProps): ReactElement =>
           return (
             <Transaction key={tx.txid + tx.received} onClick={() => handleTxDetailView(tx)}>
               <TriCell
-                icon={tx.unconfirmed ? clockIcon : checkIcon}
+                icon={tx.unconfirmed ? checkIcon : clockIcon}
                 primary={times[0]}
                 secondary={times[1]}
               />
@@ -104,10 +105,12 @@ const ActivityList = ({ transactions = [] }: ActivityListProps): ReactElement =>
                 icon={tx.received ? receiveIcon : withdrawIcon}
                 primary={tx.received ? 'Received' : 'Sent'}
                 secondary={tx.received ? 'Deposit' : 'Withdrawal'}
+                justify="center"
               />
               <TriCell
                 primary={` ${tx.received ? '+' : '-'}${formatDec(tx.value)} ${TICKER}`}
                 secondary={(tx.value * tokelPriceUSD).toFixed(2)}
+                justify="flex-end"
               />
             </Transaction>
           );
