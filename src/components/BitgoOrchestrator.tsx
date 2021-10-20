@@ -90,6 +90,8 @@ const BitgoOrchestrator = () => {
       // LIST UNSPENT
       if (payload.type === BitgoAction.LIST_UNSPENT) {
         dispatch.wallet.SET_ASSETS(parseUnspent(payload.data.balance));
+        dispatch.wallet.SET_TOKEN_BALANCES(payload.data.tokens);
+        dispatch.environment.getTokenDetail(payload.data.tokens);
         dispatch.account.SET_UNSPENT(payload.data);
         return;
       }
@@ -101,6 +103,10 @@ const BitgoOrchestrator = () => {
       // TOKEN V2 ADDRESS
       if (payload.type === BitgoAction.TOKEN_V2_ADDRESS) {
         dispatch.account.SET_CC_DETAILS(payload.data);
+      }
+      // TOKEN_V2_INFO_TOKEL
+      if (payload.type === BitgoAction.TOKEN_V2_INFO_TOKEL) {
+        dispatch.environment.SET_TOKEN_DETAIL(payload.data);
       }
     });
     return () => {

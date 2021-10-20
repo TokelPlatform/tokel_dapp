@@ -37,7 +37,6 @@ export interface UtxoType {
 
 export interface UnspentType {
   result: string;
-  // utxos: Array<UtxoType>;
   address: string;
   height: number;
   numutxos: number;
@@ -45,6 +44,13 @@ export interface UnspentType {
   skipcount: number;
   filter: number;
   lastpeer: string;
+  tokens: { [key: string]: number };
+}
+export interface TokenUtxoDataType {
+  evalcode: number;
+  version: number;
+  pubkeys: [string];
+  tokenid: string;
 }
 
 export interface TxType {
@@ -73,5 +79,6 @@ export const listUnspent = async (fail = false): Promise<UnspentType> => {
     skipcount: 0,
     filter: 0,
     lastpeer: '136.243.58.134:7770',
+    tokens: { '123123': 1 },
   };
 };

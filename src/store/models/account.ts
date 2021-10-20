@@ -2,7 +2,6 @@ import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 
 import { TxType, UnspentType } from 'util/nspvlib-mock';
-import { tokenAddress, tokenInfoTokel } from 'util/token-mock';
 import { parseBlockchainTransaction, parseSpendTx } from 'util/transactions';
 import { getStillUnconfirmed } from 'util/transactionsHelper';
 
@@ -88,14 +87,6 @@ export default createModel<RootModel>()({
       this.SET_KEY(data.wif);
       this.SET_PUBKEY(data.pubkey);
       this.SET_ADDRESS(data.address);
-      // get token balances
-      const tokenBalances = await tokenAddress(data.address);
-      dispatch.wallet.SET_TOKEN_BALANCES(tokenBalances.balances);
-      // get token detail
-      Object.keys(tokenBalances.balances).map(async tokenId => {
-        const detail = await tokenInfoTokel(tokenId);
-        dispatch.environment.SET_TOKEN_DETAIL(tokenId, detail);
-      });
     },
     logout() {
       dispatch({ type: 'RESET_APP' });

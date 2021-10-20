@@ -27,7 +27,7 @@ export const selectEnvError = (state: RootState) => state.environment.error ?? n
 export const selectAssets = (state: RootState) => state.wallet.assets;
 
 export const selectChosenToken = (state: RootState) => state.wallet.chosenToken;
-export const selectTokenBalances = (state: RootState) => state.wallet.tokenBalances;
+export const selectTokenBalances = (state: RootState) => state.account.unspent.tokens ?? [];
 export const selectActiveTokenIds = (state: RootState) => Object.keys(state.wallet.tokenBalances);
 
 export const selectTokenFilterId = (state: RootState) => state.wallet.tokenFilterId;

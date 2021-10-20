@@ -1,7 +1,14 @@
 const { parentPort } = require('worker_threads');
 const sb = require('satoshi-bitcoin');
 
-const { ECPair, ccutils, general, networks, nspvConnect } = require('@tokel/bitgo-komodo-cc-lib');
+const {
+  ECPair,
+  ccutils,
+  general,
+  networks,
+  nspvConnect,
+  cctokensv2,
+} = require('@tokel/bitgo-komodo-cc-lib');
 
 const BitgoAction = {
   RECONNECT: 'reconnect',
@@ -139,31 +146,35 @@ class BitgoSingleton {
       throw new Error('Not connected');
     }
     const response = await ccutils.getNormalUtxos(this.peers, address, 0, 0);
-    const ccUtxos = await ccutils.getCCUtxos(this.peers, address, 0, 0);
+    const ccUtxos = await cctokensv2.getTokensForPubkey(
+      this.network,
+      this.peers,
+      this.pubkeyBuffer,
+      0,
+      0
+    );
+    const res = {};
+    ccUtxos.forEach(utxo => {
+      console.log(utxo);
+      const id = utxo.tokendata.tokenid.reverse().toString('hex');
+      res[id] = utxo.satoshis;
+    });
     return {
       height: response.nodeheight,
       skipcount: response.skipcount,
       filter: response.filter,
-      cc: ccUtxos,
       balance: response.total / SATOSHIS,
       numutxos: response.utxos.length,
       address: this.address,
+      tokens: res,
     };
   }
 
-  // async listUnspentTokens(address) {
-  //   if (!this.peers || this.peers.length === 0) {
-  //     throw new Error('Not connected');
-  //   }
-  //   return ccutils.getCCUtxos(this.peers, address);
-  // }
-
   // eslint-disable-next-line class-methods-use-this
-  async [BitgoAction.TOKEN_V2_INFO_TOKEL](tokenId) {
-    console.log(tokenId);
+  async [BitgoAction.TOKEN_V2_INFO_TOKEL]({ tokenId }) {
     try {
-      // const token = await getTokenDetail(tokenid);
-      // return token;
+      const token = await cctokensv2.tokenInfoV2Tokel(this.network, this.peers, this.wif, tokenId);
+      return token;
     } catch (e) {
       console.error(e);
       throw new Error(e);
