@@ -55,7 +55,11 @@ export default createModel<RootModel>()({
     SET_TOKEN_DETAIL: (state, detail: TokenDetail) => {
       const arbitrary = detail?.dataAsJson?.arbitrary;
       if (arbitrary) {
-        detail.dataAsJson.arbitraryAsJson = JSON.parse(hex2ascii(arbitrary));
+        try {
+          detail.dataAsJson.arbitraryAsJson = JSON.parse(hex2ascii(arbitrary));
+        } catch (e) {
+          console.error(e);
+        }
       }
       return dp.set(state, `tokenDetails.${detail.tokenid}`, detail);
     },
