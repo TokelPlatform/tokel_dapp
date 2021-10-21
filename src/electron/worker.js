@@ -21,6 +21,7 @@ const BitgoAction = {
   BROADCAST: 'broadcast',
   TOKEN_V2_ADDRESS: 'token_v2_address',
   TOKEN_V2_INFO_TOKEL: 'token_v2_info_tokel',
+  TOKEN_V2_TRANSFER: 'token_v2_transfer',
 };
 
 const SATOSHIS = 100000000;
@@ -66,7 +67,6 @@ class BitgoSingleton {
    *  }
    */
   async [BitgoAction.LOGIN]({ key }) {
-    console.log(key);
     try {
       this.wif = general.keyToWif(key, this.network);
       const keyPair = ECPair.fromWIF(this.wif, this.network);
@@ -155,9 +155,7 @@ class BitgoSingleton {
     );
     const res = {};
     ccUtxos.forEach(utxo => {
-      console.log(utxo);
-      const id = utxo.tokendata.tokenid.reverse().toString('hex');
-      res[id] = utxo.satoshis;
+      res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
     });
     return {
       height: response.nodeheight,
@@ -198,7 +196,7 @@ class BitgoSingleton {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async [BitgoAction.BROADCASH]({ txHex }) {
+  async [BitgoAction.BROADCAST]({ txHex }) {
     if (!this.peers || this.peers.length === 0) {
       throw new Error('Not connected');
     }
@@ -234,6 +232,28 @@ class BitgoSingleton {
     return {
       ...txResult,
       address,
+      amount,
+    };
+  }
+
+  async [BitgoAction.TOKEN_V2_TRANSFER]({ destpubkey, tokenid, amount }) {
+    if (!this.peers || this.peers.length === 0) {
+      throw new Error('Not connected');
+    }
+
+    const txHex = await cctokensv2.tokensv2Transfer(
+      this.peers,
+      this.network,
+      this.wif,
+      tokenid,
+      destpubkey,
+      amount
+    );
+    const txResult = await this.broadcast(txHex);
+    return {
+      ...txResult,
+      destpubkey,
+      tokenid,
       amount,
     };
   }
