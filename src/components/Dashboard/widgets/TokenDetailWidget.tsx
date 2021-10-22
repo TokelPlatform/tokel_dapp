@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+import { ipcRenderer } from 'electron';
 import { upperFirst } from 'lodash-es';
 
 import { selectCurrentTokenDetail } from 'store/selectors';
 import { Responsive, limitLength } from 'util/helpers';
 import { V } from 'util/theming';
+import { IPFS_IPC_ID, IpfsAction } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ExplorerLink from 'components/_General/ExplorerLink';
@@ -130,6 +132,27 @@ const MetadataItem = ({
 
 const TokenDetail = () => {
   const tokenDetail = useSelector(selectCurrentTokenDetail);
+  const [imageUrl, setImageUrl] = useState(null);
+
+  useEffect(() => {
+    if (tokenDetail.dataAsJson.url.indexOf('ipfs') !== -1) {
+      return setImageUrl(tokenDetail.dataAsJson.url);
+    }
+
+    return ipcRenderer.send(IPFS_IPC_ID, {
+      type: IpfsAction.GET,
+      payload: { url: tokenDetail.dataAsJson.url },
+    });
+  }, [tokenDetail]);
+
+  useEffect(() => {
+    ipcRenderer.on(IPFS_IPC_ID, (_, data) => {
+      console.log('received image from IPFS');
+      if (data.type === IpfsAction.GET) {
+        setImageUrl(data.payload.filedata);
+      }
+    });
+  }, []);
 
   return (
     <TokenDetailRoot>
