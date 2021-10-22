@@ -4,8 +4,13 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import QRCode from 'qrcode.react';
 
-import { selectAccountAddress, selectChosenAsset } from 'store/selectors';
-import { Colors } from 'vars/defines';
+import {
+  selectAccountAddress,
+  selectAccountPubKey,
+  selectChosenAsset,
+  selectModalOptions,
+} from 'store/selectors';
+import { Colors, ResourceType } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import FriendlyWarning from 'components/_General/WarningFriendly';
@@ -33,6 +38,12 @@ const AddressInput = styled.div`
   align-items: center;
 `;
 
+const AddressWrapper = styled.p`
+  text-align: center;
+  width: 100%;
+  overflow-x: auto;
+`;
+
 const Copy = styled.span`
   display: flex;
   align-items: center;
@@ -43,22 +54,29 @@ const Copy = styled.span`
   padding-top: 4px;
 `;
 
+export type ReceiveModalOpts = {
+  type: ResourceType;
+};
+
 const Receive = () => {
-  const address = useSelector(selectAccountAddress);
-  const chosenAsset = useSelector(selectChosenAsset);
+  const options = useSelector(selectModalOptions) as ReceiveModalOpts;
+  const target = useSelector(
+    options.type === ResourceType.TOKEL ? selectAccountAddress : selectAccountPubKey
+  );
+
   return (
     <ReceiveRoot>
       <QRCodeWrapper>
-        <QRCode value={address} />
+        <QRCode value={target} />
       </QRCodeWrapper>
       <VSpaceBig />
       <AddressInput>
-        <p style={{ textAlign: 'center', width: '100%' }}>{address}</p>
+        <AddressWrapper>{target}</AddressWrapper>
         <Copy>
-          <CopyToClipboard color={Colors.WHITE} textToCopy={address} />
+          <CopyToClipboard color={Colors.WHITE} textToCopy={target} />
         </Copy>
       </AddressInput>
-      <FriendlyWarning message={`Make sure to send only ${chosenAsset} to this address.`} />
+      <FriendlyWarning message={`Make sure to send only ${options.type} to this address.`} />
     </ReceiveRoot>
   );
 };

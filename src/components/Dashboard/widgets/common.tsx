@@ -15,11 +15,21 @@ export const WidgetTitle = styled.h2<{ bottomBorder?: boolean }>`
   margin: 0;
   color: ${V.color.front};
   line-height: 24px;
+  /* height: 80px; */
   border-bottom: 1px solid ${p => (p.bottomBorder ? V.color.backSoftest : 'transparent')};
 `;
 
 export const WidgetDivider = styled.hr`
   border: 1px solid ${V.color.backSoftest};
+`;
+
+export const EmbedRoot = styled.div``;
+
+export const EmbedContentContainer = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 24px - 28px - 1rem);
 `;
 
 export const GrayLabel = styled.p`

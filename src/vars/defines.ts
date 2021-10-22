@@ -21,6 +21,12 @@ export const TokenFilter = {
   FIXED_SUPPLY: 'FIXED SUPPLY',
 };
 
+export enum ResourceType {
+  TOKEL = 'tkl',
+  NFT = 'nft',
+  FST = 'tokens',
+}
+
 export const WindowSize = {
   XL: 1440,
   L: 1024,

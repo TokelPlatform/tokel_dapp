@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
+import bagIcon from 'assets/Bag.svg';
 import checkIcon from 'assets/Check.svg';
 import clockIcon from 'assets/Clock.svg';
 import receiveIcon from 'assets/receiveIcon.svg';
@@ -12,7 +13,7 @@ import { selectTokelPriceUSD } from 'store/selectors';
 import { formatDate, formatDec } from 'util/helpers';
 import { TxType } from 'util/nspvlib-mock';
 import { V } from 'util/theming';
-import { ModalName, TICKER } from 'vars/defines';
+import { ModalName, ResourceType } from 'vars/defines';
 
 import InfoNote from 'components/_General/InfoNote';
 
@@ -24,7 +25,7 @@ const Transaction = styled.div`
   border-bottom: 1px solid ${V.color.backSoftest};
   display: grid;
   min-width: 400px;
-  grid-template-columns: 32% 32% 36%;
+  grid-template-columns: 36% 24% 38%;
   padding: 0 14px;
   cursor: pointer;
   &:hover {
@@ -75,16 +76,41 @@ const TriCell = ({ icon, primary, secondary, justify }: TriCellProps) => (
   </TriCellRoot>
 );
 
-type ActivityListProps = {
-  transactions: Array<TxType>;
-};
-
 const handleTxDetailView = (tx: TxType) => {
   dispatch.account.SET_CHOSEN_TX(tx);
   dispatch.environment.SET_MODAL_NAME(ModalName.TX_DETAIL);
 };
 
-const ActivityList = ({ transactions = [] }: ActivityListProps): ReactElement => {
+enum ActivityType {
+  MINTED = 'mint',
+  SENT = 'sent',
+  RECEIVED = 'received',
+}
+
+const ActivityMap = {
+  [ActivityType.MINTED]: {
+    icon: bagIcon,
+    primary: 'Minted',
+    secondary: 'Created',
+  },
+  [ActivityType.SENT]: {
+    icon: withdrawIcon,
+    primary: 'Sent',
+    secondary: 'Withdrawal',
+  },
+  [ActivityType.RECEIVED]: {
+    icon: receiveIcon,
+    primary: 'Received',
+    secondary: 'Deposit',
+  },
+};
+
+type ActivityListProps = {
+  transactions: Array<TxType>;
+  resourceType: ResourceType;
+};
+
+const ActivityList = ({ transactions = [], resourceType }: ActivityListProps): ReactElement => {
   const tokelPriceUSD = useSelector(selectTokelPriceUSD);
 
   return (
@@ -94,6 +120,13 @@ const ActivityList = ({ transactions = [] }: ActivityListProps): ReactElement =>
         .sort((a, b) => b.timestamp - a.timestamp)
         .map(tx => {
           const times = tx.timestamp ? formatDate(tx.timestamp).split(' ') : ['N/A', ''];
+          // eslint-disable-next-line no-nested-ternary
+          const activityType = tx.from
+            ? tx.received
+              ? ActivityType.RECEIVED
+              : ActivityType.SENT
+            : ActivityType.MINTED;
+          const activityData = ActivityMap[activityType];
           return (
             <Transaction key={tx.txid + tx.received} onClick={() => handleTxDetailView(tx)}>
               <TriCell
@@ -102,14 +135,17 @@ const ActivityList = ({ transactions = [] }: ActivityListProps): ReactElement =>
                 secondary={times[1]}
               />
               <TriCell
-                icon={tx.received ? receiveIcon : withdrawIcon}
-                primary={tx.received ? 'Received' : 'Sent'}
-                secondary={tx.received ? 'Deposit' : 'Withdrawal'}
-                justify="center"
+                icon={activityData.icon}
+                primary={activityData.primary}
+                secondary={activityData.secondary}
               />
               <TriCell
-                primary={` ${tx.received ? '+' : '-'}${formatDec(tx.value)} ${TICKER}`}
-                secondary={(tx.value * tokelPriceUSD).toFixed(2)}
+                primary={` ${tx.received ? '+' : '-'}${formatDec(tx.value)} ${resourceType}`}
+                secondary={
+                  resourceType === ResourceType.TOKEL
+                    ? `$${(tx.value * tokelPriceUSD).toFixed(2)}`
+                    : ''
+                }
                 justify="flex-end"
               />
             </Transaction>

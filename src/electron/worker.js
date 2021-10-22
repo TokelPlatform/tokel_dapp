@@ -38,7 +38,7 @@ class BitgoSingleton {
       return 'singleton created';
     }
     try {
-      this.peers = await nspvConnect({ network }, {});
+      this.connection = await nspvConnect({ network }, {});
       return true;
     } catch (e) {
       console.log(e);
@@ -47,11 +47,11 @@ class BitgoSingleton {
   }
 
   // cleanup() {
-  //   this.peers.close();
+  //   this.connection.close();
   // }
 
   // get() {
-  //   return this.peers;
+  //   return this.connection;
   // }
 
   /**
@@ -141,21 +141,25 @@ class BitgoSingleton {
    *  "lastpeer" : 136.243.58.134:7770
    * }
    */
-  async [BitgoAction.LIST_UNSPENT]({ address }) {
-    if (!this.peers || this.peers.length === 0) {
+  async [BitgoAction.LIST_UNSPENT](data) {
+    // console.log(data);
+    if (!this.connection || this.connection.length === 0) {
       throw new Error('Not connected');
     }
-    const response = await ccutils.getNormalUtxos(this.peers, address, 0, 0);
+    const response = await ccutils.getNormalUtxos(this.connection, data.address, 0, 0);
     const ccUtxos = await cctokensv2.getTokensForPubkey(
       this.network,
-      this.peers,
+      this.connection,
       this.pubkeyBuffer,
       0,
       0
     );
     const res = {};
+    console.log(ccUtxos);
     ccUtxos.forEach(utxo => {
-      res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
+      if (utxo.tokendata) {
+        res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
+      }
     });
     return {
       height: response.nodeheight,
@@ -168,10 +172,22 @@ class BitgoSingleton {
     };
   }
 
+  // async listUnspentTokens(address) {
+  //   if (!this.connection || this.connection.length === 0) {
+  //     throw new Error('Not connected');
+  //   }
+  //   return ccutils.getCCUtxos(this.connection, address);
+  // }
+
   // eslint-disable-next-line class-methods-use-this
   async [BitgoAction.TOKEN_V2_INFO_TOKEL]({ tokenId }) {
     try {
-      const token = await cctokensv2.tokenInfoV2Tokel(this.network, this.peers, this.wif, tokenId);
+      const token = await cctokensv2.tokenInfoV2Tokel(
+        this.network,
+        this.connection,
+        this.wif,
+        tokenId
+      );
       return token;
     } catch (e) {
       console.error(e);
@@ -179,16 +195,15 @@ class BitgoSingleton {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async [BitgoAction.LIST_TRANSACTIONS]({ address, skipCount = 0 }) {
-    if (!this.peers) {
+    if (!this.connection) {
       throw new Error('Not connected');
     }
-    const txIds = await ccutils.getTxids(this.peers, address, 0, skipCount, 30);
+    const txIds = await ccutils.getTxids(this.connection, address, 0, skipCount, 30);
     const ids = txIds.txids.map(tx => tx.txid.reverse().toString('hex'));
     const uniqueIds = ids.filter((x, y) => ids.indexOf(x) === y);
     return ccutils.getTransactionsManyDecoded(
-      this.peers,
+      this.connection,
       this.network,
       this.pubkeyBuffer,
       uniqueIds
@@ -197,11 +212,11 @@ class BitgoSingleton {
 
   // eslint-disable-next-line class-methods-use-this
   async [BitgoAction.BROADCAST]({ txHex }) {
-    if (!this.peers || this.peers.length === 0) {
+    if (!this.connection || this.connection.length === 0) {
       throw new Error('Not connected');
     }
     return new Promise((resolve, reject) => {
-      this.peers.nspvBroadcast(
+      this.connection.nspvBroadcast(
         '0000000000000000000000000000000000000000000000000000000000000000',
         txHex,
         { numPeers: 8 },
@@ -215,10 +230,9 @@ class BitgoSingleton {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   // eslint-disable-next-line consistent-return
   async [BitgoAction.SPEND]({ address, amount }) {
-    if (!this.peers || this.peers.length === 0) {
+    if (!this.connection || this.connection.length === 0) {
       throw new Error('Not connected');
     }
     const txHex = await general.create_normaltx(
@@ -226,7 +240,7 @@ class BitgoSingleton {
       address,
       sb.toSatoshi(Number(amount)),
       this.network,
-      this.peers
+      this.connection
     );
     const txResult = await this.broadcast(txHex);
     return {
@@ -237,12 +251,12 @@ class BitgoSingleton {
   }
 
   async [BitgoAction.TOKEN_V2_TRANSFER]({ destpubkey, tokenid, amount }) {
-    if (!this.peers || this.peers.length === 0) {
+    if (!this.connection || this.connection.length === 0) {
       throw new Error('Not connected');
     }
 
     const txHex = await cctokensv2.tokensv2Transfer(
-      this.peers,
+      this.connection,
       this.network,
       this.wif,
       tokenid,

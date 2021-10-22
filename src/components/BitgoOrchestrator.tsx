@@ -24,13 +24,13 @@ const BitgoOrchestrator = () => {
       console.group('BITGO (ORCHESTRATOR)');
       console.log(payload);
       console.groupEnd();
-
+      // NEW ADDRESS
       if (payload.type === BitgoAction.NEW_ADDRESS) {
         const { wif, seed } = payload.data;
         dispatch.account.SET_KEY(wif);
         dispatch.account.SET_SEED(seed);
+        return;
       }
-
       // SPEND
       if (payload.type === BitgoAction.SPEND) {
         if (payload.error) {
@@ -54,7 +54,6 @@ const BitgoOrchestrator = () => {
         }
         return;
       }
-
       // LOGIN
       if (payload.type === BitgoAction.LOGIN) {
         console.log('SHOULD BE RUNNING');
@@ -71,13 +70,11 @@ const BitgoOrchestrator = () => {
         sendToBitgo(BitgoAction.LIST_TRANSACTIONS, { address });
         return;
       }
-
       // HANDLE ALL OTHER ERRORS GENERICALLY
       if (payload.error) {
         commonError();
         return;
       }
-
       // RECONNECT
       if (payload.type === BitgoAction.RECONNECT) {
         if (payload.data) {
@@ -86,7 +83,6 @@ const BitgoOrchestrator = () => {
           return;
         }
       }
-
       // LIST UNSPENT
       if (payload.type === BitgoAction.LIST_UNSPENT) {
         dispatch.wallet.SET_ASSETS(parseUnspent(payload.data.balance));

@@ -3,9 +3,11 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectTransactions } from 'store/selectors';
+import { selectTransactions, selectUnspentBalance } from 'store/selectors';
+import { ResourceType } from 'vars/defines';
 
 import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
+import TransferEmbed from './widgets/Embeds/TransferEmbed';
 import LineGraph from './widgets/LineGraph';
 import StandardWidget from './widgets/StandardWidget';
 
@@ -22,15 +24,21 @@ const AssetViewRoot = styled.div`
 
 const AssetView = (): ReactElement => {
   const txs = useSelector(selectTransactions);
+  const balance = useSelector(selectUnspentBalance);
+  const holdings = [
+    { label: 'Unlocked', value: balance },
+    { label: 'Locked', value: balance },
+    { label: 'Total', value: balance },
+  ];
 
   return (
     <AssetViewRoot>
       <LineGraph />
-      <StandardWidget title="Transfers">
-        <div>transfers</div>
+      <StandardWidget title="Transfer">
+        <TransferEmbed holdingSections={holdings} />
       </StandardWidget>
-      <StandardWidget title="History">
-        <ActivityListEmbed transactions={txs} />
+      <StandardWidget title="History" width={3}>
+        <ActivityListEmbed transactions={txs} resourceType={ResourceType.TOKEL} />
       </StandardWidget>
     </AssetViewRoot>
   );

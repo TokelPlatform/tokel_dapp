@@ -34,7 +34,6 @@ const Send = () => {
 
   const handleSubmit = (address: string, amount: string) => {
     dispatch.currentTransaction.RESET_TX();
-
     setRecipient(address);
     setAmountToSend(amount);
     setConfirmation(true);
@@ -44,6 +43,7 @@ const Send = () => {
       console.error(e);
     }
   };
+
   return (
     <SendRoot>
       {!confirmation && <SendForm onSubmit={handleSubmit} />}

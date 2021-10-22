@@ -13,6 +13,7 @@ export const selectNspvStatus = (state: RootState) => state.environment.nspvStat
 export const selectTokelPriceUSD = (state: RootState) => state.environment.tokelPriceUSD;
 
 export const selectAccountAddress = (state: RootState) => state.account.address;
+export const selectAccountPubKey = (state: RootState) => state.account.pubkey;
 export const selectUnspentBalance = (state: RootState) => state.account.unspent?.balance;
 export const selectUnspent = (state: RootState) => state.account.unspent ?? {};
 export const selectChosenTransaction = (state: RootState) => state.account.chosenTx;

@@ -17,7 +17,7 @@ interface ModalCollectionType {
 }
 
 export default {
-  [ModalName.RECEIVE]: { title: 'Your wallet address', component: <Receive /> },
+  [ModalName.RECEIVE]: { title: 'Your wallet', component: <Receive /> },
   [ModalName.SEND]: { title: 'Send funds', component: <Send /> },
   [ModalName.FEEDBACK]: { title: 'Feedback', component: <Feedback /> },
   [ModalName.TX_DETAIL]: { title: 'Transaction detail', component: <TxDetail /> },
