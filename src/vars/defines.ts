@@ -4,6 +4,10 @@
 export const TICKER = 'TKL';
 export const RPC_PORT = '29405';
 export const BITGO_IPC_ID = 'bitgo';
+export const IPFS_IPC_ID = 'ipfs';
+export enum IpfsAction {
+  GET = 'get',
+}
 
 export const TOKEL_PRICE_URL = 'https://api.coinpaprika.com/v1/tickers/tkl-tokel';
 export const TOKEL_PRICE_UPDATE_PERIOD_MS = 10_000;

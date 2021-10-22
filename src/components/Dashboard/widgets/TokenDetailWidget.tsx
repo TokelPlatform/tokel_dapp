@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+import { ipcRenderer } from 'electron';
 import { upperFirst } from 'lodash-es';
 
 import { selectCurrentTokenDetail } from 'store/selectors';
 import { Responsive } from 'util/helpers';
 import { V } from 'util/theming';
+import { IPFS_IPC_ID, IpfsAction } from 'vars/defines';
 
 import ExplorerLink from 'components/_General/ExplorerLink';
 import { WidgetContainer, WidgetDivider } from './common';
@@ -118,6 +120,27 @@ const MetadataItem = ({ name, value }: { name: string; value: unknown }) => (
 
 const TokenDetail = () => {
   const tokenDetail = useSelector(selectCurrentTokenDetail);
+  const [imageUrl, setImageUrl] = useState(null);
+
+  useEffect(() => {
+    if (tokenDetail.dataAsJson.url.indexOf('ipfs') !== -1) {
+      return setImageUrl(tokenDetail.dataAsJson.url);
+    }
+
+    return ipcRenderer.send(IPFS_IPC_ID, {
+      type: IpfsAction.GET,
+      payload: { url: tokenDetail.dataAsJson.url },
+    });
+  }, [tokenDetail]);
+
+  useEffect(() => {
+    ipcRenderer.on(IPFS_IPC_ID, (_, data) => {
+      console.log('received image from IPFS');
+      if (data.type === IpfsAction.GET) {
+        setImageUrl(data.payload.filedata);
+      }
+    });
+  }, []);
 
   return (
     <TokenDetailRoot>
@@ -149,11 +172,13 @@ const TokenDetail = () => {
         </MetadataContent>
         <MediaContent>
           <ImageFrame>
-            <TokenImage
-              alt="Big Buck Bunny"
-              src={tokenDetail.dataAsJson.url}
-              title="No video playback capabilities, please download the video below"
-            />
+            <a href={tokenDetail.dataAsJson.url} rel="noreferrer" target="_blank">
+              <TokenImage
+                alt="Big Buck Bunny"
+                src={imageUrl}
+                title="No video playback capabilities, please download the video below"
+              />
+            </a>
           </ImageFrame>
         </MediaContent>
       </Content>

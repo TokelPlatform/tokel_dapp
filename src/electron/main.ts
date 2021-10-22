@@ -23,14 +23,15 @@ import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
 import { BitgoAction } from '../util/bitgoHelper';
-import { BITGO_IPC_ID, WindowControl } from '../vars/defines';
+import { BITGO_IPC_ID, IPFS_IPC_ID, WindowControl } from '../vars/defines';
 import MenuBuilder from './menu';
+
+const ipfsNode = require('./ipfsHelper');
 
 // loading BitGo and Wasm Cryptoconditions in a separate process
 const workerPath = path.join(app.getAppPath(), 'worker.js');
 const bitgoWorker = new Worker(workerPath);
 bitgoWorker.postMessage({ type: BitgoAction.RECONNECT });
-
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -66,13 +67,15 @@ ipcMain.on(BITGO_IPC_ID, (_, msg) => {
   console.log(msg);
   console.groupEnd();
   bitgoWorker.postMessage(msg);
-  // if (msg === BitgoAction.RECONNECT) {
-  //   bitgoWorker.terminate();
-  //   bitgoWorker = new Worker(workerPath);
-  //   bitgoWorker.postMessage({ type: BitgoAction.RECONNECT });
-  // } else {
-  //   bitgoWorker.postMessage(msg);
-  // }
+});
+
+// ipfs events from renderer
+ipcMain.on(IPFS_IPC_ID, async (event, msg) => {
+  console.group('IPFS (RENDERER -> [MAIN])');
+  console.log(msg);
+  console.groupEnd();
+  const result = await ipfsNode.default[msg.type](msg.payload);
+  event.reply(IPFS_IPC_ID, { type: msg.type, payload: result });
 });
 
 // window events from renderer

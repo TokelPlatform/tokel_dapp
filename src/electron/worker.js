@@ -155,7 +155,9 @@ class BitgoSingleton {
     );
     const res = {};
     ccUtxos.forEach(utxo => {
-      res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
+      if (utxo.tokendata && utxo.tokendata.tokenid) {
+        res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
+      }
     });
     return {
       height: response.nodeheight,
