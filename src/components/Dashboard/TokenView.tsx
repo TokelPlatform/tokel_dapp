@@ -22,58 +22,6 @@ const TokenViewRoot = styled.div`
   overflow-y: auto;
 `;
 
-const fauxNFTTxs = [
-  {
-    value: 1,
-    from: ['SDJNS8xJ7Ya9hferR3ibtQDJHBFCXY4CSJE'],
-    timestamp: 1632906379,
-    txid: '4d64ba9dac684a89495ce1071fcb28f0552b209c06f54bfc1a61ffaf2b608f80',
-    received: true,
-  },
-  {
-    value: 1,
-    from: ['MMKLW8xJ7YsjndjssdibtQDJHBFCXY4CSJE'],
-    timestamp: 1632899732,
-    txid: '6079c60335b50e2330bf53c2ee59b95e2c1ab36b040d31f02c1ddd00dad51e66',
-    received: false,
-  },
-  {
-    value: 1,
-    from: ['MMKLW8xJ7YsjndjssdibtQDJHBFCXY4CSJE'],
-    timestamp: 1632899732,
-    txid: '6079c60335b50e2330bf53c2ee59b95e2c1ab36b040d31f02c1ddd00dad51e66',
-    received: false,
-  },
-  {
-    value: 1,
-    from: ['MMKLW8xJ7YsjndjssdibtQDJHBFCXY4CSJE'],
-    timestamp: 1632899732,
-    txid: '6079c60335b50e2330bf53c2ee59b95e2c1ab36b040d31f02c1ddd00dad51e66',
-    received: false,
-  },
-  {
-    value: 1,
-    from: ['MMKLW8xJ7YsjndjssdibtQDJHBFCXY4CSJE'],
-    timestamp: 1632899732,
-    txid: '6079c60335b50e2330bf53c2ee59b95e2c1ab36b040d31f02c1ddd00dad51e66',
-    received: false,
-  },
-  {
-    value: 1,
-    from: ['RAAF8xJ7Ya9hferR3ibtQDJHBFCXY4CSJE'],
-    timestamp: 1632899732,
-    txid: '6079c60335b50e2330bf53c2ee59b95e2c1ab36b040d31f02c1ddd00dad51e66',
-    received: false,
-  },
-  {
-    value: 1,
-    from: null,
-    timestamp: 1631345368,
-    txid: '69449770e102a1e1fd907900034f47146cbbf3a682a24fa7b088b9e408e951b9',
-    received: true,
-  },
-];
-
 const TokenView = (): ReactElement => {
   const tokenInfo = useSelector(selectCurrentTokenDetail);
   const isNFT = tokenInfo?.supply === 1;
@@ -81,12 +29,12 @@ const TokenView = (): ReactElement => {
   return (
     <TokenViewRoot>
       <TokenDetailWidget />
-      <StandardWidget title="Transfers" width={1}>
+      <StandardWidget title="Transfers" width={2}>
         <TransferEmbed />
       </StandardWidget>
-      <StandardWidget title={isNFT ? 'History' : 'Activity'} width={3}>
+      <StandardWidget title={isNFT ? 'History' : 'Activity'} width={2}>
         <ActivityListEmbed
-          transactions={fauxNFTTxs}
+          transactions={[]}
           resourceType={isNFT ? ResourceType.NFT : ResourceType.FST}
         />
       </StandardWidget>

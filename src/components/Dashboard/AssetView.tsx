@@ -7,7 +7,7 @@ import { selectTransactions, selectUnspentBalance } from 'store/selectors';
 import { ResourceType } from 'vars/defines';
 
 import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
-import TransferEmbed from './widgets/Embeds/TransferEmbed';
+import TransferEmbed, { HoldingType } from './widgets/Embeds/TransferEmbed';
 import LineGraph from './widgets/LineGraph';
 import StandardWidget from './widgets/StandardWidget';
 
@@ -25,10 +25,10 @@ const AssetViewRoot = styled.div`
 const AssetView = (): ReactElement => {
   const txs = useSelector(selectTransactions);
   const balance = useSelector(selectUnspentBalance);
-  const holdings = [
-    { label: 'Unlocked', value: balance },
-    { label: 'Locked', value: balance },
-    { label: 'Total', value: balance },
+  const holdings: Array<HoldingType> = [
+    // { label: 'Unlocked', value: balance },
+    // { label: 'Locked', value: balance },
+    { label: 'Total', value: `${balance} TKL` },
   ];
 
   return (

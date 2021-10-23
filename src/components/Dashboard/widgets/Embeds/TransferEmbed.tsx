@@ -74,7 +74,7 @@ const openReceiveModal = (options: ReceiveModalOpts) => () =>
 
 export type HoldingType = {
   label: string;
-  value: number;
+  value: string;
 };
 
 type TransferEmbedProps = {

@@ -4,12 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import QRCode from 'qrcode.react';
 
-import {
-  selectAccountAddress,
-  selectAccountPubKey,
-  selectChosenAsset,
-  selectModalOptions,
-} from 'store/selectors';
+import { selectAccountAddress, selectAccountPubKey, selectModalOptions } from 'store/selectors';
 import { Colors, ResourceType } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
