@@ -13,6 +13,7 @@ export enum BitgoAction {
   BROADCAST = 'broadcast',
   TOKEN_V2_ADDRESS = 'token_v2_address',
   TOKEN_V2_INFO_TOKEL = 'token_v2_info_tokel',
+  TOKEN_V2_TRANSFER = 'token_v2_transfer',
 }
 
 export type MsgType = typeof BitgoAction;
@@ -30,6 +31,7 @@ export type BitgoMessageParamList = {
   [BitgoAction.BROADCAST]: { txHex: string };
   [BitgoAction.TOKEN_V2_ADDRESS]: undefined;
   [BitgoAction.TOKEN_V2_INFO_TOKEL]: { tokenId: string };
+  [BitgoAction.TOKEN_V2_TRANSFER]: { destpubkey: string; tokenid: string; amount: number };
 };
 
 type ConditionalOptions<T, K extends keyof T> = T[K] extends undefined ? [] : [T[K]];

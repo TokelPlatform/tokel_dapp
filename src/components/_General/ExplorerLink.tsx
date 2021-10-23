@@ -29,13 +29,13 @@ const TxButtons = styled.div`
   min-width: 80px;
 `;
 
-const ExplorerLink = ({ txid }: { txid: string }) => {
+const ExplorerLink = ({ txid, type }: { txid: string; type: string }) => {
   return (
     <ExplorerLinkRoot>
       <TxId>{txid}</TxId>
       <TxButtons>
         <CopyToClipboard textToCopy={txid} color={Colors.WHITE} />
-        <OpenInExplorer link={`${links.explorers[TICKER]}/tx/${txid}`} />
+        <OpenInExplorer link={`${links.explorers[TICKER]}/${type || 'tx'}/${txid}`} />
       </TxButtons>
     </ExplorerLinkRoot>
   );

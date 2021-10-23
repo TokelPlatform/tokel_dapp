@@ -52,6 +52,7 @@ export enum ModalName {
   SEND = 'send',
   FEEDBACK = 'feedback',
   TX_DETAIL = 'tx_detail',
+  TOKEN_SEND = 'token_send',
 }
 
 export const Config = {

@@ -123,20 +123,11 @@ const TokenDetail = () => {
     <TokenDetailRoot>
       <Header>
         <Name>{tokenDetail.name}</Name>
-        <ExplorerLink txid={tokenDetail.tokenid} />
+        <ExplorerLink type="tokens" txid={tokenDetail.tokenid} />
       </Header>
       <Content>
         <MetadataContent>
-          <Description>
-            {tokenDetail.description}
-            <ContentLink
-              target="_blank"
-              rel="noopener noreferrer"
-              href={tokenDetail.dataAsJson.url}
-            >
-              {tokenDetail.dataAsJson.url}
-            </ContentLink>
-          </Description>
+          <Description>{tokenDetail.description}</Description>
           <Metadata>
             <MetadataItem name="Supply" value={tokenDetail.supply} />
             <MetadataItem name="Creator" value={tokenDetail.owner} />
@@ -149,11 +140,17 @@ const TokenDetail = () => {
         </MetadataContent>
         <MediaContent>
           <ImageFrame>
-            <TokenImage
-              alt="Big Buck Bunny"
-              src={tokenDetail.dataAsJson.url}
-              title="No video playback capabilities, please download the video below"
-            />
+            <ContentLink
+              target="_blank"
+              rel="noopener noreferrer"
+              href={tokenDetail.dataAsJson.url}
+            >
+              <TokenImage
+                alt="Big Buck Bunny"
+                src={tokenDetail.dataAsJson.url}
+                title="No video playback capabilities, please download the video below"
+              />
+            </ContentLink>
           </ImageFrame>
         </MediaContent>
       </Content>

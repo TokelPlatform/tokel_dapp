@@ -10,10 +10,13 @@ import {
   selectCurrentTxError,
   selectCurrentTxId,
   selectCurrentTxStatus,
+  selectModalOptions,
 } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
+import { ResourceType } from 'vars/defines';
 
 import SendForm from 'components/Dashboard/widgets/Wallet/SendForm';
+import SendTokenForm from 'components/Dashboard/widgets/Wallet/SendTokenForm';
 import TxConfirmation from 'components/Dashboard/widgets/Wallet/TxConfirmation';
 
 const SendRoot = styled.div`
@@ -21,7 +24,12 @@ const SendRoot = styled.div`
   flex-direction: column;
 `;
 
+export type SendModalOpts = {
+  type: ResourceType;
+};
+
 const Send = () => {
+  const options = useSelector(selectModalOptions) as SendModalOpts;
   const chosenAsset = useSelector(selectChosenAsset);
   const myAddress = useSelector(selectAccountAddress);
   const currentTxId = useSelector(selectCurrentTxId);
@@ -44,9 +52,25 @@ const Send = () => {
     }
   };
 
+  const handleTokenSubmit = (destpubkey: string, tokenid: string, amount: number) => {
+    dispatch.currentTransaction.RESET_TX();
+    setRecipient(destpubkey);
+    setAmountToSend(amount);
+    setConfirmation(true);
+    try {
+      sendToBitgo(BitgoAction.TOKEN_V2_TRANSFER, { destpubkey, tokenid, amount });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <SendRoot>
-      {!confirmation && <SendForm onSubmit={handleSubmit} />}
+      {!confirmation && (options.type === ResourceType.NFT || options.type === ResourceType.FST) ? (
+        <SendTokenForm type={options.type} onSubmit={handleTokenSubmit} />
+      ) : (
+        <SendForm onSubmit={handleSubmit} />
+      )}
       {confirmation && (
         <TxConfirmation
           currency={chosenAsset}
