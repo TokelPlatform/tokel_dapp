@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ipcRenderer } from 'electron';
+import log from 'electron-log';
 
 import { dispatch } from 'store/rematch';
 import { selectAccountAddress } from 'store/selectors';
@@ -10,7 +11,8 @@ import { parseUnspent } from 'util/transactions';
 import { spendSuccess } from 'util/transactionsHelper';
 import { BITGO_IPC_ID, ErrorMessages } from 'vars/defines';
 
-const commonError = () => {
+const commonError = err => {
+  log.error(err);
   sendToBitgo(BitgoAction.RECONNECT);
   dispatch.environment.SET_LOGIN_FEEDBACK('Trying to connect to nspv...');
   dispatch.environment.UPDATE_NSPV_STATUS(false);
@@ -37,6 +39,7 @@ const BitgoOrchestrator = () => {
           dispatch.currentTransaction.SET_TX_STATUS(-1);
           dispatch.currentTransaction.SET_TX_ERROR(ErrorMessages.NETWORK_ISSUES);
           dispatch.environment.SET_ERROR(payload.error);
+          log.error(payload.error);
           return;
         }
         const success = spendSuccess(payload.data);
@@ -61,6 +64,7 @@ const BitgoOrchestrator = () => {
           console.log('SHOULD BE ERROR');
           dispatch.environment.SET_ERROR(`Bitgo Error (${payload.error})`);
           dispatch.environment.SET_LOGIN_FEEDBACK(null);
+          log.error(payload.error);
           return;
         }
         dispatch.account.login({ data: payload.data });
@@ -72,7 +76,7 @@ const BitgoOrchestrator = () => {
       }
       // HANDLE ALL OTHER ERRORS GENERICALLY
       if (payload.error) {
-        commonError();
+        commonError(payload.error);
         return;
       }
       // RECONNECT

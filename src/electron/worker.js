@@ -25,7 +25,7 @@ const BitgoAction = {
 };
 
 const SATOSHIS = 100000000;
-const network = networks.tkltest;
+const network = networks.tokel;
 
 class BitgoSingleton {
   constructor() {
