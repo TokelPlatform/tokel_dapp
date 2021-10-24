@@ -30,7 +30,7 @@ const MaxButtonWrapper = styled.div`
 `;
 
 type SendFormProps = {
-  onSubmit: (arg1: string, arg2: string) => void;
+  onSubmit: (destpubkey: string, tokenid: string, amount: number) => void;
   type: ResourceType;
 };
 
@@ -46,17 +46,19 @@ const getAmount = (e, balance) => {
 };
 
 const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
-  const [recipient, setRecipient] = useState('');
-  const [amount, setAmount] = useState('');
-  // const [fiatAmount, setFiatAmount] = useState('');
-  const [error, setError] = useState('');
-  const [errorAmount, setErrorAmount] = useState('');
   const chosenToken = useSelector(selectChosenToken);
   const tokens = useSelector(selectTokenDetails);
   const currentToken = useSelector(selectCurrentTokenInfo);
   const { balance } = currentToken;
   const isNFT = type === ResourceType.NFT;
-  const remaining = Number(balance) - Number(amount);
+
+  const [recipient, setRecipient] = useState('');
+  const [amount, setAmount] = useState(isNFT ? '1' : '');
+  // const [fiatAmount, setFiatAmount] = useState('');
+  const [error, setError] = useState('');
+  const [errorAmount, setErrorAmount] = useState('');
+
+  const remaining = Number(balance) - Number(amount) - FEE;
 
   const handleSetAmount = e => {
     setErrorAmount('');
@@ -67,14 +69,14 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
     setError('');
     setErrorAmount('');
     let err = false;
-    if (Number(amount) <= 0 || Number(amount) <= FEE) {
+    if (!isNFT && (Number(amount) <= 0 || Number(amount) <= FEE)) {
       setErrorAmount('Invalid amount');
       err = true;
     }
     if (err) {
       return null;
     }
-    return onSubmit(recipient, amount);
+    return onSubmit(recipient, currentToken.tokenid, Number(amount));
   };
 
   return (
@@ -108,7 +110,7 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
               <Input
                 id="amount"
                 onChange={e => handleSetAmount(e)}
-                onKeyDown={() => ''}
+                onKeyDown={() => null}
                 value={amount}
                 placeholder="0"
                 width="336px"
@@ -116,8 +118,6 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
                 error={errorAmount}
               />
             )}
-
-            {/* <CurrencyWrapper>{TICKER}</CurrencyWrapper> */}
           </RowWrapper>
           {!isNFT && (
             <MaxButtonWrapper>

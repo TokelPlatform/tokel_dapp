@@ -12,7 +12,7 @@ import ExplorerLink from 'components/_General/ExplorerLink';
 import { WidgetContainer, WidgetDivider } from './common';
 
 const TokenDetailRoot = styled(WidgetContainer)`
-  grid-column: span 4;
+  grid-column: span 5;
   grid-row: span 3;
   display: flex;
   flex-direction: column;

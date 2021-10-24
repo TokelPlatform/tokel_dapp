@@ -34,7 +34,7 @@ const AssetView = (): ReactElement => {
   return (
     <AssetViewRoot>
       <LineGraph />
-      <StandardWidget title="Transfer">
+      <StandardWidget title="Transfer" width={2}>
         <TransferEmbed holdingSections={holdings} />
       </StandardWidget>
       <StandardWidget title="History" width={3}>

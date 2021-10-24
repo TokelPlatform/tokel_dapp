@@ -66,12 +66,7 @@ const Send = () => {
 
   return (
     <SendRoot>
-      {!confirmation && (options.type === ResourceType.NFT || options.type === ResourceType.FST) ? (
-        <SendTokenForm type={options.type} onSubmit={handleTokenSubmit} />
-      ) : (
-        <SendForm onSubmit={handleSubmit} />
-      )}
-      {confirmation && (
+      {confirmation ? (
         <TxConfirmation
           currency={chosenAsset}
           recipient={recipient}
@@ -81,6 +76,10 @@ const Send = () => {
           txError={currentTxErorr}
           from={myAddress}
         />
+      ) : options.type === ResourceType.TOKEL ? (
+        <SendForm onSubmit={handleSubmit} />
+      ) : (
+        <SendTokenForm type={options.type} onSubmit={handleTokenSubmit} />
       )}
     </SendRoot>
   );

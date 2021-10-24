@@ -16,7 +16,7 @@ const TokenViewRoot = styled.div`
   height: 100%;
   margin-left: 20px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
   grid-gap: 20px;
   overflow-y: auto;
@@ -32,7 +32,7 @@ const TokenView = (): ReactElement => {
       <StandardWidget title="Transfers" width={2}>
         <TransferEmbed />
       </StandardWidget>
-      <StandardWidget title={isNFT ? 'History' : 'Activity'} width={2}>
+      <StandardWidget title={isNFT ? 'History' : 'Activity'} width={3}>
         <ActivityListEmbed
           transactions={[]}
           resourceType={isNFT ? ResourceType.NFT : ResourceType.FST}

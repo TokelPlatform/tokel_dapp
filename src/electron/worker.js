@@ -156,11 +156,13 @@ class BitgoSingleton {
     );
     const res = {};
     console.log(ccUtxos);
+    console.group('LIST_UNSPENT');
     ccUtxos.forEach(utxo => {
-      if (utxo.tokendata) {
+      if (utxo?.tokendata?.tokenid) {
         res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
       }
     });
+    console.groupEnd();
     return {
       height: response.nodeheight,
       skipcount: response.skipcount,
@@ -201,7 +203,7 @@ class BitgoSingleton {
     }
     const txIds = await ccutils.getTxids(this.connection, address, 0, skipCount, 30);
     const ids = txIds.txids.map(tx => tx.txid.reverse().toString('hex'));
-    const uniqueIds = ids.filter((x, y) => ids.indexOf(x) === y);
+    const uniqueIds = [...new Set(ids)];
     return ccutils.getTransactionsManyDecoded(
       this.connection,
       this.network,
@@ -254,8 +256,7 @@ class BitgoSingleton {
     if (!this.connection || this.connection.length === 0) {
       throw new Error('Not connected');
     }
-
-    const txHex = await cctokensv2.tokensv2Transfer(
+    const tx = await cctokensv2.tokensv2Transfer(
       this.connection,
       this.network,
       this.wif,
@@ -263,6 +264,8 @@ class BitgoSingleton {
       destpubkey,
       amount
     );
+    const txHex = tx.toHex().toString();
+    console.log(txHex);
     const txResult = await this.broadcast(txHex);
     return {
       ...txResult,
