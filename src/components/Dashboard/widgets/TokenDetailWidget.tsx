@@ -5,11 +5,12 @@ import styled from '@emotion/styled';
 import { upperFirst } from 'lodash-es';
 
 import { selectCurrentTokenDetail } from 'store/selectors';
-import { Responsive } from 'util/helpers';
+import { Responsive, limitLength } from 'util/helpers';
 import { V } from 'util/theming';
 
+import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ExplorerLink from 'components/_General/ExplorerLink';
-import { WidgetContainer, WidgetDivider } from './common';
+import { VSpaceMed, WidgetContainer } from './common';
 
 const TokenDetailRoot = styled(WidgetContainer)`
   grid-column: span 5;
@@ -30,7 +31,7 @@ const Name = styled.div`
 `;
 
 const Content = styled.div`
-  padding: 20px;
+  padding: 20px 30px;
   display: flex;
   overflow: hidden;
   ${Responsive.below.L} {
@@ -72,7 +73,7 @@ const MetadataItemRoot = styled.div`
 `;
 
 const MetadataName = styled.div`
-  width: 30%;
+  width: 25%;
   max-width: 200px;
 `;
 
@@ -84,6 +85,7 @@ const MetadataValue = styled.div`
 
 const ValueWrapper = styled.div`
   width: 100%;
+  display: flex;
 `;
 
 const ContentLink = styled.a`
@@ -107,11 +109,21 @@ const TokenImage = styled.img`
   width: 100%;
 `;
 
-const MetadataItem = ({ name, value }: { name: string; value: unknown }) => (
+const MetadataItem = ({
+  name,
+  value,
+  copy = false,
+}: {
+  name: string;
+  value: unknown;
+  copy?: boolean;
+}) => (
   <MetadataItemRoot>
     <MetadataName>{upperFirst(name)}</MetadataName>
     <MetadataValue>
-      <ValueWrapper>{value}</ValueWrapper>
+      <ValueWrapper>
+        {value} {copy && <CopyToClipboard textToCopy={value.toString()} color="white" />}
+      </ValueWrapper>
     </MetadataValue>
   </MetadataItemRoot>
 );
@@ -129,10 +141,10 @@ const TokenDetail = () => {
         <MetadataContent>
           <Description>{tokenDetail.description}</Description>
           <Metadata>
-            <MetadataItem name="Supply" value={tokenDetail.supply} />
-            <MetadataItem name="Creator" value={tokenDetail.owner} />
-            <MetadataItem name="Royalty" value={tokenDetail.dataAsJson.royalty} />
-            <WidgetDivider />
+            {tokenDetail.supply > 1 && <MetadataItem name="Supply" value={tokenDetail.supply} />}
+            <MetadataItem name="Creator" copy value={`${limitLength(tokenDetail.owner, 30)} ...`} />
+            <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty}%`} />
+            <VSpaceMed />
             {Object.entries(tokenDetail.dataAsJson?.arbitraryAsJson ?? []).map(([k, v]) => (
               <MetadataItem key={k} name={k} value={v} />
             ))}
