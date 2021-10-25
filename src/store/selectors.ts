@@ -34,10 +34,10 @@ export const selectActiveTokenIds = (state: RootState) => Object.keys(state.wall
 export const selectTokenFilterId = (state: RootState) => state.wallet.tokenFilterId;
 export const selectTokenSearchTerm = (state: RootState) => state.wallet.tokenSearchTerm;
 
-export const selectCurrentTx = (state: RootState) => state.wallet.currentTx;
-export const selectCurrentTxId = (state: RootState) => state.wallet.currentTx.id;
-export const selectCurrentTxStatus = (state: RootState) => state.wallet.currentTx.status;
-export const selectCurrentTxError = (state: RootState) => state.wallet.currentTx.error;
+export const selectCurrentTx = (state: RootState) => state.currentTransaction;
+export const selectCurrentTxId = (state: RootState) => state.currentTransaction.id;
+export const selectCurrentTxStatus = (state: RootState) => state.currentTransaction.status;
+export const selectCurrentTxError = (state: RootState) => state.currentTransaction.error;
 
 export const selectKey = (state: RootState) => state.account.key;
 export const selectSeed = (state: RootState) => state.account.seed;

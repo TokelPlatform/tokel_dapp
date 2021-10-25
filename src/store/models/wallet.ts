@@ -20,11 +20,6 @@ export type WalletState = {
   tokenBalances: Record<string, number>;
   tokenFilterId: TFI;
   tokenSearchTerm: string;
-  currentTx: {
-    id: string;
-    status: number;
-    error: string;
-  };
 };
 
 export default createModel<RootModel>()({
@@ -35,10 +30,6 @@ export default createModel<RootModel>()({
     tokenBalances: {},
     tokenFilterId: TokenFilter.ALL,
     tokenSearchTerm: '',
-    currentTx: {
-      id: '',
-      status: 0,
-    },
   } as WalletState,
   reducers: {
     // SET_CHOSEN_ASSET: (state, chosenAsset: string) => ({ ...state, chosenAsset }),
