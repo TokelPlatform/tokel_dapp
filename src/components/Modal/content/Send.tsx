@@ -71,9 +71,6 @@ const Send = () => {
           currency={chosenAsset}
           recipient={recipient}
           amount={amountToSend}
-          txId={currentTxId}
-          txStatus={currentTxStatus}
-          txError={currentTxErorr}
           from={myAddress}
         />
       ) : options.type === ResourceType.TOKEL ? (

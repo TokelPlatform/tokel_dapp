@@ -25,7 +25,7 @@ const BitgoAction = {
 };
 
 const SATOSHIS = 100000000;
-const network = networks.tokel;
+const network = networks.tkltest;
 
 class BitgoSingleton {
   constructor() {
@@ -244,7 +244,7 @@ class BitgoSingleton {
       this.network,
       this.connection
     );
-    const txResult = await this.broadcast(txHex);
+    const txResult = await this.broadcast({ txHex });
     return {
       ...txResult,
       address,
@@ -266,7 +266,7 @@ class BitgoSingleton {
     );
     const txHex = tx.toHex().toString();
     console.log(txHex);
-    const txResult = await this.broadcast(txHex);
+    const txResult = await this.broadcast({ txHex });
     return {
       ...txResult,
       destpubkey,

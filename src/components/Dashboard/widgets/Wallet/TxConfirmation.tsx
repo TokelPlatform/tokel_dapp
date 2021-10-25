@@ -1,6 +1,9 @@
 import React, { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+
+import { selectCurrentTxError, selectCurrentTxId, selectCurrentTxStatus } from 'store/selectors';
 
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Spinner from 'components/_General/Spinner';
@@ -15,9 +18,6 @@ type TxConfirmationProps = {
   currency?: string;
   recipient: string;
   amount: string;
-  txId: string;
-  txStatus: number;
-  txError: string;
   from: string;
 };
 
@@ -25,11 +25,13 @@ const TxConfirmation = ({
   currency,
   recipient,
   amount,
-  txId,
-  txStatus,
-  txError,
   from,
 }: TxConfirmationProps): ReactElement => {
+  const txStatus = useSelector(selectCurrentTxStatus);
+  const txId = useSelector(selectCurrentTxId);
+  const txError = useSelector(selectCurrentTxError);
+
+  console.log('RENDER MEEEE - CONFIRM');
   return (
     <TxConfirmationRoot>
       {!txId && txStatus === 0 && (
