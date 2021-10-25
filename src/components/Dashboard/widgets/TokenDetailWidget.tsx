@@ -134,15 +134,17 @@ const TokenDetail = () => {
   const tokenDetail = useSelector(selectCurrentTokenDetail);
   const [imageUrl, setImageUrl] = useState(null);
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (tokenDetail.dataAsJson.url.indexOf('ipfs') !== -1) {
-      return setImageUrl(tokenDetail.dataAsJson.url);
+    if (tokenDetail.dataAsJson && tokenDetail.dataAsJson.url.indexOf('ipfs') !== -1) {
+      return setImageUrl(tokenDetail.dataAsJson ? tokenDetail.dataAsJson.url : '');
     }
-
-    return ipcRenderer.send(IPFS_IPC_ID, {
-      type: IpfsAction.GET,
-      payload: { url: tokenDetail.dataAsJson.url },
-    });
+    if (tokenDetail.supply === 1) {
+      return ipcRenderer.send(IPFS_IPC_ID, {
+        type: IpfsAction.GET,
+        payload: { url: tokenDetail.dataAsJson.url },
+      });
+    }
   }, [tokenDetail]);
 
   useEffect(() => {
@@ -163,31 +165,42 @@ const TokenDetail = () => {
       <Content>
         <MetadataContent>
           <Description>{tokenDetail.description}</Description>
+          {tokenDetail.dataAsJson && (
+            <ContentLink
+              target="_blank"
+              rel="noopener noreferrer"
+              href={tokenDetail.dataAsJson.url}
+            />
+          )}
           <Metadata>
             {tokenDetail.supply > 1 && <MetadataItem name="Supply" value={tokenDetail.supply} />}
             <MetadataItem name="Creator" copy value={`${limitLength(tokenDetail.owner, 30)} ...`} />
-            <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty}%`} />
+            {tokenDetail.dataAsJson && (
+              <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty}%`} />
+            )}
             <VSpaceMed />
             {Object.entries(tokenDetail.dataAsJson?.arbitraryAsJson ?? []).map(([k, v]) => (
               <MetadataItem key={k} name={k} value={v} />
             ))}
           </Metadata>
         </MetadataContent>
-        <MediaContent>
-          <ImageFrame>
-            <ContentLink
-              target="_blank"
-              rel="noopener noreferrer"
-              href={tokenDetail.dataAsJson.url}
-            >
-              <TokenImage
-                alt="Big Buck Bunny"
-                src={tokenDetail.dataAsJson.url}
-                title="No video playback capabilities, please download the video below"
-              />
-            </ContentLink>
-          </ImageFrame>
-        </MediaContent>
+        {tokenDetail.supply === 1 && (
+          <MediaContent>
+            <ImageFrame>
+              <ContentLink
+                target="_blank"
+                rel="noopener noreferrer"
+                href={tokenDetail.dataAsJson.url}
+              >
+                <TokenImage
+                  alt="Big Buck Bunny"
+                  src={tokenDetail.dataAsJson.url}
+                  title="No video playback capabilities, please download the video below"
+                />
+              </ContentLink>
+            </ImageFrame>
+          </MediaContent>
+        )}
       </Content>
     </TokenDetailRoot>
   );

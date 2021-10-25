@@ -42,7 +42,7 @@ const getAmount = (e, balance) => {
   if (amount >= balance) {
     return balance;
   }
-  return 0;
+  return amount;
 };
 
 const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
@@ -58,7 +58,7 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
   const [error, setError] = useState('');
   const [errorAmount, setErrorAmount] = useState('');
 
-  const remaining = Number(balance) - Number(amount) - FEE;
+  const remaining = Number(balance) - Number(amount);
 
   const handleSetAmount = e => {
     setErrorAmount('');
