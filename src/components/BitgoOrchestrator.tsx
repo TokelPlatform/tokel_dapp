@@ -11,11 +11,18 @@ import { parseUnspent } from 'util/transactions';
 import { spendSuccess } from 'util/transactionsHelper';
 import { BITGO_IPC_ID, ErrorMessages } from 'vars/defines';
 
+const BAD_WALLET_ERRORS = ['Error: RangeError: value out of range'];
+export const BROKEN_WALLET_MSG = 'Broken wallet, try another';
+
 const commonError = err => {
   log.error(err);
-  sendToBitgo(BitgoAction.RECONNECT);
-  dispatch.environment.SET_LOGIN_FEEDBACK('Trying to connect to nspv...');
-  dispatch.environment.UPDATE_NSPV_STATUS(false);
+  if (BAD_WALLET_ERRORS.includes(err)) {
+    dispatch.environment.SET_LOGIN_FEEDBACK(BROKEN_WALLET_MSG);
+  } else {
+    sendToBitgo(BitgoAction.RECONNECT);
+    dispatch.environment.SET_LOGIN_FEEDBACK('Trying to connect to nspv...');
+    dispatch.environment.UPDATE_NSPV_STATUS(false);
+  }
 };
 
 const BitgoOrchestrator = () => {

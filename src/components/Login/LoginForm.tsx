@@ -7,6 +7,7 @@ import password from 'assets/password.svg';
 import { dispatch } from 'store/rematch';
 import { selectEnvError, selectLoginFeedback } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
+import { V } from 'util/theming';
 import { ErrorMessages } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
@@ -14,6 +15,7 @@ import ErrorMessage from 'components/_General/ErrorMessage';
 import Input from 'components/_General/Input';
 import Link from 'components/_General/Link';
 import Spinner from 'components/_General/Spinner';
+import { BROKEN_WALLET_MSG } from 'components/BitgoOrchestrator';
 import { VSpaceMed, VSpaceSmall } from 'components/Dashboard/widgets/common';
 
 type LoginFormProps = {
@@ -41,7 +43,7 @@ const LoginFormRoot = styled.div`
 
 const Feedback = styled.p`
   height: '1rem';
-  color: var(--color-gray);
+  color: ${V.color.frontSoft};
 `;
 
 const LoginForm = ({ addNewWallet }: LoginFormProps) => {
@@ -70,7 +72,12 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
 
   useEffect(() => {
     if (loginFeedback) {
-      setShowSpinner(true);
+      if (loginFeedback === BROKEN_WALLET_MSG) {
+        setShowSpinner(false);
+        setloginValue('');
+      } else {
+        setShowSpinner(true);
+      }
     }
   }, [loginFeedback]);
 
@@ -81,6 +88,7 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       <Input
         autoFocus
         onChange={e => {
+          dispatch.environment.SET_LOGIN_FEEDBACK(null);
           setError('');
           setloginValue(e.target.value);
         }}
@@ -98,7 +106,11 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
       <div style={{ height: '30px' }}>{showSpinner && <Spinner />}</div>
       <div style={{ marginBottom: '1rem', height: '3rem' }}>
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        {loginFeedback && <Feedback>{loginFeedback}</Feedback>}
+        {loginFeedback && (
+          <Feedback style={loginFeedback === BROKEN_WALLET_MSG ? { color: V.color.cerise } : {}}>
+            {loginFeedback}
+          </Feedback>
+        )}
       </div>
       <Link onClick={addNewWallet} linkText="Generate New Address" />
     </LoginFormRoot>
