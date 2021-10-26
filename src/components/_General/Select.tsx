@@ -70,19 +70,20 @@ const DropdownItem = styled.div<{ selected?: boolean }>`
 `;
 
 type SelectionType = string | number;
-interface OptionsType {
+
+type OptionsType<T extends SelectionType> = {
   label: string;
-  value: SelectionType;
-}
+  value: T;
+};
 
-interface SelectProps {
-  options: OptionsType[];
-  defaultValue: SelectionType;
-  onSelect: (value: SelectionType) => void;
-}
+type SelectProps<T extends SelectionType> = {
+  options: OptionsType<T>[];
+  defaultValue: T;
+  onSelect: (value: T) => void;
+};
 
-const Select = ({ options, defaultValue, onSelect }: SelectProps) => {
-  const [currentValue, setCurrentValue] = useState<SelectionType>(null);
+const Select = <T extends SelectionType>({ options, defaultValue, onSelect }: SelectProps<T>) => {
+  const [currentValue, setCurrentValue] = useState<T>(null);
 
   useEffect(() => {
     setCurrentValue(defaultValue);
@@ -91,7 +92,7 @@ const Select = ({ options, defaultValue, onSelect }: SelectProps) => {
   const [instance, setInstance] = useState(null);
 
   const handleItemClick = useCallback(
-    (value: SelectionType) => {
+    (value: T) => {
       instance.hide();
       setCurrentValue(value);
       onSelect(value);
