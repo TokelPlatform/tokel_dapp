@@ -5,12 +5,13 @@ import { Global } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { Platform, usePlatform } from 'hooks/platform';
-import { selectAccountReady, selectTheme } from 'store/selectors';
+import { selectAccountReady, selectShowNetworkPrefs, selectTheme } from 'store/selectors';
 import { cssVarStyle } from 'util/theming';
 import { scrollbarStyle } from 'vars/styles/platformSpecific';
 
 import Home from 'components/Home/Home';
 import Login from 'components/Login/Login';
+import NetworkPrefs from 'components/Settings/NetworkPrefs';
 import TopBar from './TopBar';
 
 const AppRoot = styled.div`
@@ -24,6 +25,7 @@ const AppRoot = styled.div`
 export default function App() {
   const accountReady = useSelector(selectAccountReady);
   const themeName = useSelector(selectTheme);
+  const showNetworkPrefs = useSelector(selectShowNetworkPrefs);
 
   useEffect(() => {
     document.body.dataset.theme = themeName;
@@ -36,6 +38,7 @@ export default function App() {
       <Global styles={[cssVarStyle, isWindowsOrLinux && scrollbarStyle].filter(Boolean)} />
       <TopBar />
       {accountReady ? <Home /> : <Login />}
+      {showNetworkPrefs && <NetworkPrefs />}
     </AppRoot>
   );
 }

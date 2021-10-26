@@ -3,8 +3,11 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
+import ToggleIcon from 'assets/Toggle.svg';
+import { dispatch } from 'store/rematch';
 import { selectKey, selectSeed } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
+import { V } from 'util/theming';
 import { TOPBAR_HEIGHT_PX } from 'vars/defines';
 
 import Logo from 'components/_General/Logo';
@@ -41,6 +44,25 @@ const ProgressBarAnimation = styled.div<ProgressProps>`
   transition: 0.3s;
 `;
 
+const NetworkPrefsButton = styled.button`
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  background-color: none;
+  border: none;
+  height: 18px;
+  width: 18px;
+  background: ${V.color.frontSoft};
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-image: url('${ToggleIcon}');
+  cursor: pointer;
+  &:hover {
+    background: ${V.color.front};
+  }
+`;
+
 const STEP1 = 1;
 const STEP2 = 2;
 const STEP3 = 3;
@@ -67,6 +89,7 @@ const Login = () => {
       <div style={{ marginTop: '10rem', marginBottom: 0 }}>
         <Logo />
       </div>
+      <NetworkPrefsButton onClick={() => dispatch.environment.TOGGLE_SHOW_NETWORK_PREFS()} />
       {step === STEP1 && <LoginForm addNewWallet={() => forward()} />}
       {step === STEP2 && (
         <GeneratedCredential

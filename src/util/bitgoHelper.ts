@@ -1,8 +1,9 @@
 import { ipcRenderer } from 'electron';
 
-import { BITGO_IPC_ID } from '../vars/defines';
+import { BITGO_IPC_ID, NetworkType } from '../vars/defines';
 
 export enum BitgoAction {
+  SET_NETWORK = 'set_network',
   RECONNECT = 'reconnect',
   NEW_ADDRESS = 'new_address',
   LOGIN = 'login',
@@ -21,6 +22,7 @@ export type MsgName = keyof MsgType;
 export type MsgValue = MsgType[MsgName];
 
 export type BitgoMessageParamList = {
+  [BitgoAction.SET_NETWORK]: { network: NetworkType; overrides: Record<string, unknown> };
   [BitgoAction.RECONNECT]: undefined;
   [BitgoAction.NEW_ADDRESS]: undefined;
   [BitgoAction.LOGIN]: { key: string };

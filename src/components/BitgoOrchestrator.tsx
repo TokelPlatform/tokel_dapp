@@ -26,6 +26,9 @@ const BitgoOrchestrator = () => {
       console.group('BITGO (ORCHESTRATOR)');
       console.log(payload);
       console.groupEnd();
+      if (payload.type === BitgoAction.SET_NETWORK) {
+        dispatch.environment.SET_SHOW_NETWORK_PREFS(false);
+      }
       // NEW ADDRESS
       if (payload.type === BitgoAction.NEW_ADDRESS) {
         const { wif, seed } = payload.data;

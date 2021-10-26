@@ -4,7 +4,7 @@ import dp from 'dot-prop-immutable';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { ThemeName, themeNames } from 'util/theming';
 import { TokenDetail } from 'util/token-types';
-import { ModalName, ViewType } from 'vars/defines';
+import { ModalName, NetworkType, ViewType } from 'vars/defines';
 
 import type { RootModel } from './models';
 
@@ -24,6 +24,7 @@ export type EnvironmentState = {
   loginFeedback: string;
   error: string;
   nspvStatus: boolean;
+  networkPrefs: NetworkPrefs;
 };
 
 export type Modal = {
@@ -36,6 +37,12 @@ export const DEFAULT_NULL_MODAL: Modal = {
   options: {},
 };
 
+export type NetworkPrefs = {
+  show: boolean;
+  network: NetworkType;
+  overrides: Record<string, unknown>;
+};
+
 export default createModel<RootModel>()({
   state: {
     theme: themeNames[0],
@@ -46,6 +53,11 @@ export default createModel<RootModel>()({
     loginFeedback: null,
     error: null,
     nspvStatus: true,
+    networkPrefs: {
+      show: false,
+      network: 'tkltest',
+      overrides: {},
+    },
   } as EnvironmentState,
   reducers: {
     SET_THEME: (state, theme: string) => ({ ...state, theme }),
@@ -67,6 +79,9 @@ export default createModel<RootModel>()({
     SET_LOGIN_FEEDBACK: (state, loginFeedback: string) => ({ ...state, loginFeedback }),
     SET_ERROR: (state, error: string) => ({ ...state, error }),
     UPDATE_NSPV_STATUS: (state, nspvStatus: boolean) => ({ ...state, nspvStatus }),
+    SET_NETWORK: (state, networkPrefs: NetworkPrefs) => ({ ...state, networkPrefs }),
+    SET_SHOW_NETWORK_PREFS: (state, show: boolean) => dp.set(state, `networkPrefs.show`, show),
+    TOGGLE_SHOW_NETWORK_PREFS: state => dp.toggle(state, `networkPrefs.show`),
   },
   effects: () => ({
     async getTokenDetail(tokenBalances: string) {

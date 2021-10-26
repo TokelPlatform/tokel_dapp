@@ -9,6 +9,11 @@ export enum IpfsAction {
   GET = 'get',
 }
 
+export enum NetworkType {
+  TOKEL = 'tokel',
+  TKLTEST = 'tkltest',
+}
+
 export const TOKEL_PRICE_URL = 'https://api.coinpaprika.com/v1/tickers/tkl-tokel';
 export const TOKEL_PRICE_UPDATE_PERIOD_MS = 10_000;
 

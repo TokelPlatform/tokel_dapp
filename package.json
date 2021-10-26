@@ -24,6 +24,7 @@
     "package:linux:arm": "electron-builder -l --arm64 --publish never",
     "package:windows": "electron-builder -w --x64 --publish never",
     "package:windows:arm": "electron-builder -w --arm64 --publish never",
+    "package:all": "yarn build && concurrently 'yarn package:windows' 'yarn package:mac' 'yarn package:linux'",
     "publish": "yarn build && electron-builder -mlw --x64 --arm64 --publish always"
   },
   "lint-staged": {

@@ -11,6 +11,7 @@ const {
 } = require('@tokel/bitgo-komodo-cc-lib');
 
 const BitgoAction = {
+  SET_NETWORK: 'set_network',
   RECONNECT: 'reconnect',
   NEW_ADDRESS: 'new_address',
   LOGIN: 'login',
@@ -25,11 +26,14 @@ const BitgoAction = {
 };
 
 const SATOSHIS = 100000000;
-const network = networks.tkltest;
 
 class BitgoSingleton {
-  constructor() {
+  constructor(network) {
     this.network = network;
+  }
+
+  async cleanup() {
+    this.connection?.close();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -38,21 +42,13 @@ class BitgoSingleton {
       return 'singleton created';
     }
     try {
-      this.connection = await nspvConnect({ network }, {});
+      this.connection = await nspvConnect({ network: this.network }, {});
       return true;
     } catch (e) {
       console.log(e);
       return false;
     }
   }
-
-  // cleanup() {
-  //   this.connection.close();
-  // }
-
-  // get() {
-  //   return this.connection;
-  // }
 
   /**
    * Identifying key can WIF or SEED generated on creating the address
@@ -142,7 +138,6 @@ class BitgoSingleton {
    * }
    */
   async [BitgoAction.LIST_UNSPENT](data) {
-    // console.log(data);
     if (!this.connection || this.connection.length === 0) {
       throw new Error('Not connected');
     }
@@ -277,12 +272,31 @@ class BitgoSingleton {
   }
 }
 
-const bitgo = new BitgoSingleton();
+let network = networks.tkltest;
+let bitgo = new BitgoSingleton(network);
 
 parentPort.on('message', msg => {
   console.group('BITGO (WORKER)');
   console.log(msg);
   console.groupEnd();
+
+  if (msg.type === BitgoAction.SET_NETWORK) {
+    bitgo.cleanup();
+    network = {
+      ...networks[msg.payload.network],
+      ...msg.payload.overrides,
+    };
+    bitgo = new BitgoSingleton(network);
+    bitgo[BitgoAction.RECONNECT]()
+      .then(() => {
+        return parentPort.postMessage({ type: BitgoAction.SET_NETWORK, data: true });
+      })
+      .catch(e => {
+        parentPort.postMessage({ type: BitgoAction.SET_NETWORK, data: null, error: e.message });
+      });
+    return true;
+  }
+
   return bitgo[msg.type](msg.payload)
     .then(data => {
       if (data) {

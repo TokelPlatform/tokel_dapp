@@ -9,6 +9,8 @@ export const selectModal = (state: RootState) => state.environment.modal;
 export const selectModalName = (state: RootState) => state.environment.modal.name;
 export const selectModalOptions = (state: RootState) => state.environment.modal.options;
 export const selectNspvStatus = (state: RootState) => state.environment.nspvStatus;
+export const selectNetworkPrefs = (state: RootState) => state.environment.networkPrefs;
+export const selectShowNetworkPrefs = (state: RootState) => state.environment.networkPrefs.show;
 
 export const selectTokelPriceUSD = (state: RootState) => state.environment.tokelPriceUSD;
 
