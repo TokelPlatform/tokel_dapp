@@ -5,9 +5,8 @@
   "description": "Komodo ecosystem’s Token Platform",
   "main": "./main.js",
   "author": {
-    "name": "Daria",
-    "email": "hello@daria.engineer",
-    "url": "https://daria.engineer"
+    "name": "Tokel",
+    "url": "https://tokel.io"
   },
   "scripts": {
     "electron-rebuild": "node -r ../../config/scripts/BabelRegister.js ../../config/scripts/ElectronRebuild.js",
