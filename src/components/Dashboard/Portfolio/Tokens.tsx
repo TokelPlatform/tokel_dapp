@@ -14,7 +14,7 @@ import {
 } from 'store/selectors';
 import { V } from 'util/theming';
 import { TokenDetail } from 'util/token-types';
-import { TokenFilter } from 'vars/defines';
+import { PORTFOLIO_ITEM_HEIGHT_PX, TokenFilter } from 'vars/defines';
 
 import PortfolioItem from './PortfolioItem';
 
@@ -28,6 +28,7 @@ const TokensRoot = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  max-height: calc(100% - ${PORTFOLIO_ITEM_HEIGHT_PX}px);
 `;
 
 const TokenTypeFilterBar = styled.div`
@@ -47,12 +48,13 @@ const TokenFilterItem = styled.span<{ active: boolean }>`
 const TokenList = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex: 1;
   overflow-y: auto;
 `;
 
 const TokenSearchBar = styled.div`
   padding: 1.4rem;
+  border-top: 1px solid ${V.color.backSofter};
 `;
 
 const TokenSearchInputContainer = styled.div`

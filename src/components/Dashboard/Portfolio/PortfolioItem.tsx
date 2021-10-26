@@ -4,13 +4,15 @@ import styled from '@emotion/styled';
 
 import tokelIcon from 'assets/logo.svg';
 import { V } from 'util/theming';
+import { PORTFOLIO_ITEM_HEIGHT_PX } from 'vars/defines';
 
 type PortfolioItemRootProps = { selected: boolean };
 
 const PortfolioItemRoot = styled.div<PortfolioItemRootProps>`
   display: flex;
   align-items: center;
-  height: 92px;
+  min-height: ${PORTFOLIO_ITEM_HEIGHT_PX}px;
+  height: ${PORTFOLIO_ITEM_HEIGHT_PX}px;
   background-color: ${props =>
     props.selected ? 'var(--color-almostBlack2)' : 'var(--color-almostBlack))'};
   border-left: 2px solid transparent;

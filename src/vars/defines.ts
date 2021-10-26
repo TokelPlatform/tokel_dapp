@@ -12,7 +12,8 @@ export enum IpfsAction {
 export const TOKEL_PRICE_URL = 'https://api.coinpaprika.com/v1/tickers/tkl-tokel';
 export const TOKEL_PRICE_UPDATE_PERIOD_MS = 10_000;
 
-export const TOPBAR_HEIGHT = 38;
+export const TOPBAR_HEIGHT_PX = 38;
+export const PORTFOLIO_ITEM_HEIGHT_PX = 86;
 export const FEE = 0.0001;
 export const FIAT_CURRENCY = 'USD';
 export const USD_VALUE = 5;

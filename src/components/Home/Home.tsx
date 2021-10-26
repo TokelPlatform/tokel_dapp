@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { selectModalName, selectView } from 'store/selectors';
 import links from 'util/links';
-import { TOPBAR_HEIGHT, ViewType } from 'vars/defines';
+import { TOPBAR_HEIGHT_PX, ViewType } from 'vars/defines';
 
 import InfoNote from 'components/_General/InfoNote';
 import Dashboard from 'components/Dashboard/Dashboard';
@@ -17,7 +17,7 @@ import Settings from 'components/Settings/Settings';
 const HomeRoot = styled.div`
   display: flex;
   width: 100%;
-  height: calc(100% - ${TOPBAR_HEIGHT}px);
+  height: calc(100% - ${TOPBAR_HEIGHT_PX}px);
 `;
 
 const ViewWrapper = styled.div`

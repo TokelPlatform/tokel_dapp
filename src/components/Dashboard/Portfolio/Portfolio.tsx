@@ -26,6 +26,8 @@ const PortfolioRoot = styled(WidgetContainer)`
   flex-direction: column;
   padding: 0;
   color: ${V.color.front};
+  overflow: hidden;
+  border-radius: ${V.size.borderRadius};
 `;
 
 const fetchTokelPrice = async () => {

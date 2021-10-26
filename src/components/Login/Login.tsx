@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { selectKey, selectSeed } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
-import { TOPBAR_HEIGHT } from 'vars/defines';
+import { TOPBAR_HEIGHT_PX } from 'vars/defines';
 
 import Logo from 'components/_General/Logo';
 import Spinner from 'components/_General/Spinner';
@@ -15,7 +15,7 @@ import LoginForm from './LoginForm';
 
 const LoginRoot = styled.div`
   width: 100%;
-  height: calc(100% - ${TOPBAR_HEIGHT}px);
+  height: calc(100% - ${TOPBAR_HEIGHT_PX}px);
   display: grid;
   grid-template-rows: 28% 45%;
   justify-items: center;
