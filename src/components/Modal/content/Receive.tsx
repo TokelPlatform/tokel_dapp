@@ -71,7 +71,13 @@ const Receive = () => {
           <CopyToClipboard color={Colors.WHITE} textToCopy={target} />
         </Copy>
       </AddressInput>
-      <FriendlyWarning message={`Make sure to send only ${options.type} to this address.`} />
+      <FriendlyWarning
+        message={
+          options.type === ResourceType.TOKEL
+            ? 'Make sure to only send TKL to this address'
+            : 'Make sure to only send tokens to this pubkey'
+        }
+      />
     </ReceiveRoot>
   );
 };

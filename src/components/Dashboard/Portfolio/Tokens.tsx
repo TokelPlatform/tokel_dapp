@@ -14,7 +14,7 @@ import {
 } from 'store/selectors';
 import { V } from 'util/theming';
 import { TokenDetail } from 'util/token-types';
-import { PORTFOLIO_ITEM_HEIGHT_PX, TokenFilter } from 'vars/defines';
+import { ModalName, PORTFOLIO_ITEM_HEIGHT_PX, ResourceType, TokenFilter } from 'vars/defines';
 
 import PortfolioItem from './PortfolioItem';
 
@@ -140,7 +140,16 @@ const Tokens = () => {
             />
           ))
         ) : (
-          <PortfolioItem name="No tokens" subtitle="There are no tokens in this wallet." />
+          <PortfolioItem
+            name="No tokens yet"
+            subtitle="Click here to see your wallet's token address (pubkey)"
+            onClick={() =>
+              dispatch.environment.SET_MODAL({
+                name: ModalName.RECEIVE,
+                options: { type: ResourceType.NFT },
+              })
+            }
+          />
         )}
       </TokenList>
       <TokenSearchBar>
