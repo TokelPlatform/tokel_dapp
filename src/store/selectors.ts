@@ -38,12 +38,16 @@ export const selectCurrentTx = (state: RootState) => state.currentTransaction;
 export const selectCurrentTxId = (state: RootState) => state.currentTransaction.id;
 export const selectCurrentTxStatus = (state: RootState) => state.currentTransaction.status;
 export const selectCurrentTxError = (state: RootState) => state.currentTransaction.error;
+export const selectCurrenTxTokenTx = (state: RootState) => state.currentTransaction.tokenTx;
 
 export const selectKey = (state: RootState) => state.account.key;
 export const selectSeed = (state: RootState) => state.account.seed;
 
 // derived
 export const selectTokenCount = (state: RootState) => size(state.wallet.tokenBalances);
+
+export const selectCurrentTokenBalance = (state: RootState) =>
+  state.wallet.chosenToken ? state.wallet.tokenBalances[state.wallet.chosenToken] : null;
 
 // computed
 export const selectAccountReady = createSelector(
@@ -57,18 +61,12 @@ export const selectAccountReady = createSelector(
 export const selectCurrentAsset = createSelector(
   [selectChosenAsset, selectAssets],
   (chosenAsset, assets) => {
-    console.log(assets);
     const index = findIndex(assets, { name: chosenAsset });
     if (index !== -1) {
       return assets[index];
     }
     return null;
   }
-);
-
-export const selectCurrentTokenBalance = createSelector(
-  [selectChosenToken, selectTokenBalances],
-  (chosenToken, balances) => (chosenToken ? balances[chosenToken] : null)
 );
 
 export const selectCurrentTokenDetail = createSelector(

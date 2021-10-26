@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
-import { selectCurrentTokenInfo } from 'store/selectors';
+import { selectCurrentTokenBalance, selectCurrentTokenInfo } from 'store/selectors';
 import { V } from 'util/theming';
 import { Colors, ModalName, ResourceType } from 'vars/defines';
 
@@ -83,8 +83,9 @@ type TransferEmbedProps = {
 
 const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
   const tokenInfo = useSelector(selectCurrentTokenInfo);
+  const currentBalance = useSelector(selectCurrentTokenBalance);
   const isNFT = tokenInfo && tokenInfo.supply === 1;
-  const sections = holdingSections ?? [{ label: 'holdings', value: tokenInfo.balance }];
+  const sections = holdingSections ?? [{ label: 'holdings', value: currentBalance }];
 
   return (
     <EmbedContentContainer>

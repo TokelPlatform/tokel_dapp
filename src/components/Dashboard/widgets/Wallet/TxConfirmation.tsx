@@ -31,7 +31,6 @@ const TxConfirmation = ({
   const txId = useSelector(selectCurrentTxId);
   const txError = useSelector(selectCurrentTxError);
 
-  console.log('RENDER MEEEE - CONFIRM');
   return (
     <TxConfirmationRoot>
       {!txId && txStatus === 0 && (

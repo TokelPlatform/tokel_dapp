@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -132,12 +132,12 @@ const MetadataItem = ({
 
 const TokenDetail = () => {
   const tokenDetail = useSelector(selectCurrentTokenDetail);
-  const [imageUrl, setImageUrl] = useState(null);
+  // const [imageUrl, setImageUrl] = useState(null);
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (tokenDetail.dataAsJson && tokenDetail.dataAsJson.url.indexOf('ipfs') !== -1) {
-      return setImageUrl(tokenDetail.dataAsJson ? tokenDetail.dataAsJson.url : '');
+      // return setImageUrl(tokenDetail.dataAsJson ? tokenDetail.dataAsJson.url : '');
     }
     if (tokenDetail.supply === 1) {
       return ipcRenderer.send(IPFS_IPC_ID, {
@@ -151,7 +151,7 @@ const TokenDetail = () => {
     ipcRenderer.on(IPFS_IPC_ID, (_, data) => {
       console.log('received image from IPFS');
       if (data.type === IpfsAction.GET) {
-        setImageUrl(data.payload.filedata);
+        // setImageUrl(data.payload.filedata);
       }
     });
   }, []);

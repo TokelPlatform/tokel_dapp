@@ -155,12 +155,15 @@ class BitgoSingleton {
       0
     );
     const res = {};
-    console.log(ccUtxos);
     console.group('LIST_UNSPENT');
     ccUtxos.forEach(utxo => {
       if (utxo?.tokendata?.tokenid) {
         res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
       }
+      // for testing in case tokens are in the old format
+      // if (utxo?.tokeldata?.tokenid) {
+      //   res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
+      // }
     });
     console.groupEnd();
     return {
@@ -264,9 +267,7 @@ class BitgoSingleton {
       destpubkey,
       amount
     );
-    const txHex = tx.toHex().toString();
-    console.log(txHex);
-    const txResult = await this.broadcast({ txHex });
+    const txResult = await this.broadcast({ txHex: tx.toHex() });
     return {
       ...txResult,
       destpubkey,

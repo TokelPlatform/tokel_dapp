@@ -57,6 +57,25 @@ const BitgoOrchestrator = () => {
         }
         return;
       }
+      // TOKEN TRANSFER
+      if (payload.type === BitgoAction.TOKEN_V2_TRANSFER) {
+        if (payload.error) {
+          dispatch.currentTransaction.SET_TX_STATUS(-1);
+          dispatch.currentTransaction.SET_TX_ERROR(ErrorMessages.NETWORK_ISSUES);
+          dispatch.environment.SET_ERROR(payload.error);
+          log.error(ErrorMessages.NETWORK_ISSUES);
+          log.error(payload.error);
+          return;
+        }
+        const success = spendSuccess(payload.data);
+        dispatch.currentTransaction.SET_TX_STATUS(success);
+        if (success) {
+          dispatch.currentTransaction.SET_TX_ID(payload.data.txid);
+          dispatch.currentTransaction.SET_TOKEN_TX(true);
+          dispatch.wallet.UPDATE_TOKEN_BALANCE(payload.data.tokenid, payload.data.amount);
+        }
+        return;
+      }
       // LOGIN
       if (payload.type === BitgoAction.LOGIN) {
         console.log('SHOULD BE RUNNING');

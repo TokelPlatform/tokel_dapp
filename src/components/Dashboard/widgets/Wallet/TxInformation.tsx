@@ -1,9 +1,11 @@
 import React, { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
 import { DEFAULT_NULL_MODAL } from 'store/models/environment';
 import { dispatch } from 'store/rematch';
+import { selectCurrenTxTokenTx, selectCurrentTokenInfo } from 'store/selectors';
 import { formatDate, limitLength, stringifyAddresses } from 'util/helpers';
 import links from 'util/links';
 import { Colors, INFORMATION_N_A } from 'vars/defines';
@@ -24,6 +26,7 @@ const Column = styled.div`
   flex-direction: column;
   width: 100%;
   margin-bottom: 2px;
+  overflow-x: auto;
 `;
 
 const CloseButtonWrapper = styled.div`
@@ -51,6 +54,8 @@ const TxInformation = ({
   timestamp,
   recipient,
 }: TxConfirmationProps): ReactElement => {
+  const tokenTx = useSelector(selectCurrenTxTokenTx);
+  const currentToken = useSelector(selectCurrentTokenInfo);
   // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
   return (
     <Column className="wrp">
@@ -58,7 +63,11 @@ const TxInformation = ({
       <TxConfirmationRow label="To" value={stringifyAddresses(recipient) ?? INFORMATION_N_A} />
       <Row>
         <TxConfirmationRow label="Date and time" value={formatDate(timestamp) ?? INFORMATION_N_A} />
-        <TxConfirmationRow label="Amount" value={`${amount} TKL`} />
+        {tokenTx ? (
+          <TxConfirmationRow label="Token" value={`${amount} ${currentToken.name}`} />
+        ) : (
+          <TxConfirmationRow label="Amount" value={`${amount} TKL`} />
+        )}
       </Row>
       <Row>
         {/*

@@ -45,5 +45,7 @@ export default createModel<RootModel>()({
       ...state,
       tokenBalances,
     }),
+    UPDATE_TOKEN_BALANCE: (state, tokenid: string, balance: number) =>
+      dp.set(state, `tokenBalances.${tokenid}`, v => v - balance),
   },
 });
