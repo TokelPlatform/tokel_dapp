@@ -12,7 +12,8 @@ import { spendSuccess } from 'util/transactionsHelper';
 import { BITGO_IPC_ID, ErrorMessages } from 'vars/defines';
 
 const BAD_WALLET_ERRORS = ['Error: RangeError: value out of range'];
-export const BROKEN_WALLET_MSG = 'Broken wallet, try another';
+export const BROKEN_WALLET_MSG =
+  'The app could not connect to this wallet. Please report the error and try again later.';
 
 const commonError = err => {
   log.error(err);

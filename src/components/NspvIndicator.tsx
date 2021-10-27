@@ -6,6 +6,7 @@ import { ipcRenderer } from 'electron';
 
 import { dispatch } from 'store/rematch';
 import { selectNspvStatus } from 'store/selectors';
+import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { V } from 'util/theming';
 
 const NspvIndicatorRoot = styled.button`
@@ -48,18 +49,15 @@ const NspvIndicator = () => {
   const [nspvLocalStatus, setNspvLocalStatus] = useState(1);
 
   useEffect(() => {
-    ipcRenderer.on('reconnect', (_, payload) => {
-      console.log('Updating status in the effect with ', Number(payload.status));
-      setNspvLocalStatus(Number(payload.status));
-    });
-  }, []);
+    setNspvLocalStatus(Number(nspvStatus));
+  }, [nspvStatus]);
 
   return (
     <NspvIndicatorRoot
       onClick={() => {
         setNspvLocalStatus(2);
         setTimeout(() => {
-          ipcRenderer.send('reconnect', { status: !nspvStatus });
+          sendToBitgo(BitgoAction.RECONNECT);
           dispatch.environment.UPDATE_NSPV_STATUS(!nspvStatus);
         }, 1000);
       }}
