@@ -22,17 +22,7 @@ export const selectChosenTransaction = (state: RootState) => state.account.chose
 export const selectTransactions = (state: RootState) =>
   state.account.txs[state.account.address] ?? [];
 
-export const selectTokenDetails = (state: RootState) => {
-  const ids = Object.keys(state.wallet.tokenBalances);
-  const details = Object.keys(state.environment.tokenDetails);
-  const tokenDetails = {};
-  ids.forEach(x => {
-    if (details.includes(x)) {
-      tokenDetails[x] = state.environment.tokenDetails[x];
-    }
-  });
-  return tokenDetails;
-};
+export const selectTokenDetails = (state: RootState) => state.environment.tokenDetails;
 
 export const selectChosenAsset = (state: RootState) => state.wallet.chosenAsset;
 

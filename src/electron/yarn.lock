@@ -251,10 +251,10 @@
     "@stablelib/random" "^1.0.1"
     "@stablelib/wipe" "^1.0.1"
 
-"@tokel/bitgo-komodo-cc-lib@0.1.45":
-  version "0.1.45"
-  resolved "https://registry.yarnpkg.com/@tokel/bitgo-komodo-cc-lib/-/bitgo-komodo-cc-lib-0.1.45.tgz#de615b96e8441a7cc08661e2e1513eff2f78498b"
-  integrity sha512-2vPlb+1m0XdKnn1FKPggWvMOjjtoiRGOQm4WVqfW94Z7e2xKtrz0QUkGW6z5DSCmacigoXstD3ntyMPI/xrYIQ==
+"@tokel/bitgo-komodo-cc-lib@0.1.46":
+  version "0.1.46"
+  resolved "https://registry.yarnpkg.com/@tokel/bitgo-komodo-cc-lib/-/bitgo-komodo-cc-lib-0.1.46.tgz#eec9a832f2576034522f853cc28da272e63e057b"
+  integrity sha512-8Pb8PptaUP7AUmQ3p3Gvo5naxa3FCGSMcPfw8p6RmRYkbJxCmnx4uRuwNuTUOC2P7qQZ3dk3TOhaaGgiZpOXYg==
   dependencies:
     "@tokel/cryptoconditions" "0.1.0"
     bech32 "0.0.3"
