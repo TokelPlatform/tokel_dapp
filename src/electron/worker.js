@@ -182,9 +182,9 @@ class BitgoSingleton {
   // eslint-disable-next-line class-methods-use-this
   async [BitgoAction.TOKEN_V2_INFO_TOKEL]({ tokenId }) {
     try {
-      const token = await cctokensv2.tokenInfoV2Tokel(
-        this.network,
+      const token = await cctokensv2.tokensInfoV2Tokel(
         this.connection,
+        this.network,
         this.wif,
         tokenId
       );
@@ -202,12 +202,15 @@ class BitgoSingleton {
     const txIds = await ccutils.getTxids(this.connection, address, 0, skipCount, 30);
     const ids = txIds.txids.map(tx => tx.txid.reverse().toString('hex'));
     const uniqueIds = [...new Set(ids)];
-    return ccutils.getTransactionsManyDecoded(
-      this.connection,
-      this.network,
-      this.pubkeyBuffer,
-      uniqueIds
-    );
+    if (uniqueIds.length > 0) {
+      return ccutils.getTransactionsManyDecoded(
+        this.connection,
+        this.network,
+        this.pubkeyBuffer,
+        uniqueIds
+      );
+    }
+    return [];
   }
 
   // eslint-disable-next-line class-methods-use-this

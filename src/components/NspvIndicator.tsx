@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
-import { ipcRenderer } from 'electron';
 
 import { dispatch } from 'store/rematch';
 import { selectNspvStatus } from 'store/selectors';
