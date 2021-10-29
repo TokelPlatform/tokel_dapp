@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Tippy from '@tippyjs/react';
-import { find } from 'lodash';
+import { find } from 'lodash-es';
 
 import { V } from 'util/theming';
 
@@ -71,13 +71,13 @@ const DropdownItem = styled.div<{ selected?: boolean }>`
 
 type SelectionType = string | number;
 
-type OptionsType<T extends SelectionType> = {
+type OptionType<T extends SelectionType> = {
   label: string;
   value: T;
 };
 
 type SelectProps<T extends SelectionType> = {
-  options: OptionsType<T>[];
+  options: OptionType<T>[];
   defaultValue: T;
   onSelect: (value: T) => void;
 };
@@ -127,7 +127,7 @@ const Select = <T extends SelectionType>({ options, defaultValue, onSelect }: Se
         }
       >
         <SelectButton type="button">
-          {find(options, { value: currentValue })?.label ?? 'Select'}
+          {find(options, opt => opt.value === currentValue)?.label ?? 'Select'}
           <ThemedChevron />
         </SelectButton>
       </Tippy>
