@@ -1,5 +1,4 @@
-/* eslint-disable jest/expect-expect */
-/* eslint-disable jest/no-done-callback */
+/* eslint-disable jest/expect-expect, jest/no-done-callback */
 
 import { Selector } from 'testcafe';
 
