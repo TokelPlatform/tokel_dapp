@@ -45,6 +45,7 @@ const CloseButton = styled.button`
   width: 16px;
   mask: url(${timesSvg}) no-repeat center / cover;
   cursor: pointer;
+  border: none;
   &:hover {
     background-color: ${V.color.front};
   }
