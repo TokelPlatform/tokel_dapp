@@ -12,7 +12,7 @@ import { IPFS_IPC_ID, IpfsAction } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ExplorerLink from 'components/_General/ExplorerLink';
-import { VSpaceMed, WidgetContainer } from './common';
+import { VSpaceMed, VSpaceSmall, WidgetContainer } from './common';
 
 const TokenDetailRoot = styled(WidgetContainer)`
   grid-column: span 5;
@@ -165,13 +165,16 @@ const TokenDetail = () => {
       <Content>
         <MetadataContent>
           <Description>{tokenDetail.description}</Description>
-          {tokenDetail.dataAsJson && (
+          {tokenDetail.dataAsJson?.url && (
             <ContentLink
               target="_blank"
               rel="noopener noreferrer"
               href={tokenDetail.dataAsJson.url}
-            />
+            >
+              {tokenDetail.dataAsJson.url}
+            </ContentLink>
           )}
+          <VSpaceSmall />
           <Metadata>
             {tokenDetail.supply > 1 && <MetadataItem name="Supply" value={tokenDetail.supply} />}
             <MetadataItem name="Creator" copy value={`${limitLength(tokenDetail.owner, 30)} ...`} />
@@ -179,6 +182,9 @@ const TokenDetail = () => {
               <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty}%`} />
             )}
             <VSpaceMed />
+            {tokenDetail.dataAsJson && tokenDetail.dataAsJson.id.toString() && (
+              <MetadataItem name="ID" value={tokenDetail.dataAsJson.id} />
+            )}
             {Object.entries(tokenDetail.dataAsJson?.arbitraryAsJson ?? []).map(([k, v]) => (
               <MetadataItem key={k} name={k} value={v} />
             ))}
