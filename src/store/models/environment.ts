@@ -55,7 +55,7 @@ export default createModel<RootModel>()({
     nspvStatus: true,
     networkPrefs: {
       show: false,
-      network: 'tkltest',
+      network: 'tokel',
       overrides: {},
     },
   } as EnvironmentState,

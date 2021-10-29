@@ -275,7 +275,7 @@ class BitgoSingleton {
   }
 }
 
-let network = networks.tkltest;
+let network = networks.tokel;
 let bitgo = new BitgoSingleton(network);
 
 parentPort.on('message', msg => {
