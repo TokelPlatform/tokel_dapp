@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectAssets, selectChosenAsset } from 'store/selectors';
+import { selectTransactions, selectUnspentBalance } from 'store/selectors';
+import { ResourceType } from 'vars/defines';
 
-import ActivityTable from './widgets/Activity/ActivityTable';
+import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
+import TransferEmbed, { HoldingType } from './widgets/Embeds/TransferEmbed';
 import LineGraph from './widgets/LineGraph';
-import PieChart from './widgets/PieChart';
-import Wallet from './widgets/Wallet/Wallet';
+import StandardWidget from './widgets/StandardWidget';
 
 const AssetViewRoot = styled.div`
   flex: 1;
@@ -22,14 +23,23 @@ const AssetViewRoot = styled.div`
 `;
 
 const AssetView = (): ReactElement => {
-  const chosenAsset = useSelector(selectChosenAsset);
-  const theAsset = useSelector(selectAssets).find(item => item.ticker === chosenAsset);
+  const txs = useSelector(selectTransactions);
+  const balance = useSelector(selectUnspentBalance);
+  const holdings: Array<HoldingType> = [
+    // { label: 'Unlocked', value: balance },
+    // { label: 'Locked', value: balance },
+    { label: 'Total', value: `${balance} TKL` },
+  ];
+
   return (
     <AssetViewRoot>
       <LineGraph />
-      {!chosenAsset && <ActivityTable />}
-      {!chosenAsset && <PieChart />}
-      {chosenAsset && theAsset && <Wallet asset={theAsset} />}
+      <StandardWidget title="Transfer" width={2}>
+        <TransferEmbed holdingSections={holdings} />
+      </StandardWidget>
+      <StandardWidget title="History" width={3}>
+        <ActivityListEmbed transactions={txs} resourceType={ResourceType.TOKEL} />
+      </StandardWidget>
     </AssetViewRoot>
   );
 };

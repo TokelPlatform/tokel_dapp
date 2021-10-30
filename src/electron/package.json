@@ -1,18 +1,22 @@
 {
   "name": "tokel_app",
   "productName": "tokelPlatform",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Komodo ecosystem’s Token Platform",
   "main": "./main.js",
   "author": {
-    "name": "Daria",
-    "email": "hello@daria.engineer",
-    "url": "https://daria.engineer"
+    "name": "Tokel",
+    "url": "https://tokel.io"
   },
   "scripts": {
     "electron-rebuild": "node -r ../../config/scripts/BabelRegister.js ../../config/scripts/ElectronRebuild.js",
     "postinstall": "yarn electron-rebuild"
   },
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@tokel/bitgo-komodo-cc-lib": "0.1.46",
+    "axios": "0.21.4",
+    "ipfs-core": "0.11.1",
+    "satoshi-bitcoin": "1.0.5"
+  }
 }

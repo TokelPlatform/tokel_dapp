@@ -2,7 +2,6 @@ body {
   background-color: var(--color-black);
   color: var(--color-white);
   font-family: source-sans-pro, sans-serif;
-  transition: 0.2s;
   margin: 0;
   padding: 0;
 }

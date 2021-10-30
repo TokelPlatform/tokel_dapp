@@ -1,16 +1,9 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
-import moment from 'moment';
 
-import { dispatch } from 'store/rematch';
-import {
-  selectAccountAddress,
-  selectCurrentTxError,
-  selectCurrentTxId,
-  selectCurrentTxStatus,
-} from 'store/selectors';
+import { selectCurrentTxError, selectCurrentTxId, selectCurrentTxStatus } from 'store/selectors';
 
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Spinner from 'components/_General/Spinner';
@@ -25,52 +18,47 @@ type TxConfirmationProps = {
   currency?: string;
   recipient: string;
   amount: string;
-  // usdValue?: string;
+  from: string;
 };
 
-const TxConfirmation = ({ currency, recipient, amount }: TxConfirmationProps): ReactElement => {
-  const txid = useSelector(selectCurrentTxId);
-  const address = useSelector(selectAccountAddress);
+const TxConfirmation = ({
+  currency,
+  recipient,
+  amount,
+  from,
+}: TxConfirmationProps): ReactElement => {
   const txStatus = useSelector(selectCurrentTxStatus);
+  const txId = useSelector(selectCurrentTxId);
   const txError = useSelector(selectCurrentTxError);
-
-  const [currentTxId, setCurrentTxId] = useState(null);
-
-  // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
-
-  useEffect(() => {
-    if (txStatus === 1) {
-      setCurrentTxId(txid);
-      dispatch.wallet.SET_CURRENT_TX_STATUS(0);
-    }
-  }, [txStatus, txid]);
 
   return (
     <TxConfirmationRoot>
-      {!currentTxId && txStatus === 0 && (
+      {!txId && txStatus === 0 && (
         <div style={{ textAlign: 'center' }}>
-          <h2>Your transaction is being broadcasted</h2>
+          <h2>Your transaction is being broadcast</h2>
           <GrayLabel>Please allow up to a minute for the broadcast to come through.</GrayLabel>
-          <GrayLabel>Closing this window will not affect the outcome of the transaction.</GrayLabel>
+          <GrayLabel>
+            Please do not close the window while transaction is being processed.
+          </GrayLabel>
           <VSpaceMed />
           <Spinner bgColor="var(--color-modal-bg)" />
         </div>
       )}
-      {!currentTxId && txStatus < 0 && (
+      {!txId && txStatus < 0 && (
         <div>
           <ErrorMessage>
             <p style={{ overflowWrap: 'break-word' }}>{txError}</p>
           </ErrorMessage>
         </div>
       )}
-      {currentTxId && (
+      {txId && (
         <TxInformation
           amount={amount}
-          txid={currentTxId}
-          from={[address]}
+          txid={txId}
+          from={[from]}
           recipient={recipient}
           currency={currency}
-          time={moment().format('DD/MM/YYYY H:mm:ss')}
+          timestamp={Date.now()}
         />
       )}
     </TxConfirmationRoot>

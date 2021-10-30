@@ -10,7 +10,7 @@ import { merge } from 'webpack-merge';
 import CheckNodeEnv from '../scripts/CheckNodeEnv';
 import paths from '../scripts/paths';
 import baseConfig from './webpack.config.base';
-import module from './webpack.config.renderer.dev.module.babel';
+import moduleFactory from './webpack.config.renderer.module.babel';
 
 // When an ESLint server is running, we can't set the NODE_ENV so we'll check if it's
 // at the dev webpack config is not accidentally run in a production environment
@@ -39,7 +39,7 @@ export default merge(baseConfig, {
   devtool: 'inline-source-map',
   target: 'electron-renderer',
 
-  module,
+  module: moduleFactory(true),
 
   entry: ['core-js', 'regenerator-runtime/runtime', require.resolve(paths.appIndex)],
 

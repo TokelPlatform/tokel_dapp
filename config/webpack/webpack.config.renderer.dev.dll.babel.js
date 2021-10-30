@@ -10,7 +10,7 @@ import { dependencies } from '../../package.json';
 import CheckNodeEnv from '../scripts/CheckNodeEnv';
 import paths from '../scripts/paths';
 import baseConfig from './webpack.config.base';
-import module from './webpack.config.renderer.dev.module.babel';
+import moduleFactory from './webpack.config.renderer.module.babel';
 
 CheckNodeEnv('development');
 
@@ -21,7 +21,7 @@ export default merge(baseConfig, {
   target: 'electron-renderer',
   externals: ['fsevents', 'crypto-browserify'],
 
-  module,
+  module: moduleFactory(true),
 
   entry: {
     renderer: Object.keys(dependencies || {}),

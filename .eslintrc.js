@@ -5,6 +5,10 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'react/require-default-props': 'off',
+    'no-console': 'off',
+    'react/destructuring-assignment': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'no-nested-ternary': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,

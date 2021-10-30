@@ -1,8 +1,9 @@
-import moment from 'moment';
+import { toBitcoin } from 'satoshi-bitcoin';
 
 import { FEE, INFORMATION_N_A, TICKER, USD_VALUE } from 'vars/defines';
 
-import getTransactionDetail from './insightApi';
+import { getTransactionDetail } from './insightApi';
+import { getRecepients, getSenders, groupTransactions } from './transactionsHelper';
 
 /**
  * Parse one transaction
@@ -45,6 +46,28 @@ export const parseListTxsRpcTx = tx => {
   ];
 };
 
+export const parseBlockchainTransaction = (tx, address: string) => {
+  const iAmSender = tx.senders.find(s => s === address);
+  console.log(tx);
+  return [
+    {
+      value: toBitcoin(tx.value.toString()),
+      from: tx.senders,
+      recipient: tx.recepients,
+      timestamp: tx.time,
+      txid: tx.txid,
+      height: tx.blockheight,
+      received: !iAmSender,
+    },
+  ];
+};
+
+/**
+ * tx samples https://kmd.explorer.dexstats.info/insight-api-komodo/tx/b0fd208b3653ddeced4eabc5af6d3f50442cf0b5d59c34db79b4091b3163d578
+ * @param tx        {object}   komodo insight api json object
+ * @param address   {string}   current wallet address
+ * @returns
+ */
 export const parseSerializedTransaction = (tx, address) => {
   if (tx.unconfirmed) {
     return tx;
@@ -52,39 +75,20 @@ export const parseSerializedTransaction = (tx, address) => {
   if (!tx.time) {
     return parseListTxsRpcTx(tx);
   }
+  const recipients = getRecepients(tx);
+  const senders = getSenders(tx);
+  const iAmSender = senders.find(s => s === address);
   return [
     {
       value: Number(tx.vout[0].value),
-      from: [...new Set(tx.vin.map(v => v.addr).flat())],
-      recipient: tx.vout[0].scriptPubKey.addresses[0],
-      time: moment.unix(tx.time).format('DD/MM/YYYY H:mm:ss'),
+      from: senders,
+      recipient: iAmSender ? recipients : [address],
+      timestamp: tx.time,
       txid: tx.txid,
       height: tx.blockheight,
-      received: tx.vout[0].scriptPubKey.addresses[0] === address,
+      received: !iAmSender,
     },
   ];
-};
-
-/**
- * Groups transactions from listtransactions output by txids
- * @param txs     listtransactions.txids
- * @returns
- */
-export const groupTransactions = txs => {
-  if (!txs.length) {
-    return [];
-  }
-  const parsedTxs = {};
-  // @todo change later
-  // we only show 3 top transactions at the moment so we dont need to parse everything now
-  txs.sort((a, b) => b.height - a.height);
-  txs.slice(0, 9).forEach(tx => {
-    if (!parsedTxs[tx.txid]) {
-      parsedTxs[tx.txid] = [];
-    }
-    parsedTxs[tx.txid].push(tx);
-  });
-  return parsedTxs;
 };
 
 /**
@@ -96,52 +100,30 @@ export const parseSpendTx = (newtx, from) => {
   return {
     received: false,
     unconfirmed: true,
-    txid: newtx.tx.txid,
-    height: newtx.tx.height ?? 'TBA',
-    value: Number(newtx.tx.total) - Number(newtx.tx.change) - FEE,
+    txid: newtx.txid,
+    // height: newtx.tx.height ?? 'TBA',
+    value: newtx.value,
     recipient: newtx.recipient,
-    time: newtx.time,
+    senders: [from],
+    timestamp: newtx.time,
     from,
   };
 };
 
-// retcode < 0 .. error, === 1 success
-export const spendSuccess = broadcasted => broadcasted.retcode === 1;
 /**
  * Parse listunspent output
  * @param unspent
  * @returns
  */
-export const parseUnspent = unspent => {
+export const parseUnspent = balance => {
   return [
     {
       name: TICKER,
       ticker: TICKER,
-      balance: unspent.balance,
+      balance,
       usd_value: USD_VALUE,
     },
   ];
-};
-
-/**
- * Filter out the transactions which are still not confirmed in the new incoming tx batch
- * @param txs new incomings txs
- * @param unconfirmed current unconfirmed txs saved in the state
- * @returns
- */
-export const getStillUnconfirmed = (newTxs, currentTxs) => {
-  if (!currentTxs || currentTxs.length === 0) {
-    return [];
-  }
-  const unconfirmed = currentTxs.filter(tx => tx.unconfirmed);
-  return unconfirmed.filter(txid => {
-    return !newTxs.find(
-      tx =>
-        // first comparison is for data returned by the insight API,
-        // second comparison is for data returned by nspv
-        tx.txid === txid.txid || tx[0].txid === txid.txid
-    );
-  });
 };
 
 /**

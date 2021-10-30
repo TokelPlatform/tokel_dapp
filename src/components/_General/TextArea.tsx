@@ -7,6 +7,7 @@ type InputProps = {
   width: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  margin?: string;
 };
 
 type TextAreaType = {
@@ -24,11 +25,18 @@ const Styled = styled.textarea<TextAreaType>`
   font-size: var(--font-size-additional-p);
   font-family: var(--font-family-primary);
   resize: none;
-  margin: 1rem 0;
 `;
 
-const TextArea = ({ height, width, value, onChange }: InputProps) => {
-  return <Styled value={value} onChange={onChange} height={height} width={width} />;
+const TextArea = ({ height, width, value, onChange, margin }: InputProps) => {
+  return (
+    <Styled
+      value={value}
+      onChange={onChange}
+      height={height}
+      width={width}
+      style={{ margin: margin ?? '1rem 0' }}
+    />
+  );
 };
 
 export default TextArea;

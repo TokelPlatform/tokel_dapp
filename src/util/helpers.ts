@@ -1,3 +1,6 @@
+import format from 'date-fns/format';
+import fromUnixTime from 'date-fns/fromUnixTime';
+
 import { Config, WindowSize } from 'vars/defines';
 
 interface ResponsiveType {
@@ -13,7 +16,6 @@ const responsiveFactory = (property: string) =>
     {}
   ) as ResponsiveType;
 
-// eslint-disable-next-line import/prefer-default-export
 export const Responsive = {
   above: responsiveFactory('min-width'),
   below: responsiveFactory('max-width'),
@@ -34,18 +36,20 @@ export const limitLength = (value: string, len: number) => value.substr(0, len);
 
 export const isAddressValid = (address: string) => /^[a-km-zA-HJ-NP-Z1-9]{26,35}$/.test(address);
 
-export const parseSenderAddresses = sender => {
-  if (!sender.length) {
+export const stringifyAddresses = addresses => {
+  if (!addresses || !addresses.length) {
     return null;
   }
-  if (!Array.isArray(sender)) {
-    return sender;
+  if (!Array.isArray(addresses)) {
+    return addresses;
   }
-  if (sender.length === 1) {
-    return sender[0];
+  if (addresses.length === 1) {
+    return addresses[0];
   }
-  if (sender.length === 2) {
-    return `${sender[0]}, ${sender[1]}`;
+  if (addresses.length === 2) {
+    return `${addresses[0]}, ${addresses[1]}`;
   }
-  return `${sender[0]}, ${sender[1]} , ${sender.length - 2} senders`;
+  return `${addresses[0]}, ${addresses[1]} , ${addresses.length - 2} addresses`;
 };
+
+export const formatDate = timestamp => format(fromUnixTime(timestamp), 'dd/MM/yyyy H:mm:ss');

@@ -9,7 +9,7 @@ import TxDetail from './TxDetail';
 
 interface ModalPayloadType {
   title: string;
-  children: ReactElement;
+  component: ReactElement;
 }
 
 interface ModalCollectionType {
@@ -17,8 +17,8 @@ interface ModalCollectionType {
 }
 
 export default {
-  [ModalName.RECEIVE]: { title: 'Your wallet address', children: <Receive /> },
-  [ModalName.SEND]: { title: 'Send funds', children: <Send /> },
-  [ModalName.FEEDBACK]: { title: 'Feedback', children: <Feedback /> },
-  [ModalName.TX_DETAIL]: { title: 'Transaction detail', children: <TxDetail /> },
+  [ModalName.RECEIVE]: { title: 'Your wallet', component: <Receive /> },
+  [ModalName.SEND]: { title: 'Send', component: <Send /> },
+  [ModalName.FEEDBACK]: { title: 'Feedback', component: <Feedback /> },
+  [ModalName.TX_DETAIL]: { title: 'Transaction detail', component: <TxDetail /> },
 } as ModalCollectionType;

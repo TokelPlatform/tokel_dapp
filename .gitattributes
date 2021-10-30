@@ -5,3 +5,6 @@
 *.jpeg  binary
 *.ico   binary
 *.icns  binary
+
+include/binaries/libnspv/npsv-mac     binary
+include/binaries/libnspv/npsv-linux   binary

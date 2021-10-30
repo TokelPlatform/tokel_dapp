@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
+import ToggleIcon from 'assets/Toggle.svg';
 import { dispatch } from 'store/rematch';
-import { getNewAddress } from 'util/nspvlib';
-import { TOPBAR_HEIGHT } from 'vars/defines';
+import { selectKey, selectSeed } from 'store/selectors';
+import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
+import { V } from 'util/theming';
+import { TOPBAR_HEIGHT_PX } from 'vars/defines';
 
 import Logo from 'components/_General/Logo';
 import Spinner from 'components/_General/Spinner';
@@ -14,7 +18,7 @@ import LoginForm from './LoginForm';
 
 const LoginRoot = styled.div`
   width: 100%;
-  height: calc(100% - ${TOPBAR_HEIGHT}px);
+  height: calc(100% - ${TOPBAR_HEIGHT_PX}px);
   display: grid;
   grid-template-rows: 28% 45%;
   justify-items: center;
@@ -40,6 +44,25 @@ const ProgressBarAnimation = styled.div<ProgressProps>`
   transition: 0.3s;
 `;
 
+const NetworkPrefsButton = styled.button`
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  background-color: none;
+  border: none;
+  height: 18px;
+  width: 18px;
+  background: ${V.color.frontSoft};
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-image: url('${ToggleIcon}');
+  cursor: pointer;
+  &:hover {
+    background: ${V.color.front};
+  }
+`;
+
 const STEP1 = 1;
 const STEP2 = 2;
 const STEP3 = 3;
@@ -48,22 +71,15 @@ const STEP5 = 5;
 
 const Login = () => {
   const [step, setStep] = useState(STEP1);
-  const [key, setKey] = useState(null);
-  const [seed, setSeed] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
+  const key = useSelector(selectKey);
+  const seed = useSelector(selectSeed);
 
   useEffect(() => {
-    if (key && seed) {
-      return;
-    }
     if (step === STEP2) {
-      (async () => {
-        const result = await getNewAddress();
-        setKey(result.wif);
-        setSeed(result.seed);
-      })();
+      sendToBitgo(BitgoAction.NEW_ADDRESS);
     }
-  }, [step, key, seed]);
+  }, [step]);
 
   const back = () => setStep(step - 1);
   const forward = () => setStep(step + 1);
@@ -73,6 +89,7 @@ const Login = () => {
       <div style={{ marginTop: '10rem', marginBottom: 0 }}>
         <Logo />
       </div>
+      <NetworkPrefsButton onClick={() => dispatch.environment.TOGGLE_SHOW_NETWORK_PREFS()} />
       {step === STEP1 && <LoginForm addNewWallet={() => forward()} />}
       {step === STEP2 && (
         <GeneratedCredential
@@ -100,7 +117,7 @@ const Login = () => {
           forward={() => {
             forward();
             setShowSpinner(true);
-            dispatch.account.login({ key, setError: console.log });
+            sendToBitgo(BitgoAction.LOGIN, { key });
           }}
         />
       )}

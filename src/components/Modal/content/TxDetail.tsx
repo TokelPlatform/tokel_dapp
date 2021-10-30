@@ -16,7 +16,7 @@ const TxDetail = () => {
       amount={formatDec(chosenTx.value)}
       txid={chosenTx.txid}
       from={chosenTx.from}
-      time={chosenTx.time}
+      timestamp={chosenTx.timestamp}
     />
   );
 };

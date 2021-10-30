@@ -6,10 +6,11 @@ import styled from '@emotion/styled';
 import { Platform, usePlatform } from 'hooks/platform';
 import { dispatch } from 'store/rematch';
 import { selectAccountReady } from 'store/selectors';
-import { Colors, ModalName, TOPBAR_HEIGHT } from 'vars/defines';
+import { Colors, ModalName, TOPBAR_HEIGHT_PX } from 'vars/defines';
 
 import { ButtonSmall } from 'components/_General/buttons';
 import { HSpaceSmall } from 'components/Dashboard/widgets/common';
+import NspvIndicator from 'components/NspvIndicator';
 import WindowControls from 'components/WindowControls';
 
 // import User from './User';
@@ -20,7 +21,7 @@ type TopBarRootProps = {
 
 const TopBarRoot = styled.div<TopBarRootProps>`
   background-color: var(${p => p.bgColor});
-  height: ${TOPBAR_HEIGHT}px;
+  height: ${TOPBAR_HEIGHT_PX}px;
   width: 100%;
   display: flex;
   padding: 10px;
@@ -47,7 +48,8 @@ const TopBar = () => {
       {isWindowsOrLinux ? <WindowControls /> : <div />}
       {accountReady ? (
         <RightSideContainer>
-          <ButtonSmall onClick={() => dispatch.environment.SET_MODAL(ModalName.FEEDBACK)}>
+          <NspvIndicator />
+          <ButtonSmall onClick={() => dispatch.environment.SET_MODAL_NAME(ModalName.FEEDBACK)}>
             Feedback
           </ButtonSmall>
           <HSpaceSmall />
