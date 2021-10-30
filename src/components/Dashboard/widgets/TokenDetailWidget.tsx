@@ -111,20 +111,18 @@ const TokenImage = styled.img`
   width: 100%;
 `;
 
-const MetadataItem = ({
-  name,
-  value,
-  copy = false,
-}: {
+type MetadataItemProps = {
   name: string;
   value: unknown;
-  copy?: boolean;
-}) => (
+  copyValue?: string;
+};
+
+const MetadataItem = ({ name, value, copyValue }: MetadataItemProps) => (
   <MetadataItemRoot>
     <MetadataName>{upperFirst(name)}</MetadataName>
     <MetadataValue>
       <ValueWrapper>
-        {value} {copy && <CopyToClipboard textToCopy={value.toString()} color="white" />}
+        {value} {copyValue && <CopyToClipboard textToCopy={copyValue} color="white" />}
       </ValueWrapper>
     </MetadataValue>
   </MetadataItemRoot>
@@ -177,7 +175,11 @@ const TokenDetail = () => {
           <VSpaceSmall />
           <Metadata>
             {tokenDetail.supply > 1 && <MetadataItem name="Supply" value={tokenDetail.supply} />}
-            <MetadataItem name="Creator" copy value={`${limitLength(tokenDetail.owner, 30)} ...`} />
+            <MetadataItem
+              name="Creator"
+              value={`${limitLength(tokenDetail.owner, 30)} ...`}
+              copyValue={tokenDetail.owner}
+            />
             {tokenDetail.dataAsJson && (
               <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty}%`} />
             )}
