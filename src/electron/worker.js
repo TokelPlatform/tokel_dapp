@@ -38,9 +38,6 @@ class BitgoSingleton {
 
   // eslint-disable-next-line class-methods-use-this
   async [BitgoAction.RECONNECT]() {
-    if (process.env.NODE_ENV === 'test') {
-      return 'singleton created';
-    }
     try {
       this.connection = await nspvConnect({ network: this.network }, {});
       return true;
