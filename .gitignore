@@ -7,6 +7,10 @@ release
 build
 config/dll
 
+# Packaged app used for testing
+src/electron/dist
+src/electron/main.js
+
 # Logs
 logs
 *.log

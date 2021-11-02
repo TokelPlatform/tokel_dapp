@@ -38,6 +38,7 @@ type InputProps = {
   onKeyDown: (e) => void;
   disabled?: boolean;
   error?: string;
+  tid?: string;
 };
 
 const Input = ({
@@ -52,6 +53,7 @@ const Input = ({
   type,
   disabled,
   error,
+  tid,
 }: InputProps) => {
   return (
     <div>
@@ -66,6 +68,7 @@ const Input = ({
         width={width}
         icon={icon !== ''}
         type={type}
+        data-tid={tid}
         disabled={disabled}
       />
       {typeof error === 'string' && (
