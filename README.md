@@ -4,7 +4,7 @@
 <img src="https://user-images.githubusercontent.com/2395326/128694831-8df4ae6f-7547-45e4-88f9-685ccb51fd66.png" width="20%"/>
   <h1>The Future of Tokenization</h1>
 	<br>
-	<a title="Downloads" href="https://github.com/TokelPlatform/tokel_app/releases/tag/v1.1.0">
+	<a title="Downloads" href="https://github.com/TokelPlatform/tokel_app/releases/latest>
 		<img src="https://img.shields.io/github/downloads/TokelPlatform/tokel_app/total.svg">
 	</a>
 	<a title="Release" href="https://github.com/TokelPlatform/tokel_app/releases/latest">
