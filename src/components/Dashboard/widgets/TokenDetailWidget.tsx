@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -12,7 +12,7 @@ import { IPFS_IPC_ID, IpfsAction } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ExplorerLink from 'components/_General/ExplorerLink';
-import { VSpaceMed, VSpaceSmall, WidgetContainer } from './common';
+import { VSpaceSmall, WidgetContainer } from './common';
 
 const TokenDetailRoot = styled(WidgetContainer)`
   grid-column: span 5;
@@ -22,7 +22,7 @@ const TokenDetailRoot = styled(WidgetContainer)`
 `;
 
 const Header = styled.header`
-  padding: 20px;
+  padding: 25px;
   border-bottom: 1px solid ${V.color.backSoftest};
 `;
 
@@ -33,9 +33,10 @@ const Name = styled.div`
 `;
 
 const Content = styled.div`
-  padding: 20px 30px;
+  padding: 25px;
   display: flex;
   overflow: hidden;
+  overflow-wrap: break-word;
   ${Responsive.below.L} {
     flex-direction: column;
   }
@@ -54,7 +55,7 @@ const MetadataContent = styled(ContentSection)`
 
 const MediaContent = styled(ContentSection)`
   display: flex;
-  max-width: 50%;
+  width: 40%;
   padding-left: 20px;
   ${Responsive.below.L} {
     order: 1;
@@ -98,17 +99,15 @@ const ContentLink = styled.a`
 `;
 
 const ImageFrame = styled.div`
-  max-width: 412px;
-  padding: 16px;
-  border: 1px solid ${V.color.backSoftest};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   border-radius: ${V.size.borderRadius};
-  ${Responsive.below.L} {
-    max-width: 300px;
-  }
 `;
 
 const TokenImage = styled.img`
-  width: 100%;
+  height: 100%;
 `;
 
 type MetadataItemProps = {
@@ -177,14 +176,13 @@ const TokenDetail = () => {
             {tokenDetail.supply > 1 && <MetadataItem name="Supply" value={tokenDetail.supply} />}
             <MetadataItem
               name="Creator"
-              value={`${limitLength(tokenDetail.owner, 30)} ...`}
+              value={`${limitLength(tokenDetail.owner, 24)} ...`}
               copyValue={tokenDetail.owner}
             />
-            {tokenDetail.dataAsJson && (
+            {tokenDetail.dataAsJson?.royalty && (
               <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty}%`} />
             )}
-            <VSpaceMed />
-            {tokenDetail.dataAsJson && tokenDetail.dataAsJson.id.toString() && (
+            {tokenDetail.dataAsJson?.id.toString() && (
               <MetadataItem name="ID" value={tokenDetail.dataAsJson.id} />
             )}
             {Object.entries(tokenDetail.dataAsJson?.arbitraryAsJson ?? []).map(([k, v]) => (
@@ -192,23 +190,15 @@ const TokenDetail = () => {
             ))}
           </Metadata>
         </MetadataContent>
-        {tokenDetail.supply === 1 && (
-          <MediaContent>
-            <ImageFrame>
-              <ContentLink
-                target="_blank"
-                rel="noopener noreferrer"
-                href={tokenDetail.dataAsJson.url}
-              >
-                <TokenImage
-                  alt="Big Buck Bunny"
-                  src={tokenDetail.dataAsJson.url}
-                  title="No video playback capabilities, please download the video below"
-                />
-              </ContentLink>
-            </ImageFrame>
-          </MediaContent>
-        )}
+        <MediaContent>
+          <ImageFrame>
+            <TokenImage
+              alt={tokenDetail.name}
+              src={tokenDetail.dataAsJson.url}
+              title="No video playback capabilities, please download the video below"
+            />
+          </ImageFrame>
+        </MediaContent>
       </Content>
     </TokenDetailRoot>
   );
