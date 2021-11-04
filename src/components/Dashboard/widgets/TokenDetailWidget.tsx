@@ -12,6 +12,7 @@ import { IPFS_IPC_ID, IpfsAction } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ExplorerLink from 'components/_General/ExplorerLink';
+import Loader from 'components/_General/Spinner';
 import { VSpaceSmall, WidgetContainer } from './common';
 
 const TokenDetailRoot = styled(WidgetContainer)`
@@ -104,10 +105,20 @@ const ImageFrame = styled.div`
   justify-content: center;
   overflow: hidden;
   border-radius: ${V.size.borderRadius};
+  width: 100%;
 `;
 
 const TokenImage = styled.img`
   height: 100%;
+`;
+
+const LoaderContainer = styled.div`
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid ${V.color.backSoftest};
 `;
 
 type MetadataItemProps = {
@@ -129,26 +140,32 @@ const MetadataItem = ({ name, value, copyValue }: MetadataItemProps) => (
 
 const TokenDetail = () => {
   const tokenDetail = useSelector(selectCurrentTokenDetail);
-  // const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
-  // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (tokenDetail.dataAsJson && tokenDetail.dataAsJson.url.indexOf('ipfs') !== -1) {
-      // return setImageUrl(tokenDetail.dataAsJson ? tokenDetail.dataAsJson.url : '');
-    }
-    if (tokenDetail.supply === 1) {
-      return ipcRenderer.send(IPFS_IPC_ID, {
+    setImageUrl(null);
+  }, [tokenDetail]);
+
+  useEffect(() => {
+    if (tokenDetail?.dataAsJson?.url?.includes('https://ipfs.io/')) {
+      ipcRenderer.send(IPFS_IPC_ID, {
         type: IpfsAction.GET,
-        payload: { url: tokenDetail.dataAsJson.url },
+        payload: {
+          ipfsId:
+            tokenDetail.dataAsJson?.url.split('/')[
+              tokenDetail.dataAsJson.url?.split('/').length - 1
+            ],
+        },
       });
+    } else {
+      setImageUrl(tokenDetail?.dataAsJson?.url);
     }
   }, [tokenDetail]);
 
   useEffect(() => {
     ipcRenderer.on(IPFS_IPC_ID, (_, data) => {
-      console.log('received image from IPFS');
       if (data.type === IpfsAction.GET) {
-        // setImageUrl(data.payload.filedata);
+        setImageUrl(data.payload.filedata);
       }
     });
   }, []);
@@ -166,9 +183,9 @@ const TokenDetail = () => {
             <ContentLink
               target="_blank"
               rel="noopener noreferrer"
-              href={tokenDetail.dataAsJson.url}
+              href={tokenDetail.dataAsJson?.url}
             >
-              {tokenDetail.dataAsJson.url}
+              {tokenDetail.dataAsJson?.url}
             </ContentLink>
           )}
           <VSpaceSmall />
@@ -192,11 +209,19 @@ const TokenDetail = () => {
         </MetadataContent>
         <MediaContent>
           <ImageFrame>
-            <TokenImage
-              alt={tokenDetail.name}
-              src={tokenDetail.dataAsJson?.url}
-              title="No video playback capabilities, please download the video below"
-            />
+            {!!tokenDetail.dataAsJson?.url && !imageUrl && (
+              <LoaderContainer>
+                <Loader bgColor={V.color.back} />
+              </LoaderContainer>
+            )}
+
+            {!!imageUrl && (
+              <TokenImage
+                alt={tokenDetail.name}
+                src={imageUrl}
+                title="No video playback capabilities, please download the video below"
+              />
+            )}
           </ImageFrame>
         </MediaContent>
       </Content>
