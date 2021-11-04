@@ -194,7 +194,7 @@ const TokenDetail = () => {
           <ImageFrame>
             <TokenImage
               alt={tokenDetail.name}
-              src={tokenDetail.dataAsJson.url}
+              src={tokenDetail.dataAsJson?.url}
               title="No video playback capabilities, please download the video below"
             />
           </ImageFrame>
