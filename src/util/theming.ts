@@ -37,6 +37,9 @@ const baseTheme = {
     borderRadius: '4px',
     borderRadiusBig: '8px',
   },
+  grid: {
+    columnGap: '0.75rem',
+  },
 };
 
 export const darkTheme = {

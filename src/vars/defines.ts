@@ -57,6 +57,7 @@ export enum ViewType {
   DASHBOARD = 'dashboard',
   DEX = 'dex',
   NFT_MARKET = 'nft_market',
+  CREATE_TOKEN = 'create_token',
   SETTINGS = 'settings',
 }
 

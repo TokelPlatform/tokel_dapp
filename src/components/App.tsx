@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Global } from '@emotion/react';
+import { Global, ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { Platform, usePlatform } from 'hooks/platform';
 import { selectAccountReady, selectShowNetworkPrefs, selectTheme } from 'store/selectors';
-import { cssVarStyle } from 'util/theming';
+import { cssVarStyle, V } from 'util/theming';
 import { scrollbarStyle } from 'vars/styles/platformSpecific';
 
 import Home from 'components/Home/Home';
@@ -34,11 +34,13 @@ export default function App() {
   const isWindowsOrLinux = [Platform.WINDOWS, Platform.LINUX].includes(usePlatform());
 
   return (
-    <AppRoot>
-      <Global styles={[cssVarStyle, isWindowsOrLinux && scrollbarStyle].filter(Boolean)} />
-      <TopBar />
-      {accountReady ? <Home /> : <Login />}
-      {showNetworkPrefs && <NetworkPrefs />}
-    </AppRoot>
+    <ThemeProvider theme={V}>
+      <AppRoot>
+        <Global styles={[cssVarStyle, isWindowsOrLinux && scrollbarStyle].filter(Boolean)} />
+        <TopBar />
+        {accountReady ? <Home /> : <Login />}
+        {showNetworkPrefs && <NetworkPrefs />}
+      </AppRoot>
+    </ThemeProvider>
   );
 }
