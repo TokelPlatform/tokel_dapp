@@ -1,7 +1,7 @@
 {
   "name": "tokel_app",
   "productName": "tokelPlatform",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Komodo ecosystem’s Token Platform",
   "main": "./main.js",
   "author": {
@@ -14,7 +14,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@tokel/bitgo-komodo-cc-lib": "0.1.48",
+    "@tokel/bitgo-komodo-cc-lib": "0.1.49",
     "axios": "0.21.4",
     "ipfs-core": "0.11.1",
     "satoshi-bitcoin": "1.0.5"
