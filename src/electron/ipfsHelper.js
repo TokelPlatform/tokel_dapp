@@ -1,5 +1,6 @@
 const IPFS = require('ipfs-core');
 
+const tar = require('tar-stream');
 const toStream = require('it-to-stream');
 const FileType = require('file-type');
 
@@ -31,31 +32,42 @@ class IpfsNodeSingleton {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async get({ url }) {
-    console.log('------', url);
-    const testUrl = 'QmPoQ9xypTGknGTkxkCoHafo7ec2565irzYj9Q3oGKxQ4s';
-    let data = '';
+  get({ ipfsId }) {
+    return new Promise((resolve, reject) => {
+      if (!this.node) reject(Error('IPFS node is not defined'));
 
-    const d = this.node.get(testUrl);
-    // AsyncIterable<Uint8Array>
+      const extract = tar.extract();
 
-    // eslint-disable-next-line no-restricted-syntax
-    for await (const chunk of d) {
-      data += chunk;
-    }
-    const stream = toStream(
-      this.node.cat(testUrl, {
-        length: 100, // or however many bytes you need
-      })
-    );
+      let type;
+      const files = [];
 
-    const type = await FileType.fromStream(stream);
-    console.log('Filetype: ', type);
+      extract.on('entry', (header, stream, next) => {
+        const buffers = [];
 
-    return {
-      filedata: data,
-      ...type,
-    };
+        stream.on('data', chunk => buffers.push(chunk));
+
+        stream.on('end', () => {
+          files.push(Buffer.concat(buffers));
+          next();
+        });
+
+        stream.resume();
+      });
+
+      extract.on('finish', async () => {
+        type = await FileType.fromBuffer(files[0]);
+        const base64 = `data:${type.mime};base64,${files[0].toString('base64')}`;
+        resolve({ filedata: base64, type });
+      });
+
+      const stream = toStream(
+        this.node.get(ipfsId, {
+          length: 100,
+        })
+      );
+
+      stream.pipe(extract);
+    });
   }
 
   async [IpfsAction.STOP]() {
