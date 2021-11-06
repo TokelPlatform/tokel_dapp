@@ -6,6 +6,7 @@
     "lint": "cross-env NODE_ENV=development && eslint . --cache --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx --fix",
     "test": "jest",
+    "test-e2e": "yarn build && node -r @babel/register ./config/scripts/CheckBuildsExist.js && cp -R ./build/* ./src/electron && cross-env NODE_ENV=test testcafe electron:./src/electron ./tests-e2e && rm -rf ./src/electron/dist ./src/electron/main.js",
     "tsc": "cross-env NODE_ENV=development ./node_modules/.bin/tsc",
     "checks": "concurrently 'yarn lint' 'yarn test' 'yarn tsc'",
     "postinstall": "node -r @babel/register ./config/scripts/CheckNativeDep.js && electron-builder install-app-deps && yarn cross-env NODE_ENV=development webpack --config ./config/webpack/webpack.config.renderer.dev.dll.babel.js && yarn-deduplicate yarn.lock",
@@ -28,18 +29,12 @@
     "publish": "yarn build && electron-builder -mlw --x64 --arm64 --publish always"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "cross-env NODE_ENV=development eslint --cache"
-    ],
+    "*.{js,jsx,ts,tsx}": ["cross-env NODE_ENV=development eslint --cache"],
     "{*.json,.{babelrc,eslintrc,prettierrc}}": [
       "prettier --ignore-path .eslintignore --parser json --write"
     ],
-    "*.{css,scss}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ],
-    "*.{html,md,yml}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ]
+    "*.{css,scss}": ["prettier --ignore-path .eslintignore --single-quote --write"],
+    "*.{html,md,yml}": ["prettier --ignore-path .eslintignore --single-quote --write"]
   },
   "build": {
     "asar": false,
@@ -61,9 +56,7 @@
       "nspv-bitgo.js",
       "node_modules"
     ],
-    "extraResources": [
-      "assets"
-    ],
+    "extraResources": ["assets"],
     "publish": {
       "provider": "github",
       "owner": "TokelPlatform",
@@ -72,10 +65,7 @@
     },
     "mac": {
       "identity": null,
-      "target": [
-        "dmg",
-        "zip"
-      ],
+      "target": ["dmg", "zip"],
       "type": "distribution",
       "hardenedRuntime": true,
       "entitlements": "assets/entitlements.mac.plist",
@@ -99,15 +89,11 @@
     },
     "win": {
       "icon": "icon.ico",
-      "target": [
-        "nsis"
-      ]
+      "target": ["nsis"]
     },
     "linux": {
       "icon": "icon.png",
-      "target": [
-        "AppImage"
-      ],
+      "target": ["AppImage"],
       "category": "Development"
     }
   },
@@ -125,15 +111,7 @@
   "bugs": {
     "url": "https://github.com/TokelPlatform/tokel_app/issues"
   },
-  "keywords": [
-    "tokel",
-    "komodo",
-    "nftmarketplace",
-    "dex",
-    "token",
-    "wallet",
-    "crypto"
-  ],
+  "keywords": ["tokel", "komodo", "nftmarketplace", "dex", "token", "wallet", "crypto"],
   "homepage": "https://github.com/TokelPlatform/tokel_app#readme",
   "jest": {
     "testURL": "http://localhost/",
@@ -150,23 +128,10 @@
       "^util/(.*)$": "<rootDir>/src/util/$1",
       "^vars/(.*)$": "<rootDir>/src/vars/$1"
     },
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "ts",
-      "tsx",
-      "json"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "src/electron/node_modules"
-    ],
-    "setupFiles": [
-      "./config/scripts/CheckBuildsExist.js"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/?!(minidenticon)"
-    ]
+    "moduleFileExtensions": ["js", "jsx", "ts", "tsx", "json"],
+    "moduleDirectories": ["node_modules", "src/electron/node_modules"],
+    "setupFiles": ["./config/scripts/CheckBuildsExist.js"],
+    "transformIgnorePatterns": ["node_modules/?!(minidenticon)"]
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -263,6 +228,8 @@
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^5.0.3",
+    "testcafe": "^1.16.1",
+    "testcafe-browser-provider-electron": "^0.0.16",
     "typescript": "^4.2.4",
     "url-loader": "^4.1.0",
     "webpack": "^5.32.0",
@@ -285,8 +252,8 @@
     "dot-prop-immutable": "2.1.0",
     "electron-unhandled": "3.0.2",
     "electron-updater": "^4.3.4",
-    "formik": "^2.2.9",
     "file-type": "16.5.3",
+    "formik": "^2.2.9",
     "framer-motion": "^4.1.5",
     "fuse.js": "^6.4.6",
     "history": "^5.0.0",
@@ -304,7 +271,8 @@
     "regenerator-runtime": "^0.13.5",
     "reselect": "^4.0.0",
     "satoshi-bitcoin": "1.0.5",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+    "tar-stream": "^2.2.0"
   },
   "engines": {
     "node": ">=15.x",
@@ -313,12 +281,8 @@
   },
   "browserslist": [],
   "renovate": {
-    "extends": [
-      "bliss"
-    ],
-    "baseBranches": [
-      "next"
-    ]
+    "extends": ["bliss"],
+    "baseBranches": ["next"]
   },
   "husky": {
     "hooks": {

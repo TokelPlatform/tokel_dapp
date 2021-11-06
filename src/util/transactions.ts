@@ -48,7 +48,6 @@ export const parseListTxsRpcTx = tx => {
 
 export const parseBlockchainTransaction = (tx, address: string) => {
   const iAmSender = tx.senders.find(s => s === address);
-  console.log(tx);
   return [
     {
       value: toBitcoin(tx.value.toString()),

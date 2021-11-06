@@ -92,14 +92,16 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
           setError('');
           setloginValue(e.target.value);
         }}
+        tid="wif-input"
         onKeyDown={e => e.key === 'Enter' && performLogin()}
         icon={password}
         value={loginValue}
         placeholder="Key or Seed Phrase"
+        type="password"
         disabled={showSpinner}
       />
       <VSpaceSmall />
-      <Button onClick={performLogin} theme="purple" disabled={showSpinner}>
+      <Button onClick={performLogin} theme="purple" disabled={showSpinner} data-tid="login-button">
         Login
       </Button>
       <VSpaceMed />

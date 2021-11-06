@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -12,7 +12,8 @@ import { IPFS_IPC_ID, IpfsAction } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ExplorerLink from 'components/_General/ExplorerLink';
-import { VSpaceMed, VSpaceSmall, WidgetContainer } from './common';
+import Loader from 'components/_General/Spinner';
+import { VSpaceSmall, WidgetContainer } from './common';
 
 const TokenDetailRoot = styled(WidgetContainer)`
   grid-column: span 5;
@@ -22,7 +23,7 @@ const TokenDetailRoot = styled(WidgetContainer)`
 `;
 
 const Header = styled.header`
-  padding: 20px;
+  padding: 25px;
   border-bottom: 1px solid ${V.color.backSoftest};
 `;
 
@@ -33,9 +34,10 @@ const Name = styled.div`
 `;
 
 const Content = styled.div`
-  padding: 20px 30px;
+  padding: 25px;
   display: flex;
   overflow: hidden;
+  overflow-wrap: break-word;
   ${Responsive.below.L} {
     flex-direction: column;
   }
@@ -54,7 +56,7 @@ const MetadataContent = styled(ContentSection)`
 
 const MediaContent = styled(ContentSection)`
   display: flex;
-  max-width: 50%;
+  width: 40%;
   padding-left: 20px;
   ${Responsive.below.L} {
     order: 1;
@@ -98,33 +100,39 @@ const ContentLink = styled.a`
 `;
 
 const ImageFrame = styled.div`
-  max-width: 412px;
-  padding: 16px;
-  border: 1px solid ${V.color.backSoftest};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   border-radius: ${V.size.borderRadius};
-  ${Responsive.below.L} {
-    max-width: 300px;
-  }
-`;
-
-const TokenImage = styled.img`
   width: 100%;
 `;
 
-const MetadataItem = ({
-  name,
-  value,
-  copy = false,
-}: {
+const TokenImage = styled.img`
+  height: 100%;
+`;
+
+const LoaderContainer = styled.div`
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid ${V.color.backSoftest};
+`;
+
+type MetadataItemProps = {
   name: string;
   value: unknown;
-  copy?: boolean;
-}) => (
+  copyValue?: string;
+};
+
+const MetadataItem = ({ name, value, copyValue }: MetadataItemProps) => (
   <MetadataItemRoot>
     <MetadataName>{upperFirst(name)}</MetadataName>
     <MetadataValue>
       <ValueWrapper>
-        {value} {copy && <CopyToClipboard textToCopy={value.toString()} color="white" />}
+        {value} {copyValue && <CopyToClipboard textToCopy={copyValue} color="white" />}
       </ValueWrapper>
     </MetadataValue>
   </MetadataItemRoot>
@@ -132,26 +140,32 @@ const MetadataItem = ({
 
 const TokenDetail = () => {
   const tokenDetail = useSelector(selectCurrentTokenDetail);
-  // const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
-  // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (tokenDetail.dataAsJson && tokenDetail.dataAsJson.url.indexOf('ipfs') !== -1) {
-      // return setImageUrl(tokenDetail.dataAsJson ? tokenDetail.dataAsJson.url : '');
-    }
-    if (tokenDetail.supply === 1) {
-      return ipcRenderer.send(IPFS_IPC_ID, {
+    setImageUrl(null);
+  }, [tokenDetail]);
+
+  useEffect(() => {
+    if (tokenDetail?.dataAsJson?.url?.includes('https://ipfs.io/')) {
+      ipcRenderer.send(IPFS_IPC_ID, {
         type: IpfsAction.GET,
-        payload: { url: tokenDetail.dataAsJson.url },
+        payload: {
+          ipfsId:
+            tokenDetail.dataAsJson?.url.split('/')[
+              tokenDetail.dataAsJson.url?.split('/').length - 1
+            ],
+        },
       });
+    } else {
+      setImageUrl(tokenDetail?.dataAsJson?.url);
     }
   }, [tokenDetail]);
 
   useEffect(() => {
     ipcRenderer.on(IPFS_IPC_ID, (_, data) => {
-      console.log('received image from IPFS');
       if (data.type === IpfsAction.GET) {
-        // setImageUrl(data.payload.filedata);
+        setImageUrl(data.payload.filedata);
       }
     });
   }, []);
@@ -169,20 +183,23 @@ const TokenDetail = () => {
             <ContentLink
               target="_blank"
               rel="noopener noreferrer"
-              href={tokenDetail.dataAsJson.url}
+              href={tokenDetail.dataAsJson?.url}
             >
-              {tokenDetail.dataAsJson.url}
+              {tokenDetail.dataAsJson?.url}
             </ContentLink>
           )}
           <VSpaceSmall />
           <Metadata>
             {tokenDetail.supply > 1 && <MetadataItem name="Supply" value={tokenDetail.supply} />}
-            <MetadataItem name="Creator" copy value={`${limitLength(tokenDetail.owner, 30)} ...`} />
-            {tokenDetail.dataAsJson && (
+            <MetadataItem
+              name="Creator"
+              value={`${limitLength(tokenDetail.owner, 24)} ...`}
+              copyValue={tokenDetail.owner}
+            />
+            {tokenDetail.dataAsJson?.royalty && (
               <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty}%`} />
             )}
-            <VSpaceMed />
-            {tokenDetail.dataAsJson && tokenDetail.dataAsJson.id.toString() && (
+            {tokenDetail.dataAsJson?.id.toString() && (
               <MetadataItem name="ID" value={tokenDetail.dataAsJson.id} />
             )}
             {Object.entries(tokenDetail.dataAsJson?.arbitraryAsJson ?? []).map(([k, v]) => (
@@ -190,23 +207,23 @@ const TokenDetail = () => {
             ))}
           </Metadata>
         </MetadataContent>
-        {tokenDetail.supply === 1 && (
-          <MediaContent>
-            <ImageFrame>
-              <ContentLink
-                target="_blank"
-                rel="noopener noreferrer"
-                href={tokenDetail.dataAsJson.url}
-              >
-                <TokenImage
-                  alt="Big Buck Bunny"
-                  src={tokenDetail.dataAsJson.url}
-                  title="No video playback capabilities, please download the video below"
-                />
-              </ContentLink>
-            </ImageFrame>
-          </MediaContent>
-        )}
+        <MediaContent>
+          <ImageFrame>
+            {!!tokenDetail.dataAsJson?.url && !imageUrl && (
+              <LoaderContainer>
+                <Loader bgColor={V.color.back} />
+              </LoaderContainer>
+            )}
+
+            {!!imageUrl && (
+              <TokenImage
+                alt={tokenDetail.name}
+                src={imageUrl}
+                title="No video playback capabilities, please download the video below"
+              />
+            )}
+          </ImageFrame>
+        </MediaContent>
       </Content>
     </TokenDetailRoot>
   );

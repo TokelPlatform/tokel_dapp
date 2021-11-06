@@ -50,7 +50,7 @@ const SideMenu = () => {
   const currentView = useSelector(selectView);
 
   return (
-    <SideMenuRoot>
+    <SideMenuRoot data-tid="sidemenu">
       {menuData.map(menuItem => (
         <MenuItem
           key={menuItem.name}
