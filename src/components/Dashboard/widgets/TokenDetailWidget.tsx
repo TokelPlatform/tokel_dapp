@@ -174,7 +174,7 @@ const TokenDetail = () => {
     <TokenDetailRoot>
       <Header>
         <Name>{tokenDetail.name}</Name>
-        <ExplorerLink type="tokens" txid={tokenDetail.tokenid} />
+        <ExplorerLink type="tokens" txid={tokenDetail.tokenid} postfix="transactions" />
       </Header>
       <Content>
         <MetadataContent>
