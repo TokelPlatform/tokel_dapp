@@ -22,7 +22,7 @@ import installExtension, {
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
-import { BitgoAction } from '../util/bitgoHelper';
+import { BitgoAction, checkData } from '../util/bitgoHelper';
 import { BITGO_IPC_ID, IPFS_IPC_ID, WindowControl } from '../vars/defines';
 import MenuBuilder from './menu';
 
@@ -64,9 +64,11 @@ const installExtensions = async () => {
 
 // bitgo events from renderer
 ipcMain.on(BITGO_IPC_ID, (_, msg) => {
-  console.group('BITGO (RENDERER -> [MAIN] -> WORKER)');
-  console.log(msg);
-  console.groupEnd();
+  if (isDev) {
+    console.group('BITGO (RENDERER -> [MAIN] -> WORKER)');
+    console.log(checkData(msg));
+    console.groupEnd();
+  }
   bitgoWorker.postMessage(msg);
 });
 
@@ -147,9 +149,11 @@ const createWindow = async () => {
 
   // pass messages to renderer from bitgo worker
   bitgoWorker.on('message', msg => {
-    console.group('BITGO (WORKER -> [MAIN] -> RENDERER)');
-    console.log(msg);
-    console.groupEnd();
+    if (isDev) {
+      console.group('BITGO (WORKER -> [MAIN] -> RENDERER)');
+      console.log(checkData(msg));
+      console.groupEnd();
+    }
     mainWindow.webContents.send(BITGO_IPC_ID, msg);
   });
 

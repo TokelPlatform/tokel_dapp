@@ -6,10 +6,10 @@ import log from 'electron-log';
 
 import { dispatch } from 'store/rematch';
 import { selectAccountAddress } from 'store/selectors';
-import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
+import { BitgoAction, checkData, sendToBitgo } from 'util/bitgoHelper';
 import { parseUnspent } from 'util/transactions';
 import { spendSuccess } from 'util/transactionsHelper';
-import { BITGO_IPC_ID, ErrorMessages } from 'vars/defines';
+import { BITGO_IPC_ID, ErrorMessages, IS_DEV } from 'vars/defines';
 
 const BAD_WALLET_ERRORS = ['Error: RangeError: value out of range'];
 export const BROKEN_WALLET_MSG =
@@ -32,7 +32,11 @@ const BitgoOrchestrator = () => {
   useEffect(() => {
     ipcRenderer.on(BITGO_IPC_ID, (_, payload) => {
       console.group('BITGO (ORCHESTRATOR)');
-      console.log(payload);
+      if (IS_DEV) {
+        console.group('BITGO (WORKER -> [MAIN] -> RENDERER)');
+        console.log(checkData(payload));
+        console.groupEnd();
+      }
       console.groupEnd();
       if (payload.type === BitgoAction.SET_NETWORK) {
         dispatch.environment.SET_SHOW_NETWORK_PREFS(false);
