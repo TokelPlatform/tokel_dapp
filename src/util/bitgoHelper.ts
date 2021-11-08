@@ -44,3 +44,17 @@ export function sendToBitgo<T extends MsgValue>(
 ): void {
   ipcRenderer.send(BITGO_IPC_ID, { type, payload: options[0] });
 }
+
+type BitgoMsg = {
+  type: BitgoAction;
+  payload: any;
+};
+
+export const checkData = (msg: BitgoMsg) => {
+  if (msg.type === BitgoAction.LOGIN) {
+    return {
+      type: msg.type,
+    };
+  }
+  return msg;
+};

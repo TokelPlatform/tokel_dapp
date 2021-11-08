@@ -26,7 +26,7 @@ const BitgoAction = {
 };
 
 const SATOSHIS = 100000000;
-
+const isDev = process.env.NODE_ENV === 'development';
 class BitgoSingleton {
   constructor(network) {
     this.network = network;
@@ -272,13 +272,24 @@ class BitgoSingleton {
   }
 }
 
-let network = networks.tokel;
+let network = isDev ? networks.tkltest : networks.tokel;
 let bitgo = new BitgoSingleton(network);
 
+const checkData = msg => {
+  if (msg.type === BitgoAction.LOGIN) {
+    return {
+      type: msg.type,
+    };
+  }
+  return msg;
+};
+
 parentPort.on('message', msg => {
-  console.group('BITGO (WORKER)');
-  console.log(msg);
-  console.groupEnd();
+  if (isDev) {
+    console.group('BITGO (WORKER)');
+    console.log(checkData(msg));
+    console.groupEnd();
+  }
 
   if (msg.type === BitgoAction.SET_NETWORK) {
     bitgo.cleanup();
