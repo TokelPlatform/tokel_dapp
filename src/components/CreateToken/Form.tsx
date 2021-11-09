@@ -5,6 +5,7 @@ import { Form, Formik } from 'formik';
 import Field from 'components/_General/_FormikElements/Field';
 import Checkbox from 'components/_General/_FormikElements/Checkbox';
 import Select from 'components/_General/_FormikElements/Select';
+import MultiKeyValue from 'components/_General/_FormikElements/MultiKeyValue';
 
 import TokenType from 'util/types/TokenType';
 import { TokenDetail } from 'util/token-types';
@@ -72,6 +73,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 type="text"
                 label={`${tokenTypeDisplay} Name`}
                 placeholder={`My${tokenTypeDisplay}`}
+                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
               />
 
               <Field
@@ -79,6 +81,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 type="textarea"
                 label="Description"
                 placeholder={`What does your ${tokenTypeDisplay} represent?`}
+                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
               />
 
               <Field
@@ -89,6 +92,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 placeholder="100,000"
                 min={1}
                 max={200000}
+                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
               />
 
               <Field
@@ -96,6 +100,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 type="text"
                 label="Media URL (optional)"
                 placeholder={`Media URL representing your ${tokenTypeDisplay}`}
+                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
               />
 
               <Field
@@ -105,6 +110,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 max={100}
                 label="Royalty (optional)"
                 placeholder="0"
+                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
               />
 
               <CaretContainer open={showAdvanced} onClick={() => setShowAdvanced(!showAdvanced)}>
@@ -117,6 +123,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                   type="text"
                   label="Identifier (ID, optional)"
                   placeholder="Numeric ID, UUID, or string ID"
+                  help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
                 />
               )}
             </Column>
@@ -125,6 +132,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 name="dataAsJson[constellation_name]"
                 label="Constellation (optional)"
                 placeholder="Type to select a constellation or create a new one..."
+                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
                 options={[
                   { label: 'Constellation 1', value: 'constellation_1' },
                   { label: 'Constellation 2', value: 'constellation_2' },
@@ -138,6 +146,13 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 label="Number in Constellation (optional)"
                 min={1}
                 placeholder="N/A"
+                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+              />
+
+              <MultiKeyValue
+                name="dataAsJson"
+                label="Custom Attributes (optional)"
+                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
               />
             </Column>
           </Columns>

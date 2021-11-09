@@ -1,18 +1,5 @@
-import styled from '@emotion/styled';
 import { css, useTheme } from '@emotion/react';
 import { GroupBase, StylesConfig } from 'react-select';
-
-const FieldContainer = styled.div`
-  margin-bottom: 1rem;
-`;
-
-const Label = styled.label`
-  font-size: ${props => props.theme?.font.p};
-  color: ${props => props.theme.color?.frontOp[50]};
-  font-weight: bold;
-  display: block;
-  margin-bottom: 4px;
-`;
 
 const inputStyles = theme => css`
   border-radius: 5px;
@@ -82,4 +69,4 @@ const useReactSelectStyles = () => {
   return customStyles;
 };
 
-export { FieldContainer, Label, useReactSelectStyles, inputStyles };
+export { useReactSelectStyles, inputStyles };

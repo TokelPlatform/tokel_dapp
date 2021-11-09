@@ -3,7 +3,8 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { FieldHookConfig, useField } from 'formik';
 
-import { Label, FieldContainer, inputStyles } from './common';
+import { inputStyles } from './common';
+import FieldContainer from './FieldContainer';
 
 const Input = styled.input`
   ${props => inputStyles(props.theme)}
@@ -16,19 +17,19 @@ const Textarea = styled.textarea`
 
 interface FieldProps {
   label?: string;
+  help?: string;
 }
 
-const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({ label, ...props }) => {
-  const [field, meta] = useField(props);
+const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({ label, help, ...props }) => {
+  const [field] = useField(props);
+
   return (
-    <FieldContainer>
-      {!!label && <Label>{label}</Label>}
+    <FieldContainer label={label} help={help} {...props}>
       {props.type === 'textarea' ? (
         <Textarea {...field} placeholder={props.placeholder} />
       ) : (
         <Input value="" {...field} placeholder={props.placeholder} type={props.type} />
       )}
-      {meta.touched && meta.error && <div className="error">{meta.error}</div>}
     </FieldContainer>
   );
 };
