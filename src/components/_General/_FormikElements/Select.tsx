@@ -1,10 +1,11 @@
 import React from 'react';
-import { FieldHookConfig, useField, useFormikContext } from 'formik';
+import { FieldHookConfig, useFormikContext } from 'formik';
 
 import ReactSelect from 'react-select';
 import CreatableReactSelect from 'react-select/creatable';
 
-import { Label, FieldContainer, useReactSelectStyles } from './common';
+import { useReactSelectStyles } from './common';
+import FieldContainer from './FieldContainer';
 
 type SelectOption = {
   label: string;
@@ -14,12 +15,14 @@ type SelectOption = {
 interface SelectProps {
   creatable?: boolean;
   label?: string;
+  help?: string;
   options: SelectOption[];
 }
 
 const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
   creatable,
   label,
+  help,
   placeholder,
   options,
   ...props
@@ -27,7 +30,6 @@ const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
   const SelectComponent = creatable ? CreatableReactSelect : ReactSelect;
 
   const { setFieldValue, setFieldTouched } = useFormikContext();
-  const [, meta] = useField(props);
   const customStyles = useReactSelectStyles();
 
   const handleChange = (value?: SelectOption) => {
@@ -37,9 +39,7 @@ const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
   };
 
   return (
-    <FieldContainer>
-      {!!label && <Label>{label}</Label>}
-
+    <FieldContainer label={label} help={help} {...props}>
       <SelectComponent
         placeholder={placeholder}
         onChange={handleChange}
@@ -47,8 +47,6 @@ const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
         styles={customStyles}
         isClearable
       />
-
-      {meta.touched && meta.error && <div className="error">{meta.error}</div>}
     </FieldContainer>
   );
 };
