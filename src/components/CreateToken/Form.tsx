@@ -2,8 +2,9 @@ import React, { useMemo, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { Form, Formik } from 'formik';
-import { FieldWithLabel } from 'components/_General/_FormikElements/FieldWithLabel';
+import Field from 'components/_General/_FormikElements/Field';
 import Checkbox from 'components/_General/_FormikElements/Checkbox';
+import Select from 'components/_General/_FormikElements/Select';
 
 import TokenType from 'util/types/TokenType';
 import { TokenDetail } from 'util/token-types';
@@ -66,21 +67,21 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
         <Form style={{ height: '100%' }}>
           <Columns style={{ height: '90%' }}>
             <Column size={5} style={{ overflow: 'scroll' }}>
-              <FieldWithLabel
+              <Field
                 name="name"
                 type="text"
                 label={`${tokenTypeDisplay} Name`}
                 placeholder={`My${tokenTypeDisplay}`}
               />
 
-              <FieldWithLabel
+              <Field
                 name="description"
                 type="textarea"
                 label="Description"
                 placeholder={`What does your ${tokenTypeDisplay} represent?`}
               />
 
-              <FieldWithLabel
+              <Field
                 name="supply"
                 type="number"
                 label="Supply"
@@ -90,14 +91,14 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 max={200000}
               />
 
-              <FieldWithLabel
+              <Field
                 name="url"
                 type="text"
                 label="Media URL (optional)"
                 placeholder={`Media URL representing your ${tokenTypeDisplay}`}
               />
 
-              <FieldWithLabel
+              <Field
                 name="royalty"
                 type="number"
                 min={1}
@@ -107,11 +108,11 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               />
 
               <CaretContainer open={showAdvanced} onClick={() => setShowAdvanced(!showAdvanced)}>
-                Advanced <img src={Caret} />
+                Advanced <img src={Caret} alt="caret" />
               </CaretContainer>
 
               {showAdvanced && (
-                <FieldWithLabel
+                <Field
                   name="id"
                   type="text"
                   label="Identifier (ID, optional)"
@@ -120,19 +121,23 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               )}
             </Column>
             <Column size={7} style={{ overflow: 'scroll' }}>
-              <FieldWithLabel
+              <Select
                 name="dataAsJson[constellation_name]"
-                type="text"
                 label="Constellation (optional)"
                 placeholder="Type to select a constellation or create a new one..."
+                options={[
+                  { label: 'Constellation 1', value: 'constellation_1' },
+                  { label: 'Constellation 2', value: 'constellation_2' },
+                ]}
+                creatable
               />
 
-              <FieldWithLabel
+              <Field
                 name="dataAsJson[number_in_constellation]"
                 type="number"
                 label="Number in Constellation (optional)"
                 min={1}
-                placeholder="1"
+                placeholder="N/A"
               />
             </Column>
           </Columns>
