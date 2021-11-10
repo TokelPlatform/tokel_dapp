@@ -4,6 +4,7 @@ import { Button } from 'components/_General/buttons';
 import { Columns, Column } from 'components/_General/Grid';
 import styled from '@emotion/styled';
 
+import Icon from 'components/_General/_UIElements/Icon';
 import PlusIcon from 'assets/Plus.svg';
 import MinusIcon from 'assets/Minus.svg';
 import { inputStyles } from './common';
@@ -60,20 +61,27 @@ const MultiKeyValue: React.FC<MultiKeyValueProps & FieldHookConfig<string>> = ({
                 </CustomPaddingColumn>
                 <CustomPaddingColumn size={2}>
                   <Button
+                    type="button"
                     theme="purple"
                     customWidth="40px"
                     onClick={() => {
                       remove(index);
                     }}
                   >
-                    <img src={MinusIcon} alt="minus" />
+                    <Icon icon={MinusIcon} color="front" width={18} height={18} centered />
                   </Button>
                 </CustomPaddingColumn>
               </Columns>
             ))}
-            <Button theme="purple" customWidth="110px" onClick={() => push({ key: '', value: '' })}>
-              <img src={PlusIcon} alt="plus" />
-              Add new
+            <Button
+              type="button"
+              theme="purple"
+              customWidth="110px"
+              onClick={() => push({ key: '', value: '' })}
+              hasIcon
+            >
+              <Icon icon={PlusIcon} color="front" width={18} height={18} />
+              Add New
             </Button>
           </div>
         )}

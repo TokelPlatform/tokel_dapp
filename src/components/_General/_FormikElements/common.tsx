@@ -12,6 +12,11 @@ const inputStyles = theme => css`
   font-family: source-sans-pro, sans-serif;
   resize: none;
 
+  &[readOnly] {
+    background-color: ${theme.color?.backSoftest};
+    color: ${theme.color?.frontOp[50]};
+  }
+
   &:focus,
   &:hover {
     outline: none;

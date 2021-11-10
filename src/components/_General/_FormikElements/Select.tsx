@@ -33,6 +33,7 @@ const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
   const customStyles = useReactSelectStyles();
 
   const handleChange = (value?: SelectOption) => {
+    console.log(value, 'value');
     setFieldTouched(props.name, true);
     if (!value) setFieldValue(props.name, undefined);
     else setFieldValue(props.name, value.value);

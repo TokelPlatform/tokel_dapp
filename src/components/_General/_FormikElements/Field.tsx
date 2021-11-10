@@ -18,17 +18,37 @@ const Textarea = styled.textarea`
 interface FieldProps {
   label?: string;
   help?: string;
+  readOnly?: boolean;
+  min?: number;
+  max?: number;
+  append?: string;
 }
 
-const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({ label, help, ...props }) => {
+const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({
+  label,
+  help,
+  readOnly,
+  min,
+  max,
+  append,
+  ...props
+}) => {
   const [field] = useField(props);
 
   return (
-    <FieldContainer label={label} help={help} {...props}>
+    <FieldContainer label={label} help={help} append={append} {...props}>
       {props.type === 'textarea' ? (
         <Textarea {...field} placeholder={props.placeholder} />
       ) : (
-        <Input value="" {...field} placeholder={props.placeholder} type={props.type} />
+        <Input
+          value=""
+          {...field}
+          readOnly={readOnly}
+          min={min}
+          max={max}
+          placeholder={props.placeholder}
+          type={props.type}
+        />
       )}
     </FieldContainer>
   );

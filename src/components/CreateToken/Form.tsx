@@ -8,12 +8,14 @@ import Select from 'components/_General/_FormikElements/Select';
 import MultiKeyValue from 'components/_General/_FormikElements/MultiKeyValue';
 
 import TokenType from 'util/types/TokenType';
-import { TokenDetail } from 'util/token-types';
+import { TokenForm } from 'util/token-types';
 
 import Caret from 'assets/Caret.svg';
 
 import { Columns, Column } from 'components/_General/Grid';
 import { Button } from 'components/_General/buttons';
+
+import tokenCreationSchema from 'util/validators/tokenCreationSchema';
 
 interface CreateTokenFormProps {
   tokenType: TokenType;
@@ -48,9 +50,20 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
   const tokenTypeDisplay = tokenType === TokenType.NFT ? 'NFT' : 'Token';
   const [showAdvanced, setShowAdvanced] = useState(false);
 
-  const initialValues: Partial<TokenDetail> = useMemo(
+  const initialValues: Partial<TokenForm> = useMemo(
     () => ({
-      supply: tokenType === TokenType.NFT ? 1 : undefined,
+      name: '',
+      description: '',
+      supply: tokenType === TokenType.NFT ? 1 : '',
+      url: '',
+      royalty: undefined,
+      id: '',
+      confirmation: false,
+      arbitraryAsJson: {
+        constellation_name: '',
+        number_in_constellation: '',
+      },
+      arbitraryAsJsonUnformatted: [],
     }),
     [tokenType]
   );
@@ -58,13 +71,15 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
   return (
     <Formik
       style={{ height: '100%' }}
+      validationSchema={tokenCreationSchema}
       initialValues={initialValues}
+      isInitialValid={false}
       enableReinitialize
       onSubmit={() => {
         console.log('here we go');
       }}
     >
-      {({ submitForm, isSubmitting }) => (
+      {({ submitForm, isSubmitting, isValid }) => (
         <Form style={{ height: '100%' }}>
           <Columns style={{ height: '90%' }}>
             <Column size={5} style={{ overflow: 'scroll' }}>
@@ -88,10 +103,10 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 name="supply"
                 type="number"
                 label="Supply"
-                disabled={tokenType === TokenType.NFT}
+                readOnly={tokenType === TokenType.NFT}
                 placeholder="100,000"
                 min={1}
-                max={200000}
+                max={200000000}
                 help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
               />
 
@@ -106,11 +121,12 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               <Field
                 name="royalty"
                 type="number"
-                min={1}
+                min={0}
                 max={100}
                 label="Royalty (optional)"
                 placeholder="0"
                 help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                append="%"
               />
 
               <CaretContainer open={showAdvanced} onClick={() => setShowAdvanced(!showAdvanced)}>
@@ -129,7 +145,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
             </Column>
             <Column size={7} style={{ overflow: 'scroll' }}>
               <Select
-                name="dataAsJson[constellation_name]"
+                name="arbitraryAsJson[constellation_name]"
                 label="Constellation (optional)"
                 placeholder="Type to select a constellation or create a new one..."
                 help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
@@ -141,7 +157,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               />
 
               <Field
-                name="dataAsJson[number_in_constellation]"
+                name="arbitraryAsJson[number_in_constellation]"
                 type="number"
                 label="Number in Constellation (optional)"
                 min={1}
@@ -150,7 +166,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               />
 
               <MultiKeyValue
-                name="dataAsJson"
+                name="arbitraryAsJsonUnformatted"
                 label="Custom Attributes (optional)"
                 help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
               />
@@ -160,11 +176,14 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
           <Columns>
             <Column size={12}>
               <Bottom>
-                <Checkbox name="consent" label="I have checked and double checked all the inputs" />
+                <Checkbox
+                  name="confirmation"
+                  label="I have checked and double checked all the inputs"
+                />
                 <Button
                   onClick={submitForm}
                   theme="purple"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !isValid}
                   data-tid="login-button"
                 >
                   Continue

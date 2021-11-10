@@ -1,19 +1,11 @@
 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M7.00008 12.8333C10.2217 12.8333 12.8334 10.2216 12.8334 6.99996C12.8334 3.7783 10.2217 1.16663 7.00008 1.16663C3.77842 1.16663 1.16675 3.7783 1.16675 6.99996C1.16675 10.2216 3.77842 12.8333 7.00008 12.8333Z" stroke="url(#paint0_linear_4471:30438)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M7 9.33333V7" stroke="url(#paint1_linear_4471:30438)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M7 4.66663H7.00667" stroke="url(#paint2_linear_4471:30438)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.00008 12.8333C10.2217 12.8333 12.8334 10.2216 12.8334 6.99996C12.8334 3.7783 10.2217 1.16663 7.00008 1.16663C3.77842 1.16663 1.16675 3.7783 1.16675 6.99996C1.16675 10.2216 3.77842 12.8333 7.00008 12.8333Z" stroke="#7C91A7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7 9.33333V7" stroke="#7C91A7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M7 4.66663H7.00667" stroke="#7C91A7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <defs>
-<linearGradient id="paint0_linear_4471:30438" x1="7.00008" y1="1.16663" x2="9.45392" y2="12.2921" gradientUnits="userSpaceOnUse">
-<stop stop-color="#687BF7"/>
-<stop offset="1" stop-color="#8050EF"/>
-</linearGradient>
-<linearGradient id="paint1_linear_4471:30438" x1="7.5" y1="7" x2="8.44938" y2="8.84474" gradientUnits="userSpaceOnUse">
-<stop stop-color="#687BF7"/>
-<stop offset="1" stop-color="#8050EF"/>
-</linearGradient>
-<linearGradient id="paint2_linear_4471:30438" x1="7.00333" y1="4.66663" x2="7.03353" y2="4.66754" gradientUnits="userSpaceOnUse">
-<stop stop-color="#687BF7"/>
-<stop offset="1" stop-color="#8050EF"/>
+<linearGradient id="paint0_linear" x1="0.500009" y1="0.499949" x2="24.4974" y2="25.5003" gradientUnits="userSpaceOnUse">
+<stop stop-color="#706EF5"/>
+<stop offset="1" stop-color="#7C5DF4"/>
 </linearGradient>
 </defs>
 </svg>

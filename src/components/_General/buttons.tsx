@@ -5,6 +5,7 @@ import { Colors } from 'vars/defines';
 type ButtonProps = {
   theme: string;
   customWidth?: string;
+  hasIcon?: boolean;
 };
 
 const getTheme = theme => {
@@ -39,9 +40,22 @@ export const Button = styled.button<ButtonProps>`
   color: var(--color-white);
   font-size: 14px;
   font-weight: 400;
+
+  ${props =>
+    props.hasIcon &&
+    `
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & > *:first-of-type {
+      margin-right: 4px;
+    }
+  `}
+
   &:focus {
     outline: none;
   }
+
   ${props =>
     !props.disabled
       ? `&:hover {
