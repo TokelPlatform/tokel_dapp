@@ -83,7 +83,7 @@ ipcMain.on(IPFS_IPC_ID, async (event, msg) => {
   event.reply(IPFS_IPC_ID, { type: msg.type, payload: result });
 });
 
-ipcMain.on(VERSIONS_MSG, (event, msg) => {
+ipcMain.on(VERSIONS_MSG, event => {
   event.reply(VERSIONS_MSG, { version });
 });
 
