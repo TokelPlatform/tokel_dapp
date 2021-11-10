@@ -5,6 +5,7 @@ export const TICKER = 'TKL';
 export const RPC_PORT = '29405';
 export const BITGO_IPC_ID = 'bitgo';
 export const IPFS_IPC_ID = 'ipfs';
+export const VERSIONS_MSG = 'version';
 export enum IpfsAction {
   GET = 'get',
 }

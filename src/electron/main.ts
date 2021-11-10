@@ -23,8 +23,9 @@ import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
 import { BitgoAction, checkData } from '../util/bitgoHelper';
-import { BITGO_IPC_ID, IPFS_IPC_ID, WindowControl } from '../vars/defines';
+import { BITGO_IPC_ID, IPFS_IPC_ID, VERSIONS_MSG, WindowControl } from '../vars/defines';
 import MenuBuilder from './menu';
+import packagejson from './package.json';
 
 const ipfsNode = require('./ipfsHelper');
 
@@ -43,6 +44,7 @@ export default class AppUpdater {
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
+const version = isDev ? packagejson.version : app.getVersion();
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -79,6 +81,10 @@ ipcMain.on(IPFS_IPC_ID, async (event, msg) => {
   console.groupEnd();
   const result = await ipfsNode.default[msg.type](msg.payload);
   event.reply(IPFS_IPC_ID, { type: msg.type, payload: result });
+});
+
+ipcMain.on(VERSIONS_MSG, (event, msg) => {
+  event.reply(VERSIONS_MSG, { version });
 });
 
 // window events from renderer
@@ -130,7 +136,6 @@ const createWindow = async () => {
   });
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {
