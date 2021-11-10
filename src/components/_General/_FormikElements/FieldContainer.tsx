@@ -1,30 +1,63 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Tippy from '@tippyjs/react';
-import InfoIcon from 'assets/HelperInfoCircle.svg';
 import { FieldHookConfig, useField } from 'formik';
+import Icon from 'components/_General/_UIElements/Icon';
+import InfoIcon from 'assets/HelperInfoCircle.svg';
 
 const FieldContainerStyled = styled.div`
   margin-bottom: 1rem;
+
+  .error {
+    color: ${props => props.theme.color.cerise};
+    margin-top: 0.2rem;
+  }
+
+  .field {
+    position: relative;
+  }
+
+  .append {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    background-color: ${props => props.theme.color.cornflower};
+    color: ${props => props.theme.color.front};
+    padding: 7px;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    font-size: 22px;
+    border-left: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
 `;
 
 const Label = styled.label`
   font-size: ${props => props.theme?.font.p};
   color: ${props => props.theme.color?.frontOp[50]};
   font-weight: bold;
-  display: block;
-  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.3rem;
+
+  .icon {
+    margin-left: 0.3rem;
+  }
 `;
 
 interface FieldContainerProps {
   label?: string;
   help?: string;
+  append?: string;
 }
 
 const FieldContainer: React.FC<FieldContainerProps & FieldHookConfig<string>> = ({
   children,
   label,
   help,
+  append,
   ...props
 }) => {
   const [, meta] = useField(props);
@@ -37,12 +70,16 @@ const FieldContainer: React.FC<FieldContainerProps & FieldHookConfig<string>> = 
 
           {!!help?.length && (
             <Tippy content={help} arrow>
-              <img src={InfoIcon} alt="info" />
+              <Icon icon={InfoIcon} color="gradient" width={14} height={14} className="icon" />
             </Tippy>
           )}
         </Label>
       )}
-      {children}
+      <div className="field">
+        {children}
+        {!!append && <span className="append">{append}</span>}
+      </div>
+
       {meta.touched && meta.error && <div className="error">{meta.error}</div>}
     </FieldContainerStyled>
   );

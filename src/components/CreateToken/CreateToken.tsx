@@ -3,14 +3,14 @@ import React, { useState, useMemo } from 'react';
 import styled from '@emotion/styled';
 import TokenType from 'util/types/TokenType';
 
+import Icon from 'components/_General/_UIElements/Icon';
+
 import infoIcon from 'assets/friendlyWarning.svg';
 import nftIcon from 'assets/Star.svg';
 import tokenMenuIcon from 'assets/Token.svg';
 import tokenIcon from 'assets/Token-alt.svg';
 
 import CreateTokenForm from './Form';
-
-interface CreateTokenProps {}
 
 // dashboard root in dashboard.tsx
 const Layout = styled.div`
@@ -74,6 +74,7 @@ const TokenTypeWidget = styled(Box)`
     cursor: pointer;
     text-align: center;
     width: 100%;
+    outline: none;
 
     .icon {
       margin-left: auto;
@@ -120,17 +121,7 @@ const FormBox = styled(Box)`
   }
 `;
 
-const Icon = styled.div<{ icon: string }>`
-  height: 50px;
-  width: 50px;
-  background: ${props => props.theme.color.frontSoft};
-  mask-size: contain;
-  mask-position: center;
-  mask-repeat: no-repeat;
-  mask-image: url('${props => props.icon}');
-`;
-
-const CreateToken: React.FC<CreateTokenProps> = () => {
+const CreateToken: React.FC = () => {
   const [typeSelected, setTypeSelected] = useState<TokenType | null>(null);
 
   const form = useMemo(() => {
@@ -142,8 +133,8 @@ const CreateToken: React.FC<CreateTokenProps> = () => {
       default:
         return (
           <div className="no-state">
-            <Icon icon={tokenMenuIcon} className="icon" />
-            <h2>Let's create a token!</h2>
+            <Icon icon={tokenMenuIcon} color="frontSoft" className="icon" />
+            <h2>Let&apos;s create a token!</h2>
             <h3>To get started, first select what kind of token you wish to create</h3>
           </div>
         );
@@ -157,8 +148,8 @@ const CreateToken: React.FC<CreateTokenProps> = () => {
           <>
             <h2>About NFTs</h2>
             <p>
-              After your NFT is created, your wallet will receive the only unit of it. You'll be
-              able to send it to other wallets or list it on the NFT marketplace.
+              After your NFT is created, your wallet will receive the only unit of it. You&apos;ll
+              be able to send it to other wallets or list it on the NFT marketplace.
             </p>
           </>
         );
@@ -186,6 +177,9 @@ const CreateToken: React.FC<CreateTokenProps> = () => {
     }
   }, [typeSelected]);
 
+  const selectNFT = () => setTypeSelected(TokenType.NFT);
+  const selectToken = () => setTypeSelected(TokenType.TOKEN);
+
   return (
     <Layout>
       <div style={{ width: '30%', marginRight: '18px' }}>
@@ -196,17 +190,23 @@ const CreateToken: React.FC<CreateTokenProps> = () => {
           </HelperWidget>
           <TokenTypeWidget flex>
             <div
-              onClick={() => setTypeSelected(TokenType.NFT)}
+              role="button"
+              tabIndex={0}
+              onClick={selectNFT}
+              onKeyDown={selectNFT}
               data-selected={typeSelected === TokenType.NFT}
             >
-              <Icon icon={nftIcon} className="icon" />
+              <Icon icon={nftIcon} color="frontSoft" className="icon" />
               <h2>NFT</h2>
             </div>
             <div
-              onClick={() => setTypeSelected(TokenType.TOKEN)}
+              role="button"
+              tabIndex={0}
+              onClick={selectToken}
+              onKeyDown={selectToken}
               data-selected={typeSelected === TokenType.TOKEN}
             >
-              <Icon icon={tokenIcon} className="icon" />
+              <Icon icon={tokenIcon} color="frontSoft" className="icon" />
               <h2>Token</h2>
             </div>
           </TokenTypeWidget>

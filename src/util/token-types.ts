@@ -18,3 +18,14 @@ export type TokenDetail = {
   IsMixed: boolean;
   contentType?: string;
 };
+
+export type TokenForm = {
+  name: string;
+  description: string;
+  supply: number | string;
+  url?: string;
+  royalty?: number;
+  id?: string;
+  arbitraryAsJson?: Record<string, unknown>;
+  arbitraryAsJsonUnformatted?: Array<Record<string, unknown>>;
+};
