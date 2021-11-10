@@ -1,10 +1,11 @@
 import { createModel } from '@rematch/core';
+import axios from 'axios';
 import dp from 'dot-prop-immutable';
 
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { ThemeName, themeNames } from 'util/theming';
 import { TokenDetail } from 'util/token-types';
-import { ModalName, NetworkType, ViewType } from 'vars/defines';
+import { IS_IPFS, ModalName, NetworkType, ViewType } from 'vars/defines';
 
 import type { RootModel } from './models';
 
@@ -75,6 +76,8 @@ export default createModel<RootModel>()({
       }
       return dp.set(state, `tokenDetails.${detail.tokenid}`, detail);
     },
+    SET_TOKEN_CONTENT_TYPE: (state, { tokenid, type }) =>
+      dp.merge(state, `tokenDetails.${tokenid}.contentType`, type),
     SET_TOKEL_PRICE_USD: (state, tokelPriceUSD: number) => ({ ...state, tokelPriceUSD }),
     SET_LOGIN_FEEDBACK: (state, loginFeedback: string) => ({ ...state, loginFeedback }),
     SET_ERROR: (state, error: string) => ({ ...state, error }),
@@ -88,6 +91,25 @@ export default createModel<RootModel>()({
       Object.keys(tokenBalances).map(async tokenId =>
         sendToBitgo(BitgoAction.TOKEN_V2_INFO_TOKEL, { tokenId })
       );
+    },
+    async getContentType({ tokenid, url }) {
+      try {
+        if (IS_IPFS(url)) {
+          return this.SET_TOKEN_CONTENT_TYPE({ tokenid, type: 'ipfs' });
+        }
+        const response = await axios(url);
+        let type = '';
+        try {
+          // https://datatracker.ietf.org/doc/html/rfc6838
+          [type] = response.headers['content-type'].split(' ')[0].split('/');
+        } catch (e) {
+          type = 'unknown';
+        }
+        return this.SET_TOKEN_CONTENT_TYPE({ tokenid, type });
+      } catch (e) {
+        console.log(e);
+        return e;
+      }
     },
   }),
 });

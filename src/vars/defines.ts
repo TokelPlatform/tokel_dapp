@@ -24,6 +24,7 @@ export const FIAT_CURRENCY = 'USD';
 export const USD_VALUE = 5;
 export const IS_DEV = process.env.NODE_ENV === 'development';
 export const IS_PROD = process.env.NODE_ENV === 'production';
+export const IS_IPFS = url => url && url.includes('https://ipfs.io/');
 
 export const TokenFilter = {
   ALL: 'ALL',
