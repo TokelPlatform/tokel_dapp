@@ -121,6 +121,18 @@ const FormBox = styled(Box)`
   }
 `;
 
+const TokenTypeOption: React.FC<{
+  action: () => any;
+  selected: boolean;
+  icon: any;
+  title: string;
+}> = ({ action, selected, icon, title }) => (
+  <div role="button" tabIndex={0} onClick={action} onKeyDown={action} data-selected={selected}>
+    <Icon icon={icon} color="frontSoft" className="icon" />
+    <h2>{title}</h2>
+  </div>
+);
+
 const CreateToken: React.FC = () => {
   const [typeSelected, setTypeSelected] = useState<TokenType | null>(null);
 
@@ -189,26 +201,18 @@ const CreateToken: React.FC = () => {
             {helperText}
           </HelperWidget>
           <TokenTypeWidget flex>
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={selectNFT}
-              onKeyDown={selectNFT}
-              data-selected={typeSelected === TokenType.NFT}
-            >
-              <Icon icon={nftIcon} color="frontSoft" className="icon" />
-              <h2>NFT</h2>
-            </div>
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={selectToken}
-              onKeyDown={selectToken}
-              data-selected={typeSelected === TokenType.TOKEN}
-            >
-              <Icon icon={tokenIcon} color="frontSoft" className="icon" />
-              <h2>Token</h2>
-            </div>
+            <TokenTypeOption
+              action={selectNFT}
+              selected={typeSelected === TokenType.NFT}
+              title="NFT"
+              icon={nftIcon}
+            />
+            <TokenTypeOption
+              action={selectToken}
+              selected={typeSelected === TokenType.TOKEN}
+              title="Token"
+              icon={tokenIcon}
+            />
           </TokenTypeWidget>
         </VerticalColumns>
       </div>
