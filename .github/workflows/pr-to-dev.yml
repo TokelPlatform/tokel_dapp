@@ -1,0 +1,42 @@
+name: Build, Test and Package PRs to Development Branch
+
+on:
+  pull_request:
+    branches: [development]
+
+jobs:
+  'build-test-package':
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 15
+          cache: yarn
+
+      - name: Install packages with Yarn
+        run: yarn install --frozen-lockfile
+
+      - name: Build with webpack
+        run: yarn build
+
+      - name: Run tests
+        run: yarn checks
+
+      - name: Package with electron-builder
+        run: yarn package
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Upload apps to artifact store'
+        uses: kittaakos/upload-artifact-as-is@v0
+        with:
+          path: release/TokelPlatform*

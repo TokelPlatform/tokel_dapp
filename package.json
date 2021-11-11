@@ -8,7 +8,7 @@
     "test": "jest",
     "test-e2e": "yarn build && node -r @babel/register ./config/scripts/CheckBuildsExist.js && cp -R ./build/* ./src/electron && cross-env NODE_ENV=test testcafe electron:./src/electron ./tests-e2e && rm -rf ./src/electron/dist ./src/electron/main.js",
     "tsc": "cross-env NODE_ENV=development ./node_modules/.bin/tsc",
-    "checks": "concurrently 'yarn lint' 'yarn test' 'yarn tsc'",
+    "checks": "concurrently \"yarn lint\" \"yarn test\" \"yarn tsc\"",
     "postinstall": "node -r @babel/register ./config/scripts/CheckNativeDep.js && electron-builder install-app-deps && yarn cross-env NODE_ENV=development webpack --config ./config/webpack/webpack.config.renderer.dev.dll.babel.js && yarn-deduplicate yarn.lock",
     "start": "NODE_ENV=production node -r @babel/register ./config/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
     "dev": "NODE_ENV=development node -r @babel/register ./config/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
@@ -18,26 +18,32 @@
     "build:main": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.main.prod.babel.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.renderer.prod.babel.js",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir src",
-    "package": "yarn build && USE_HARD_LINKS=false electron-builder build --publish never",
+    "package": "cross-env USE_HARD_LINKS=false electron-builder --x64 --arm64 --publish never",
+    "package:publish": "cross-env USE_HARD_LINKS=false electron-builder --x64 --arm64 --publish always",
     "package:mac": "electron-builder -m --x64 --publish never",
     "package:mac:arm": "electron-builder -m --arm64 --publish never",
     "package:linux": "electron-builder -l --x64 --publish never",
     "package:linux:arm": "electron-builder -l --arm64 --publish never",
     "package:windows": "electron-builder -w --x64 --publish never",
     "package:windows:arm": "electron-builder -w --arm64 --publish never",
-    "package:all": "yarn build && concurrently 'yarn package:windows' 'yarn package:mac' 'yarn package:linux'",
-    "publish": "yarn build && electron-builder -mlw --x64 --arm64 --publish always"
+    "package:all": "yarn build && concurrently \"yarn package:windows\" \"yarn package:mac\" \"yarn package:linux\""
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": ["cross-env NODE_ENV=development eslint --cache"],
+    "*.{js,jsx,ts,tsx}": [
+      "cross-env NODE_ENV=development eslint --cache"
+    ],
     "{*.json,.{babelrc,eslintrc,prettierrc}}": [
       "prettier --ignore-path .eslintignore --parser json --write"
     ],
-    "*.{css,scss}": ["prettier --ignore-path .eslintignore --single-quote --write"],
-    "*.{html,md,yml}": ["prettier --ignore-path .eslintignore --single-quote --write"]
+    "*.{css,scss}": [
+      "prettier --ignore-path .eslintignore --single-quote --write"
+    ],
+    "*.{html,md,yml}": [
+      "prettier --ignore-path .eslintignore --single-quote --write"
+    ]
   },
   "build": {
-    "asar": false,
+    "asar": true,
     "productName": "TokelPlatform",
     "appId": "tokel",
     "directories": {
@@ -56,16 +62,21 @@
       "nspv-bitgo.js",
       "node_modules"
     ],
-    "extraResources": ["assets"],
+    "extraResources": [
+      "assets"
+    ],
     "publish": {
       "provider": "github",
       "owner": "TokelPlatform",
-      "repo": "tokel_app",
-      "releaseType": "prerelease"
+      "repo": "tokel_dapp",
+      "releaseType": "draft",
+      "publishAutoUpdate": false
     },
     "mac": {
       "identity": null,
-      "target": ["dmg", "zip"],
+      "target": [
+        "dmg"
+      ],
       "type": "distribution",
       "hardenedRuntime": true,
       "entitlements": "assets/entitlements.mac.plist",
@@ -73,6 +84,7 @@
       "gatekeeperAssess": false
     },
     "dmg": {
+      "writeUpdateInfo": false,
       "icon": "icon.icns",
       "contents": [
         {
@@ -89,11 +101,18 @@
     },
     "win": {
       "icon": "icon.ico",
-      "target": ["nsis"]
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "differentialPackage": false
     },
     "linux": {
       "icon": "icon.png",
-      "target": ["AppImage"],
+      "target": [
+        "AppImage"
+      ],
       "category": "Development"
     }
   },
@@ -111,7 +130,15 @@
   "bugs": {
     "url": "https://github.com/TokelPlatform/tokel_app/issues"
   },
-  "keywords": ["tokel", "komodo", "nftmarketplace", "dex", "token", "wallet", "crypto"],
+  "keywords": [
+    "tokel",
+    "komodo",
+    "nftmarketplace",
+    "dex",
+    "token",
+    "wallet",
+    "crypto"
+  ],
   "homepage": "https://github.com/TokelPlatform/tokel_app#readme",
   "jest": {
     "testURL": "http://localhost/",
@@ -128,10 +155,23 @@
       "^util/(.*)$": "<rootDir>/src/util/$1",
       "^vars/(.*)$": "<rootDir>/src/vars/$1"
     },
-    "moduleFileExtensions": ["js", "jsx", "ts", "tsx", "json"],
-    "moduleDirectories": ["node_modules", "src/electron/node_modules"],
-    "setupFiles": ["./config/scripts/CheckBuildsExist.js"],
-    "transformIgnorePatterns": ["node_modules/?!(minidenticon)"]
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx",
+      "json"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src/electron/node_modules"
+    ],
+    "setupFiles": [
+      "./config/scripts/CheckBuildsExist.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/?!(minidenticon)"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -212,7 +252,6 @@
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.0.8",
     "file-loader": "^6.0.0",
-    "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
     "import-sort-cli": "^6.0.0",
     "import-sort-style-supernotes": "^0.2.0",
@@ -281,12 +320,11 @@
   },
   "browserslist": [],
   "renovate": {
-    "extends": ["bliss"],
-    "baseBranches": ["next"]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && yarn build && jest"
-    }
+    "extends": [
+      "bliss"
+    ],
+    "baseBranches": [
+      "next"
+    ]
   }
 }
