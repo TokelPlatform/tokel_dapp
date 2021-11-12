@@ -272,7 +272,7 @@ class BitgoSingleton {
   }
 }
 
-let network = isDev ? networks.tkltest : networks.tokel;
+let network = isDev ? networks.TKLTEST : networks.TOKEL;
 let bitgo = new BitgoSingleton(network);
 
 const checkData = msg => {
