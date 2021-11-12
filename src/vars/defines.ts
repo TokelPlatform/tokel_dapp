@@ -24,7 +24,8 @@ export const FIAT_CURRENCY = 'USD';
 export const USD_VALUE = 5;
 export const IS_DEV = process.env.NODE_ENV === 'development';
 export const IS_PROD = process.env.NODE_ENV === 'production';
-export const IS_IPFS = url => url && url.includes('https://ipfs.io/');
+
+export const checkIsIPFSLink = url => url && url.includes('https://ipfs.io/');
 
 export const TokenFilter = {
   ALL: 'ALL',
@@ -85,6 +86,9 @@ export const OsType = {
   WINDOWS: 'Windows_NT',
 };
 
+// https://datatracker.ietf.org/doc/html/rfc6838
+export const mediaTypes = ['audio', 'video', 'image', 'ipfs'];
+
 export const SEE_EXPLORER = 'See explorer link for details';
 
 export const INFORMATION_N_A = 'This information is currently not available';
@@ -98,3 +102,5 @@ export const ErrorMessages = {
   NETWORK_ISSUES: 'You are experiencing network issues. Please restart the app and try again',
   INVALID_ADDRESS: 'Entered address is not valid. Please check it and try again',
 };
+
+export const HTTP_ERR_405 = 'Request failed with status code 405';

@@ -8,7 +8,7 @@ import { upperFirst } from 'lodash-es';
 import { selectCurrentTokenDetail } from 'store/selectors';
 import { Responsive, limitLength } from 'util/helpers';
 import { V } from 'util/theming';
-import { IPFS_IPC_ID, IS_IPFS, IpfsAction } from 'vars/defines';
+import { IPFS_IPC_ID, IpfsAction, checkIsIPFSLink, mediaTypes } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ExplorerLink from 'components/_General/ExplorerLink';
@@ -138,20 +138,17 @@ const MetadataItem = ({ name, value, copyValue }: MetadataItemProps) => (
   </MetadataItemRoot>
 );
 
-// https://datatracker.ietf.org/doc/html/rfc6838
-const mediaTypes = ['audio', 'video', 'image', 'ipfs'];
-
 const TokenDetail = () => {
   const tokenDetail = useSelector(selectCurrentTokenDetail);
   const [imageUrl, setImageUrl] = useState(null);
-  const isMedia = tokenDetail.contentType && mediaTypes.includes(tokenDetail.contentType);
+  const isMedia = !!tokenDetail.contentType && mediaTypes.includes(tokenDetail.contentType);
 
   useEffect(() => {
     setImageUrl(null);
   }, [tokenDetail]);
 
   useEffect(() => {
-    if (IS_IPFS(tokenDetail?.dataAsJson?.url)) {
+    if (checkIsIPFSLink(tokenDetail?.dataAsJson?.url)) {
       ipcRenderer.send(IPFS_IPC_ID, {
         type: IpfsAction.GET,
         payload: {
@@ -203,7 +200,7 @@ const TokenDetail = () => {
               copyValue={tokenDetail.owner}
             />
             {tokenDetail.dataAsJson?.royalty && (
-              <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty}%`} />
+              <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty / 10}%`} />
             )}
             {tokenDetail.dataAsJson?.id.toString() && (
               <MetadataItem name="ID" value={tokenDetail.dataAsJson.id} />
