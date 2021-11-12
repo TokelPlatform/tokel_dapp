@@ -1,5 +1,4 @@
 import { createModel } from '@rematch/core';
-import axios from 'axios';
 import dp from 'dot-prop-immutable';
 
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
