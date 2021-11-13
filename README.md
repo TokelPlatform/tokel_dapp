@@ -57,46 +57,10 @@ The application is using [libnspv](https://github.com/KomodoPlatform/libnspv).
 
 ## Starting Development
 
-We do not commit libnspv to the github coz git modifies the binaries, so you need to add binaries, seed folder and a coins file to `include/binaries/libnspv`. It should have the following structure. Ask about the current coin config for the chain in our [Discord](https://discord.gg/QzWaDNd4N5).
-
-Setting for RPC port and the coin ticker name to connect to are in `src/vars/defines.ts` file
-
-WINDOWS
-```
-libwinpthread-1.dll (win dependency)
-msvcrt.dll (win dependecy)
-nspv.exe
-coins (libnspv config file, can be copied from the libnspv repo)
-seeds (libnspv specific, can be copied from the libnspv repo)
-```
-[windows.zip](https://github.com/TokelPlatform/tokel_app/files/6952151/windows.zip)
-
-
-LINUX
-```
-nspv-linux
-coins (libnspv config file, can be copied from the libnspv repo)
-seeds (libnspv specific, can be copied from the libnspv repo)
-```
-[linux.zip](https://github.com/TokelPlatform/tokel_app/files/6952150/linux.zip)
-
-
-
-
-MAC
-```
-nspv-mac
-coins (libnspv config file, can be copied from the libnspv repo)
-seeds (libnspv specific, can be copied from the libnspv repo)
-```
-[mac.zip](https://github.com/TokelPlatform/tokel_app/files/6952148/mac.zip)
-
-
-
 Start the app in the `dev` environment:
 
 ```bash
-yarn dev
+yarn start
 ```
 
 ## Packaging for Production
@@ -104,7 +68,7 @@ yarn dev
 To package apps for the local platform:
 
 ```bash
-yarn package
+yarn build && yarn package
 ```
 
 ## Automatic Github Distribution
