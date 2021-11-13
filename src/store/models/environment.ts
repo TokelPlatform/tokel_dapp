@@ -2,9 +2,10 @@ import { createModel } from '@rematch/core';
 import dp from 'dot-prop-immutable';
 
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
+import { getContentType } from 'util/helpers';
 import { ThemeName, themeNames } from 'util/theming';
 import { TokenDetail } from 'util/token-types';
-import { ModalName, NetworkType, ViewType } from 'vars/defines';
+import { HTTP_ERR_405, ModalName, NetworkType, ViewType, checkIsIPFSLink } from 'vars/defines';
 
 import type { RootModel } from './models';
 
@@ -75,6 +76,8 @@ export default createModel<RootModel>()({
       }
       return dp.set(state, `tokenDetails.${detail.tokenid}`, detail);
     },
+    SET_TOKEN_CONTENT_TYPE: (state, { tokenid, type }) =>
+      dp.merge(state, `tokenDetails.${tokenid}.contentType`, type),
     SET_TOKEL_PRICE_USD: (state, tokelPriceUSD: number) => ({ ...state, tokelPriceUSD }),
     SET_LOGIN_FEEDBACK: (state, loginFeedback: string) => ({ ...state, loginFeedback }),
     SET_ERROR: (state, error: string) => ({ ...state, error }),
@@ -88,6 +91,23 @@ export default createModel<RootModel>()({
       Object.keys(tokenBalances).map(async tokenId =>
         sendToBitgo(BitgoAction.TOKEN_V2_INFO_TOKEL, { tokenId })
       );
+    },
+    async getContentType({ tokenid, url }) {
+      if (checkIsIPFSLink(url)) {
+        return this.SET_TOKEN_CONTENT_TYPE({ tokenid, type: 'ipfs' });
+      }
+      let type;
+      try {
+        type = await getContentType('head', url);
+      } catch (e) {
+        if (e.message === HTTP_ERR_405) {
+          type = await getContentType('get', url);
+        } else {
+          console.log(e);
+          return e;
+        }
+      }
+      return this.SET_TOKEN_CONTENT_TYPE({ tokenid, type });
     },
   }),
 });

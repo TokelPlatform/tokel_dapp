@@ -16,4 +16,5 @@ export type TokenDetail = {
   dataAsJson?: TokelStandardDataFormat;
   version: number;
   IsMixed: boolean;
+  contentType?: string;
 };

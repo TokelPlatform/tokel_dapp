@@ -8,7 +8,7 @@ import { upperFirst } from 'lodash-es';
 import { selectCurrentTokenDetail } from 'store/selectors';
 import { Responsive, limitLength } from 'util/helpers';
 import { V } from 'util/theming';
-import { IPFS_IPC_ID, IpfsAction } from 'vars/defines';
+import { IPFS_IPC_ID, IpfsAction, checkIsIPFSLink, mediaTypes } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ExplorerLink from 'components/_General/ExplorerLink';
@@ -141,13 +141,14 @@ const MetadataItem = ({ name, value, copyValue }: MetadataItemProps) => (
 const TokenDetail = () => {
   const tokenDetail = useSelector(selectCurrentTokenDetail);
   const [imageUrl, setImageUrl] = useState(null);
+  const isMedia = !!tokenDetail.contentType && mediaTypes.includes(tokenDetail.contentType);
 
   useEffect(() => {
     setImageUrl(null);
   }, [tokenDetail]);
 
   useEffect(() => {
-    if (tokenDetail?.dataAsJson?.url?.includes('https://ipfs.io/')) {
+    if (checkIsIPFSLink(tokenDetail?.dataAsJson?.url)) {
       ipcRenderer.send(IPFS_IPC_ID, {
         type: IpfsAction.GET,
         payload: {
@@ -157,10 +158,12 @@ const TokenDetail = () => {
             ],
         },
       });
-    } else {
+      return;
+    }
+    if (isMedia) {
       setImageUrl(tokenDetail?.dataAsJson?.url);
     }
-  }, [tokenDetail]);
+  }, [tokenDetail, isMedia]);
 
   useEffect(() => {
     ipcRenderer.on(IPFS_IPC_ID, (_, data) => {
@@ -197,7 +200,7 @@ const TokenDetail = () => {
               copyValue={tokenDetail.owner}
             />
             {tokenDetail.dataAsJson?.royalty && (
-              <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty}%`} />
+              <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty / 10}%`} />
             )}
             {tokenDetail.dataAsJson?.id.toString() && (
               <MetadataItem name="ID" value={tokenDetail.dataAsJson.id} />
@@ -207,23 +210,25 @@ const TokenDetail = () => {
             ))}
           </Metadata>
         </MetadataContent>
-        <MediaContent>
-          <ImageFrame>
-            {!!tokenDetail.dataAsJson?.url && !imageUrl && (
-              <LoaderContainer>
-                <Loader bgColor={V.color.back} />
-              </LoaderContainer>
-            )}
+        {isMedia && (
+          <MediaContent>
+            <ImageFrame>
+              {!!tokenDetail.dataAsJson?.url && !imageUrl && (
+                <LoaderContainer>
+                  <Loader bgColor={V.color.back} />
+                </LoaderContainer>
+              )}
 
-            {!!imageUrl && (
-              <TokenImage
-                alt={tokenDetail.name}
-                src={imageUrl}
-                title="No video playback capabilities, please download the video below"
-              />
-            )}
-          </ImageFrame>
-        </MediaContent>
+              {!!imageUrl && (
+                <TokenImage
+                  alt={tokenDetail.name}
+                  src={imageUrl}
+                  title="No video playback capabilities, please download the video below"
+                />
+              )}
+            </ImageFrame>
+          </MediaContent>
+        )}
       </Content>
     </TokenDetailRoot>
   );

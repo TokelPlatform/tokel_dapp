@@ -1,3 +1,4 @@
+import axios from 'axios';
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 
@@ -53,3 +54,13 @@ export const stringifyAddresses = addresses => {
 };
 
 export const formatDate = timestamp => format(fromUnixTime(timestamp), 'dd/MM/yyyy H:mm:ss');
+
+export const getContentType = async (requestType, url) => {
+  try {
+    const response = await axios[`${requestType}`](url);
+    // https://datatracker.ietf.org/doc/html/rfc6838
+    return [response.headers['content-type'].split(' ')[0].split('/')];
+  } catch (e) {
+    return 'unknown';
+  }
+};
