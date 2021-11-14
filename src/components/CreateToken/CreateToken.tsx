@@ -10,21 +10,14 @@ import nftIcon from 'assets/Star.svg';
 import tokenMenuIcon from 'assets/Token.svg';
 import tokenIcon from 'assets/Token-alt.svg';
 
+import { Column, Columns } from 'components/_General/Grid';
 import CreateTokenForm from './Form';
 
 // dashboard root in dashboard.tsx
-const Layout = styled.div`
-  display: flex;
-  height: 100%;
-  width: 100%;
-  flex: 1;
+const Layout = styled(Columns)`
   background-color: ${props => props.theme.color.backHard};
   padding: 18px;
-  margin: 0;
-`;
-
-const VerticalColumns = styled.div`
-  height: 100%;
+  overflow-x: hidden;
 `;
 
 // widgetcontainer in common.tsx
@@ -43,12 +36,11 @@ const Box = styled.div<{ flex?: boolean }>`
   `}
 
   height: 100%;
-
   padding: 35px;
 `;
 
 const HelperWidget = styled(Box)`
-  height: 240px;
+  height: 45%;
   margin-bottom: 18px;
 
   p {
@@ -68,8 +60,6 @@ const HelperWidget = styled(Box)`
 `;
 
 const TokenTypeWidget = styled(Box)`
-  height: calc(100% - 258px);
-
   & > div {
     cursor: pointer;
     text-align: center;
@@ -122,8 +112,9 @@ const FormBox = styled(Box)`
 `;
 
 const TokenTypeOption: React.FC<{
-  action: () => any;
+  action: () => void;
   selected: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon: any;
   title: string;
 }> = ({ action, selected, icon, title }) => (
@@ -194,31 +185,29 @@ const CreateToken: React.FC = () => {
 
   return (
     <Layout>
-      <div style={{ width: '30%', marginRight: '18px' }}>
-        <VerticalColumns>
-          <HelperWidget flex>
-            <img alt="info" src={infoIcon} />
-            {helperText}
-          </HelperWidget>
-          <TokenTypeWidget flex>
-            <TokenTypeOption
-              action={selectNFT}
-              selected={typeSelected === TokenType.NFT}
-              title="NFT"
-              icon={nftIcon}
-            />
-            <TokenTypeOption
-              action={selectToken}
-              selected={typeSelected === TokenType.TOKEN}
-              title="Token"
-              icon={tokenIcon}
-            />
-          </TokenTypeWidget>
-        </VerticalColumns>
-      </div>
-      <div style={{ width: '70%' }}>
+      <Column size={4} vertical>
+        <HelperWidget flex>
+          <img alt="info" src={infoIcon} />
+          {helperText}
+        </HelperWidget>
+        <TokenTypeWidget flex>
+          <TokenTypeOption
+            action={selectNFT}
+            selected={typeSelected === TokenType.NFT}
+            title="NFT"
+            icon={nftIcon}
+          />
+          <TokenTypeOption
+            action={selectToken}
+            selected={typeSelected === TokenType.TOKEN}
+            title="Token"
+            icon={tokenIcon}
+          />
+        </TokenTypeWidget>
+      </Column>
+      <Column>
         <FormBox flex={typeSelected === null}>{form}</FormBox>
-      </div>
+      </Column>
     </Layout>
   );
 };

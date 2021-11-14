@@ -28,6 +28,7 @@ const ViewWrapper = styled.div`
   display: flex;
   justify-content: center;
   overflow: auto;
+  overflow-x: hidden;
 `;
 
 const getNote = (name: string) => (
@@ -71,7 +72,11 @@ const Home = () => {
     <HomeRoot>
       <SideMenu />
       <ViewWrapper>{renderView(currentView)}</ViewWrapper>
-      {modalProps && <Modal title={modalProps.title}>{modalProps.component}</Modal>}
+      {modalProps && (
+        <Modal size={modalProps.size} title={modalProps.title}>
+          {modalProps.component}
+        </Modal>
+      )}
     </HomeRoot>
   );
 };

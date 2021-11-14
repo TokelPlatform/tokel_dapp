@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import styled from '@emotion/styled';
+import { dispatch } from 'store/rematch';
 
 import { Form, Formik } from 'formik';
 import Field from 'components/_General/_FormikElements/Field';
@@ -16,6 +17,7 @@ import { Columns, Column } from 'components/_General/Grid';
 import { Button } from 'components/_General/buttons';
 
 import tokenCreationSchema from 'util/validators/tokenCreationSchema';
+import { ModalName } from 'vars/defines';
 
 interface CreateTokenFormProps {
   tokenType: TokenType;
@@ -35,15 +37,30 @@ const CaretContainer = styled.span<{ open: boolean }>`
   }
 `;
 
-const Bottom = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
+const Bottom = styled(Columns)`
+  position: sticky;
+  background-color: ${props => props.theme.color.back};
+  bottom: 0;
+  margin-top: auto;
+
+  ${Column} {
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
 
   button {
     margin-left: auto;
     margin-right: 5px;
   }
+`;
+
+const FormStyled = styled(Form)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
@@ -70,19 +87,23 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
 
   return (
     <Formik
-      style={{ height: '100%' }}
       validationSchema={tokenCreationSchema}
       initialValues={initialValues}
       isInitialValid={false}
       enableReinitialize
-      onSubmit={() => {
+      onSubmit={(values, { setSubmitting }) => {
         console.log('here we go');
+        setSubmitting(false);
+        dispatch.environment.SET_MODAL({
+          name: ModalName.CONFIRM_TOKEN_CREATION,
+          options: values,
+        });
       }}
     >
       {({ submitForm, isSubmitting, isValid }) => (
-        <Form style={{ height: '100%' }}>
-          <Columns style={{ height: '90%' }}>
-            <Column size={5} style={{ overflow: 'scroll' }}>
+        <FormStyled>
+          <Columns>
+            <Column size={5}>
               <Field
                 name="name"
                 type="text"
@@ -143,7 +164,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 />
               )}
             </Column>
-            <Column size={7} style={{ overflow: 'scroll' }}>
+            <Column size={7}>
               <Select
                 name="arbitraryAsJson[constellation_name]"
                 label="Constellation (optional)"
@@ -173,25 +194,23 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
             </Column>
           </Columns>
 
-          <Columns>
+          <Bottom>
             <Column size={12}>
-              <Bottom>
-                <Checkbox
-                  name="confirmation"
-                  label="I have checked and double checked all the inputs"
-                />
-                <Button
-                  onClick={submitForm}
-                  theme="purple"
-                  disabled={isSubmitting || !isValid}
-                  data-tid="login-button"
-                >
-                  Continue
-                </Button>
-              </Bottom>
+              <Checkbox
+                name="confirmation"
+                label="I have checked and double checked all the inputs"
+              />
+              <Button
+                onClick={submitForm}
+                theme="purple"
+                disabled={isSubmitting || !isValid}
+                data-tid="login-button"
+              >
+                Continue
+              </Button>
             </Column>
-          </Columns>
-        </Form>
+          </Bottom>
+        </FormStyled>
       )}
     </Formik>
   );
