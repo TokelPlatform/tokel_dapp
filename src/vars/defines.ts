@@ -67,6 +67,7 @@ export enum ModalName {
   FEEDBACK = 'feedback',
   TX_DETAIL = 'tx_detail',
   TOKEN_SEND = 'token_send',
+  CONFIRM_TOKEN_CREATION = 'confirm_token_creation',
 }
 
 export const Config = {

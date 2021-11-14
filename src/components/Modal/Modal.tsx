@@ -23,9 +23,9 @@ export const ModalRoot = styled(motion.div)`
   opacity: 0;
 `;
 
-const ModalPanel = styled(motion.div)`
+const ModalPanel = styled(motion.div)<{ size?: 'small' | 'large' }>`
   width: 100%;
-  max-width: min(440px, 90%);
+  max-width: min(${props => (props.size === 'large' ? '880px' : '440px')}, 90%);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -65,9 +65,10 @@ const handleEscape = (e: KeyboardEvent) => e.key === 'Escape' && close();
 type ModalProps = {
   title: string;
   children: ReactElement;
+  size?: 'small' | 'large';
 };
 
-const Modal = ({ title, children }: ModalProps) => {
+const Modal = ({ title, size, children }: ModalProps) => {
   // prevent anything in the background from being scrolled while modal is open
   useLockScroll();
 
@@ -85,6 +86,7 @@ const Modal = ({ title, children }: ModalProps) => {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.15, ease: [0.22, 0.54, 0, 1] }}
+        size={size}
       >
         <Header>
           {title}
