@@ -86,9 +86,9 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
 
   return (
     <Formik
-      // validationSchema={tokenCreationSchema}
+      validationSchema={tokenCreationSchema}
       initialValues={initialValues}
-      // isInitialValid={false}
+      isInitialValid={false}
       enableReinitialize
       onSubmit={(values, { setSubmitting }) => {
         console.log('here we go');
@@ -164,26 +164,29 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               )}
             </Column>
             <Column size={7}>
-              <Select
-                name="arbitraryAsJson[constellation_name]"
-                label="Constellation (optional)"
-                placeholder="Type to select a constellation or create a new one..."
-                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
-                options={[
-                  { label: 'Constellation 1', value: 'constellation_1' },
-                  { label: 'Constellation 2', value: 'constellation_2' },
-                ]}
-                creatable
-              />
-
-              <Field
-                name="arbitraryAsJson[number_in_constellation]"
-                type="number"
-                label="Number in Constellation (optional)"
-                min={1}
-                placeholder="N/A"
-                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
-              />
+              {tokenType === TokenType.NFT && (
+                <>
+                  <Select
+                    name="arbitraryAsJson[constellation_name]"
+                    label="Constellation (optional)"
+                    placeholder="Type to select a constellation or create a new one..."
+                    help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                    options={[
+                      { label: 'Constellation 1', value: 'constellation_1' },
+                      { label: 'Constellation 2', value: 'constellation_2' },
+                    ]}
+                    creatable
+                  />
+                  <Field
+                    name="arbitraryAsJson[number_in_constellation]"
+                    type="number"
+                    label="Number in Constellation (optional)"
+                    min={1}
+                    placeholder="N/A"
+                    help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                  />
+                </>
+              )}
 
               <MultiKeyValue
                 name="arbitraryAsJsonUnformatted"

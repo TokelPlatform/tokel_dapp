@@ -25,7 +25,7 @@ export const ModalRoot = styled(motion.div)`
 
 const ModalPanel = styled(motion.div)<{ size?: 'small' | 'large' }>`
   width: 100%;
-  max-width: min(${props => (props.size === 'large' ? '880px' : '440px')}, 90%);
+  max-width: min(${props => (props.size === 'large' ? '980px' : '440px')}, 90%);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

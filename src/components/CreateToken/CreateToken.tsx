@@ -18,6 +18,10 @@ const Layout = styled(Columns)`
   background-color: ${props => props.theme.color.backHard};
   padding: 18px;
   overflow-x: hidden;
+
+  ${Column}:last-child {
+    padding-left: 18px;
+  }
 `;
 
 // widgetcontainer in common.tsx
@@ -40,7 +44,9 @@ const Box = styled.div<{ flex?: boolean }>`
 `;
 
 const HelperWidget = styled(Box)`
-  height: 45%;
+  height: 215px;
+  min-height: 215px;
+  max-height: 215px;
   margin-bottom: 18px;
 
   p {
@@ -159,10 +165,10 @@ const CreateToken: React.FC = () => {
       case TokenType.TOKEN:
         return (
           <>
-            <h2>About Tokens</h2>
+            <h2>About Fungible Tokens</h2>
             <p>
-              You can use tokens to represent ownership of a shared asset, equity of a project,
-              membership of a community, or just about anything you can think of.
+              You can use fungible tokens to represent ownership of a shared asset, equity of a
+              project, membership of a community, or just about anything you can think of.
             </p>
           </>
         );
@@ -173,7 +179,7 @@ const CreateToken: React.FC = () => {
             <h2>Not sure what to select?</h2>
             <p>
               To represent full ownership of a single virtual or physical asset, select NFT. For
-              other use cases, select token.
+              other use cases, select fungible token.
             </p>
           </>
         );
@@ -184,7 +190,7 @@ const CreateToken: React.FC = () => {
   const selectToken = () => setTypeSelected(TokenType.TOKEN);
 
   return (
-    <Layout>
+    <Layout gapless>
       <Column size={4} vertical>
         <HelperWidget flex>
           <img alt="info" src={infoIcon} />
@@ -200,7 +206,7 @@ const CreateToken: React.FC = () => {
           <TokenTypeOption
             action={selectToken}
             selected={typeSelected === TokenType.TOKEN}
-            title="Token"
+            title="Fungible Token"
             icon={tokenIcon}
           />
         </TokenTypeWidget>

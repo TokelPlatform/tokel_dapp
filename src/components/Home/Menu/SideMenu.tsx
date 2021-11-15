@@ -24,6 +24,11 @@ export const menuData = [
     icon: DashIcon,
   },
   {
+    type: ViewType.CREATE_TOKEN,
+    name: 'Create Token',
+    icon: TokenIcon,
+  },
+  {
     type: ViewType.DEX,
     name: 'DEX',
     icon: SwapIcon,
@@ -32,11 +37,6 @@ export const menuData = [
     type: ViewType.NFT_MARKET,
     name: 'NFT Market',
     icon: BagIcon,
-  },
-  {
-    type: ViewType.CREATE_TOKEN,
-    name: 'Create Token',
-    icon: TokenIcon,
   },
   {
     type: ViewType.SETTINGS,
@@ -49,7 +49,7 @@ const SideMenuRoot = styled.div`
   position: relative;
   background-color: var(--color-almostBlack);
   height: 100%;
-  width: 96px;
+  width: 108px;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,5 +1,8 @@
+/** @jsxImportSource @emotion/react */
+
 import React, { useMemo } from 'react';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { selectModalOptions } from 'store/selectors';
@@ -11,6 +14,8 @@ import Checkbox from 'components/_General/_FormikElements/Checkbox';
 import { Button } from 'components/_General/buttons';
 
 import tokenCreationSchema from 'util/validators/tokenCreationSchema';
+import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
+import { Responsive } from 'util/helpers';
 
 const MediaPreviewContainer = styled.div`
   text-align: center;
@@ -32,6 +37,7 @@ const InformationLabel = styled(Column)`
 const InformationValue = styled(Column)`
   font-size: ${props => props.theme.font.h3};
   color: ${props => props.theme.color.frontSoft};
+  overflow-wrap: anywhere;
 `;
 
 const InformationRow = styled(Columns)`
@@ -39,13 +45,13 @@ const InformationRow = styled(Columns)`
 `;
 
 const Bottom = styled.div`
-  margin-top: 30px;
+  padding-top: 70px;
   ${Button} {
     margin-top: 12px;
   }
 `;
 
-const NotApplicable = () => <i>Not Applicable</i>;
+const NotApplicable = () => <i>N/A</i>;
 
 const ConfirmTokenCreationModal: React.FC = () => {
   const token = useSelector(selectModalOptions) as TokenForm;
@@ -67,6 +73,10 @@ const ConfirmTokenCreationModal: React.FC = () => {
         label: 'Number in Collection',
         value: token?.arbitraryAsJson?.number_in_constellation || <NotApplicable />,
       },
+      {
+        label: 'URL',
+        value: token?.url || <NotApplicable />,
+      },
       ...token?.arbitraryAsJsonUnformatted?.map(({ key, value }) => ({ label: key, value })),
       {
         label: 'Royalty',
@@ -83,23 +93,29 @@ const ConfirmTokenCreationModal: React.FC = () => {
       isInitialValid={false}
       enableReinitialize
       onSubmit={(values, { setSubmitting }) => {
-        console.log('here we go');
+        console.log('here we go', values);
         setSubmitting(false);
       }}
     >
       {({ submitForm, isSubmitting, isValid }) => (
         <Form>
-          <Columns>
-            <Column size={4}>
+          <Columns vcentered>
+            <Column
+              size={5}
+              css={css(
+                `${Responsive.above.L} { border-right: 1px solid var(--color-modal-border); padding-right: 35px; }`
+              )}
+            >
               <MediaPreviewContainer>
+                <TokenMediaDisplay url={token.url} />
                 <h1>{token.name}</h1>
                 <p>{token.description}</p>
               </MediaPreviewContainer>
             </Column>
-            <Column size={8} offset={1}>
+            <Column css={css(`${Responsive.above.L} { padding-left: 35px; }`)}>
               {tokenDisplayAttributes.map(({ label, value }) => (
                 <InformationRow key={label}>
-                  <InformationLabel size={4}>{label}</InformationLabel>
+                  <InformationLabel size={5}>{label}</InformationLabel>
                   <InformationValue>{value}</InformationValue>
                 </InformationRow>
               ))}

@@ -90,7 +90,7 @@ export const OsType = {
 };
 
 // https://datatracker.ietf.org/doc/html/rfc6838
-export const mediaTypes = ['audio', 'video', 'image', 'ipfs'];
+export const mediaTypes = <const>['audio', 'video', 'image', 'ipfs'];
 
 export const SEE_EXPLORER = 'See explorer link for details';
 
