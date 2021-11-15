@@ -31,6 +31,7 @@ const Send = () => {
   const chosenAsset = useSelector(selectChosenAsset);
   const myAddress = useSelector(selectAccountAddress);
   const mypubkey = useSelector(selectAccountPubKey);
+  const sender = options.type === ResourceType.TOKEL ? myAddress : mypubkey;
 
   const [confirmation, setConfirmation] = useState(false);
   const [recipient, setRecipient] = useState(null);
@@ -67,7 +68,7 @@ const Send = () => {
           currency={chosenAsset}
           recipient={recipient}
           amount={amountToSend}
-          from={mypubkey}
+          from={sender}
         />
       ) : options.type === ResourceType.TOKEL ? (
         <SendForm onSubmit={handleSubmit} />
