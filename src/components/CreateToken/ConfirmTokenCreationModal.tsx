@@ -39,9 +39,9 @@ const InformationRow = styled(Columns)`
 `;
 
 const Bottom = styled.div`
-  margin-top: 20px;
+  margin-top: 30px;
   ${Button} {
-    margin-top: 10px;
+    margin-top: 12px;
   }
 `;
 
