@@ -141,12 +141,6 @@ const BitgoOrchestrator = () => {
       // TOKEN_V2_INFO_TOKEL
       if (payload.type === BitgoAction.TOKEN_V2_INFO_TOKEL) {
         dispatch.environment.SET_TOKEN_DETAIL(payload.data);
-        if (payload.data.dataAsJson?.url) {
-          dispatch.environment.getContentType({
-            tokenid: payload.data.tokenid,
-            url: payload.data.dataAsJson?.url,
-          });
-        }
       }
     });
     return () => {

@@ -55,7 +55,7 @@ export const stringifyAddresses = addresses => {
 
 export const formatDate = timestamp => format(fromUnixTime(timestamp), 'dd/MM/yyyy H:mm:ss');
 
-export const getContentType = async (requestType, url) => {
+export const getContentType = async (requestType, url): Promise<'unknown' | string[]> => {
   try {
     const response = await axios[`${requestType}`](url);
     // https://datatracker.ietf.org/doc/html/rfc6838
