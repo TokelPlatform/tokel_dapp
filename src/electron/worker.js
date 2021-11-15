@@ -190,7 +190,7 @@ class BitgoSingleton {
       throw new Error('Not connected');
     }
     const txIds = await ccutils.getTxids(this.connection, address, 0, skipCount, 30);
-    const ids = txIds.txids.map(tx => tx.txid);
+    const ids = txIds.txids.map(tx => tx.txid.reverse().toString('hex'));
     const uniqueIds = [...new Set(ids)];
     if (uniqueIds.length > 0) {
       return ccutils.getTransactionsManyDecoded(

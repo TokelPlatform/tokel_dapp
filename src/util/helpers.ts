@@ -1,6 +1,5 @@
 import axios from 'axios';
 import format from 'date-fns/format';
-import fromUnixTime from 'date-fns/fromUnixTime';
 
 import { Config, WindowSize } from 'vars/defines';
 
