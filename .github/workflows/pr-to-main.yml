@@ -2,10 +2,10 @@ name: Build, Test and Package PRs to Main Branch
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  "build-test-package-publish":
+  'main--build-test-package-publish':
     runs-on: ${{ matrix.os }}
 
     strategy:

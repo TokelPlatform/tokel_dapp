@@ -5,7 +5,7 @@ on:
     branches: [development]
 
 jobs:
-  'build-test-package':
+  'dev--build-test-package-attach':
     runs-on: ${{ matrix.os }}
 
     strategy:
