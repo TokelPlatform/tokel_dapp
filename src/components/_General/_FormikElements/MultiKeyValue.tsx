@@ -16,7 +16,7 @@ const Input = styled(Field)`
 `;
 
 const CustomPaddingColumn = styled(Column)`
-  padding-right: ${props => props.theme.grid.columnGap};
+  padding-right: 0;
   padding-bottom: 0.15em;
 `;
 

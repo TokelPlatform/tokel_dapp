@@ -7,14 +7,13 @@ import Field from 'components/_General/_FormikElements/Field';
 import Checkbox from 'components/_General/_FormikElements/Checkbox';
 import Select from 'components/_General/_FormikElements/Select';
 import MultiKeyValue from 'components/_General/_FormikElements/MultiKeyValue';
+import { Button } from 'components/_General/buttons';
+import { Columns, Column } from 'components/_General/Grid';
 
 import TokenType from 'util/types/TokenType';
 import { TokenForm } from 'util/token-types';
 
 import Caret from 'assets/Caret.svg';
-
-import { Columns, Column } from 'components/_General/Grid';
-import { Button } from 'components/_General/buttons';
 
 import tokenCreationSchema from 'util/validators/tokenCreationSchema';
 import { ModalName } from 'vars/defines';
@@ -87,9 +86,9 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
 
   return (
     <Formik
-      validationSchema={tokenCreationSchema}
+      // validationSchema={tokenCreationSchema}
       initialValues={initialValues}
-      isInitialValid={false}
+      // isInitialValid={false}
       enableReinitialize
       onSubmit={(values, { setSubmitting }) => {
         console.log('here we go');
@@ -204,7 +203,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 onClick={submitForm}
                 theme="purple"
                 disabled={isSubmitting || !isValid}
-                data-tid="login-button"
+                data-tid="submit-token"
               >
                 Continue
               </Button>
