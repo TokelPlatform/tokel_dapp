@@ -1,14 +1,7 @@
 const { parentPort } = require('worker_threads');
 const sb = require('satoshi-bitcoin');
 
-const {
-  ECPair,
-  ccutils,
-  general,
-  networks,
-  nspvConnect,
-  cctokensv2,
-} = require('@tokel/bitgo-komodo-cc-lib');
+const { ECPair, ccutils, general, networks, nspvConnect, cctokensv2 } = require('@tokel/nspv-js');
 
 const BitgoAction = {
   SET_NETWORK: 'set_network',
@@ -197,7 +190,7 @@ class BitgoSingleton {
       throw new Error('Not connected');
     }
     const txIds = await ccutils.getTxids(this.connection, address, 0, skipCount, 30);
-    const ids = txIds.txids.map(tx => tx.txid.reverse().toString('hex'));
+    const ids = txIds.txids.map(tx => tx.txid);
     const uniqueIds = [...new Set(ids)];
     if (uniqueIds.length > 0) {
       return ccutils.getTransactionsManyDecoded(

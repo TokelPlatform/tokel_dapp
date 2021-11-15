@@ -251,10 +251,15 @@
     "@stablelib/random" "^1.0.1"
     "@stablelib/wipe" "^1.0.1"
 
-"@tokel/bitgo-komodo-cc-lib@0.1.51":
-  version "0.1.51"
-  resolved "https://registry.yarnpkg.com/@tokel/bitgo-komodo-cc-lib/-/bitgo-komodo-cc-lib-0.1.51.tgz#c04dcac74e8e217459a6c39f41874eedbd77341f"
-  integrity sha512-GqIbQR9sgfn6R4TPUHVqRnIaXm15x/sODAQONUbLGuRbV8bOYeM8fM8gjqw4mBUfx9ApqD+6dyxxsOueP2Q0mA==
+"@tokel/cryptoconditions@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@tokel/cryptoconditions/-/cryptoconditions-0.1.0.tgz#ec60dacd9f9b6dbf9948931b53ead562cbb690df"
+  integrity sha512-0B4UGt0SkBh+puJ4scqEtZuLwJ5d8QBOw8xchEr1IlZ2WYrTdNUIvt2alNkQoKli7yzv3Ngfk+4JWB1nIOUo2Q==
+
+"@tokel/nspv-js@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@tokel/nspv-js/-/nspv-js-0.0.2.tgz#23f619f1b805d23da4661ae123ee7b93dcba7668"
+  integrity sha512-fwH5HirqpNo0OKtxHdNJNnfmWj90GLPyeuUcMBOVuJ0bCrpelahMsVKIU/rjrvyV0AjzDuK8bHktuHsTz+nP8w==
   dependencies:
     "@tokel/cryptoconditions" "0.1.0"
     bech32 "0.0.3"
@@ -293,11 +298,6 @@
     webassembly "0.9.0"
     websocket-stream "^3.3.0"
     wif "^2.0.1"
-
-"@tokel/cryptoconditions@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@tokel/cryptoconditions/-/cryptoconditions-0.1.0.tgz#ec60dacd9f9b6dbf9948931b53ead562cbb690df"
-  integrity sha512-0B4UGt0SkBh+puJ4scqEtZuLwJ5d8QBOw8xchEr1IlZ2WYrTdNUIvt2alNkQoKli7yzv3Ngfk+4JWB1nIOUo2Q==
 
 "@types/debug@^4.1.5":
   version "4.1.7"
