@@ -1,11 +1,11 @@
-name: Build, Test and Package PRs to Development Branch
+name: PRs to Development Branch CI/CD
 
 on:
   pull_request:
     branches: [development]
 
 jobs:
-  'dev--build-test-package-attach':
+  'build+unittest':
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -28,9 +28,39 @@ jobs:
       - name: Build with webpack
         run: yarn build
 
-      - name: Run tests
+      - name: Run unittests
         run: yarn checks
 
+  'e2e-tests':
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Copy files for E2E tests
+        shell: bash
+        run: cp -R ./build/* ./src/electron
+          mkdir old/path/new-subdir
+          mv old/path/* old/path/new-subdir/
+          - 'cp -r dist/ ${{ env.GITHUB_WORKSPACE }}/dist'
+          - 'cp -r src/ ${{ env.GITHUB_WORKSPACE }}/src'
+       && cross-env NODE_ENV=test testcafe electron:./src/electron ./tests-e2e && rm -rf ./src/electron/dist ./src/electron/main.js
+
+      - name: Run E2E tests
+        run: yarn e2e
+
+      - name: Remove files for E2E tests
+
+  'package+artifacts':
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
       - name: Package with electron-builder
         run: yarn package
         env:

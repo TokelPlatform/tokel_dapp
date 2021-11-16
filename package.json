@@ -68,7 +68,7 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "TokelPlatform",
+      "owner": "acnebs",
       "repo": "tokel_dapp",
       "releaseType": "draft",
       "publishAutoUpdate": false
