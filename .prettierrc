@@ -1,12 +1,20 @@
 {
   "arrowParens": "avoid",
   "bracketSpacing": true,
-  "jsxBracketSameLine": false,
+  "bracketSameLine": false,
   "printWidth": 100,
   "proseWrap": "preserve",
   "requirePragma": false,
   "semi": true,
   "singleQuote": true,
   "tabWidth": 2,
-  "trailingComma": "es5"
+  "trailingComma": "es5",
+  "overrides": [
+    {
+      "files": [".prettierrc", "*.json"],
+      "options": {
+        "parser": "json"
+      }
+    }
+  ]
 }

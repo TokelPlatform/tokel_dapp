@@ -47,7 +47,7 @@ export function sendToBitgo<T extends MsgValue>(
 
 type BitgoMsg = {
   type: BitgoAction;
-  payload: any;
+  payload: unknown;
 };
 
 export const checkData = (msg: BitgoMsg) => {
