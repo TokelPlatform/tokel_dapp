@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 
@@ -113,7 +115,7 @@ const TokenDetail = () => {
         <ExplorerLink type="tokens" txid={tokenDetail.tokenid} postfix="transactions" />
       </Header>
       <Content>
-        <Columns style={{ overflow: 'auto' }}>
+        <Columns css={{ overflow: 'auto' }}>
           <Column size={7}>
             <MetadataContent>
               <Description>{tokenDetail.description}</Description>
@@ -148,7 +150,7 @@ const TokenDetail = () => {
               </Metadata>
             </MetadataContent>
           </Column>
-          <Column size={5} style={{ overflow: 'auto' }}>
+          <Column size={5} css={{ overflow: 'auto' }}>
             <TokenMediaDisplay url={tokenDetail?.dataAsJson?.url} />
           </Column>
         </Columns>
