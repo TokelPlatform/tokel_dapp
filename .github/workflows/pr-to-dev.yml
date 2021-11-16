@@ -1,4 +1,4 @@
-name: PRs to Development Branch CI/CD
+name: PRs to Dev
 
 on:
   pull_request:
