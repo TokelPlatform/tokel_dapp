@@ -1,4 +1,4 @@
-name: PRs to Main Branch
+name: PRs to Main
 
 on:
   pull_request:
