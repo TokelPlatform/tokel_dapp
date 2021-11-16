@@ -78,6 +78,4 @@ const Checkbox: React.FC<{ label: string } & FieldHookConfig<string>> = props =>
   );
 };
 
-Checkbox.defaultProps = {};
-
 export default Checkbox;

@@ -52,6 +52,4 @@ const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
   );
 };
 
-Select.defaultProps = {};
-
 export default Select;

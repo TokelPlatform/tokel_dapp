@@ -86,6 +86,4 @@ const FieldContainer: React.FC<FieldContainerProps & FieldHookConfig<string>> = 
   );
 };
 
-FieldContainer.defaultProps = {};
-
 export default FieldContainer;

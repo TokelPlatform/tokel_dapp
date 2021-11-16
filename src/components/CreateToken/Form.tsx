@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { dispatch } from 'store/rematch';
 
@@ -64,28 +64,25 @@ const FormStyled = styled(Form)`
   overflow-x: hidden;
 `;
 
+const initialValues: Partial<TokenForm> = {
+  name: '',
+  description: '',
+  url: '',
+  royalty: undefined,
+  supply: '',
+  id: '',
+  confirmation: false,
+  arbitraryAsJson: {
+    constellation_name: '',
+    number_in_constellation: '',
+  },
+  arbitraryAsJsonUnformatted: [],
+};
+
 const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
   const tokenTypeDisplay = tokenType === TokenType.NFT ? 'NFT' : 'Token';
   const [showAdvanced, setShowAdvanced] = useState(false);
   const previousTokenType = usePrevious(tokenType);
-
-  const initialValues: Partial<TokenForm> = useMemo(
-    () => ({
-      name: '',
-      description: '',
-      url: '',
-      royalty: undefined,
-      supply: '',
-      id: '',
-      confirmation: false,
-      arbitraryAsJson: {
-        constellation_name: '',
-        number_in_constellation: '',
-      },
-      arbitraryAsJsonUnformatted: [],
-    }),
-    []
-  );
 
   const formikBag = useFormik<Partial<TokenForm>>({
     validationSchema: tokenCreationSchema,
@@ -147,7 +144,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               placeholder="100,000"
               min={1}
               max={200000000}
-              help="How many of your tokens will exist? For NFTs, this field is always 1. For fungible tokens, this can range until 200 million"
+              help="How many of your tokens will exist? For NFTs, this field is always 1. The cost to create your token is roughly the value of this field times 0.00000001 TKL, plus transaction fees."
             />
 
             <Field
@@ -236,7 +233,5 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
     </FormikProvider>
   );
 };
-
-CreateTokenForm.defaultProps = {};
 
 export default CreateTokenForm;

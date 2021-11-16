@@ -140,6 +140,4 @@ const ConfirmTokenCreationModal: React.FC = () => {
   );
 };
 
-ConfirmTokenCreationModal.defaultProps = {};
-
 export default ConfirmTokenCreationModal;

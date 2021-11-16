@@ -38,11 +38,10 @@ const MultiKeyValue: React.FC<MultiKeyValueProps & FieldHookConfig<string>> = ({
         name={props.name}
         render={({ push, remove }) => (
           <div>
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {(field.value as unknown as Array<any>)?.map((_v, index) => (
+            {(field.value as unknown as Array<unknown>)?.map((_v, index) => (
               // TODO can I use an id here instead?
               // eslint-disable-next-line react/no-array-index-key
-              <Columns key={index}>
+              <Columns mobile key={index}>
                 <CustomPaddingColumn size={5}>
                   <Input
                     name={`${props.name}.${index}.key`}
@@ -87,7 +86,5 @@ const MultiKeyValue: React.FC<MultiKeyValueProps & FieldHookConfig<string>> = ({
     </FieldContainer>
   );
 };
-
-MultiKeyValue.defaultProps = {};
 
 export default MultiKeyValue;
