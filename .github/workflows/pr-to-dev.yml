@@ -5,7 +5,7 @@ on:
     branches: [development]
 
 jobs:
-  'build+unittest':
+  'build-and-unittest':
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -31,7 +31,7 @@ jobs:
       - name: Run unittests
         run: yarn checks
 
-  'e2e-tests':
+  'run-e2e-tests':
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -54,7 +54,7 @@ jobs:
         shell: bash
         run: rm -rf ./src/electron/dist ./src/electron/main.js
 
-  'package+artifacts':
+  'package-and-upload-artifacts':
     runs-on: ${{ matrix.os }}
 
     strategy:
