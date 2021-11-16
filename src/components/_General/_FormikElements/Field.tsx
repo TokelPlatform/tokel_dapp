@@ -41,8 +41,8 @@ const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({
         <Textarea {...field} placeholder={props.placeholder} />
       ) : (
         <Input
-          value=""
           {...field}
+          value={field?.value || ''}
           readOnly={readOnly}
           min={min}
           max={max}
