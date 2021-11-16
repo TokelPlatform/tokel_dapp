@@ -1,0 +1,72 @@
+name: PRs to Development Branch CI/CD
+
+on:
+  pull_request:
+    branches: [development]
+
+jobs:
+  'build+unittest':
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 15
+          cache: yarn
+
+      - name: Install packages with Yarn
+        run: yarn install --frozen-lockfile
+
+      - name: Build with webpack
+        run: yarn build
+
+      - name: Run unittests
+        run: yarn checks
+
+  'e2e-tests':
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Copy files for E2E tests
+        shell: bash
+        run: cp -R ./build/* ./src/electron
+          mkdir old/path/new-subdir
+          mv old/path/* old/path/new-subdir/
+          - 'cp -r dist/ ${{ env.GITHUB_WORKSPACE }}/dist'
+          - 'cp -r src/ ${{ env.GITHUB_WORKSPACE }}/src'
+       && cross-env NODE_ENV=test testcafe electron:./src/electron ./tests-e2e && rm -rf ./src/electron/dist ./src/electron/main.js
+
+      - name: Run E2E tests
+        run: yarn e2e
+
+      - name: Remove files for E2E tests
+
+  'package+artifacts':
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Package with electron-builder
+        run: yarn package
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Upload apps to artifact store'
+        uses: kittaakos/upload-artifact-as-is@v0
+        with:
+          path: release/TokelPlatform*
