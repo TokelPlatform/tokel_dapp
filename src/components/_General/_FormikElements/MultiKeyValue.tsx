@@ -12,7 +12,7 @@ import { inputStyles } from './common';
 import FieldContainer from './FieldContainer';
 
 const Input = styled(Field)`
-  ${props => inputStyles(props.theme)}
+  ${inputStyles}
 `;
 
 const CustomPaddingColumn = styled(Column)`

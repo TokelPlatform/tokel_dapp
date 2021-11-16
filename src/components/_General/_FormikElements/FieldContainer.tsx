@@ -4,12 +4,13 @@ import Tippy from '@tippyjs/react';
 import { FieldHookConfig, useField } from 'formik';
 import Icon from 'components/_General/_UIElements/Icon';
 import InfoIcon from 'assets/HelperInfoCircle.svg';
+import { V } from 'util/theming';
 
 const FieldContainerStyled = styled.div`
   margin-bottom: 1rem;
 
   .error {
-    color: ${props => props.theme.color.cerise};
+    color: ${V.color.cerise};
     margin-top: 0.2rem;
   }
 
@@ -21,8 +22,8 @@ const FieldContainerStyled = styled.div`
     position: absolute;
     right: 0px;
     bottom: 0px;
-    background-color: ${props => props.theme.color.cornflower};
-    color: ${props => props.theme.color.front};
+    background-color: ${V.color.cornflower};
+    color: ${V.color.front};
     padding: 7px;
     padding-left: 15px;
     padding-right: 15px;
@@ -35,8 +36,8 @@ const FieldContainerStyled = styled.div`
 `;
 
 const Label = styled.label`
-  font-size: ${props => props.theme?.font.p};
-  color: ${props => props.theme.color?.frontOp[50]};
+  font-size: ${V?.font.p};
+  color: ${V.color?.frontOp[50]};
   font-weight: bold;
   display: flex;
   align-items: center;

@@ -7,11 +7,11 @@ import { inputStyles } from './common';
 import FieldContainer from './FieldContainer';
 
 const Input = styled.input`
-  ${props => inputStyles(props.theme)}
+  ${inputStyles}
 `;
 
 const Textarea = styled.textarea`
-  ${props => inputStyles(props.theme)}
+  ${inputStyles}
   min-height: 90px;
 `;
 

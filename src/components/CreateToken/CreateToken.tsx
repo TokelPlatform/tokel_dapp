@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 
 import styled from '@emotion/styled';
 import TokenType from 'util/types/TokenType';
+import { V } from 'util/theming';
 
 import Icon from 'components/_General/_UIElements/Icon';
 
@@ -15,7 +16,7 @@ import CreateTokenForm from './Form';
 
 // dashboard root in dashboard.tsx
 const Layout = styled(Columns)`
-  background-color: ${props => props.theme.color.backHard};
+  background-color: ${V.color.backHard};
   padding: 18px;
   overflow-x: hidden;
 
@@ -26,9 +27,9 @@ const Layout = styled(Columns)`
 
 // widgetcontainer in common.tsx
 const Box = styled.div<{ flex?: boolean }>`
-  background-color: ${props => props.theme.color.back};
-  border: 1px solid ${props => props.theme.color.backSofter};
-  border-radius: ${props => props.theme.size.borderRadius};
+  background-color: ${V.color.back};
+  border: 1px solid ${V.color.backSofter};
+  border-radius: ${V.size.borderRadius};
 
   ${props =>
     props.flex &&
@@ -52,7 +53,7 @@ const HelperWidget = styled(Box)`
   p {
     flex-grow: 2;
     margin-top: 0;
-    color: ${props => props.theme.color.frontSoft};
+    color: ${V.color.frontSoft};
     align-self: flex-start;
   }
 
@@ -84,12 +85,12 @@ const TokenTypeWidget = styled(Box)`
       }
 
       h2 {
-        color: ${props => props.theme.color.front};
+        color: ${V.color.front};
       }
     }
 
     h2 {
-      color: ${props => props.theme.color.frontSoft};
+      color: ${V.color.frontSoft};
       margin-top: 5px;
     }
   }
@@ -106,7 +107,7 @@ const FormBox = styled(Box)`
 
     h3 {
       margin-top: 5px;
-      color: ${props => props.theme.color.frontSoft};
+      color: ${V.color.frontSoft};
     }
 
     .icon {

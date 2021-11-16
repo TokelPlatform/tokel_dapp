@@ -12,6 +12,7 @@ import { Columns, Column } from 'components/_General/Grid';
 
 import TokenType from 'util/types/TokenType';
 import { TokenForm } from 'util/token-types';
+import { V } from 'util/theming';
 
 import Caret from 'assets/Caret.svg';
 
@@ -38,7 +39,7 @@ const CaretContainer = styled.span<{ open: boolean }>`
 
 const Bottom = styled(Columns)`
   position: sticky;
-  background-color: ${props => props.theme.color.back};
+  background-color: ${V.color.back};
   bottom: 0;
   margin-top: auto;
 
