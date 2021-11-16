@@ -12,6 +12,7 @@
       "vars*": ["src/vars*"],
       "~/*": ["src/*"]
     },
+    "types": ["@emotion/react/types/css-prop"],
     "target": "ES2018",
     "module": "CommonJS",
     "lib": ["dom", "esnext"],
