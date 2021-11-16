@@ -3,7 +3,7 @@ import * as yup from 'yup';
 const tokenCreationSchema = yup.object().shape({
   name: yup.string().max(32).required(),
   description: yup.string().max(4096).required(),
-  supply: yup.number().required().positive().integer().max(200000000),
+  supply: yup.number().required().positive().integer(),
   url: yup.string().url('must be a valid URL'),
   royalty: yup.number().integer().min(0).max(100),
   id: yup.string(),

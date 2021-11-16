@@ -53,9 +53,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   useEffect(() => {
     setImageUrl(null);
     setContentType(null);
-  }, [url]);
 
-  useEffect(() => {
     if (checkIsIPFSLink(url)) {
       setContentType('ipfs');
     } else {
@@ -111,7 +109,5 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
     </MediaContent>
   );
 };
-
-TokenMediaDisplay.defaultProps = {};
 
 export default TokenMediaDisplay;

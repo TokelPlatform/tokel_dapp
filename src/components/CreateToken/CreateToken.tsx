@@ -12,6 +12,7 @@ import tokenMenuIcon from 'assets/Token.svg';
 import tokenIcon from 'assets/Token-alt.svg';
 
 import { Column, Columns } from 'components/_General/Grid';
+import { Responsive } from 'util/helpers';
 import CreateTokenForm from './Form';
 
 // dashboard root in dashboard.tsx
@@ -21,7 +22,13 @@ const Layout = styled(Columns)`
   overflow-x: hidden;
 
   ${Column}:last-child {
-    padding-left: 18px;
+    ${Responsive.above.L} {
+      padding-left: 18px;
+    }
+
+    ${Responsive.below.L} {
+      padding-top: 18px;
+    }
   }
 `;
 
@@ -72,6 +79,10 @@ const TokenTypeWidget = styled(Box)`
     text-align: center;
     width: 100%;
     outline: none;
+
+    ${Responsive.below.L} {
+      width: 50%;
+    }
 
     .icon {
       margin-left: auto;
@@ -218,7 +229,5 @@ const CreateToken: React.FC = () => {
     </Layout>
   );
 };
-
-CreateToken.defaultProps = {};
 
 export default CreateToken;
