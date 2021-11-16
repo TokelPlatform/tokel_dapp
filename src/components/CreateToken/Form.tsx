@@ -109,7 +109,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 type="text"
                 label={`${tokenTypeDisplay} Name`}
                 placeholder={`My${tokenTypeDisplay}`}
-                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                help={`The name of your ${tokenTypeDisplay}! Think of something cool. This will be shown in the wallet and explorer.`}
               />
 
               <Field
@@ -117,7 +117,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 type="textarea"
                 label="Description"
                 placeholder={`What does your ${tokenTypeDisplay} represent?`}
-                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                help={`A description to go with your ${tokenTypeDisplay}. Can have a max lenght of 4096 characters.`}
               />
 
               <Field
@@ -128,7 +128,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 placeholder="100,000"
                 min={1}
                 max={200000000}
-                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                help="How many of your tokens will exist? For NFTs, this field is always 1. For fungible tokens, this can range until 200 million"
               />
 
               <Field
@@ -136,7 +136,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 type="text"
                 label="Media URL (optional)"
                 placeholder={`Media URL representing your ${tokenTypeDisplay}`}
-                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                help={`The media representing this ${tokenTypeDisplay}. We recommend using IPFS or other permantent file storage solution so your ${tokenTypeDisplay} doesn't get lost in time!`}
               />
 
               <Field
@@ -146,7 +146,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 max={100}
                 label="Royalty (optional)"
                 placeholder="0"
-                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                help={`Anytime this ${tokenTypeDisplay} is sold through the Tokel DEX, you can make a comission, even if you're not participating on the sale. Can range from 1% to 100%`}
                 append="%"
               />
 
@@ -160,7 +160,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                   type="text"
                   label="Identifier (ID, optional)"
                   placeholder="Numeric ID, UUID, or string ID"
-                  help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                  help={`This is the ID of the Constellation this ${tokenTypeDisplay} belongs to. You can define this manually, but it will override the Constellation field. If you select a Constellation, this field gets set automatically.`}
                 />
               )}
             </Column>
@@ -171,7 +171,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                     name="arbitraryAsJson[constellation_name]"
                     label="Constellation (optional)"
                     placeholder="Type to select a constellation or create a new one..."
-                    help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                    help="Constellation is the term used for an NFT collection on the Tokel Platform. A group of NFTs is called a Constellation."
                     options={[
                       { label: 'Constellation 1', value: 'constellation_1' },
                       { label: 'Constellation 2', value: 'constellation_2' },
@@ -184,7 +184,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                     label="Number in Constellation (optional)"
                     min={1}
                     placeholder="N/A"
-                    help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                    help="If this is part of a series, you can number this item here. Not required."
                   />
                 </>
               )}
@@ -192,7 +192,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               <MultiKeyValue
                 name="arbitraryAsJsonUnformatted"
                 label="Custom Attributes (optional)"
-                help="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+                help={`You can use this field to add any property to your ${tokenTypeDisplay}, in a key-value fashion. Think of attributes like strenght, luck, color, etc.`}
               />
             </Column>
           </Columns>
