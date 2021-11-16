@@ -1,11 +1,11 @@
-name: PRs to Development Branch CI/CD
+name: PRs to Dev
 
 on:
   pull_request:
     branches: [development]
 
 jobs:
-  'build+unittest':
+  'build-test-package-artifacts':
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -31,36 +31,24 @@ jobs:
       - name: Run unittests
         run: yarn checks
 
-  'e2e-tests':
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest]
-
-    steps:
-      - name: Copy files for E2E tests
+      - name: Copy files for E2E tests (!macOS)
+        if: matrix.os != 'macos-latest'
         shell: bash
         run: cp -R ./build/* ./src/electron
-          mkdir old/path/new-subdir
-          mv old/path/* old/path/new-subdir/
-          - 'cp -r dist/ ${{ env.GITHUB_WORKSPACE }}/dist'
-          - 'cp -r src/ ${{ env.GITHUB_WORKSPACE }}/src'
-       && cross-env NODE_ENV=test testcafe electron:./src/electron ./tests-e2e && rm -rf ./src/electron/dist ./src/electron/main.js
 
-      - name: Run E2E tests
-        run: yarn e2e
+      - name: Run E2E tests with TestCafe action (!macOS)
+        if: matrix.os != 'macos-latest'
+        uses: DevExpress/testcafe-action@latest
+        env:
+          NODE_ENV: test
+        with:
+          args: 'electron:./src/electron ./tests-e2e'
 
-      - name: Remove files for E2E tests
+      - name: Remove files for E2E tests (!macOS)
+        if: matrix.os != 'macos-latest'
+        shell: bash
+        run: rm -rf ./src/electron/dist ./src/electron/main.js
 
-  'package+artifacts':
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
-
-    steps:
       - name: Package with electron-builder
         run: yarn package
         env:

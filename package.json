@@ -9,7 +9,7 @@
     "test-e2e:no-build": "node -r @babel/register ./config/scripts/CheckBuildsExist.js && cp -R ./build/* ./src/electron && cross-env NODE_ENV=test testcafe electron:./src/electron ./tests-e2e && rm -rf ./src/electron/dist ./src/electron/main.js",
     "test-e2e": "yarn build && yarn test-e2e:no-build",
     "tsc": "cross-env NODE_ENV=development ./node_modules/.bin/tsc",
-    "checks": "concurrently \"yarn lint\" \"yarn test\" \"yarn tsc\" && yarn test-e2e:no-build",
+    "checks": "concurrently \"yarn lint\" \"yarn test\" \"yarn tsc\"",
     "postinstall": "node -r @babel/register ./config/scripts/CheckNativeDep.js && electron-builder install-app-deps && yarn cross-env NODE_ENV=development webpack --config ./config/webpack/webpack.config.renderer.dev.dll.babel.js && yarn-deduplicate yarn.lock",
     "start": "NODE_ENV=production node -r @babel/register ./config/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
     "dev": "NODE_ENV=development node -r @babel/register ./config/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
