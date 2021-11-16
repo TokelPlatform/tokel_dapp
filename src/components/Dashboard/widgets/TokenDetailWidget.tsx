@@ -105,7 +105,7 @@ const MetadataItem = ({ name, value, copyValue }: MetadataItemProps) => (
   </MetadataItemRoot>
 );
 
-const TokenDetail = () => {
+const TokenDetail: React.FC = () => {
   const tokenDetail = useSelector(selectCurrentTokenDetail);
 
   return (
