@@ -333,5 +333,10 @@
     "baseBranches": [
       "next"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn checks"
+    }
   }
 }
