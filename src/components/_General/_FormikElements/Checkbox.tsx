@@ -2,6 +2,7 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 import { FieldHookConfig, useField } from 'formik';
+import { V } from 'util/theming';
 
 const Container = styled.label`
   display: flex;
@@ -9,8 +10,8 @@ const Container = styled.label`
 
   position: relative;
   cursor: pointer;
-  font-size: ${props => props.theme.font.p};
-  color: ${props => props.theme.color.frontSofter};
+  font-size: ${V.font.p};
+  color: ${V.color.frontSofter};
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -27,8 +28,8 @@ const Container = styled.label`
 
   &:hover input ~ span,
   input:checked ~ span {
-    background-color: ${props => props.theme.color.cornflowerHard};
-    border-color: ${props => props.theme.color.cornflowerHard};
+    background-color: ${V.color.cornflowerHard};
+    border-color: ${V.color.cornflowerHard};
   }
 
   input:checked ~ span:after {
@@ -43,8 +44,8 @@ const Checkmark = styled.span`
   height: 20px;
   width: 20px;
   background-color: transparent;
-  border: 1px solid ${props => props.theme.color.frontSofter};
-  border-radius: ${props => props.theme.size.borderRadius};
+  border: 1px solid ${V.color.frontSofter};
+  border-radius: ${V.size.borderRadius};
 
   &:after {
     content: '';

@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Responsive } from 'util/helpers';
+import { V } from 'util/theming';
 
 // Inspired by Bulma's grid: https://github.com/jgthms/bulma/blob/master/sass/grid/columns.sass
 
@@ -10,7 +11,7 @@ const Column = styled.div<{ size?: GRID | 'narrow'; offset?: GRID; vertical?: bo
   flex-basis: 0;
   flex-grow: 1;
   flex-shrink: 1;
-  padding: ${props => props.theme.grid.columnGap};
+  padding: ${V.grid.columnGap};
 
   ${Responsive.above.L} {
     width: ${props =>
@@ -38,12 +39,12 @@ const Columns = styled.div<{
 }>`
   width: 100%;
 
-  margin-right: calc(${props => props.theme.grid.columnGap} * -1);
-  margin-left: calc(${props => props.theme.grid.columnGap} * -1);
-  margin-top: calc(${props => props.theme.grid.columnGap} * -1);
+  margin-right: calc(${V.grid.columnGap} * -1);
+  margin-left: calc(${V.grid.columnGap} * -1);
+  margin-top: calc(${V.grid.columnGap} * -1);
 
   &:not(:last-child) {
-    margin-bottom: calc(1.5rem - ${props => props.theme.grid.columnGap});
+    margin-bottom: calc(1.5rem - ${V.grid.columnGap});
   }
 
   ${props => props.centered && `justify-content: center;`}

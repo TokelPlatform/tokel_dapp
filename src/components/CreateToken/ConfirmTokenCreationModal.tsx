@@ -8,14 +8,14 @@ import { Formik, Form } from 'formik';
 import { selectModalOptions } from 'store/selectors';
 
 import { Columns, Column } from 'components/_General/Grid';
-import { TokenForm } from 'util/token-types';
-
+import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 import Checkbox from 'components/_General/_FormikElements/Checkbox';
 import { Button } from 'components/_General/buttons';
 
+import { TokenForm } from 'util/token-types';
 import tokenCreationSchema from 'util/validators/tokenCreationSchema';
-import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 import { Responsive } from 'util/helpers';
+import { V } from 'util/theming';
 
 const MediaPreviewContainer = styled.div`
   text-align: center;
@@ -25,18 +25,18 @@ const MediaPreviewContainer = styled.div`
   }
 
   p {
-    color: ${props => props.theme.color.frontSoft};
-    font-size: ${props => props.theme.font.h3};
+    color: ${V.color.frontSoft};
+    font-size: ${V.font.h3};
     margin-top: 0;
   }
 `;
 
 const InformationLabel = styled(Column)`
-  font-size: ${props => props.theme.font.h3};
+  font-size: ${V.font.h3};
 `;
 const InformationValue = styled(Column)`
-  font-size: ${props => props.theme.font.h3};
-  color: ${props => props.theme.color.frontSoft};
+  font-size: ${V.font.h3};
+  color: ${V.color.frontSoft};
   overflow-wrap: anywhere;
 `;
 
