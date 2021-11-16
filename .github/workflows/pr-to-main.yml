@@ -1,11 +1,11 @@
-name: Build, Test and Package PRs to Main Branch
+name: PRs to Main
 
 on:
   pull_request:
     branches: [main]
 
 jobs:
-  'main--build-test-package-publish':
+  'build-test-package-draft-release':
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -28,8 +28,26 @@ jobs:
       - name: Build with webpack
         run: yarn build
 
-      - name: Run tests
+      - name: Run unittests
         run: yarn checks
+
+      - name: Copy files for E2E tests (!macOS)
+        if: matrix.os != 'macos-latest'
+        shell: bash
+        run: cp -R ./build/* ./src/electron
+
+      - name: Run E2E tests with TestCafe action (!macOS)
+        if: matrix.os != 'macos-latest'
+        uses: DevExpress/testcafe-action@latest
+        env:
+          NODE_ENV: test
+        with:
+          args: 'electron:./src/electron ./tests-e2e'
+
+      - name: Remove files for E2E tests (!macOS)
+        if: matrix.os != 'macos-latest'
+        shell: bash
+        run: rm -rf ./src/electron/dist ./src/electron/main.js
 
       - name: Package and publish with electron-builder
         run: yarn package:publish
