@@ -76,7 +76,7 @@ const TxInformation = ({
         <TxConfirmationRow label="Value (now)" value={`≈ $ ${usdValueTemp}`} /> */}
       </Row>
       <Column>
-        <TxConfirmationRow label="TX id" value={`${limitLength(txid, 36)} ...`}>
+        <TxConfirmationRow label="Tx id" value={`${limitLength(txid, 36)} ...`}>
           <CopyToClipboard textToCopy={txid} color={Colors.WHITE} />
           <OpenInExplorer link={`${links.explorers[currency]}/tx/${txid}`} />
         </TxConfirmationRow>
