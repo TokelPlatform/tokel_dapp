@@ -9,7 +9,7 @@ import { selectAccountAddress } from 'store/selectors';
 import { BitgoAction, checkData, sendToBitgo } from 'util/bitgoHelper';
 import { parseUnspent } from 'util/transactions';
 import { spendSuccess } from 'util/transactionsHelper';
-import { BITGO_IPC_ID, ErrorMessages, IS_DEV } from 'vars/defines';
+import { BITGO_IPC_ID, IS_DEV, NspvJSErrorMessages } from 'vars/defines';
 
 const BAD_WALLET_ERRORS = ['Error: RangeError: value out of range'];
 export const BROKEN_WALLET_MSG =
@@ -24,6 +24,13 @@ const commonError = err => {
     dispatch.environment.SET_LOGIN_FEEDBACK('Trying to connect to nspv...');
     dispatch.environment.UPDATE_NSPV_STATUS(false);
   }
+};
+
+const transactionError = err => {
+  dispatch.currentTransaction.SET_TX_STATUS(-1);
+  dispatch.currentTransaction.SET_TX_ERROR(NspvJSErrorMessages[err] || err);
+  dispatch.environment.SET_ERROR(err);
+  log.error(err);
 };
 
 const BitgoOrchestrator = () => {
@@ -51,10 +58,7 @@ const BitgoOrchestrator = () => {
       // SPEND
       if (payload.type === BitgoAction.SPEND) {
         if (payload.error) {
-          dispatch.currentTransaction.SET_TX_STATUS(-1);
-          dispatch.currentTransaction.SET_TX_ERROR(ErrorMessages.NETWORK_ISSUES);
-          dispatch.environment.SET_ERROR(payload.error);
-          log.error(payload.error);
+          transactionError(payload.error);
           return;
         }
         const success = spendSuccess(payload.data);
@@ -75,11 +79,7 @@ const BitgoOrchestrator = () => {
       // TOKEN TRANSFER
       if (payload.type === BitgoAction.TOKEN_V2_TRANSFER) {
         if (payload.error) {
-          dispatch.currentTransaction.SET_TX_STATUS(-1);
-          dispatch.currentTransaction.SET_TX_ERROR(ErrorMessages.NETWORK_ISSUES);
-          dispatch.environment.SET_ERROR(payload.error);
-          log.error(ErrorMessages.NETWORK_ISSUES);
-          log.error(payload.error);
+          transactionError(payload.error);
           return;
         }
         const success = spendSuccess(payload.data);

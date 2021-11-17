@@ -104,4 +104,8 @@ export const ErrorMessages = {
   INVALID_ADDRESS: 'Entered address is not valid. Please check it and try again',
 };
 
+export const NspvJSErrorMessages = {
+  'invalid destination pubkey': 'Invalid token address (pubkey). Please try again.',
+};
+
 export const HTTP_ERR_405 = 'Request failed with status code 405';
