@@ -87,12 +87,11 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
   const formikBag = useFormik<Partial<TokenForm>>({
     validationSchema: tokenCreationSchema,
     initialValues,
-    isInitialValid: false,
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(false);
       dispatch.environment.SET_MODAL({
         name: ModalName.CONFIRM_TOKEN_CREATION,
-        options: values,
+        options: { ...values, confirmation: false },
       });
     },
   });
@@ -113,7 +112,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
         },
         true
       );
-  }, [tokenType, previousTokenType, setValues, initialValues, values]);
+  }, [tokenType, previousTokenType, setValues, values]);
 
   return (
     <FormikProvider value={formikBag}>
