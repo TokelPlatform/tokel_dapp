@@ -88,7 +88,7 @@ const ConfirmTokenCreationModal: React.FC = () => {
     <Formik
       validationSchema={tokenCreationSchema}
       initialValues={{ ...token, confirmation: false }}
-      isInitialValid={false}
+      validateOnMount
       enableReinitialize
       onSubmit={(values, { setSubmitting }) => {
         console.log('here we go', values);
