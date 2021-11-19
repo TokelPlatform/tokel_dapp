@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { DEFAULT_NULL_MODAL } from 'store/models/environment';
 import { dispatch } from 'store/rematch';
 import { selectCurrentTokenInfo } from 'store/selectors';
-import { formatDate, limitLength, stringifyAddresses } from 'util/helpers';
+import { formatDate, limitLength, stringifyAddresses, toBitcoinAmount } from 'util/helpers';
 import links from 'util/links';
 import { Colors, INFORMATION_N_A } from 'vars/defines';
 
@@ -57,6 +57,7 @@ const TxInformation = ({
   tokenTx,
 }: TxConfirmationProps): ReactElement => {
   const currentToken = useSelector(selectCurrentTokenInfo);
+  const txAmount = toBitcoinAmount(amount);
   // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
   return (
     <Column className="wrp">
@@ -65,9 +66,9 @@ const TxInformation = ({
       <Row>
         <TxConfirmationRow label="Date and time" value={formatDate(timestamp) ?? INFORMATION_N_A} />
         {tokenTx ? (
-          <TxConfirmationRow label="Token" value={`${amount} ${currentToken.name}`} />
+          <TxConfirmationRow label="Token" value={`${txAmount} ${currentToken.name}`} />
         ) : (
-          <TxConfirmationRow label="Amount" value={`${amount} TKL`} />
+          <TxConfirmationRow label="Amount" value={`${txAmount} TKL`} />
         )}
       </Row>
       <Row>

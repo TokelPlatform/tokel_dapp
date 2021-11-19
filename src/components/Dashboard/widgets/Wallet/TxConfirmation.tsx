@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+import { toSatoshi } from 'satoshi-bitcoin';
 
 import {
   selectCurrenTxTokenTx,
@@ -60,7 +61,7 @@ const TxConfirmation = ({
       )}
       {txId && (
         <TxInformation
-          amount={amount}
+          amount={toSatoshi(amount)}
           txid={txId}
           from={[from]}
           recipient={recipient}
