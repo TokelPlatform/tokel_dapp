@@ -130,7 +130,7 @@ const ActivityList = ({ transactions = [], resourceType }: ActivityListProps): R
           return (
             <Transaction key={tx.txid + tx.received} onClick={() => handleTxDetailView(tx)}>
               <TriCell
-                icon={tx.unconfirmed ? checkIcon : clockIcon}
+                icon={tx.unconfirmed ? clockIcon : checkIcon}
                 primary={times[0]}
                 secondary={times[1]}
               />

@@ -9,6 +9,7 @@ import {
   selectCurrentTxId,
   selectCurrentTxStatus,
 } from 'store/selectors';
+import { getUnixTimestamp } from 'util/helpers';
 
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Spinner from 'components/_General/Spinner';
@@ -64,7 +65,7 @@ const TxConfirmation = ({
           from={[from]}
           recipient={recipient}
           currency={currency}
-          timestamp={Date.now()}
+          timestamp={getUnixTimestamp()}
           tokenTx={tokenTx}
         />
       )}
