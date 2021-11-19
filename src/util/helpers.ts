@@ -31,14 +31,13 @@ export const formatDec = (num: number) => {
   return Number(num.toFixed(Config.DECIMAL)).toString();
 };
 
-export const toBitcoinAmount = (amount: number | string) => {
-  const txAmount = typeof amount !== 'string' ? amount.toString() : amount;
-  const value = toBitcoin(txAmount);
+export const toBitcoinAmount = (amount: number | string): string => {
+  const value = toBitcoin(String(amount));
   return Number(value.toFixed(Config.DECIMAL)).toString();
 };
 
-export const getUsdValue = (amount: number, tokelPriceUSD: number) =>
-  (toBitcoin(amount) * tokelPriceUSD).toFixed(2);
+export const getUsdValue = (amountInSatoshi: number, tokelPriceUSD: number) =>
+  (toBitcoin(amountInSatoshi) * tokelPriceUSD).toFixed(2);
 
 export const formatFiat = (num: number) => {
   return Number(num.toFixed(Config.DECIMAL_FIAT)).toString();

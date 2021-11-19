@@ -23,7 +23,6 @@ export const parseBlockchainTransaction = (tx, address: string) => {
  * @returns
  */
 export const parseSpendTx = (newtx, from) => {
-  console.log('parseSpendTx ', newtx);
   return {
     received: false,
     unconfirmed: true,

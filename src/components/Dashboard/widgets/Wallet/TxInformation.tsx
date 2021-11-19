@@ -38,7 +38,7 @@ const CloseButtonWrapper = styled.div`
 type TxConfirmationProps = {
   currency?: string;
   recipient: string;
-  amount: string;
+  amountInSatoshi: string;
   txid: string;
   from: Array<string> | string;
   timestamp: number;
@@ -49,7 +49,7 @@ const closeModal = () => dispatch.environment.SET_MODAL(DEFAULT_NULL_MODAL);
 
 const TxInformation = ({
   currency,
-  amount,
+  amountInSatoshi,
   txid,
   from,
   timestamp,
@@ -57,8 +57,7 @@ const TxInformation = ({
   tokenTx,
 }: TxConfirmationProps): ReactElement => {
   const currentToken = useSelector(selectCurrentTokenInfo);
-  const txAmount = toBitcoinAmount(amount);
-  // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
+  const txAmount = toBitcoinAmount(amountInSatoshi);
   return (
     <Column className="wrp">
       <TxConfirmationRow label="From" value={from ? stringifyAddresses(from) : INFORMATION_N_A} />
@@ -70,12 +69,6 @@ const TxInformation = ({
         ) : (
           <TxConfirmationRow label="Amount" value={`${txAmount} TKL`} />
         )}
-      </Row>
-      <Row>
-        {/*
-        https://github.com/TokelPlatform/tokel_app/issues/67
-        <TxConfirmationRow label="Value (then)" value={`≈ $ ${usdValueTemp}`} />
-        <TxConfirmationRow label="Value (now)" value={`≈ $ ${usdValueTemp}`} /> */}
       </Row>
       <Column>
         <TxConfirmationRow label="Tx id" value={`${limitLength(txid, 36)} ...`}>

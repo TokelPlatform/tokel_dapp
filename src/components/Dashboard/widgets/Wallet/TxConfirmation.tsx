@@ -61,7 +61,7 @@ const TxConfirmation = ({
       )}
       {txId && (
         <TxInformation
-          amount={toSatoshi(amount)}
+          amountInSatoshi={toSatoshi(amount)}
           txid={txId}
           from={[from]}
           recipient={recipient}
