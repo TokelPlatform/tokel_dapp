@@ -1,5 +1,7 @@
 import axios from 'axios';
 import format from 'date-fns/format';
+import fromUnixTime from 'date-fns/fromUnixTime';
+import getUnixTime from 'date-fns/getUnixTime';
 
 import { Config, WindowSize } from 'vars/defines';
 
@@ -52,7 +54,12 @@ export const stringifyAddresses = addresses => {
   return `${addresses[0]}, ${addresses[1]} , ${addresses.length - 2} addresses`;
 };
 
-export const formatDate = timestamp => format(timestamp, 'dd/MM/yyyy H:mm:ss');
+export const getUnixTimestamp = (d = null) => {
+  const date = d || new Date();
+  return getUnixTime(date);
+};
+
+export const formatDate = timestamp => format(fromUnixTime(timestamp), 'dd/MM/yyyy H:mm:ss');
 
 export const getContentType = async (requestType, url) => {
   try {

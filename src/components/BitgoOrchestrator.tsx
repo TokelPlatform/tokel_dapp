@@ -7,6 +7,7 @@ import log from 'electron-log';
 import { dispatch } from 'store/rematch';
 import { selectAccountAddress } from 'store/selectors';
 import { BitgoAction, checkData, sendToBitgo } from 'util/bitgoHelper';
+import { getUnixTimestamp } from 'util/helpers';
 import { parseUnspent } from 'util/transactions';
 import { spendSuccess } from 'util/transactionsHelper';
 import { BITGO_IPC_ID, IS_DEV, NspvJSErrorMessages } from 'vars/defines';
@@ -68,7 +69,7 @@ const BitgoOrchestrator = () => {
             txid: payload.data.txid,
             recipient: payload.data.address,
             from: [myAddress],
-            timestamp: Date.now(),
+            timestamp: getUnixTimestamp(),
             value: Number(payload.data.amount),
             unconfirmed: true,
           });
