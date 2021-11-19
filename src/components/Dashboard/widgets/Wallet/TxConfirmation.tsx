@@ -3,7 +3,12 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectCurrentTxError, selectCurrentTxId, selectCurrentTxStatus } from 'store/selectors';
+import {
+  selectCurrenTxTokenTx,
+  selectCurrentTxError,
+  selectCurrentTxId,
+  selectCurrentTxStatus,
+} from 'store/selectors';
 
 import ErrorMessage from 'components/_General/ErrorMessage';
 import Spinner from 'components/_General/Spinner';
@@ -30,6 +35,7 @@ const TxConfirmation = ({
   const txStatus = useSelector(selectCurrentTxStatus);
   const txId = useSelector(selectCurrentTxId);
   const txError = useSelector(selectCurrentTxError);
+  const tokenTx = useSelector(selectCurrenTxTokenTx);
 
   return (
     <TxConfirmationRoot>
@@ -59,6 +65,7 @@ const TxConfirmation = ({
           recipient={recipient}
           currency={currency}
           timestamp={Date.now()}
+          tokenTx={tokenTx}
         />
       )}
     </TxConfirmationRoot>

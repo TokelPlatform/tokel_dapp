@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { DEFAULT_NULL_MODAL } from 'store/models/environment';
 import { dispatch } from 'store/rematch';
-import { selectCurrenTxTokenTx, selectCurrentTokenInfo } from 'store/selectors';
+import { selectCurrentTokenInfo } from 'store/selectors';
 import { formatDate, limitLength, stringifyAddresses } from 'util/helpers';
 import links from 'util/links';
 import { Colors, INFORMATION_N_A } from 'vars/defines';
@@ -42,6 +42,7 @@ type TxConfirmationProps = {
   txid: string;
   from: Array<string> | string;
   timestamp: number;
+  tokenTx?: boolean;
 };
 
 const closeModal = () => dispatch.environment.SET_MODAL(DEFAULT_NULL_MODAL);
@@ -53,8 +54,8 @@ const TxInformation = ({
   from,
   timestamp,
   recipient,
+  tokenTx,
 }: TxConfirmationProps): ReactElement => {
-  const tokenTx = useSelector(selectCurrenTxTokenTx);
   const currentToken = useSelector(selectCurrentTokenInfo);
   // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
   return (
