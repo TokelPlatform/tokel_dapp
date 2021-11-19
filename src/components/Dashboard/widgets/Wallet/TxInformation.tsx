@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { DEFAULT_NULL_MODAL } from 'store/models/environment';
 import { dispatch } from 'store/rematch';
 import { selectCurrentTokenInfo } from 'store/selectors';
-import { formatDate, limitLength, stringifyAddresses } from 'util/helpers';
+import { formatDate, limitLength, stringifyAddresses, toBitcoinAmount } from 'util/helpers';
 import links from 'util/links';
 import { Colors, INFORMATION_N_A } from 'vars/defines';
 
@@ -38,7 +38,7 @@ const CloseButtonWrapper = styled.div`
 type TxConfirmationProps = {
   currency?: string;
   recipient: string;
-  amount: string;
+  amountInSatoshi: string;
   txid: string;
   from: Array<string> | string;
   timestamp: number;
@@ -49,7 +49,7 @@ const closeModal = () => dispatch.environment.SET_MODAL(DEFAULT_NULL_MODAL);
 
 const TxInformation = ({
   currency,
-  amount,
+  amountInSatoshi,
   txid,
   from,
   timestamp,
@@ -57,7 +57,7 @@ const TxInformation = ({
   tokenTx,
 }: TxConfirmationProps): ReactElement => {
   const currentToken = useSelector(selectCurrentTokenInfo);
-  // const usdValueTemp = formatFiat(Number(amount) * Number(usdValue));
+  const txAmount = toBitcoinAmount(amountInSatoshi);
   return (
     <Column className="wrp">
       <TxConfirmationRow label="From" value={from ? stringifyAddresses(from) : INFORMATION_N_A} />
@@ -65,16 +65,10 @@ const TxInformation = ({
       <Row>
         <TxConfirmationRow label="Date and time" value={formatDate(timestamp) ?? INFORMATION_N_A} />
         {tokenTx ? (
-          <TxConfirmationRow label="Token" value={`${amount} ${currentToken.name}`} />
+          <TxConfirmationRow label="Token" value={`${txAmount} ${currentToken.name}`} />
         ) : (
-          <TxConfirmationRow label="Amount" value={`${amount} TKL`} />
+          <TxConfirmationRow label="Amount" value={`${txAmount} TKL`} />
         )}
-      </Row>
-      <Row>
-        {/*
-        https://github.com/TokelPlatform/tokel_app/issues/67
-        <TxConfirmationRow label="Value (then)" value={`≈ $ ${usdValueTemp}`} />
-        <TxConfirmationRow label="Value (now)" value={`≈ $ ${usdValueTemp}`} /> */}
       </Row>
       <Column>
         <TxConfirmationRow label="Tx id" value={`${limitLength(txid, 36)} ...`}>

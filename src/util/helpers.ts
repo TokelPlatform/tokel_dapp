@@ -2,6 +2,7 @@ import axios from 'axios';
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
+import { toBitcoin } from 'satoshi-bitcoin';
 
 import { Config, WindowSize } from 'vars/defines';
 
@@ -29,6 +30,14 @@ export const randomColor = () => `hsla(${(360 * Math.random()).toString()}, 70%,
 export const formatDec = (num: number) => {
   return Number(num.toFixed(Config.DECIMAL)).toString();
 };
+
+export const toBitcoinAmount = (amount: number | string): string => {
+  const value = toBitcoin(String(amount));
+  return Number(value.toFixed(Config.DECIMAL)).toString();
+};
+
+export const getUsdValue = (amountInSatoshi: number, tokelPriceUSD: number) =>
+  (toBitcoin(amountInSatoshi) * tokelPriceUSD).toFixed(2);
 
 export const formatFiat = (num: number) => {
   return Number(num.toFixed(Config.DECIMAL_FIAT)).toString();
