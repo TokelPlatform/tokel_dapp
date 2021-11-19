@@ -15,6 +15,7 @@ export enum BitgoAction {
   TOKEN_V2_ADDRESS = 'token_v2_address',
   TOKEN_V2_INFO_TOKEL = 'token_v2_info_tokel',
   TOKEN_V2_TRANSFER = 'token_v2_transfer',
+  TOKEN_V2_CREATE_TOKEL = 'token_v2_create_tokel',
 }
 
 export type MsgType = typeof BitgoAction;
@@ -34,6 +35,12 @@ export type BitgoMessageParamList = {
   [BitgoAction.TOKEN_V2_ADDRESS]: undefined;
   [BitgoAction.TOKEN_V2_INFO_TOKEL]: { tokenId: string };
   [BitgoAction.TOKEN_V2_TRANSFER]: { destpubkey: string; tokenid: string; amount: number };
+  [BitgoAction.TOKEN_V2_CREATE_TOKEL]: {
+    name: string;
+    supply: number;
+    description: string;
+    tokenData: Record<string, unknown>;
+  };
 };
 
 type ConditionalOptions<T, K extends keyof T> = T[K] extends undefined ? [] : [T[K]];
