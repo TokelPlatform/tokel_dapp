@@ -16,6 +16,7 @@ const BitgoAction = {
   TOKEN_V2_ADDRESS: 'token_v2_address',
   TOKEN_V2_INFO_TOKEL: 'token_v2_info_tokel',
   TOKEN_V2_TRANSFER: 'token_v2_transfer',
+  TOKEN_V2_CREATE_TOKEL: 'token_v2_create_tokel',
 };
 
 const SATOSHIS = 100000000;
@@ -261,6 +262,26 @@ class BitgoSingleton {
       destpubkey,
       tokenid,
       amount,
+    };
+  }
+
+  async [BitgoAction.TOKEN_V2_CREATE_TOKEL]({ name, supply, description, tokenData }) {
+    if (!this.connection || this.connection.length === 0) {
+      throw new Error('Not connected');
+    }
+    const tx = await cctokensv2.tokensv2CreateTokel(
+      this.connection,
+      this.network,
+      this.wif,
+      name,
+      description,
+      supply,
+      tokenData
+    );
+
+    const txResult = await this.broadcast({ txHex: tx.toHex() });
+    return {
+      ...txResult,
     };
   }
 }

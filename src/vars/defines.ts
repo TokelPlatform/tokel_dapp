@@ -81,6 +81,8 @@ export const Colors = {
   BLACK: 'black',
   PURPLE: 'purple',
   TRANSPARENT: 'transparent',
+  DANGER: 'danger',
+  SUCCESS: 'success',
 };
 
 export const OsType = {

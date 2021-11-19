@@ -13,7 +13,9 @@ import { Button } from 'components/_General/buttons';
 import { TokenForm } from 'util/token-types';
 import tokenCreationSchema from 'util/validators/tokenCreationSchema';
 import { Responsive } from 'util/helpers';
+import formatTokenFormIntoStandard from 'util/formatTokenFormIntoStandard';
 import { V } from 'util/theming';
+import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 
 const MediaPreviewContainer = styled.div`
   text-align: center;
@@ -90,12 +92,27 @@ const ConfirmTokenCreationModal: React.FC = () => {
       initialValues={{ ...token, confirmation: false }}
       validateOnMount
       enableReinitialize
-      onSubmit={(values, { setSubmitting }) => {
-        console.log('here we go', values);
+      onSubmit={(values, { setSubmitting, setStatus }) => {
         setSubmitting(false);
+        setStatus({
+          success: true,
+          button: `${tokenTypeName} created!`,
+          message:
+            'A transaction has been broadcasted creating your token. Please check your wallet in a few minutes.',
+        });
+        try {
+          sendToBitgo(BitgoAction.TOKEN_V2_CREATE_TOKEL, formatTokenFormIntoStandard(values));
+        } catch (e) {
+          console.error(e);
+          setStatus({
+            success: false,
+            button: `Failed to create ${tokenTypeName}`,
+            message: `An error has ocurred while broadcasting your ${tokenTypeName}. Please confirm that no transaction has been broacast and try again in a few minutes.`,
+          });
+        }
       }}
     >
-      {({ submitForm, isSubmitting, isValid }) => (
+      {({ submitForm, isSubmitting, isValid, status }) => (
         <Form>
           <Columns vcentered>
             <Column
@@ -124,13 +141,16 @@ const ConfirmTokenCreationModal: React.FC = () => {
                   label={`I understand creating this ${tokenTypeName} will cost 1 dust of TKL`}
                 />
                 <Button
-                  onClick={submitForm}
-                  theme="purple"
+                  type="button"
+                  onClick={status ? () => {} : submitForm}
+                  theme={!status ? 'purple' : status.success ? 'success' : 'danger'}
                   disabled={isSubmitting || !isValid}
                   data-tid="create-token"
                 >
-                  Create my {tokenTypeName}
+                  {!status ? `Create my ${tokenTypeName}` : status.button}
                 </Button>
+
+                {!!status && <p>{status.message}</p>}
               </Bottom>
             </Column>
           </Columns>
