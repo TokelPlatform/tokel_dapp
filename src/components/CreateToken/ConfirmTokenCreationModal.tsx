@@ -4,6 +4,8 @@ import { css } from '@emotion/react';
 import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { selectModalOptions } from 'store/selectors';
+import { toBitcoin, toSatoshi } from 'satoshi-bitcoin';
+import capitalize from 'lodash-es/capitalize';
 
 import { Columns, Column } from 'components/_General/Grid';
 import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
@@ -16,6 +18,7 @@ import { Responsive } from 'util/helpers';
 import formatTokenFormIntoStandard from 'util/formatTokenFormIntoStandard';
 import { V } from 'util/theming';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
+import { FEE, TICKER } from 'vars/defines';
 
 const MediaPreviewContainer = styled.div`
   text-align: center;
@@ -57,6 +60,7 @@ const ConfirmTokenCreationModal: React.FC = () => {
   const token = useSelector(selectModalOptions) as TokenForm;
 
   const tokenTypeName = useMemo(() => (token.supply === 1 ? 'NFT' : 'token'), [token]);
+  const cost = useMemo(() => toBitcoin(String(toSatoshi(FEE) + Number(token.supply))), [token]);
 
   const tokenDisplayAttributes = useMemo(
     () => [
@@ -86,6 +90,8 @@ const ConfirmTokenCreationModal: React.FC = () => {
     [token]
   );
 
+  if (!token) return null;
+
   return (
     <Formik
       validationSchema={tokenCreationSchema}
@@ -96,12 +102,13 @@ const ConfirmTokenCreationModal: React.FC = () => {
         setSubmitting(false);
         setStatus({
           success: true,
-          button: `${tokenTypeName} created!`,
+          button: `${capitalize(tokenTypeName)} created!`,
           message:
             'A transaction has been broadcasted creating your token. Please check your wallet in a few minutes.',
         });
         try {
           sendToBitgo(BitgoAction.TOKEN_V2_CREATE_TOKEL, formatTokenFormIntoStandard(values));
+          // throw Error('Not implemented');
         } catch (e) {
           console.error(e);
           setStatus({
@@ -115,30 +122,31 @@ const ConfirmTokenCreationModal: React.FC = () => {
       {({ submitForm, isSubmitting, isValid, status }) => (
         <Form>
           <Columns vcentered>
-            <Column
-              size={5}
-              css={css(
-                `${Responsive.above.L} { border-right: 1px solid var(--color-modal-border); padding-right: 35px; }`
-              )}
-            >
+            <Column size={5} css={css(`${Responsive.above.L} { padding-right: 35px; }`)}>
               <MediaPreviewContainer>
                 <TokenMediaDisplay url={token.url} />
                 <h1>{token.name}</h1>
                 <p>{token.description}</p>
               </MediaPreviewContainer>
             </Column>
-            <Column css={css(`${Responsive.above.L} { padding-left: 35px; }`)}>
-              {tokenDisplayAttributes.map(({ label, value }) => (
-                <InformationRow key={label}>
-                  <InformationLabel size={5}>{label}</InformationLabel>
-                  <InformationValue>{value}</InformationValue>
-                </InformationRow>
-              ))}
+            <Column
+              css={css(
+                `${Responsive.above.L} { border-left: 1px solid var(--color-modal-border); padding-left: 35px; }`
+              )}
+            >
+              <div css={css(`max-height: 320px; overflow-y: auto;`)}>
+                {tokenDisplayAttributes.map(({ label, value }) => (
+                  <InformationRow key={label}>
+                    <InformationLabel size={5}>{label}</InformationLabel>
+                    <InformationValue>{value}</InformationValue>
+                  </InformationRow>
+                ))}
+              </div>
 
               <Bottom>
                 <Checkbox
                   name="confirmation"
-                  label={`I understand creating this ${tokenTypeName} will cost 1 dust of TKL`}
+                  label={`I understand creating this ${tokenTypeName} will cost ${cost} ${TICKER}`}
                 />
                 <Button
                   type="button"

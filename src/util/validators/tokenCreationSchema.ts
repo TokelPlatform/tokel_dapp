@@ -5,7 +5,7 @@ const tokenCreationSchema = yup.object().shape({
   description: yup.string().max(4096).required(),
   supply: yup.number().required().positive().integer(),
   url: yup.string().url('must be a valid URL'),
-  royalty: yup.number().integer().min(0).max(100),
+  royalty: yup.number().min(0.1).max(100),
   id: yup.string(),
 
   confirmation: yup.boolean().oneOf([true], ''),
