@@ -38,7 +38,7 @@
     "*.{html,md,yml}": ["prettier --ignore-path .eslintignore --single-quote --write"]
   },
   "build": {
-    "asar": true,
+    "asar": false,
     "productName": "TokelPlatform",
     "appId": "tokel",
     "directories": {
