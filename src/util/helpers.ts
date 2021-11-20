@@ -74,7 +74,7 @@ export const getContentType = async (requestType, url): Promise<'unknown' | stri
   try {
     const response = await axios[`${requestType}`](url);
     // https://datatracker.ietf.org/doc/html/rfc6838
-    return [response.headers['content-type'].split(' ')[0].split('/')];
+    return response.headers['content-type'].split(' ')[0].split('/');
   } catch (e) {
     return 'unknown';
   }

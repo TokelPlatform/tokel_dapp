@@ -34,6 +34,13 @@ const transactionError = err => {
   log.error(err);
 };
 
+const tokenCreationError = err => {
+  dispatch.tokenCreation.SET_TX_STATUS(-1);
+  dispatch.tokenCreation.SET_TX_ERROR(NspvJSErrorMessages[err] || err);
+  dispatch.environment.SET_ERROR(err);
+  log.error(err);
+};
+
 const BitgoOrchestrator = () => {
   const myAddress = useSelector(selectAccountAddress);
 
@@ -107,6 +114,20 @@ const BitgoOrchestrator = () => {
         const { address } = payload.data;
         sendToBitgo(BitgoAction.LIST_UNSPENT, { address });
         sendToBitgo(BitgoAction.LIST_TRANSACTIONS, { address });
+        return;
+      }
+      // CREATE TOKEN
+      if (payload.type === BitgoAction.TOKEN_V2_CREATE_TOKEL) {
+        if (payload.error) {
+          tokenCreationError(payload.error);
+          return;
+        }
+        const success = spendSuccess(payload.data);
+        dispatch.tokenCreation.SET_TX_STATUS(success);
+        if (success) {
+          dispatch.tokenCreation.SET_TX_ID(payload.data.txid);
+          dispatch.wallet.UPDATE_TOKEN_BALANCE(payload.data.tokenid, payload.data.amount);
+        }
         return;
       }
       // HANDLE ALL OTHER ERRORS GENERICALLY

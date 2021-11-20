@@ -142,7 +142,6 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               readOnly={tokenType === TokenType.NFT}
               placeholder="100,000"
               min={1}
-              max={200000000}
               help="How many of your tokens will exist? For NFTs, this field is always 1. The cost to create your token is roughly the value of this field times 0.00000001 TKL, plus transaction fees."
             />
 
@@ -157,7 +156,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
             <Field
               name="royalty"
               type="number"
-              min={0}
+              min={0.1}
               max={100}
               label="Royalty (optional)"
               placeholder="0"

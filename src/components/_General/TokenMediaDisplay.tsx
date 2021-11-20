@@ -46,7 +46,9 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   const [imageUrl, setImageUrl] = useState(null);
 
   const isMedia = useMemo(
-    () => !!contentType && mediaTypes.includes(contentType as typeof mediaTypes[number]),
+    () =>
+      mediaTypes.includes(contentType?.[0] as typeof mediaTypes[number]) ||
+      mediaTypes.includes(contentType as typeof mediaTypes[number]),
     [contentType]
   );
 
