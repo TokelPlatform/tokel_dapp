@@ -110,6 +110,7 @@ export const ErrorMessages = {
 
 export const NspvJSErrorMessages = {
   'invalid destination pubkey': 'Invalid token address (pubkey). Please try again.',
+  'could not find normal inputs': 'Not enough TKL for this transaction',
 };
 
 export const HTTP_ERR_405 = 'Request failed with status code 405';

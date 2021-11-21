@@ -35,8 +35,8 @@ const transactionError = err => {
 };
 
 const tokenCreationError = err => {
-  dispatch.tokenCreation.SET_TX_STATUS(-1);
   dispatch.tokenCreation.SET_TX_ERROR(NspvJSErrorMessages[err] || err);
+  dispatch.tokenCreation.SET_TX_STATUS(-1);
   dispatch.environment.SET_ERROR(err);
   log.error(err);
 };
@@ -124,10 +124,7 @@ const BitgoOrchestrator = () => {
         }
         const success = spendSuccess(payload.data);
         dispatch.tokenCreation.SET_TX_STATUS(success);
-        if (success) {
-          dispatch.tokenCreation.SET_TX_ID(payload.data.txid);
-          dispatch.wallet.UPDATE_TOKEN_BALANCE(payload.data.tokenid, payload.data.amount);
-        }
+        dispatch.tokenCreation.SET_TX_ID(success ? payload.data.txid : null);
         return;
       }
       // HANDLE ALL OTHER ERRORS GENERICALLY
