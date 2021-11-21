@@ -20,7 +20,6 @@ export default createModel<RootModel>()({
     id: null,
     status: 0,
     error: null,
-    tokenTx: false,
   } as TokenCreationState,
   reducers: {
     SET_TX_ID: (state, txid: string) => updateStatus(state, 'id', txid),

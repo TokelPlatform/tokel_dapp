@@ -156,8 +156,6 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
             <Field
               name="royalty"
               type="number"
-              min={0.1}
-              max={100}
               label="Royalty (optional)"
               placeholder="0"
               help={`Anytime this ${tokenTypeDisplay} is sold through the Tokel DEX, you can make a comission, even if you're not participating on the sale. Can range from 1% to 100%`}
