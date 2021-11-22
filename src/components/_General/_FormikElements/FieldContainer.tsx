@@ -81,7 +81,9 @@ const FieldContainer: React.FC<FieldContainerProps & FieldHookConfig<string>> = 
         {!!append && <span className="append">{append}</span>}
       </div>
 
-      {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+      {meta.touched && meta.error && typeof meta.error !== 'object' && (
+        <div className="error">{meta.error}</div>
+      )}
     </FieldContainerStyled>
   );
 };
