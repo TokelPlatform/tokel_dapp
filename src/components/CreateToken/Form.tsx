@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { dispatch } from 'store/rematch';
 import usePrevious from 'hooks/usePrevious';
-
 import { Form, FormikProvider, useFormik } from 'formik';
+
 import Field from 'components/_General/_FormikElements/Field';
 import Checkbox from 'components/_General/_FormikElements/Checkbox';
-import Select from 'components/_General/_FormikElements/Select';
+import Select, { SelectOption } from 'components/_General/_FormikElements/Select';
 import MultiKeyValue from 'components/_General/_FormikElements/MultiKeyValue';
 import { Button } from 'components/_General/buttons';
 import { Columns, Column } from 'components/_General/Grid';
+import useMyConstellations from 'hooks/useMyConstellations';
 
 import TokenType from 'util/types/TokenType';
 import { TokenForm } from 'util/token-types';
@@ -68,7 +69,7 @@ const initialValues: Partial<TokenForm> = {
   name: '',
   description: '',
   url: '',
-  royalty: undefined,
+  royalty: 0,
   supply: '',
   id: '',
   confirmation: false,
@@ -82,7 +83,6 @@ const initialValues: Partial<TokenForm> = {
 const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
   const tokenTypeDisplay = tokenType === TokenType.NFT ? 'NFT' : 'Token';
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const previousTokenType = usePrevious(tokenType);
   const tokenCreationSchema = useTokenCreationSchema();
 
   const formikBag = useFormik<Partial<TokenForm>>({
@@ -97,7 +97,11 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
     },
   });
 
-  const { setValues, values, submitForm, isSubmitting, isValid } = formikBag;
+  const { setValues, values, submitForm, isSubmitting, isValid, setFieldValue } = formikBag;
+
+  const previousTokenType = usePrevious(tokenType);
+  const previousValues = usePrevious(values);
+  const myConstellations = useMyConstellations();
 
   useEffect(() => {
     // Persist only name, description, url and royalty if changing between fungible and NFT
@@ -114,6 +118,41 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
         true
       );
   }, [tokenType, previousTokenType, setValues, values]);
+
+  // If constellation changes, format received ReactSelect option and set ID
+  useEffect(() => {
+    const constellationOption = values.arbitraryAsJson?.constellation_name as SelectOption;
+    if (typeof constellationOption === 'object') {
+      /* eslint no-underscore-dangle: 0 */
+      if (constellationOption.__isNew__) {
+        setFieldValue('id', Math.floor(Math.random() * 9999999));
+        setFieldValue('arbitraryAsJson[constellation_name]', constellationOption?.label);
+      } else {
+        setFieldValue('id', constellationOption?.value);
+        setFieldValue('arbitraryAsJson[constellation_name]', constellationOption?.label);
+      }
+    } else if (constellationOption === undefined) {
+      setFieldValue('id', '');
+    }
+  }, [values.arbitraryAsJson.constellation_name, setFieldValue]);
+
+  // If ID changes manually, remove constellation
+  useEffect(() => {
+    if (
+      values?.id !== previousValues?.id &&
+      values?.arbitraryAsJson?.constellation_name ===
+        previousValues?.arbitraryAsJson?.constellation_name
+    ) {
+      setFieldValue('arbitraryAsJson[constellation_name]', '');
+    }
+  }, [values, previousValues, setFieldValue]);
+
+  const formattedSelectedConstellationOption = typeof values.arbitraryAsJson.constellation_name ===
+    'string' &&
+    !!values.arbitraryAsJson.constellation_name?.length && {
+      label: values.arbitraryAsJson.constellation_name as string,
+      value: values.id,
+    };
 
   return (
     <FormikProvider value={formikBag}>
@@ -185,10 +224,8 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                   label="Constellation (optional)"
                   placeholder="Type to select a constellation or create a new one..."
                   help="Constellation is the term used for an NFT collection on the Tokel Platform. A group of NFTs is called a Constellation."
-                  options={[
-                    { label: 'Constellation 1', value: 'constellation_1' },
-                    { label: 'Constellation 2', value: 'constellation_2' },
-                  ]}
+                  options={myConstellations}
+                  formattedSelectedOption={formattedSelectedConstellationOption}
                   creatable
                 />
                 <Field
