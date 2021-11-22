@@ -10,6 +10,7 @@ import FieldContainer from './FieldContainer';
 type SelectOption = {
   label: string;
   value: string;
+  __isNew__?: boolean;
 };
 
 interface SelectProps {
@@ -17,6 +18,7 @@ interface SelectProps {
   label?: string;
   help?: string;
   options: SelectOption[];
+  formattedSelectedOption?: SelectOption;
 }
 
 const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
@@ -25,6 +27,7 @@ const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
   help,
   placeholder,
   options,
+  formattedSelectedOption,
   ...props
 }) => {
   const SelectComponent = creatable ? CreatableReactSelect : ReactSelect;
@@ -32,16 +35,16 @@ const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
   const { setFieldValue, setFieldTouched } = useFormikContext();
   const customStyles = useReactSelectStyles();
 
-  const handleChange = (value?: SelectOption) => {
-    console.log(value, 'value');
+  const handleChange = (option?: SelectOption) => {
     setFieldTouched(props.name, true);
-    if (!value) setFieldValue(props.name, undefined);
-    else setFieldValue(props.name, value.value);
+    if (!option) setFieldValue(props.name, undefined);
+    else setFieldValue(props.name, option);
   };
 
   return (
     <FieldContainer label={label} help={help} {...props}>
       <SelectComponent
+        value={formattedSelectedOption}
         placeholder={placeholder}
         onChange={handleChange}
         options={options}
@@ -52,4 +55,5 @@ const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
   );
 };
 
+export { SelectOption };
 export default Select;
