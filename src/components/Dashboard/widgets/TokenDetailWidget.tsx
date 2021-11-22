@@ -7,6 +7,7 @@ import { upperFirst } from 'lodash-es';
 import { selectCurrentTokenDetail } from 'store/selectors';
 import { Responsive, limitLength } from 'util/helpers';
 import { V } from 'util/theming';
+import { RESERVED_TOKEL_ARBITRARY_KEYS } from 'vars/defines';
 
 import { Columns, Column } from 'components/_General/Grid';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
@@ -64,7 +65,7 @@ const MetadataItemRoot = styled.div`
 `;
 
 const MetadataName = styled.div`
-  width: 25%;
+  width: 50%;
   max-width: 200px;
 `;
 
@@ -139,12 +140,26 @@ const TokenDetail: React.FC = () => {
                 {tokenDetail.dataAsJson?.royalty && (
                   <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty / 10}%`} />
                 )}
-                {tokenDetail.dataAsJson?.id.toString() && (
-                  <MetadataItem name="ID" value={tokenDetail.dataAsJson.id} />
+                {tokenDetail.dataAsJson?.id?.toString() && (
+                  <MetadataItem name="Constellation ID" value={tokenDetail.dataAsJson.id} />
                 )}
-                {Object.entries(tokenDetail.dataAsJson?.arbitraryAsJson ?? []).map(([k, v]) => (
-                  <MetadataItem key={k} name={k} value={v} />
-                ))}
+                {tokenDetail.dataAsJson?.arbitraryAsJson?.constellation_name && (
+                  <MetadataItem
+                    name="Constellation Name"
+                    value={tokenDetail.dataAsJson?.arbitraryAsJson?.constellation_name}
+                  />
+                )}
+                {tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_constellation && (
+                  <MetadataItem
+                    name="Number in Constellation"
+                    value={tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_constellation}
+                  />
+                )}
+                {Object.entries(tokenDetail.dataAsJson?.arbitraryAsJson ?? [])
+                  ?.filter(([key]) => !RESERVED_TOKEL_ARBITRARY_KEYS?.includes(key))
+                  .map(([key, value]) => (
+                    <MetadataItem key={key} name={key} value={value} />
+                  ))}
               </Metadata>
             </MetadataContent>
           </Column>

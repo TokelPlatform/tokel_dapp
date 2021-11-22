@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { toSatoshi } from 'satoshi-bitcoin';
 import { selectUnspentBalance } from 'store/selectors';
-import { FEE } from 'vars/defines';
+import { FEE, RESERVED_TOKEL_ARBITRARY_KEYS } from 'vars/defines';
 import * as yup from 'yup';
 
 const useTokenCreationSchema = () => {
@@ -31,10 +31,13 @@ const useTokenCreationSchema = () => {
           number_in_constellation: yup.number().min(1),
         }),
 
-        dataAsJsonUnformatted: yup.array().of(
+        arbitraryAsJsonUnformatted: yup.array().of(
           yup.object().shape({
-            key: yup.string().required(),
-            value: yup.string().required(),
+            key: yup
+              .string()
+              .required('required')
+              .notOneOf(RESERVED_TOKEL_ARBITRARY_KEYS, 'invalid key'),
+            value: yup.string().required('required'),
           })
         ),
       }),

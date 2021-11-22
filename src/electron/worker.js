@@ -143,13 +143,13 @@ class BitgoSingleton {
     const res = {};
     console.group('LIST_UNSPENT');
     ccUtxos.forEach(utxo => {
+      console.log(utxo, 'utxo in worker');
       if (utxo?.tokendata?.tokenid) {
         res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
+      } else if (!!utxo?.tokendata?.name && utxo?.tokendata?.funcid === 'c') {
+        // In case token was created by the wallet, but has no transactions
+        res[utxo.txid.reverse().toString('hex')] = utxo.satoshis;
       }
-      // for testing in case tokens are in the old format
-      // if (utxo?.tokeldata?.tokenid) {
-      //   res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
-      // }
     });
     console.groupEnd();
     return {
