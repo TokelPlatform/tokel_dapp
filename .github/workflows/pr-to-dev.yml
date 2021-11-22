@@ -50,7 +50,7 @@ jobs:
         run: rm -rf ./src/electron/dist ./src/electron/main.js
 
       - name: Package with electron-builder
-        run: yarn package
+        run: yarn package:x64
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
