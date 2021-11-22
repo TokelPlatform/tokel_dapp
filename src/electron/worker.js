@@ -143,7 +143,6 @@ class BitgoSingleton {
     const res = {};
     console.group('LIST_UNSPENT');
     ccUtxos.forEach(utxo => {
-      console.log(utxo, 'utxo in worker');
       if (utxo?.tokendata?.tokenid) {
         res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
       } else if (!!utxo?.tokendata?.name && utxo?.tokendata?.funcid === 'c') {
