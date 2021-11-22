@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { dispatch } from 'store/rematch';
+import usePrevious from 'hooks/usePrevious';
 
 import { Form, FormikProvider, useFormik } from 'formik';
 import Field from 'components/_General/_FormikElements/Field';
@@ -16,9 +17,8 @@ import { V } from 'util/theming';
 
 import Caret from 'assets/Caret.svg';
 
-import tokenCreationSchema from 'util/validators/tokenCreationSchema';
+import useTokenCreationSchema from 'util/validators/useTokenCreationSchema';
 import { ModalName } from 'vars/defines';
-import usePrevious from 'hooks/usePrevious';
 
 interface CreateTokenFormProps {
   tokenType: TokenType;
@@ -83,6 +83,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
   const tokenTypeDisplay = tokenType === TokenType.NFT ? 'NFT' : 'Token';
   const [showAdvanced, setShowAdvanced] = useState(false);
   const previousTokenType = usePrevious(tokenType);
+  const tokenCreationSchema = useTokenCreationSchema();
 
   const formikBag = useFormik<Partial<TokenForm>>({
     validationSchema: tokenCreationSchema,
@@ -169,9 +170,9 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
             {showAdvanced && (
               <Field
                 name="id"
-                type="text"
+                type="number"
                 label="Identifier (ID, optional)"
-                placeholder="Numeric ID, UUID, or string ID"
+                placeholder="Numeric ID"
                 help={`This is the ID of the Constellation this ${tokenTypeDisplay} belongs to. You can define this manually, but it will override the Constellation field. If you select a Constellation, this field gets set automatically.`}
               />
             )}
