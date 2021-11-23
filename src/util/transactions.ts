@@ -6,10 +6,13 @@ import { getUnixTimestamp } from './helpers';
 
 export const parseBlockchainTransaction = (tx, address: string) => {
   const iAmSender = tx.senders.find(s => s === address);
+  if (iAmSender) {
+    tx.recipients = tx.recipients.filter(addr => addr !== address);
+  }
   return {
     value: tx.value,
     from: tx.senders,
-    recipient: tx.recipients,
+    recipient: tx.recipients.length > 0 ? tx.recipients : address,
     timestamp: tx.time,
     txid: tx.txid,
     height: tx.blockheight,
