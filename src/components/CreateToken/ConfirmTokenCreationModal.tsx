@@ -6,11 +6,11 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import {
   selectModalOptions,
   selectTokenCreationTxError,
+  selectTokenCreationTxId,
   selectTokenCreationTxStatus,
 } from 'store/selectors';
 import { dispatch } from 'store/rematch';
 import { toBitcoin, toSatoshi } from 'satoshi-bitcoin';
-import capitalize from 'lodash-es/capitalize';
 
 import { Columns, Column } from 'components/_General/Grid';
 import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
@@ -25,9 +25,13 @@ import { V } from 'util/theming';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { FEE, TICKER, ViewType } from 'vars/defines';
 import { DEFAULT_NULL_MODAL } from 'store/models/environment';
+import TokenType from 'util/types/TokenType';
+import ExplorerLink from 'components/_General/ExplorerLink';
 
 const MediaPreviewContainer = styled.div`
   text-align: center;
+  max-height: 480px;
+  overflow-y: scroll;
 
   h1 {
     margin-bottom: 0;
@@ -42,6 +46,7 @@ const MediaPreviewContainer = styled.div`
 
 const InformationLabel = styled(Column)`
   font-size: ${V.font.h3};
+  overflow-wrap: anywhere;
 `;
 const InformationValue = styled(Column)`
   font-size: ${V.font.h3};
@@ -54,7 +59,8 @@ const InformationRow = styled(Columns)`
 `;
 
 const Bottom = styled.div`
-  padding-top: 40px;
+  margin-top: auto;
+  padding-top: 5px;
   ${Button} {
     margin-top: 12px;
   }
@@ -64,6 +70,15 @@ const Title = styled.h2<{ success: boolean }>`
   color: ${props => (props.success ? V.color.growth : V.color.danger)};
 `;
 
+const CustomAttributesDivider = styled.div`
+  margin-top: 10px;
+  margin-bottom: 25px;
+  border-bottom: 1px dashed ${V.color.frontSoft};
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 const NotApplicable = () => <i>N/A</i>;
 
 const ConfirmTokenCreationModal: React.FC = () => {
@@ -71,6 +86,7 @@ const ConfirmTokenCreationModal: React.FC = () => {
 
   const error = useSelector(selectTokenCreationTxError);
   const txStatus = useSelector(selectTokenCreationTxStatus);
+  const txId = useSelector(selectTokenCreationTxId);
   const tokenCreationSchema = useTokenCreationSchema();
 
   const formikBag = useFormik<TokenForm>({
@@ -84,7 +100,14 @@ const ConfirmTokenCreationModal: React.FC = () => {
   });
 
   const { submitForm, isSubmitting, isValid, status, setStatus, setSubmitting } = formikBag;
-  const tokenTypeName = useMemo(() => (token.supply === 1 ? 'NFT' : 'token'), [token]);
+
+  const tokenType = useMemo(() => (token.supply === 1 ? TokenType.NFT : TokenType.TOKEN), [token]);
+  const tokenTypeName = useMemo(() => (tokenType === TokenType.NFT ? 'NFT' : 'token'), [tokenType]);
+  const tokenTypeNameCapitalized = useMemo(
+    () => (tokenType === TokenType.NFT ? 'NFT' : 'Token'),
+    [tokenType]
+  );
+
   const cost = useMemo(() => toBitcoin(String(toSatoshi(FEE) + Number(token.supply))), [token]);
   const closeModal = () => dispatch.environment.SET_MODAL(DEFAULT_NULL_MODAL);
   const goToWallet = () => {
@@ -99,7 +122,7 @@ const ConfirmTokenCreationModal: React.FC = () => {
       setStatus({
         success,
         button: success
-          ? `${capitalize(tokenTypeName)} created!`
+          ? `${tokenTypeNameCapitalized} created!`
           : `Failed to create ${tokenTypeName}`,
         message: success
           ? `A transaction has been broadcast creating your token. Please check your wallet in a few minutes.`
@@ -114,31 +137,45 @@ const ConfirmTokenCreationModal: React.FC = () => {
     };
   }, []);
 
+  const constellationAttributes = useMemo(
+    () =>
+      tokenType === TokenType.NFT
+        ? [
+            {
+              label: 'Constellation',
+              value: token?.arbitraryAsJson?.constellation_name || <NotApplicable />,
+            },
+            {
+              label: 'Number in Constellation',
+              value: token?.arbitraryAsJson?.number_in_constellation || <NotApplicable />,
+            },
+          ]
+        : [],
+    [token]
+  );
+
   const tokenDisplayAttributes = useMemo(
     () => [
       { label: 'Supply', value: token?.supply },
       {
-        label: 'Collection',
-        value: token?.arbitraryAsJson?.constellation_name || <NotApplicable />,
-      },
-      {
-        label: 'Collection ID',
-        value: token?.id || <NotApplicable />,
-      },
-      {
-        label: 'Number in Collection',
-        value: token?.arbitraryAsJson?.number_in_constellation || <NotApplicable />,
-      },
-      {
         label: 'URL',
         value: token?.url || <NotApplicable />,
       },
-      ...token?.arbitraryAsJsonUnformatted?.map(({ key, value }) => ({ label: key, value })),
       {
         label: 'Royalty',
         value: token?.royalty ? `${token?.royalty}% on DEX sales` : <NotApplicable />,
       },
+      {
+        label: tokenType === TokenType.NFT ? 'Constellation ID' : 'ID',
+        value: token?.id || <NotApplicable />,
+      },
+      ...constellationAttributes,
     ],
+    [token]
+  );
+
+  const tokenCustomAttributes = useMemo(
+    () => token?.arbitraryAsJsonUnformatted?.map(({ key, value }) => ({ label: key, value })),
     [token]
   );
 
@@ -147,8 +184,19 @@ const ConfirmTokenCreationModal: React.FC = () => {
   return (
     <FormikProvider value={formikBag}>
       <Form>
-        <Columns vcentered>
-          <Column size={5} css={css(`${Responsive.above.L} { padding-right: 35px; }`)}>
+        <Columns
+          css={css`
+            align-items: stretch;
+          `}
+        >
+          <Column
+            size={5}
+            css={css`
+              ${Responsive.above.L} {
+                padding-right: 35px;
+              }
+            `}
+          >
             <MediaPreviewContainer>
               <TokenMediaDisplay url={token.url} />
               <h1>{token.name}</h1>
@@ -156,12 +204,30 @@ const ConfirmTokenCreationModal: React.FC = () => {
             </MediaPreviewContainer>
           </Column>
           <Column
-            css={css(
-              `${Responsive.above.L} { border-left: 1px solid var(--color-modal-border); padding-left: 35px; }`
-            )}
+            size={7}
+            css={css`
+              ${Responsive.above.L} {
+                border-left: 1px solid var(--color-modal-border);
+                padding-left: 35px;
+              }
+              display: flex;
+              flex-direction: column;
+            `}
           >
-            <div css={css(`max-height: 320px; overflow-y: auto;`)}>
+            <div
+              css={css`
+                max-height: 42vh;
+                overflow-y: auto;
+              `}
+            >
               {tokenDisplayAttributes.map(({ label, value }) => (
+                <InformationRow key={label}>
+                  <InformationLabel size={5}>{label}</InformationLabel>
+                  <InformationValue>{value}</InformationValue>
+                </InformationRow>
+              ))}
+              {!!tokenCustomAttributes?.length && <CustomAttributesDivider />}
+              {tokenCustomAttributes.map(({ label, value }) => (
                 <InformationRow key={label}>
                   <InformationLabel size={5}>{label}</InformationLabel>
                   <InformationValue>{value}</InformationValue>
@@ -192,6 +258,11 @@ const ConfirmTokenCreationModal: React.FC = () => {
                 <>
                   <Title success={status.success}>{status.button}</Title>
                   <p>{status.message}</p>
+                  {!!txId && (
+                    <p>
+                      <ExplorerLink type="tokens" postfix="transactions" txid={txId} />
+                    </p>
+                  )}
                   {status.success ? (
                     <Button type="button" theme="success" onClick={goToWallet}>
                       Go to wallet
