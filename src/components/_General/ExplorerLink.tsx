@@ -35,7 +35,7 @@ const ExplorerLink = ({
   postfix = '',
 }: {
   txid: string;
-  type: string;
+  type?: string;
   postfix?: string;
 }) => {
   return (

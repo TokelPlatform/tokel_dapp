@@ -23,8 +23,6 @@ export const PORTFOLIO_ITEM_HEIGHT_PX = 86;
 export const FEE = 0.0001;
 export const FIAT_CURRENCY = 'USD';
 export const USD_VALUE = 5;
-export const IS_DEV = process.env.NODE_ENV === 'development';
-export const IS_PROD = process.env.NODE_ENV === 'production';
 
 export const checkIsIPFSLink = url => url && url.includes('https://ipfs.io/');
 
