@@ -19,7 +19,7 @@ const useMyConstellations = () => {
     const filteredConstellations = [];
 
     myNFTs.forEach(({ dataAsJson }) => {
-      if (!filteredConstellations.map(({ id }) => id).includes(dataAsJson.id)) {
+      if (!filteredConstellations.map(({ value }) => value).includes(dataAsJson.id)) {
         filteredConstellations.push({
           label: dataAsJson.arbitraryAsJson.constellation_name,
           value: dataAsJson.id,

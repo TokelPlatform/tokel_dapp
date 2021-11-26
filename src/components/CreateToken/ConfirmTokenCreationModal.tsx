@@ -1,14 +1,9 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { useSelector } from 'react-redux';
 import { Form, FormikProvider, useFormik } from 'formik';
-import {
-  selectModalOptions,
-  selectTokenCreationTxError,
-  selectTokenCreationTxId,
-  selectTokenCreationTxStatus,
-} from 'store/selectors';
+import { selectModalOptions } from 'store/selectors';
 import { dispatch } from 'store/rematch';
 import { toBitcoin, toSatoshi } from 'satoshi-bitcoin';
 
@@ -23,10 +18,8 @@ import { Responsive } from 'util/helpers';
 import formatTokenFormIntoStandard from 'util/formatTokenFormIntoStandard';
 import { V } from 'util/theming';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
-import { FEE, TICKER, ViewType } from 'vars/defines';
-import { DEFAULT_NULL_MODAL } from 'store/models/environment';
+import { FEE, ModalName, TICKER } from 'vars/defines';
 import TokenType from 'util/types/TokenType';
-import ExplorerLink from 'components/_General/ExplorerLink';
 
 const MediaPreviewContainer = styled.div`
   text-align: center;
@@ -66,10 +59,6 @@ const Bottom = styled.div`
   }
 `;
 
-const Title = styled.h2<{ success: boolean }>`
-  color: ${props => (props.success ? V.color.growth : V.color.danger)};
-`;
-
 const CustomAttributesDivider = styled.div`
   margin-top: 10px;
   margin-bottom: 25px;
@@ -84,22 +73,7 @@ const NotApplicable = () => <i>N/A</i>;
 const ConfirmTokenCreationModal: React.FC = () => {
   const token = useSelector(selectModalOptions) as TokenForm;
 
-  const error = useSelector(selectTokenCreationTxError);
-  const txStatus = useSelector(selectTokenCreationTxStatus);
-  const txId = useSelector(selectTokenCreationTxId);
   const tokenCreationSchema = useTokenCreationSchema();
-
-  const formikBag = useFormik<TokenForm>({
-    validationSchema: tokenCreationSchema,
-    initialValues: { ...token, confirmation: false },
-    validateOnMount: true,
-    enableReinitialize: true,
-    onSubmit: values => {
-      sendToBitgo(BitgoAction.TOKEN_V2_CREATE_TOKEL, formatTokenFormIntoStandard(values));
-    },
-  });
-
-  const { submitForm, isSubmitting, isValid, status, setStatus, setSubmitting } = formikBag;
 
   const tokenType = useMemo(() => (token.supply === 1 ? TokenType.NFT : TokenType.TOKEN), [token]);
   const tokenTypeName = useMemo(() => (tokenType === TokenType.NFT ? 'NFT' : 'token'), [tokenType]);
@@ -108,34 +82,27 @@ const ConfirmTokenCreationModal: React.FC = () => {
     [tokenType]
   );
 
-  const cost = useMemo(() => toBitcoin(String(toSatoshi(FEE) + Number(token.supply))), [token]);
-  const closeModal = () => dispatch.environment.SET_MODAL(DEFAULT_NULL_MODAL);
-  const goToWallet = () => {
-    dispatch.environment.SET_VIEW(ViewType.DASHBOARD);
-    closeModal();
-  };
-
-  useEffect(() => {
-    if (txStatus !== 0) {
-      const success = txStatus > 0;
-      setSubmitting(false);
-      setStatus({
-        success,
-        button: success
-          ? `${tokenTypeNameCapitalized} created!`
-          : `Failed to create ${tokenTypeName}`,
-        message: success
-          ? `A transaction has been broadcast creating your token. Please check your wallet in a few minutes.`
-          : `An error has ocurred while broadcasting your ${tokenTypeName}: ${error}. Please confirm that no transaction has been broacast and try again in a few minutes.`,
+  const formikBag = useFormik<TokenForm>({
+    validationSchema: tokenCreationSchema,
+    initialValues: { ...token, confirmation: false },
+    validateOnMount: true,
+    enableReinitialize: true,
+    onSubmit: values => {
+      sendToBitgo(BitgoAction.TOKEN_V2_CREATE_TOKEL, formatTokenFormIntoStandard(values));
+      dispatch.environment.SET_MODAL({
+        name: ModalName.TOKEN_CREATED,
+        options: {
+          tokenType,
+          tokenTypeName,
+          tokenTypeNameCapitalized,
+        },
       });
-    }
-  }, [error, txStatus, setSubmitting, setStatus, tokenTypeName, isSubmitting]);
+    },
+  });
 
-  useEffect(() => {
-    return () => {
-      dispatch.tokenCreation.RESET_TX();
-    };
-  }, []);
+  const { submitForm, isSubmitting, isValid } = formikBag;
+
+  const cost = useMemo(() => toBitcoin(String(toSatoshi(FEE) + Number(token.supply))), [token]);
 
   const constellationAttributes = useMemo(
     () =>
@@ -151,7 +118,7 @@ const ConfirmTokenCreationModal: React.FC = () => {
             },
           ]
         : [],
-    [token]
+    [token, tokenType]
   );
 
   const tokenDisplayAttributes = useMemo(
@@ -171,7 +138,7 @@ const ConfirmTokenCreationModal: React.FC = () => {
       },
       ...constellationAttributes,
     ],
-    [token]
+    [token, tokenType, constellationAttributes]
   );
 
   const tokenCustomAttributes = useMemo(
@@ -236,44 +203,19 @@ const ConfirmTokenCreationModal: React.FC = () => {
             </div>
 
             <Bottom>
-              {!status && (
-                <>
-                  <Checkbox
-                    name="confirmation"
-                    label={`I understand creating this ${tokenTypeName} will cost ${cost} ${TICKER}`}
-                  />
-                  <Button
-                    type="button"
-                    onClick={submitForm}
-                    theme="purple"
-                    disabled={isSubmitting || !isValid}
-                    data-tid="create-token"
-                  >
-                    Create my {tokenTypeName}
-                  </Button>
-                </>
-              )}
-
-              {!!status && (
-                <>
-                  <Title success={status.success}>{status.button}</Title>
-                  <p>{status.message}</p>
-                  {!!txId && (
-                    <p>
-                      <ExplorerLink type="tokens" postfix="transactions" txid={txId} />
-                    </p>
-                  )}
-                  {status.success ? (
-                    <Button type="button" theme="success" onClick={goToWallet}>
-                      Go to wallet
-                    </Button>
-                  ) : (
-                    <Button type="button" theme="danger" onClick={closeModal}>
-                      Go back
-                    </Button>
-                  )}
-                </>
-              )}
+              <Checkbox
+                name="confirmation"
+                label={`I understand creating this ${tokenTypeName} will cost ${cost} ${TICKER}`}
+              />
+              <Button
+                type="button"
+                onClick={submitForm}
+                theme="purple"
+                disabled={isSubmitting || !isValid}
+                data-tid="create-token"
+              >
+                Create my {tokenTypeName}
+              </Button>
             </Bottom>
           </Column>
         </Columns>

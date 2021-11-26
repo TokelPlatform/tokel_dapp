@@ -14,11 +14,22 @@ const formatTokenFormIntoStandard = (
     arbitrary[key] = value;
   });
 
+  const tokelArbitrary = token.arbitraryAsJson;
+
+  Object.keys(tokelArbitrary)?.forEach(key => {
+    if (!tokelArbitrary[key]) {
+      delete tokelArbitrary[key];
+    }
+  });
+
   // Make sure our own arbitrary information takes precedence over any other arbitrary key defined by user
-  arbitrary = { ...arbitrary, ...token.arbitraryAsJson };
+  arbitrary = { ...arbitrary, ...tokelArbitrary };
 
   const parsedSupply = parseInt(`${token.supply}`.replace(/\D/g, ''), 10);
-  const hexArbitrary = Buffer.from(JSON.stringify(arbitrary)).toString('hex');
+  const hexArbitrary =
+    !!arbitrary && Object.keys(arbitrary).length > 0
+      ? Buffer.from(JSON.stringify(arbitrary)).toString('hex')
+      : undefined;
 
   const compliantToken = {
     name: token.name,
