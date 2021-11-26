@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { ModalName } from 'vars/defines';
 
 import ConfirmTokenCreationModal from 'components/CreateToken/ConfirmTokenCreationModal';
+import TokenCreatedTx from 'components/CreateToken/TokenCreatedTx';
 import Feedback from './Feedback';
 import Receive from './Receive';
 import Send from './Send';
@@ -27,5 +28,9 @@ export default {
     title: 'Confirm token creation',
     component: <ConfirmTokenCreationModal />,
     size: 'large',
+  },
+  [ModalName.TOKEN_CREATED]: {
+    title: 'Transaction detail',
+    component: <TokenCreatedTx />,
   },
 } as ModalCollectionType;

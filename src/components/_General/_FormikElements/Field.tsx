@@ -1,13 +1,25 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { FieldHookConfig, useField } from 'formik';
 
+import { V } from 'util/theming';
 import { inputStyles } from './common';
 import FieldContainer from './FieldContainer';
 
-const Input = styled.input`
+const Input = styled.input<{ readOnly?: boolean }>`
   ${inputStyles}
+
+  ${props =>
+    props.readOnly &&
+    css`
+      &[readOnly]:focus,
+      &[readOnly]:hover {
+        outline: none;
+        border: 2px solid ${V.color?.backSoftest};
+      }
+    `}
 `;
 
 const Textarea = styled.textarea`
