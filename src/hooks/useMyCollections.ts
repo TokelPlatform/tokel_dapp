@@ -3,34 +3,34 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAccountPubKey, selectTokenDetails } from 'store/selectors';
 
-const useMyConstellations = () => {
+const useMyCollections = () => {
   const tokenDetails = useSelector(selectTokenDetails);
   const myPubKey = useSelector(selectAccountPubKey);
 
-  const myConstellations = useMemo(() => {
+  const myCollections = useMemo(() => {
     const myNFTs = Object.values(tokenDetails).filter(
       ({ owner, supply, dataAsJson }) =>
         owner === myPubKey &&
         supply === 1 &&
         !!dataAsJson?.id &&
-        !!dataAsJson?.arbitraryAsJson?.constellation_name
+        !!dataAsJson?.arbitraryAsJson?.collection_name
     );
 
-    const filteredConstellations = [];
+    const filteredCollections = [];
 
     myNFTs.forEach(({ dataAsJson }) => {
-      if (!filteredConstellations.map(({ value }) => value).includes(dataAsJson.id)) {
-        filteredConstellations.push({
-          label: dataAsJson.arbitraryAsJson.constellation_name,
+      if (!filteredCollections.map(({ value }) => value).includes(dataAsJson.id)) {
+        filteredCollections.push({
+          label: dataAsJson.arbitraryAsJson.collection_name,
           value: dataAsJson.id,
         });
       }
     });
 
-    return filteredConstellations;
+    return filteredCollections;
   }, [tokenDetails, myPubKey]);
 
-  return myConstellations;
+  return myCollections;
 };
 
-export default useMyConstellations;
+export default useMyCollections;

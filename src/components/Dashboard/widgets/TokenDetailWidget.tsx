@@ -107,6 +107,13 @@ const MetadataItem = ({ name, value, copyValue }: MetadataItemProps) => (
 const TokenDetail: React.FC = () => {
   const tokenDetail = useSelector(selectCurrentTokenDetail);
 
+  const hasNumberInCollection =
+    tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_collection ||
+    tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_constellation;
+  const hasCollectionName =
+    tokenDetail.dataAsJson?.arbitraryAsJson?.collection_name ||
+    tokenDetail.dataAsJson?.arbitraryAsJson?.constellation_name;
+
   return (
     <TokenDetailRoot>
       <Header>
@@ -141,18 +148,24 @@ const TokenDetail: React.FC = () => {
                   <MetadataItem name="Royalty" value={`${tokenDetail.dataAsJson.royalty / 10}%`} />
                 )}
                 {tokenDetail.dataAsJson?.id?.toString() && (
-                  <MetadataItem name="Constellation ID" value={tokenDetail.dataAsJson.id} />
+                  <MetadataItem name="Collection ID" value={tokenDetail.dataAsJson.id} />
                 )}
-                {tokenDetail.dataAsJson?.arbitraryAsJson?.constellation_name && (
+                {hasCollectionName && (
                   <MetadataItem
-                    name="Constellation Name"
-                    value={tokenDetail.dataAsJson?.arbitraryAsJson?.constellation_name}
+                    name="Collection Name"
+                    value={
+                      tokenDetail.dataAsJson?.arbitraryAsJson?.collection_name ||
+                      tokenDetail.dataAsJson?.arbitraryAsJson?.constellation_name
+                    }
                   />
                 )}
-                {tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_constellation && (
+                {hasNumberInCollection && (
                   <MetadataItem
-                    name="Number in Constellation"
-                    value={tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_constellation}
+                    name="Number in Collection"
+                    value={
+                      tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_collection ||
+                      tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_constellation
+                    }
                   />
                 )}
                 {Object.entries(tokenDetail.dataAsJson?.arbitraryAsJson ?? [])

@@ -10,7 +10,7 @@ import Select, { SelectOption } from 'components/_General/_FormikElements/Select
 import MultiKeyValue from 'components/_General/_FormikElements/MultiKeyValue';
 import { Button } from 'components/_General/buttons';
 import { Columns, Column } from 'components/_General/Grid';
-import useMyConstellations from 'hooks/useMyConstellations';
+import useMyCollections from 'hooks/useMyCollections';
 
 import TokenType from 'util/types/TokenType';
 import { TokenForm } from 'util/token-types';
@@ -74,8 +74,8 @@ const initialValues: Partial<TokenForm> = {
   id: '',
   confirmation: false,
   arbitraryAsJson: {
-    constellation_name: '',
-    number_in_constellation: '',
+    collection_name: '',
+    number_in_collection: '',
   },
   arbitraryAsJsonUnformatted: [],
 };
@@ -101,7 +101,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
 
   const previousTokenType = usePrevious(tokenType);
   const previousValues = usePrevious(values);
-  const myConstellations = useMyConstellations();
+  const myCollections = useMyCollections();
 
   useEffect(() => {
     // Persist only name, description, url and royalty if changing between fungible and NFT
@@ -119,38 +119,37 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
       );
   }, [tokenType, previousTokenType, setValues, values]);
 
-  // If constellation changes, format received ReactSelect option and set ID
+  // If collection changes, format received ReactSelect option and set ID
   useEffect(() => {
-    const constellationOption = values.arbitraryAsJson?.constellation_name as SelectOption;
-    if (typeof constellationOption === 'object') {
+    const collectionOption = values.arbitraryAsJson?.collection_name as SelectOption;
+    if (typeof collectionOption === 'object') {
       /* eslint no-underscore-dangle: 0 */
-      if (constellationOption.__isNew__) {
+      if (collectionOption.__isNew__) {
         setFieldValue('id', Math.floor(Math.random() * 9999999));
-        setFieldValue('arbitraryAsJson[constellation_name]', constellationOption?.label);
+        setFieldValue('arbitraryAsJson[collection_name]', collectionOption?.label);
       } else {
-        setFieldValue('id', constellationOption?.value);
-        setFieldValue('arbitraryAsJson[constellation_name]', constellationOption?.label);
+        setFieldValue('id', collectionOption?.value);
+        setFieldValue('arbitraryAsJson[collection_name]', collectionOption?.label);
       }
-    } else if (constellationOption === undefined) {
+    } else if (collectionOption === undefined) {
       setFieldValue('id', '');
     }
-  }, [values.arbitraryAsJson.constellation_name, setFieldValue]);
+  }, [values.arbitraryAsJson.collection_name, setFieldValue]);
 
-  // If ID changes manually, remove constellation
+  // If ID changes manually, remove collection
   useEffect(() => {
     if (
       values?.id !== previousValues?.id &&
-      values?.arbitraryAsJson?.constellation_name ===
-        previousValues?.arbitraryAsJson?.constellation_name
+      values?.arbitraryAsJson?.collection_name === previousValues?.arbitraryAsJson?.collection_name
     ) {
-      setFieldValue('arbitraryAsJson[constellation_name]', '');
+      setFieldValue('arbitraryAsJson[collection_name]', '');
     }
   }, [values, previousValues, setFieldValue]);
 
-  const formattedSelectedConstellationOption = typeof values.arbitraryAsJson.constellation_name ===
+  const formattedSelectedCollectionOption = typeof values.arbitraryAsJson.collection_name ===
     'string' &&
-    !!values.arbitraryAsJson.constellation_name?.length && {
-      label: values.arbitraryAsJson.constellation_name as string,
+    !!values.arbitraryAsJson.collection_name?.length && {
+      label: values.arbitraryAsJson.collection_name as string,
       value: values.id,
     };
 
@@ -212,7 +211,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                 type="number"
                 label="Identifier (ID, optional)"
                 placeholder="Numeric ID"
-                help={`This is the ID of the Constellation this ${tokenTypeDisplay} belongs to. You can define this manually, but it will override the Constellation field. If you select a Constellation, this field gets set automatically.`}
+                help={`This is the ID of the Collection this ${tokenTypeDisplay} belongs to. You can define this manually, but it will override the Collection field. If you select a Collection, this field gets set automatically.`}
               />
             )}
           </Column>
@@ -220,18 +219,18 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
             {tokenType === TokenType.NFT && (
               <>
                 <Select
-                  name="arbitraryAsJson[constellation_name]"
-                  label="Constellation (optional)"
-                  placeholder="Type to select a constellation or create a new one..."
-                  help="Constellation is the term used for an NFT collection on the Tokel Platform. A group of NFTs is called a Constellation."
-                  options={myConstellations}
-                  formattedSelectedOption={formattedSelectedConstellationOption}
+                  name="arbitraryAsJson[collection_name]"
+                  label="Collection (optional)"
+                  placeholder="Type to select a collection or create a new one..."
+                  help="Collection is the term used for an NFT collection on the Tokel Platform. A group of NFTs is called a Collection."
+                  options={myCollections}
+                  formattedSelectedOption={formattedSelectedCollectionOption}
                   creatable
                 />
                 <Field
-                  name="arbitraryAsJson[number_in_constellation]"
+                  name="arbitraryAsJson[number_in_collection]"
                   type="number"
-                  label="Number in Constellation (optional)"
+                  label="Number in Collection (optional)"
                   min={1}
                   placeholder="N/A"
                   help="If this is part of a series, you can number this item here. Not required."

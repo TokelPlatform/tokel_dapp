@@ -27,8 +27,8 @@ const useTokenCreationSchema = () => {
         confirmation: yup.boolean().oneOf([true], ''),
 
         dataAsJson: yup.object().shape({
-          constellation_name: yup.string().max(32),
-          number_in_constellation: yup.number().min(1),
+          collection_name: yup.string().max(32),
+          number_in_collection: yup.number().min(1),
         }),
 
         arbitraryAsJsonUnformatted: yup.array().of(

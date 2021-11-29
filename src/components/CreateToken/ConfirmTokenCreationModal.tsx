@@ -104,17 +104,17 @@ const ConfirmTokenCreationModal: React.FC = () => {
 
   const cost = useMemo(() => toBitcoin(String(toSatoshi(FEE) + Number(token.supply))), [token]);
 
-  const constellationAttributes = useMemo(
+  const collectionAttributes = useMemo(
     () =>
       tokenType === TokenType.NFT
         ? [
             {
-              label: 'Constellation',
-              value: token?.arbitraryAsJson?.constellation_name || <NotApplicable />,
+              label: 'Collection',
+              value: token?.arbitraryAsJson?.collection_name || <NotApplicable />,
             },
             {
-              label: 'Number in Constellation',
-              value: token?.arbitraryAsJson?.number_in_constellation || <NotApplicable />,
+              label: 'Number in Collection',
+              value: token?.arbitraryAsJson?.number_in_collection || <NotApplicable />,
             },
           ]
         : [],
@@ -133,12 +133,12 @@ const ConfirmTokenCreationModal: React.FC = () => {
         value: token?.royalty ? `${token?.royalty}% on DEX sales` : <NotApplicable />,
       },
       {
-        label: tokenType === TokenType.NFT ? 'Constellation ID' : 'ID',
+        label: tokenType === TokenType.NFT ? 'Collection ID' : 'ID',
         value: token?.id || <NotApplicable />,
       },
-      ...constellationAttributes,
+      ...collectionAttributes,
     ],
-    [token, tokenType, constellationAttributes]
+    [token, tokenType, collectionAttributes]
   );
 
   const tokenCustomAttributes = useMemo(
