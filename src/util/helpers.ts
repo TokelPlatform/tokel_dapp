@@ -1,4 +1,3 @@
-import axios from 'axios';
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
@@ -69,16 +68,6 @@ export const getUnixTimestamp = (d = null) => {
 };
 
 export const formatDate = timestamp => format(fromUnixTime(timestamp), 'dd/MM/yyyy H:mm:ss');
-
-export const getContentType = async (requestType, url): Promise<'unknown' | string[]> => {
-  try {
-    const response = await axios[`${requestType}`](url);
-    // https://datatracker.ietf.org/doc/html/rfc6838
-    return response.headers['content-type'].split(' ')[0].split('/');
-  } catch (e) {
-    return 'unknown';
-  }
-};
 
 export const splitArrayInChunks = <T>(array: Array<T>, chunkSize: number): Array<Array<T>> =>
   Array(Math.ceil(array.length / chunkSize))

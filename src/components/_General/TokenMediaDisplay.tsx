@@ -1,12 +1,10 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { ipcRenderer } from 'electron';
 import styled from '@emotion/styled';
 
-import { Responsive, getContentType } from 'util/helpers';
+import { Responsive } from 'util/helpers';
 import { V } from 'util/theming';
-import { IPFS_IPC_ID, IpfsAction, checkIsIPFSLink, HTTP_ERR_405 } from 'vars/defines';
-
-import Loader from 'components/_General/Spinner';
+import { IPFS_IPC_ID, IpfsAction, checkIsIPFSLink } from 'vars/defines';
 
 const MediaContent = styled.div`
   overflow-y: auto;
@@ -24,30 +22,9 @@ const ImageFrame = styled.div`
   border-radius: ${V.size.borderRadius};
 `;
 
-const TokenMediaImage = styled.img`
-  max-width: 100%;
-`;
-
-const TokenMediaVideo = styled.video`
-  max-width: 100%;
-  outline: none;
-`;
-
-const TokenMediaAudio = styled.audio`
-  max-width: 100%;
-`;
-
 const TokenMediaIframe = styled.iframe`
+  width: 100%;
   border: 0;
-`;
-
-const LoaderContainer = styled.div`
-  width: 200px;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid ${V.color.backSoftest};
 `;
 
 interface TokenMediaDisplayProps {
@@ -55,30 +32,22 @@ interface TokenMediaDisplayProps {
 }
 
 const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
-  const [contentType, setContentType] = useState<null | string | string[]>(null);
+  const iframeRef = useRef<HTMLIFrameElement>();
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [iframeHeight, setIframeHeight] = useState<number | 'unset'>('unset');
   const [mediaUrl, setMediaUrl] = useState(null);
 
-  const loading = !mediaUrl || !contentType;
   const isIpfs = useMemo(() => checkIsIPFSLink(url), [url]);
 
   useEffect(() => {
-    setMediaUrl(null);
-    setContentType(null);
-
-    getContentType('head', url)
-      .then(type => setContentType(type))
-      .catch(e => {
-        if (e.message === HTTP_ERR_405) {
-          // eslint-disable-next-line promise/no-nesting
-          getContentType('get', url)
-            .then(type => setContentType(type))
-            .catch(error => console.log(error));
-        } else {
-          console.log(e);
-        }
-      });
+    if (!url) {
+      setIframeLoaded(false);
+      setIframeHeight('unset');
+      setMediaUrl(null);
+    }
   }, [url]);
 
+  // Request IPFS file if it's an IPFS link. Set link meanwhile anyway
   useEffect(() => {
     if (isIpfs) {
       ipcRenderer.send(IPFS_IPC_ID, {
@@ -92,11 +61,11 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
     setMediaUrl(url);
   }, [url, isIpfs]);
 
+  // Listen for IPFS files
   useEffect(() => {
     const listener = (_, data) => {
       if (data.type === IpfsAction.GET && isIpfs) {
         setMediaUrl(data.payload.filedata);
-        setContentType(data.payload.type?.mime?.split('/'));
       }
     };
 
@@ -105,45 +74,44 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
     return () => {
       ipcRenderer.removeListener(IPFS_IPC_ID, listener);
     };
-  }, [contentType, isIpfs]);
+  }, [isIpfs]);
 
-  const MediaBlock = useCallback(() => {
-    if (contentType?.includes('image')) {
-      return <TokenMediaImage src={mediaUrl} title={url} alt={url} />;
-    }
-
-    if (contentType?.includes('video')) {
-      return (
-        <TokenMediaVideo autoPlay muted controls loop>
-          <source src={mediaUrl} />
-        </TokenMediaVideo>
+  // Post media to iframe, along with actual iframe width
+  useEffect(() => {
+    if (iframeLoaded) {
+      iframeRef?.current?.contentWindow.postMessage(
+        { mediaUrl, width: iframeRef?.current.offsetWidth },
+        '*'
       );
     }
+  }, [mediaUrl, iframeRef, iframeLoaded]);
 
-    if (contentType?.includes('audio')) {
-      return (
-        <TokenMediaAudio controls>
-          <source src={mediaUrl} />
-        </TokenMediaAudio>
-      );
-    }
+  // Adjust iframe height based on content height
+  useEffect(() => {
+    const targetElement = iframeRef?.current?.contentWindow.document.getElementById('mediaWrapper');
 
-    // let chromium figure otherwise
-    return <TokenMediaIframe src={mediaUrl} title={url} />;
-  }, [contentType, mediaUrl, url]);
+    const observer = new ResizeObserver(() => {
+      setIframeHeight(iframeRef?.current?.contentWindow.document.body.scrollHeight);
+    });
 
-  if (!url) return null;
+    if (targetElement) observer.observe(targetElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [iframeRef, iframeLoaded]);
+
+  if (!mediaUrl) return null;
 
   return (
     <MediaContent>
       <ImageFrame>
-        {loading ? (
-          <LoaderContainer>
-            <Loader bgColor={V.color.back} />
-          </LoaderContainer>
-        ) : (
-          <MediaBlock />
-        )}
+        <TokenMediaIframe
+          height={iframeHeight}
+          ref={iframeRef}
+          src="externalMedia.html"
+          onLoad={() => setIframeLoaded(true)}
+        />
       </ImageFrame>
     </MediaContent>
   );
