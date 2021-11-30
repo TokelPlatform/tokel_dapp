@@ -79,3 +79,9 @@ export const getContentType = async (requestType, url): Promise<'unknown' | stri
     return 'unknown';
   }
 };
+
+export const splitArrayInChunks = <T>(array: Array<T>, chunkSize: number): Array<Array<T>> =>
+  Array(Math.ceil(array.length / chunkSize))
+    .fill(undefined)
+    .map((_, index) => index * chunkSize)
+    .map(begin => array.slice(begin, begin + chunkSize));

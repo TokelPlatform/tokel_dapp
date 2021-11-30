@@ -22,7 +22,7 @@ const useTokenCreationSchema = () => {
           .max(maxSupply, 'not enough TKL in wallet'),
         url: yup.string().url('must be a valid URL'),
         royalty: yup.number().min(0).max(99.9),
-        id: yup.number().positive().integer(),
+        id: yup.number().positive().integer().max(999999, 'ID can have a max lenght of 6 digits'),
 
         confirmation: yup.boolean().oneOf([true], ''),
 

@@ -188,8 +188,8 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               name="url"
               type="text"
               label="Media URL (optional)"
-              placeholder={`Media URL representing your ${tokenTypeDisplay}`}
-              help={`The media representing this ${tokenTypeDisplay}. We recommend using IPFS or other permantent file storage solution so your ${tokenTypeDisplay} doesn't get lost in time!`}
+              placeholder={`Image, video, or audio URL representing your ${tokenTypeDisplay}`}
+              help={`An image, video or audio file representing this ${tokenTypeDisplay}. We recommend using IPFS or other permantent file storage solution so your ${tokenTypeDisplay} doesn't get lost in time!`}
             />
 
             <Field

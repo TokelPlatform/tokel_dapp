@@ -2,18 +2,12 @@ import { createModel } from '@rematch/core';
 import dp from 'dot-prop-immutable';
 
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
+import { splitArrayInChunks } from 'util/helpers';
 import { ThemeName, themeNames } from 'util/theming';
 import { TokenDetail } from 'util/token-types';
 import { ModalName, NetworkType, ViewType } from 'vars/defines';
 
 import type { RootModel } from './models';
-
-const hex2ascii = (hex: string) => {
-  let ascii = '';
-  for (let i = 0; i < hex.length; i += 2)
-    ascii += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-  return ascii;
-};
 
 export type EnvironmentState = {
   theme?: ThemeName;
@@ -68,7 +62,9 @@ export default createModel<RootModel>()({
       const arbitrary = detail?.dataAsJson?.arbitrary;
       if (arbitrary) {
         try {
-          detail.dataAsJson.arbitraryAsJson = JSON.parse(hex2ascii(arbitrary));
+          detail.dataAsJson.arbitraryAsJson = JSON.parse(
+            Buffer.from(arbitrary, 'hex').toString('utf-8')
+          );
         } catch (e) {
           console.error(e);
         }
@@ -85,9 +81,20 @@ export default createModel<RootModel>()({
   },
   effects: () => ({
     async getTokenDetail(tokenBalances: string) {
-      Object.keys(tokenBalances).map(async tokenId =>
-        sendToBitgo(BitgoAction.TOKEN_V2_INFO_TOKEL, { tokenId })
-      );
+      // This batches infoTokel requests into chunks of 9, to be sent 1.1 seconds apart,
+      //      so the node we're connected to doesn't get mad and shuts the door on us.
+      const chunks = splitArrayInChunks(Object.keys(tokenBalances), 9);
+      let count = 1;
+      chunks.forEach(tokens => {
+        setTimeout(
+          () =>
+            tokens.forEach(async tokenId =>
+              sendToBitgo(BitgoAction.TOKEN_V2_INFO_TOKEL, { tokenId })
+            ),
+          count * 1100
+        );
+        count += 1;
+      });
     },
   }),
 });
