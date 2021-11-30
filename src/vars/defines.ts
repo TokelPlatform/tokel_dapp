@@ -117,4 +117,9 @@ export const NspvJSErrorMessages = {
 
 export const HTTP_ERR_405 = 'Request failed with status code 405';
 
-export const RESERVED_TOKEL_ARBITRARY_KEYS = ['collection_name', 'number_in_collection'];
+export const RESERVED_TOKEL_ARBITRARY_KEYS = [
+  'collection_name',
+  'number_in_collection',
+  'constellation_name',
+  'number_in_constellation',
+];

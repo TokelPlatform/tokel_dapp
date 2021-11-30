@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { ipcRenderer } from 'electron';
 import styled from '@emotion/styled';
 
 import { Responsive, getContentType } from 'util/helpers';
 import { V } from 'util/theming';
-import { IPFS_IPC_ID, IpfsAction, checkIsIPFSLink, mediaTypes, HTTP_ERR_405 } from 'vars/defines';
+import { IPFS_IPC_ID, IpfsAction, checkIsIPFSLink, HTTP_ERR_405 } from 'vars/defines';
 
 import Loader from 'components/_General/Spinner';
 
@@ -24,8 +24,21 @@ const ImageFrame = styled.div`
   border-radius: ${V.size.borderRadius};
 `;
 
-const TokenImage = styled.img`
+const TokenMediaImage = styled.img`
   max-width: 100%;
+`;
+
+const TokenMediaVideo = styled.video`
+  max-width: 100%;
+  outline: none;
+`;
+
+const TokenMediaAudio = styled.audio`
+  max-width: 100%;
+`;
+
+const TokenMediaIframe = styled.iframe`
+  border: 0;
 `;
 
 const LoaderContainer = styled.div`
@@ -43,70 +56,94 @@ interface TokenMediaDisplayProps {
 
 const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   const [contentType, setContentType] = useState<null | string | string[]>(null);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [mediaUrl, setMediaUrl] = useState(null);
 
-  const isMedia = useMemo(
-    () =>
-      mediaTypes.includes(contentType?.[0] as typeof mediaTypes[number]) ||
-      mediaTypes.includes(contentType as typeof mediaTypes[number]),
-    [contentType]
-  );
+  const loading = !mediaUrl || !contentType;
+  const isIpfs = useMemo(() => checkIsIPFSLink(url), [url]);
 
   useEffect(() => {
-    setImageUrl(null);
+    setMediaUrl(null);
     setContentType(null);
 
-    if (checkIsIPFSLink(url)) {
-      setContentType('ipfs');
-    } else {
-      getContentType('head', url)
-        .then(type => setContentType(type))
-        .catch(e => {
-          if (e.message === HTTP_ERR_405) {
-            // eslint-disable-next-line promise/no-nesting
-            getContentType('get', url)
-              .then(type => setContentType(type))
-              .catch(error => console.log(error));
-          } else {
-            console.log(e);
-          }
-        });
-    }
+    getContentType('head', url)
+      .then(type => setContentType(type))
+      .catch(e => {
+        if (e.message === HTTP_ERR_405) {
+          // eslint-disable-next-line promise/no-nesting
+          getContentType('get', url)
+            .then(type => setContentType(type))
+            .catch(error => console.log(error));
+        } else {
+          console.log(e);
+        }
+      });
   }, [url]);
 
   useEffect(() => {
-    if (contentType === 'ipfs') {
+    if (isIpfs) {
       ipcRenderer.send(IPFS_IPC_ID, {
         type: IpfsAction.GET,
         payload: {
           ipfsId: url?.split('/')[url?.split('/').length - 1],
         },
       });
-    } else if (isMedia) {
-      setImageUrl(url);
     }
-  }, [contentType, url, isMedia]);
+
+    setMediaUrl(url);
+  }, [url, isIpfs]);
 
   useEffect(() => {
-    ipcRenderer.on(IPFS_IPC_ID, (_, data) => {
-      if (data.type === IpfsAction.GET && contentType === 'ipfs') {
-        setImageUrl(data.payload.filedata);
+    const listener = (_, data) => {
+      if (data.type === IpfsAction.GET && isIpfs) {
+        setMediaUrl(data.payload.filedata);
+        setContentType(data.payload.type?.mime?.split('/'));
       }
-    });
-  }, [contentType]);
+    };
 
-  if (!isMedia) return null;
+    ipcRenderer.on(IPFS_IPC_ID, listener);
+
+    return () => {
+      ipcRenderer.removeListener(IPFS_IPC_ID, listener);
+    };
+  }, [contentType, isIpfs]);
+
+  const MediaBlock = useCallback(() => {
+    if (contentType?.includes('image')) {
+      return <TokenMediaImage src={mediaUrl} title={url} alt={url} />;
+    }
+
+    if (contentType?.includes('video')) {
+      return (
+        <TokenMediaVideo autoPlay muted controls loop>
+          <source src={mediaUrl} />
+        </TokenMediaVideo>
+      );
+    }
+
+    if (contentType?.includes('audio')) {
+      return (
+        <TokenMediaAudio controls>
+          <source src={mediaUrl} />
+        </TokenMediaAudio>
+      );
+    }
+
+    // let chromium figure otherwise
+    return <TokenMediaIframe src={mediaUrl} title={url} />;
+  }, [contentType, mediaUrl, url]);
+
+  if (!url) return null;
 
   return (
     <MediaContent>
       <ImageFrame>
-        {!!url && !imageUrl && (
+        {loading ? (
           <LoaderContainer>
             <Loader bgColor={V.color.back} />
           </LoaderContainer>
+        ) : (
+          <MediaBlock />
         )}
-
-        {!!imageUrl && <TokenImage alt={url} src={imageUrl} title={url} />}
       </ImageFrame>
     </MediaContent>
   );

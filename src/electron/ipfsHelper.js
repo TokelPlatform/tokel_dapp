@@ -9,24 +9,29 @@ const IpfsAction = {
   STOP: 'stop',
 };
 
+const log = (...messages) => {
+  console.group('IPFS NODE (IPFS HELPER)');
+  console.log(...messages);
+  console.groupEnd();
+};
+
 class IpfsNodeSingleton {
   node;
 
   constructor() {
     this.node = null;
-    console.log('Created IpfsNode class');
+    log('IPFS class initiated');
     this.initNode();
   }
 
   async initNode() {
     try {
       const node = await IPFS.create();
-      console.log('NOOODE CREATEDDDD');
+      log('IPFS node created');
       this.node = node;
       return 0;
     } catch (e) {
-      console.log('ipfs node creation error: ', e);
-      console.log('cannot initiate node');
+      log('IPFS node creation error', e);
       return e;
     }
   }
@@ -42,6 +47,7 @@ class IpfsNodeSingleton {
       const files = [];
 
       extract.on('entry', (header, stream, next) => {
+        log('Receiving piece of stream');
         const buffers = [];
 
         stream.on('data', chunk => buffers.push(chunk));
@@ -55,11 +61,14 @@ class IpfsNodeSingleton {
       });
 
       extract.on('finish', async () => {
+        log('Finishing stream');
         type = await FileType.fromBuffer(files[0]);
         const base64 = `data:${type.mime};base64,${files[0].toString('base64')}`;
+        log('Resolving base64', type);
         resolve({ filedata: base64, type });
       });
 
+      log('Starting stream', ipfsId);
       const stream = toStream(
         this.node.get(ipfsId, {
           length: 100,
@@ -71,6 +80,7 @@ class IpfsNodeSingleton {
   }
 
   async [IpfsAction.STOP]() {
+    log('Stopping IPFS node');
     this.node.stop();
   }
 }
