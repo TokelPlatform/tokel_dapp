@@ -1,9 +1,11 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+
 import { toSatoshi } from 'satoshi-bitcoin';
-import { selectUnspentBalance } from 'store/selectors';
-import { FEE, RESERVED_TOKEL_ARBITRARY_KEYS } from 'vars/defines';
 import * as yup from 'yup';
+
+import { selectUnspentBalance } from 'store/selectors';
+import { FEE, RESERVED_TOKEL_ARBITRARY_KEYS, TICKER } from 'vars/defines';
 
 const useTokenCreationSchema = () => {
   const balance = useSelector(selectUnspentBalance);
@@ -19,7 +21,7 @@ const useTokenCreationSchema = () => {
           .required()
           .positive()
           .integer()
-          .max(maxSupply, 'not enough TKL in wallet'),
+          .max(maxSupply, `not enough ${TICKER} in wallet`),
         url: yup.string().url('must be a valid URL'),
         royalty: yup.number().min(0).max(99.9),
         id: yup.number().positive().integer().max(999999, 'ID can have a max lenght of 6 digits'),

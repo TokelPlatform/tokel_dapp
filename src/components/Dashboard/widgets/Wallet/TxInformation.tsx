@@ -8,7 +8,7 @@ import { dispatch } from 'store/rematch';
 import { selectCurrentTokenInfo } from 'store/selectors';
 import { formatDate, limitLength, stringifyAddresses, toBitcoinAmount } from 'util/helpers';
 import links from 'util/links';
-import { Colors, INFORMATION_N_A } from 'vars/defines';
+import { Colors, INFORMATION_N_A, TICKER } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
@@ -67,7 +67,7 @@ const TxInformation = ({
         {tokenTx ? (
           <TxConfirmationRow label="Token" value={`${txAmount} ${currentToken.name}`} />
         ) : (
-          <TxConfirmationRow label="Amount" value={`${txAmount} TKL`} />
+          <TxConfirmationRow label="Amount" value={`${txAmount} ${TICKER}`} />
         )}
       </Row>
       <Column>
