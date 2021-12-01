@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { selectTransactions, selectUnspentBalance } from 'store/selectors';
-import { ResourceType } from 'vars/defines';
+import { ResourceType, TICKER } from 'vars/defines';
 
 import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
 import TransferEmbed, { HoldingType } from './widgets/Embeds/TransferEmbed';
@@ -28,7 +28,7 @@ const AssetView = (): ReactElement => {
   const holdings: Array<HoldingType> = [
     // { label: 'Unlocked', value: balance },
     // { label: 'Locked', value: balance },
-    { label: 'Total', value: `${balance} TKL` },
+    { label: 'Total', value: `${balance} ${TICKER}` },
   ];
 
   return (

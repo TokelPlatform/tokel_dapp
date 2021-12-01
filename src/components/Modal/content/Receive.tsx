@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import QRCode from 'qrcode.react';
 
 import { selectAccountAddress, selectAccountPubKey, selectModalOptions } from 'store/selectors';
-import { Colors, ResourceType } from 'vars/defines';
+import { Colors, ResourceType, TICKER } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import FriendlyWarning from 'components/_General/WarningFriendly';
@@ -74,7 +74,7 @@ const Receive = () => {
       <FriendlyWarning
         message={
           options.type === ResourceType.TOKEL
-            ? 'Make sure to only send TKL to this address'
+            ? `Make sure to only send ${TICKER} to this address`
             : 'Make sure to only send tokens to this pubkey'
         }
       />
