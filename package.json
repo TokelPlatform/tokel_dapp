@@ -53,6 +53,7 @@
         "to": ""
       },
       "index.html",
+      "externalMedia.html",
       "package.json",
       "worker.js",
       "nspv-bitgo.js",
