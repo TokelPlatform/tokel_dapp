@@ -68,6 +68,9 @@
                         window.document.getElementById("mediaWrapper").innerHTML = `<video width="100%" height="auto" mute autoplay loop controls style="outline: none;"><source src="${mediaUrl}" /></video>`;
                     } else if (mediaType?.includes('audio')) {
                         window.document.getElementById("mediaWrapper").innerHTML = `<audio width="100%" height="auto" controls style="outline: none;"><source src="${mediaUrl}" /></audio>`;
+                    } else {
+                        // Its not media, so hide loader
+                        window.document.getElementById("mediaWrapper").innerHTML = ``;
                     }
                     console.groupEnd();
                 }, false);
