@@ -13,7 +13,7 @@ import { selectTokelPriceUSD } from 'store/selectors';
 import { formatDate, getUsdValue, toBitcoinAmount } from 'util/helpers';
 import { TxType } from 'util/nspvlib-mock';
 import { V } from 'util/theming';
-import { ModalName, ResourceType } from 'vars/defines';
+import { ModalName, ResourceType, TICKER } from 'vars/defines';
 
 import InfoNote from 'components/_General/InfoNote';
 
@@ -140,7 +140,7 @@ const ActivityList = ({ transactions = [], resourceType }: ActivityListProps): R
                 secondary={activityData.secondary}
               />
               <TriCell
-                primary={` ${tx.received ? '+' : '-'}${toBitcoinAmount(tx.value)} ${resourceType}`}
+                primary={` ${tx.received ? '+' : '-'}${toBitcoinAmount(tx.value)} ${TICKER}`}
                 secondary={
                   resourceType === ResourceType.TOKEL
                     ? `$${getUsdValue(tx.value, tokelPriceUSD)}`
