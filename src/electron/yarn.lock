@@ -256,10 +256,10 @@
   resolved "https://registry.yarnpkg.com/@tokel/cryptoconditions-js/-/cryptoconditions-js-0.1.1.tgz#11194188fe149b7f5df1c3d24ebb5d0c632883c3"
   integrity sha512-4KhCDfezYB81bsGbg6CNPHWOP07MpJCms6qIA5jCkEcq1nGQYB6ogVQwtVbM8frEaZCv0fymb1gMY1LHQSg3gw==
 
-"@tokel/nspv-js@0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@tokel/nspv-js/-/nspv-js-0.0.6.tgz#6b812395bed98a00c2a4f2b7c2e7c3ac0b2c2608"
-  integrity sha512-rP+0OjucqDb88nuxKJkpSLefMJVCA757AwXGPOYusNgihUtZBj2QYIkNRGTispCXvMULm2vfYx6pF9MT2K6U6g==
+"@tokel/nspv-js@0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@tokel/nspv-js/-/nspv-js-0.0.8.tgz#589c3862535f6bcc09558800ba4eca1cad561e0b"
+  integrity sha512-/cHvrR+yhDz3HhT4UYKgvIvR3o3n7+S67tS0ktrSiXTVfde23ST5oow0LRApZd5yChu3Sh++1PiCUen8TfgEAA==
   dependencies:
     "@tokel/cryptoconditions-js" "0.1.1"
     bech32 "0.0.3"

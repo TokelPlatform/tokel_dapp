@@ -125,7 +125,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
     if (typeof collectionOption === 'object') {
       /* eslint no-underscore-dangle: 0 */
       if (collectionOption.__isNew__) {
-        setFieldValue('id', Math.floor(Math.random() * 9999999));
+        setFieldValue('id', Math.floor(Math.random() * 999999));
         setFieldValue('arbitraryAsJson[collection_name]', collectionOption?.label);
       } else {
         setFieldValue('id', collectionOption?.value);
