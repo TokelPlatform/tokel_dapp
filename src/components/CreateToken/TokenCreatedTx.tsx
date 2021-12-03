@@ -4,10 +4,11 @@ import { dispatch } from 'store/rematch';
 import styled from '@emotion/styled';
 
 import {
+  selectAccountAddress,
   selectModalOptions,
-  selectTokenCreationTxError,
-  selectTokenCreationTxId,
-  selectTokenCreationTxStatus,
+  selectCurrentTxId,
+  selectCurrentTxError,
+  selectCurrentTxStatus,
 } from 'store/selectors';
 import { DEFAULT_NULL_MODAL } from 'store/models/environment';
 import { ViewType } from 'vars/defines';
@@ -30,9 +31,10 @@ const TokenCreatedTx: React.FC = () => {
     tokenTypeNameCapitalized: string;
   };
 
-  const error = useSelector(selectTokenCreationTxError);
-  const txStatus = useSelector(selectTokenCreationTxStatus);
-  const txId = useSelector(selectTokenCreationTxId);
+  const address = useSelector(selectAccountAddress);
+  const error = useSelector(selectCurrentTxError);
+  const txStatus = useSelector(selectCurrentTxStatus);
+  const txId = useSelector(selectCurrentTxId);
 
   const [isBroadcasting, setIsBroadcasting] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -50,7 +52,7 @@ const TokenCreatedTx: React.FC = () => {
 
   useEffect(() => {
     return () => {
-      dispatch.tokenCreation.RESET_TX();
+      dispatch.currentTransaction.RESET_TX();
     };
   }, []);
 
@@ -77,6 +79,7 @@ const TokenCreatedTx: React.FC = () => {
           <p>
             Please confirm that no transaction has been broacast and try again in a few minutes.
           </p>
+          <ExplorerLink txid={address} type="address" />
         </>
       ) : (
         <p>

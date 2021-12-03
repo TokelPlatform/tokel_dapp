@@ -34,13 +34,6 @@ const transactionError = err => {
   log.error(err);
 };
 
-const tokenCreationError = err => {
-  dispatch.tokenCreation.SET_TX_ERROR(NspvJSErrorMessages[err] || err);
-  dispatch.tokenCreation.SET_TX_STATUS(-1);
-  dispatch.environment.SET_ERROR(err);
-  log.error(err);
-};
-
 const BitgoOrchestrator = () => {
   const myAddress = useSelector(selectAccountAddress);
 
@@ -119,12 +112,13 @@ const BitgoOrchestrator = () => {
       // CREATE TOKEN
       if (payload.type === BitgoAction.TOKEN_V2_CREATE_TOKEL) {
         if (payload.error) {
-          tokenCreationError(payload.error);
+          transactionError(payload.error);
           return;
         }
         const success = spendSuccess(payload.data);
-        dispatch.tokenCreation.SET_TX_STATUS(success);
-        dispatch.tokenCreation.SET_TX_ID(success ? payload.data.txid : null);
+        dispatch.currentTransaction.SET_TX_STATUS(success);
+        dispatch.currentTransaction.SET_TX_ID(success ? payload.data.txid : null);
+        dispatch.currentTransaction.SET_TOKEN_TX(true);
         return;
       }
       // HANDLE ALL OTHER ERRORS GENERICALLY

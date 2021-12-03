@@ -43,10 +43,6 @@ export const selectCurrentTxStatus = (state: RootState) => state.currentTransact
 export const selectCurrentTxError = (state: RootState) => state.currentTransaction.error;
 export const selectCurrenTxTokenTx = (state: RootState) => state.currentTransaction.tokenTx;
 
-export const selectTokenCreationTxId = (state: RootState) => state.tokenCreation.id;
-export const selectTokenCreationTxStatus = (state: RootState) => state.tokenCreation.status;
-export const selectTokenCreationTxError = (state: RootState) => state.tokenCreation.error;
-
 export const selectKey = (state: RootState) => state.account.key;
 export const selectSeed = (state: RootState) => state.account.seed;
 

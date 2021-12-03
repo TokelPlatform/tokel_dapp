@@ -141,7 +141,6 @@ class BitgoSingleton {
       0
     );
     const res = {};
-    console.group('LIST_UNSPENT');
     ccUtxos.forEach(utxo => {
       if (utxo?.tokendata?.tokenid) {
         res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
@@ -150,7 +149,6 @@ class BitgoSingleton {
         res[utxo.txid.reverse().toString('hex')] = utxo.satoshis;
       }
     });
-    console.groupEnd();
     return {
       height: response.nodeheight,
       skipcount: response.skipcount,
