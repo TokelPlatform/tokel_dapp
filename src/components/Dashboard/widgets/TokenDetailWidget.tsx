@@ -107,12 +107,11 @@ const MetadataItem = ({ name, value, copyValue }: MetadataItemProps) => (
 const TokenDetail: React.FC = () => {
   const tokenDetail = useSelector(selectCurrentTokenDetail);
 
+  const arbitraryJson = tokenDetail.dataAsJson?.arbitraryAsJson;
+
   const hasNumberInCollection =
-    tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_collection ||
-    tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_constellation;
-  const hasCollectionName =
-    tokenDetail.dataAsJson?.arbitraryAsJson?.collection_name ||
-    tokenDetail.dataAsJson?.arbitraryAsJson?.constellation_name;
+    arbitraryJson?.number_in_collection || arbitraryJson?.number_in_constellation;
+  const hasCollectionName = arbitraryJson?.collection_name || arbitraryJson?.constellation_name;
 
   return (
     <TokenDetailRoot>
@@ -153,22 +152,18 @@ const TokenDetail: React.FC = () => {
                 {hasCollectionName && (
                   <MetadataItem
                     name="Collection Name"
-                    value={
-                      tokenDetail.dataAsJson?.arbitraryAsJson?.collection_name ||
-                      tokenDetail.dataAsJson?.arbitraryAsJson?.constellation_name
-                    }
+                    value={arbitraryJson?.collection_name || arbitraryJson?.constellation_name}
                   />
                 )}
                 {hasNumberInCollection && (
                   <MetadataItem
                     name="Number in Collection"
                     value={
-                      tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_collection ||
-                      tokenDetail.dataAsJson?.arbitraryAsJson?.number_in_constellation
+                      arbitraryJson?.number_in_collection || arbitraryJson?.number_in_constellation
                     }
                   />
                 )}
-                {Object.entries(tokenDetail.dataAsJson?.arbitraryAsJson ?? [])
+                {Object.entries(arbitraryJson ?? [])
                   ?.filter(([key]) => !RESERVED_TOKEL_ARBITRARY_KEYS?.includes(key))
                   .map(([key, value]) => (
                     <MetadataItem key={key} name={key} value={value} />

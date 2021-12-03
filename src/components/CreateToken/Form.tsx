@@ -126,11 +126,11 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
       /* eslint no-underscore-dangle: 0 */
       if (collectionOption.__isNew__) {
         setFieldValue('id', Math.floor(Math.random() * 999999));
-        setFieldValue('arbitraryAsJson[collection_name]', collectionOption?.label);
       } else {
         setFieldValue('id', collectionOption?.value);
-        setFieldValue('arbitraryAsJson[collection_name]', collectionOption?.label);
       }
+
+      setFieldValue('arbitraryAsJson[collection_name]', collectionOption?.label);
     } else if (collectionOption === undefined) {
       setFieldValue('id', '');
     }
