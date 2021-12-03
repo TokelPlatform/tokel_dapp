@@ -23,8 +23,26 @@ const useTokenCreationSchema = () => {
           .integer()
           .max(maxSupply, `not enough ${TICKER} in wallet`),
         url: yup.string().url('must be a valid URL'),
-        royalty: yup.number().min(0).max(99.9),
-        id: yup.number().positive().integer().max(999999, 'ID can have a max lenght of 6 digits'),
+        royalty: yup
+          .number()
+          .positive()
+          .min(0)
+          .max(99.9)
+          .test(
+            'one-decimal',
+            'can only have one decimal place',
+            value => !value || Number.isInteger(value * 10)
+          ),
+        id: yup
+          .number()
+          .positive()
+          .integer()
+          .max(999999, 'ID can have a max length of 6 digits')
+          .test(
+            'only-numbers',
+            'not a valid ID',
+            value => !value || /^[0-9]*$/.test(value?.toString())
+          ),
 
         confirmation: yup.boolean().oneOf([true], ''),
 

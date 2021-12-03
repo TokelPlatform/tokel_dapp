@@ -171,7 +171,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               type="textarea"
               label="Description"
               placeholder={`What does your ${tokenTypeDisplay} represent?`}
-              help={`A description to go with your ${tokenTypeDisplay}. Can have a max lenght of 4096 characters.`}
+              help={`A description to go with your ${tokenTypeDisplay}. Can have a max length of 4096 characters.`}
             />
 
             <Field
@@ -197,7 +197,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               type="number"
               label="Royalty (optional)"
               placeholder="0"
-              help={`Anytime this ${tokenTypeDisplay} is sold through the Tokel DEX, you can make a comission, even if you're not participating on the sale. Can range from 1% to 100%`}
+              help={`Anytime this ${tokenTypeDisplay} is sold through the Tokel DEX, you can make a comission, even if you're not participating in the sale. Can range from 1% to 99.9%`}
               append="%"
             />
 
