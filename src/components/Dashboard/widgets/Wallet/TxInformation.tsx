@@ -6,13 +6,11 @@ import styled from '@emotion/styled';
 import { DEFAULT_NULL_MODAL } from 'store/models/environment';
 import { dispatch } from 'store/rematch';
 import { selectCurrentTokenInfo } from 'store/selectors';
-import { formatDate, limitLength, stringifyAddresses, toBitcoinAmount } from 'util/helpers';
-import links from 'util/links';
+import { formatDate, stringifyAddresses, toBitcoinAmount } from 'util/helpers';
 import { Colors, INFORMATION_N_A, TICKER } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
-import CopyToClipboard from 'components/_General/CopyToClipboard';
-import OpenInExplorer from 'components/_General/OpenInExplorer';
+import ExplorerLink from 'components/_General/ExplorerLink';
 import TxConfirmationRow from './TxConfirmationRow';
 
 const Row = styled.div`
@@ -36,7 +34,6 @@ const CloseButtonWrapper = styled.div`
 `;
 
 type TxConfirmationProps = {
-  currency?: string;
   recipient: string;
   amountInSatoshi: string;
   txid: string;
@@ -48,7 +45,6 @@ type TxConfirmationProps = {
 const closeModal = () => dispatch.environment.SET_MODAL(DEFAULT_NULL_MODAL);
 
 const TxInformation = ({
-  currency,
   amountInSatoshi,
   txid,
   from,
@@ -71,9 +67,8 @@ const TxInformation = ({
         )}
       </Row>
       <Column>
-        <TxConfirmationRow label="Tx id" value={`${limitLength(txid, 36)} ...`}>
-          <CopyToClipboard textToCopy={txid} color={Colors.WHITE} />
-          <OpenInExplorer link={`${links.explorers[currency]}/tx/${txid}`} />
+        <TxConfirmationRow label="Tx id">
+          <ExplorerLink txidColor={Colors.WHITE} txid={txid} />
         </TxConfirmationRow>
       </Column>
       <CloseButtonWrapper>

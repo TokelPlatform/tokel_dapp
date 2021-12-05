@@ -1,8 +1,8 @@
 export default {
   explorers: {
-    KMD: 'https://kmd.explorer.dexstats.info',
-    TKL: 'https://explorer.tokel.io',
-    TKLTEST: 'http://explorer.komodoplatform.com:20000',
+    KMD: () => 'https://kmd.explorer.dexstats.info',
+    TKL: path => `https://explorer.tokel.io/${path}`,
+    TKLTEST: path => `http://explorer.komodoplatform.com:20000/${path}/TKLTEST`,
   },
   insightApi: {
     TKL: 'https://tokel.explorer.dexstats.info/insight-api-komodo',
