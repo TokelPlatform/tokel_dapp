@@ -8,24 +8,23 @@ const useMyCollections = () => {
   const myPubKey = useSelector(selectAccountPubKey);
 
   const myCollections = useMemo(() => {
-    const myNFTs = Object.values(tokenDetails).filter(
-      ({ owner, supply, dataAsJson }) =>
-        owner === myPubKey &&
-        supply === 1 &&
-        !!dataAsJson?.id &&
-        !!dataAsJson?.arbitraryAsJson?.collection_name
-    );
+    const collections = Object.values(tokenDetails)
+      .filter(
+        ({ owner, supply, dataAsJson }) =>
+          owner === myPubKey &&
+          supply === 1 &&
+          Boolean(dataAsJson?.id) &&
+          Boolean(dataAsJson?.arbitraryAsJson?.collection_name)
+      )
+      .map(({ dataAsJson }) => ({
+        label: dataAsJson.arbitraryAsJson.collection_name as string,
+        value: dataAsJson.id,
+      }));
 
-    const filteredCollections = [];
-
-    myNFTs.forEach(({ dataAsJson }) => {
-      if (!filteredCollections.map(({ value }) => value).includes(dataAsJson.id)) {
-        filteredCollections.push({
-          label: dataAsJson.arbitraryAsJson.collection_name,
-          value: dataAsJson.id,
-        });
-      }
-    });
+    const allIds = collections.map(({ value }) => value);
+    const filteredCollections = collections
+      .filter(({ value }, index) => allIds.indexOf(value) === index)
+      .sort((a, b) => a.label.localeCompare(b.label));
 
     return filteredCollections;
   }, [tokenDetails, myPubKey]);

@@ -8,41 +8,29 @@ type ButtonProps = {
   hasIcon?: boolean;
 };
 
-const getTheme = theme => {
-  switch (theme) {
-    case Colors.PURPLE:
-      return `
+const getTheme = theme =>
+  ({
+    [Colors.PURPLE]: `
         background: var(--gradient-purple-direct);
         border: none;
-      `;
-    case Colors.BLACK:
-      return `
+      `,
+    [Colors.BLACK]: `
         background: var(--color-button-black-theme);
-        border: 1px solid var(--color-lighterBlack);`;
-    case Colors.TRANSPARENT:
-      return `
+        border: 1px solid var(--color-lighterBlack);`,
+    [Colors.TRANSPARENT]: `
         background: var(--color-almostBlack);
-        border: 1px solid var(--color-lighterBlack);`;
-    case Colors.DANGER:
-      return `
+        border: 1px solid var(--color-lighterBlack);`,
+    [Colors.DANGER]: `
         &, &:hover {
           background: var(--color-danger);
         }
-        border: 1px solid var(--color-window-close-hover);`;
-    case Colors.SUCCESS:
-      return `
+        border: 1px solid var(--color-window-close-hover);`,
+    [Colors.SUCCESS]: `
         &, &:hover {
-          background: var(--color-growth);
+          background: var(--color-growth-darker);
         }
-        border: 1px solid var(--color-window-maximize);`;
-    default:
-      // gray theme
-      return `
-        background: var(--gradient-gray);
-        border: none;
-      `;
-  }
-};
+        border: 1px solid var(--color-window-maximize);`,
+  }[theme] || `background: var(--gradient-gray); border: none;`);
 
 export const Button = styled.button<ButtonProps>`
   width: ${props => props.customWidth || '240px'};

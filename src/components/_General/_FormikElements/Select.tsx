@@ -8,8 +8,8 @@ import { useReactSelectStyles } from './common';
 import FieldContainer from './FieldContainer';
 
 type SelectOption = {
-  label: string;
-  value: string;
+  label: string | number;
+  value: string | number | boolean;
   __isNew__?: boolean;
 };
 

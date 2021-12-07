@@ -148,7 +148,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
 
   const formattedSelectedCollectionOption = typeof values.arbitraryAsJson.collection_name ===
     'string' &&
-    !!values.arbitraryAsJson.collection_name?.length && {
+    Boolean(values.arbitraryAsJson.collection_name?.length) && {
       label: values.arbitraryAsJson.collection_name as string,
       value: values.id,
     };

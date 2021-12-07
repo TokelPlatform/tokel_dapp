@@ -75,12 +75,68 @@ const ConfirmTokenCreationModal: React.FC = () => {
 
   const tokenCreationSchema = useTokenCreationSchema();
 
-  const tokenType = useMemo(() => (token.supply === 1 ? TokenType.NFT : TokenType.TOKEN), [token]);
-  const tokenTypeName = useMemo(() => (tokenType === TokenType.NFT ? 'NFT' : 'token'), [tokenType]);
-  const tokenTypeNameCapitalized = useMemo(
-    () => (tokenType === TokenType.NFT ? 'NFT' : 'Token'),
-    [tokenType]
-  );
+  const tokenHelpers = useMemo(() => {
+    const tokenType = token.supply === 1 ? TokenType.NFT : TokenType.TOKEN;
+    const tokenTypeName = tokenType === TokenType.NFT ? 'NFT' : 'token';
+    const tokenTypeNameCapitalized = tokenType === TokenType.NFT ? 'NFT' : 'Token';
+
+    const cost = toBitcoin(String(toSatoshi(FEE) + Number(token.supply)));
+
+    const collectionAttributes =
+      tokenType === TokenType.NFT
+        ? [
+            {
+              label: 'Collection',
+              value: token?.arbitraryAsJson?.collection_name || <NotApplicable />,
+            },
+            {
+              label: 'Number in Collection',
+              value: token?.arbitraryAsJson?.number_in_collection || <NotApplicable />,
+            },
+          ]
+        : [];
+
+    const tokenDisplayAttributes = [
+      { label: 'Supply', value: token?.supply },
+      {
+        label: 'URL',
+        value: token?.url || <NotApplicable />,
+      },
+      {
+        label: 'Royalty',
+        value: token?.royalty ? `${token?.royalty}% on DEX sales` : <NotApplicable />,
+      },
+      {
+        label: tokenType === TokenType.NFT ? 'Collection ID' : 'ID',
+        value: token?.id || <NotApplicable />,
+      },
+      ...collectionAttributes,
+    ];
+
+    const tokenCustomAttributes = token?.arbitraryAsJsonUnformatted?.map(({ key, value }) => ({
+      label: key,
+      value,
+    }));
+
+    return {
+      tokenType,
+      tokenTypeName,
+      tokenTypeNameCapitalized,
+      cost,
+      collectionAttributes,
+      tokenDisplayAttributes,
+      tokenCustomAttributes,
+    };
+  }, [token]);
+
+  const {
+    tokenType,
+    tokenTypeName,
+    tokenTypeNameCapitalized,
+    cost,
+    tokenDisplayAttributes,
+    tokenCustomAttributes,
+  } = tokenHelpers;
 
   const formikBag = useFormik<TokenForm>({
     validationSchema: tokenCreationSchema,
@@ -101,50 +157,6 @@ const ConfirmTokenCreationModal: React.FC = () => {
   });
 
   const { submitForm, isSubmitting, isValid } = formikBag;
-
-  const cost = useMemo(() => toBitcoin(String(toSatoshi(FEE) + Number(token.supply))), [token]);
-
-  const collectionAttributes = useMemo(
-    () =>
-      tokenType === TokenType.NFT
-        ? [
-            {
-              label: 'Collection',
-              value: token?.arbitraryAsJson?.collection_name || <NotApplicable />,
-            },
-            {
-              label: 'Number in Collection',
-              value: token?.arbitraryAsJson?.number_in_collection || <NotApplicable />,
-            },
-          ]
-        : [],
-    [token, tokenType]
-  );
-
-  const tokenDisplayAttributes = useMemo(
-    () => [
-      { label: 'Supply', value: token?.supply },
-      {
-        label: 'URL',
-        value: token?.url || <NotApplicable />,
-      },
-      {
-        label: 'Royalty',
-        value: token?.royalty ? `${token?.royalty}% on DEX sales` : <NotApplicable />,
-      },
-      {
-        label: tokenType === TokenType.NFT ? 'Collection ID' : 'ID',
-        value: token?.id || <NotApplicable />,
-      },
-      ...collectionAttributes,
-    ],
-    [token, tokenType, collectionAttributes]
-  );
-
-  const tokenCustomAttributes = useMemo(
-    () => token?.arbitraryAsJsonUnformatted?.map(({ key, value }) => ({ label: key, value })),
-    [token]
-  );
 
   if (!token) return null;
 
@@ -193,7 +205,7 @@ const ConfirmTokenCreationModal: React.FC = () => {
                   <InformationValue>{value}</InformationValue>
                 </InformationRow>
               ))}
-              {!!tokenCustomAttributes?.length && <CustomAttributesDivider />}
+              {Boolean(tokenCustomAttributes?.length) && <CustomAttributesDivider />}
               {tokenCustomAttributes.map(({ label, value }) => (
                 <InformationRow key={label}>
                   <InformationLabel size={5}>{label}</InformationLabel>

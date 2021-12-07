@@ -164,7 +164,7 @@ const TokenDetail: React.FC = () => {
                   />
                 )}
                 {Object.entries(arbitraryJson ?? [])
-                  ?.filter(([key]) => !RESERVED_TOKEL_ARBITRARY_KEYS?.includes(key))
+                  ?.filter(([key]) => !RESERVED_TOKEL_ARBITRARY_KEYS.includes(key))
                   .map(([key, value]) => (
                     <MetadataItem key={key} name={key} value={value} />
                   ))}

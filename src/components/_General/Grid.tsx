@@ -15,9 +15,9 @@ const Column = styled.div<{ size?: GRID | 'narrow'; offset?: GRID; vertical?: bo
 
   ${Responsive.above.L} {
     width: ${props =>
-      !!props.size && (props.size !== 'narrow' ? `${(props.size / 12) * 100}%` : 'unset')};
+      Boolean(props.size) && (props.size !== 'narrow' ? `${(props.size / 12) * 100}%` : 'unset')};
 
-    ${props => !!props.size && `flex: none;`};
+    ${props => Boolean(props.size) && `flex: none;`};
   }
 
   ${props =>
@@ -27,7 +27,7 @@ const Column = styled.div<{ size?: GRID | 'narrow'; offset?: GRID; vertical?: bo
         flex-direction: column;
       `}
 
-  ${props => !!props.offset && `margin-left: ${(props.offset / 12) * 100}%`};
+  ${props => Boolean(props.offset) && `margin-left: ${(props.offset / 12) * 100}%`};
 `;
 
 const Columns = styled.div<{

@@ -72,5 +72,4 @@ export const formatDate = timestamp => format(fromUnixTime(timestamp), 'dd/MM/yy
 export const splitArrayInChunks = <T>(array: Array<T>, chunkSize: number): Array<Array<T>> =>
   Array(Math.ceil(array.length / chunkSize))
     .fill(undefined)
-    .map((_, index) => index * chunkSize)
-    .map(begin => array.slice(begin, begin + chunkSize));
+    .map((_, index) => array.slice(index * chunkSize, index * chunkSize + chunkSize));

@@ -65,11 +65,11 @@ const FieldContainer: React.FC<FieldContainerProps & FieldHookConfig<string>> = 
 
   return (
     <FieldContainerStyled>
-      {!!label && (
+      {Boolean(label) && (
         <Label>
           {label}
 
-          {!!help?.length && (
+          {Boolean(help?.length) && (
             <Tippy content={help} arrow>
               <Icon icon={InfoIcon} color="gradient" width={14} height={14} className="icon" />
             </Tippy>
@@ -78,7 +78,7 @@ const FieldContainer: React.FC<FieldContainerProps & FieldHookConfig<string>> = 
       )}
       <div className="field">
         {children}
-        {!!append && <span className="append">{append}</span>}
+        {Boolean(append) && <span className="append">{append}</span>}
       </div>
 
       {meta.touched && meta.error && typeof meta.error !== 'object' && (
