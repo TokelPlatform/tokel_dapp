@@ -25,7 +25,7 @@ export type TokenForm = {
   supply: number | string;
   url?: string;
   royalty?: number;
-  id?: string;
+  id?: number;
   confirmation?: boolean;
   arbitraryAsJson?: Record<string, unknown>;
   arbitraryAsJsonUnformatted?: Array<{ key: string; value: string }>;
