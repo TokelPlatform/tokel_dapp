@@ -6,28 +6,17 @@ const formatTokenFormIntoStandard = (
   name: string;
   supply: number;
   description: string;
-  tokenData: Record<string, unknown>;
+  tokenData: Record<string, string | number | boolean>;
 } => {
-  let arbitrary = {};
-
-  token.arbitraryAsJsonUnformatted.forEach(({ key, value }) => {
-    arbitrary[key] = value;
-  });
-
-  const tokelArbitrary = token.arbitraryAsJson;
-
-  Object.keys(tokelArbitrary)?.forEach(key => {
-    if (!tokelArbitrary[key]) {
-      delete tokelArbitrary[key];
-    }
-  });
-
-  // Make sure our own arbitrary information takes precedence over any other arbitrary key defined by user
-  arbitrary = { ...arbitrary, ...tokelArbitrary };
+  const arbitrary = token.arbitraryAsJsonUnformatted.reduce(
+    (arb, { key, value }) => ({ ...arb, [key]: value }),
+    // Make sure our own arbitrary information takes precedence over any other arbitrary key defined by user
+    token.arbitraryAsJson
+  );
 
   const parsedSupply = parseInt(`${token.supply}`.replace(/\D/g, ''), 10);
   const hexArbitrary =
-    !!arbitrary && Object.keys(arbitrary).length > 0
+    Boolean(arbitrary) && Object.keys(arbitrary).length > 0
       ? Buffer.from(JSON.stringify(arbitrary)).toString('hex')
       : undefined;
 

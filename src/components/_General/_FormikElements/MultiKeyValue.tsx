@@ -50,7 +50,9 @@ const MultiKeyValue: React.FC<MultiKeyValueProps & FieldHookConfig<string>> = ({
                       placeholder="Attribute name"
                       type="text"
                     />
-                    {!!errors?.[index]?.key && <div className="error">{errors?.[index]?.key}</div>}
+                    {Boolean(errors?.[index]?.key) && (
+                      <div className="error">{errors?.[index]?.key}</div>
+                    )}
                   </CustomPaddingColumn>
                   <CustomPaddingColumn size={5}>
                     <Input
@@ -58,7 +60,7 @@ const MultiKeyValue: React.FC<MultiKeyValueProps & FieldHookConfig<string>> = ({
                       placeholder="Attribute value"
                       type="text"
                     />
-                    {!!errors?.[index]?.value && (
+                    {Boolean(errors?.[index]?.value) && (
                       <div className="error">{errors?.[index]?.value}</div>
                     )}
                   </CustomPaddingColumn>

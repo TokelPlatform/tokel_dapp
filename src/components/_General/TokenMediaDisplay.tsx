@@ -79,7 +79,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   // Post media to iframe, along with actual iframe width
   useEffect(() => {
     if (iframeLoaded) {
-      iframeRef?.current?.contentWindow.postMessage(
+      iframeRef.current?.contentWindow.postMessage(
         { mediaUrl, width: iframeRef?.current.offsetWidth },
         '*'
       );
@@ -88,16 +88,19 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
 
   // Adjust iframe height based on content height
   useEffect(() => {
+    let observer;
     const targetElement = iframeRef?.current?.contentWindow.document.getElementById('mediaWrapper');
 
-    const observer = new ResizeObserver(() => {
-      setIframeHeight(iframeRef?.current?.contentWindow.document.body.scrollHeight);
-    });
+    if (targetElement) {
+      observer = new ResizeObserver(() => {
+        setIframeHeight(iframeRef?.current?.contentWindow.document.body.scrollHeight);
+      });
 
-    if (targetElement) observer.observe(targetElement);
+      observer.observe(targetElement);
+    }
 
     return () => {
-      observer.disconnect();
+      if (observer) observer.disconnect();
     };
   }, [iframeRef, iframeLoaded]);
 

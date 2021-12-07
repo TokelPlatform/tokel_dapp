@@ -24,6 +24,12 @@ const Title = styled.h2<{ success: boolean }>`
   margin-top: 0;
 `;
 
+const closeModal = () => dispatch.environment.SET_MODAL(DEFAULT_NULL_MODAL);
+const goToWallet = () => {
+  dispatch.environment.SET_VIEW(ViewType.DASHBOARD);
+  closeModal();
+};
+
 const TokenCreatedTx: React.FC = () => {
   const { tokenTypeName, tokenTypeNameCapitalized } = useSelector(selectModalOptions) as {
     tokenType: TokenType;
@@ -38,12 +44,6 @@ const TokenCreatedTx: React.FC = () => {
 
   const [isBroadcasting, setIsBroadcasting] = useState(true);
   const [hasError, setHasError] = useState(false);
-
-  const closeModal = () => dispatch.environment.SET_MODAL(DEFAULT_NULL_MODAL);
-  const goToWallet = () => {
-    dispatch.environment.SET_VIEW(ViewType.DASHBOARD);
-    closeModal();
-  };
 
   useEffect(() => {
     setIsBroadcasting(txStatus === 0);
@@ -88,7 +88,7 @@ const TokenCreatedTx: React.FC = () => {
         </p>
       )}
 
-      {!!txId && (
+      {Boolean(txId) && (
         <div css={{ marginBottom: '20px' }}>
           <ExplorerLink type="tokens" postfix="transactions" txid={txId} />
         </div>

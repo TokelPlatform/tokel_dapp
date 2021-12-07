@@ -39,7 +39,7 @@ export type BitgoMessageParamList = {
     name: string;
     supply: number;
     description: string;
-    tokenData: Record<string, unknown>;
+    tokenData: Record<string, boolean | number | string>;
   };
 };
 
