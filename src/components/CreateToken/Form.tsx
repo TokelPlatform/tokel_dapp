@@ -71,7 +71,7 @@ const initialValues: Partial<TokenForm> = {
   url: '',
   royalty: 0,
   supply: '',
-  id: '',
+  id: null,
   confirmation: false,
   arbitraryAsJson: {
     collection_name: '',
@@ -142,7 +142,10 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
       values?.id !== previousValues?.id &&
       values?.arbitraryAsJson?.collection_name === previousValues?.arbitraryAsJson?.collection_name
     ) {
-      setFieldValue('arbitraryAsJson[collection_name]', '');
+      setFieldValue(
+        'arbitraryAsJson[collection_name]',
+        myCollections.find(collection => collection.value === values.id)?.label || ''
+      );
     }
   }, [values, previousValues, setFieldValue]);
 
