@@ -26,7 +26,8 @@ export const USD_VALUE = 5;
 export const IS_DEV = process.env.NODE_ENV === 'development';
 export const IS_PROD = process.env.NODE_ENV === 'production';
 
-export const checkIsIPFSLink = url => url && url.includes('https://ipfs.io/');
+export const EXTRACT_IPFS_HASH_REGEX =
+  /^(?:https:\/\/ipfs.io\/ipfs\/|ipfs:\/\/|dweb:\/\/)([a-zA-Z0-9]{46})/;
 
 export const TokenFilter = {
   ALL: 'ALL',
