@@ -141,10 +141,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
       values?.id !== previousValues?.id &&
       values?.arbitraryAsJson?.collection_name === previousValues?.arbitraryAsJson?.collection_name
     ) {
-      setFieldValue(
-        'arbitraryAsJson[collection_name]',
-        myCollections.find(collection => collection.value === values.id)?.label || ''
-      );
+      setFieldValue('arbitraryAsJson[collection_name]', myCollections[values.id]?.label || '');
     }
   }, [myCollections, values, previousValues, setFieldValue]);
 
@@ -225,7 +222,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
                   label="Collection (optional)"
                   placeholder="Type to select a collection or create a new one..."
                   help="Collection is the term used for an NFT collection on the Tokel Platform. A group of NFTs is called a Collection."
-                  options={myCollections}
+                  options={Object.values(myCollections)}
                   formattedSelectedOption={formattedSelectedCollectionOption}
                   creatable
                 />

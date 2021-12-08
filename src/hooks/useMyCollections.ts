@@ -1,35 +1,37 @@
 import { useMemo } from 'react';
-
 import { useSelector } from 'react-redux';
+
 import { selectAccountPubKey, selectTokenDetails } from 'store/selectors';
 
-const useMyCollections = () => {
+type Collections = Record<string, { label: string; value: number }>;
+
+const useMyCollections = (): Collections => {
   const tokenDetails = useSelector(selectTokenDetails);
   const myPubKey = useSelector(selectAccountPubKey);
 
-  const myCollections = useMemo(() => {
-    const collections = Object.values(tokenDetails)
-      .filter(
-        ({ owner, supply, dataAsJson }) =>
+  const collectionsMap = useMemo(
+    () =>
+      Object.values(tokenDetails).reduce((collections, { owner, supply, dataAsJson }) => {
+        if (
           owner === myPubKey &&
           supply === 1 &&
           Boolean(dataAsJson?.id) &&
           Boolean(dataAsJson?.arbitraryAsJson?.collection_name)
-      )
-      .map(({ dataAsJson }) => ({
-        label: dataAsJson.arbitraryAsJson.collection_name as string,
-        value: dataAsJson.id,
-      }));
+        ) {
+          return {
+            ...collections,
+            [dataAsJson.id]: {
+              label: dataAsJson.arbitraryAsJson.collection_name,
+              value: dataAsJson.id,
+            },
+          };
+        }
+        return collections;
+      }, {}),
+    [tokenDetails, myPubKey]
+  );
 
-    const allIds = collections.map(({ value }) => value);
-    const filteredCollections = collections
-      .filter(({ value }, index) => allIds.indexOf(value) === index)
-      .sort((a, b) => a.label.localeCompare(b.label));
-
-    return filteredCollections;
-  }, [tokenDetails, myPubKey]);
-
-  return myCollections;
+  return collectionsMap;
 };
 
 export default useMyCollections;
