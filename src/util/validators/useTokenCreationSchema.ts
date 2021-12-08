@@ -5,7 +5,7 @@ import { toSatoshi } from 'satoshi-bitcoin';
 import * as yup from 'yup';
 
 import { selectUnspentBalance } from 'store/selectors';
-import { FEE, RESERVED_TOKEL_ARBITRARY_KEYS, TICKER } from 'vars/defines';
+import { EXTRACT_IPFS_HASH_REGEX, FEE, RESERVED_TOKEL_ARBITRARY_KEYS, TICKER } from 'vars/defines';
 
 const useTokenCreationSchema = () => {
   const balance = useSelector(selectUnspentBalance);
@@ -22,7 +22,11 @@ const useTokenCreationSchema = () => {
           .positive()
           .integer()
           .max(maxSupply, `not enough ${TICKER} in wallet`),
-        url: yup.string().url('must be a valid URL'),
+        url: yup.lazy(val =>
+          val?.match(EXTRACT_IPFS_HASH_REGEX)
+            ? yup.string().matches(EXTRACT_IPFS_HASH_REGEX, 'must be a valid URL')
+            : yup.string().url('must be a valid URL')
+        ),
         royalty: yup
           .number()
           .positive()

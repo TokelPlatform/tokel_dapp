@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { ipcRenderer } from 'electron';
-import styled from '@emotion/styled';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Responsive } from 'util/helpers';
+import styled from '@emotion/styled';
+import { ipcRenderer } from 'electron';
+
+import { Responsive, extractIPFSHash } from 'util/helpers';
 import { V } from 'util/theming';
-import { IPFS_IPC_ID, IpfsAction, checkIsIPFSLink } from 'vars/defines';
+import { IPFS_IPC_ID, IpfsAction } from 'vars/defines';
 
 const MediaContent = styled.div`
   overflow-y: auto;
@@ -37,7 +38,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   const [iframeHeight, setIframeHeight] = useState<number | 'unset'>('unset');
   const [mediaUrl, setMediaUrl] = useState(null);
 
-  const isIpfs = useMemo(() => checkIsIPFSLink(url), [url]);
+  const ipfsId = useMemo(() => extractIPFSHash(url), [url]);
 
   useEffect(() => {
     if (!url) {
@@ -49,22 +50,21 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
 
   // Request IPFS file if it's an IPFS link. Set link meanwhile anyway
   useEffect(() => {
-    if (isIpfs) {
+    if (ipfsId) {
       ipcRenderer.send(IPFS_IPC_ID, {
         type: IpfsAction.GET,
         payload: {
-          ipfsId: url?.split('/')[url?.split('/').length - 1],
+          ipfsId,
         },
       });
     }
-
     setMediaUrl(url);
-  }, [url, isIpfs]);
+  }, [url, ipfsId]);
 
   // Listen for IPFS files
   useEffect(() => {
     const listener = (_, data) => {
-      if (data.type === IpfsAction.GET && isIpfs) {
+      if (data.type === IpfsAction.GET && ipfsId) {
         setMediaUrl(data.payload.filedata);
       }
     };
@@ -74,7 +74,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
     return () => {
       ipcRenderer.removeListener(IPFS_IPC_ID, listener);
     };
-  }, [isIpfs]);
+  }, [ipfsId]);
 
   // Post media to iframe, along with actual iframe width
   useEffect(() => {
