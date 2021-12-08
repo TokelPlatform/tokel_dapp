@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import styled from '@emotion/styled';
-import { dispatch } from 'store/rematch';
-import usePrevious from 'hooks/usePrevious';
 import { Form, FormikProvider, useFormik } from 'formik';
 
-import Field from 'components/_General/_FormikElements/Field';
-import Checkbox from 'components/_General/_FormikElements/Checkbox';
-import Select, { SelectOption } from 'components/_General/_FormikElements/Select';
-import MultiKeyValue from 'components/_General/_FormikElements/MultiKeyValue';
-import { Button } from 'components/_General/buttons';
-import { Columns, Column } from 'components/_General/Grid';
-import useMyCollections from 'hooks/useMyCollections';
-
-import TokenType from 'util/types/TokenType';
-import { TokenForm } from 'util/token-types';
-import { V } from 'util/theming';
-
 import Caret from 'assets/Caret.svg';
-
+import useMyCollections from 'hooks/useMyCollections';
+import usePrevious from 'hooks/usePrevious';
+import { dispatch } from 'store/rematch';
+import { V } from 'util/theming';
+import { TokenForm } from 'util/token-types';
+import TokenType from 'util/types/TokenType';
 import useTokenCreationSchema from 'util/validators/useTokenCreationSchema';
 import { ModalName } from 'vars/defines';
+
+import Checkbox from 'components/_General/_FormikElements/Checkbox';
+import Field from 'components/_General/_FormikElements/Field';
+import MultiKeyValue from 'components/_General/_FormikElements/MultiKeyValue';
+import Select, { SelectOption } from 'components/_General/_FormikElements/Select';
+import { Button } from 'components/_General/buttons';
+import { Column, Columns } from 'components/_General/Grid';
 
 interface CreateTokenFormProps {
   tokenType: TokenType;
@@ -136,7 +135,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
     }
   }, [values.arbitraryAsJson.collection_name, setFieldValue]);
 
-  // If ID changes manually, remove collection
+  // If ID changes manually, set collection
   useEffect(() => {
     if (
       values?.id !== previousValues?.id &&
@@ -147,7 +146,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
         myCollections.find(collection => collection.value === values.id)?.label || ''
       );
     }
-  }, [values, previousValues, setFieldValue]);
+  }, [myCollections, values, previousValues, setFieldValue]);
 
   const formattedSelectedCollectionOption = typeof values.arbitraryAsJson.collection_name ===
     'string' &&

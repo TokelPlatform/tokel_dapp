@@ -4,7 +4,7 @@ import dp from 'dot-prop-immutable';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { splitArrayInChunks } from 'util/helpers';
 import { ThemeName, themeNames } from 'util/theming';
-import { TokenDetail } from 'util/token-types';
+import { TokenDetail, TokenForm } from 'util/token-types';
 import { ModalName, NetworkType, ViewType } from 'vars/defines';
 
 import type { RootModel } from './models';
@@ -23,7 +23,7 @@ export type EnvironmentState = {
 
 export type Modal = {
   name: ModalName;
-  options: Record<string, unknown>;
+  options: TokenForm | Record<string, unknown>;
 };
 
 export const DEFAULT_NULL_MODAL: Modal = {

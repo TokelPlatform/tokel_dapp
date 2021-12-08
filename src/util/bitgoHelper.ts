@@ -1,6 +1,8 @@
 import { ipcRenderer } from 'electron';
 
-import { BITGO_IPC_ID, NetworkType } from '../vars/defines';
+import { BITGO_IPC_ID, NetworkType } from 'vars/defines';
+
+import { CreateTokenPayload } from './token-types';
 
 export enum BitgoAction {
   SET_NETWORK = 'set_network',
@@ -35,12 +37,7 @@ export type BitgoMessageParamList = {
   [BitgoAction.TOKEN_V2_ADDRESS]: undefined;
   [BitgoAction.TOKEN_V2_INFO_TOKEL]: { tokenId: string };
   [BitgoAction.TOKEN_V2_TRANSFER]: { destpubkey: string; tokenid: string; amount: number };
-  [BitgoAction.TOKEN_V2_CREATE_TOKEL]: {
-    name: string;
-    supply: number;
-    description: string;
-    tokenData: Record<string, boolean | number | string>;
-  };
+  [BitgoAction.TOKEN_V2_CREATE_TOKEL]: CreateTokenPayload;
 };
 
 type ConditionalOptions<T, K extends keyof T> = T[K] extends undefined ? [] : [T[K]];
