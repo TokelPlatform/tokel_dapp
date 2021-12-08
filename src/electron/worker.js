@@ -20,7 +20,7 @@ const BitgoAction = {
 };
 
 const SATOSHIS = 100000000;
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 class BitgoSingleton {
   constructor(network) {
     this.network = network;
