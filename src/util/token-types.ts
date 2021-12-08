@@ -1,12 +1,21 @@
-export type TokelStandardDataFormat = {
+export type ArbitraryTokenData = Record<string, string | number | boolean>;
+
+export interface TokelStandardDataFormat {
   url: string;
   id: number;
   royalty: number;
   arbitrary: string;
-  arbitraryAsJson?: Record<string, unknown>;
-};
+  arbitraryAsJson?: ArbitraryTokenData;
+}
 
-export type TokenDetail = {
+export interface CreateTokenPayload {
+  name: string;
+  supply: number;
+  description: string;
+  tokenData: TokelStandardDataFormat;
+}
+
+export interface TokenDetail {
   tokenid: string;
   owner: string;
   name: string;
@@ -17,9 +26,9 @@ export type TokenDetail = {
   version: number;
   IsMixed: boolean;
   contentType?: string;
-};
+}
 
-export type TokenForm = {
+export interface TokenForm {
   name: string;
   description: string;
   supply: number | string;
@@ -29,4 +38,4 @@ export type TokenForm = {
   confirmation?: boolean;
   arbitraryAsJson?: Record<string, unknown>;
   arbitraryAsJsonUnformatted?: Array<{ key: string; value: string }>;
-};
+}

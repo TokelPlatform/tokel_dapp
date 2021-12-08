@@ -1,13 +1,6 @@
-import { TokenForm } from './token-types';
+import { CreateTokenPayload, TokenForm } from './token-types';
 
-const formatTokenFormIntoStandard = (
-  token: TokenForm
-): {
-  name: string;
-  supply: number;
-  description: string;
-  tokenData: Record<string, string | number | boolean>;
-} => {
+const formatTokenFormIntoStandard = (token: TokenForm): CreateTokenPayload => {
   const arbitrary = token.arbitraryAsJsonUnformatted.reduce(
     (arb, { key, value }) => ({ ...arb, [key]: value }),
     // Make sure our own arbitrary information takes precedence over any other arbitrary key defined by user
@@ -20,19 +13,17 @@ const formatTokenFormIntoStandard = (
       ? Buffer.from(JSON.stringify(arbitrary)).toString('hex')
       : undefined;
 
-  const compliantToken = {
+  return {
     name: token.name,
     supply: parsedSupply,
     description: token.description,
     tokenData: {
       url: token.url,
-      id: parseInt(token.id, 10),
+      id: token.id,
       royalty: token.royalty * 10,
       arbitrary: hexArbitrary,
     },
   };
-
-  return compliantToken;
 };
 
 export default formatTokenFormIntoStandard;
