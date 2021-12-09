@@ -6,8 +6,6 @@ import { GrayLabel, HSpaceMed } from '../common';
 
 const Value = styled.div`
   margin: 4px 0 16px 0;
-  display: flex;
-  flex-direction: row;
   p {
     margin: 0;
   }
@@ -22,7 +20,7 @@ const ColumnRoot = styled.div`
 
 type TxConfirmationProps = {
   label: string;
-  value: string;
+  value?: string;
   children?: JSX.Element | JSX.Element[];
 };
 
@@ -32,7 +30,7 @@ const TxConfirmationRow = ({ label, value, children }: TxConfirmationProps): Rea
       <GrayLabel>{label}</GrayLabel>
       <Value>
         <p>{value}</p>
-        <HSpaceMed />
+        {value && <HSpaceMed />}
         {children}
       </Value>
     </ColumnRoot>

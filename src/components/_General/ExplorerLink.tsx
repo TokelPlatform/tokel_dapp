@@ -13,8 +13,12 @@ const ExplorerLinkRoot = styled.div`
   display: flex;
 `;
 
-const TxId = styled.a`
-  color: ${V.color.cornflower};
+type TxIdProps = {
+  txidColor: string;
+};
+
+const TxId = styled.a<TxIdProps>`
+  color: ${p => p.txidColor || V.color.cornflower};
   margin-right: 12px;
   overflow-x: hidden;
   text-overflow: ellipsis;
@@ -31,19 +35,23 @@ const TxButtons = styled.div`
 
 const ExplorerLink = ({
   txid,
-  type,
+  txidColor,
+  type = 'tx',
   postfix = '',
 }: {
   txid: string;
+  txidColor?: string;
   type?: string;
   postfix?: string;
 }) => {
+  const link = links.explorers[TICKER](`${type}/${txid}${postfix ? `/${postfix}` : ''}`);
+
   return (
     <ExplorerLinkRoot>
-      <TxId>{txid}</TxId>
+      <TxId txidColor={txidColor}>{txid}</TxId>
       <TxButtons>
         <CopyToClipboard textToCopy={txid} color={Colors.WHITE} />
-        <OpenInExplorer link={`${links.explorers[TICKER]}/${type || 'tx'}/${txid}/${postfix}`} />
+        <OpenInExplorer link={link} />
       </TxButtons>
     </ExplorerLinkRoot>
   );

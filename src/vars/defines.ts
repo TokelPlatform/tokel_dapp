@@ -1,7 +1,7 @@
 // nspv settings
-// export const TICKER = 'TKLTEST';
+export const TICKER = 'TKLTEST';
 // export const RPC_PORT = '22025';
-export const TICKER = 'TKL';
+// export const TICKER = 'TKL';
 export const RPC_PORT = '29405';
 export const BITGO_IPC_ID = 'bitgo';
 export const IPFS_IPC_ID = 'ipfs';

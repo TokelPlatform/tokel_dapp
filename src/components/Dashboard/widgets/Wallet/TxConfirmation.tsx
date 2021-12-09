@@ -22,18 +22,12 @@ const TxConfirmationRoot = styled.div`
 `;
 
 type TxConfirmationProps = {
-  currency?: string;
   recipient: string;
   amount: string;
   from: string;
 };
 
-const TxConfirmation = ({
-  currency,
-  recipient,
-  amount,
-  from,
-}: TxConfirmationProps): ReactElement => {
+const TxConfirmation = ({ recipient, amount, from }: TxConfirmationProps): ReactElement => {
   const txStatus = useSelector(selectCurrentTxStatus);
   const txId = useSelector(selectCurrentTxId);
   const txError = useSelector(selectCurrentTxError);
@@ -65,7 +59,6 @@ const TxConfirmation = ({
           txid={txId}
           from={[from]}
           recipient={recipient}
-          currency={currency}
           timestamp={getUnixTimestamp()}
           tokenTx={tokenTx}
         />
@@ -74,8 +67,4 @@ const TxConfirmation = ({
   );
 };
 
-TxConfirmation.defaultProps = {
-  // usdValue: '100',
-  currency: 'KMD',
-};
 export default TxConfirmation;

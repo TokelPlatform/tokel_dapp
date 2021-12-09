@@ -4,12 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
-import {
-  selectAccountAddress,
-  selectAccountPubKey,
-  selectChosenAsset,
-  selectModalOptions,
-} from 'store/selectors';
+import { selectAccountAddress, selectAccountPubKey, selectModalOptions } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { ResourceType } from 'vars/defines';
 
@@ -28,7 +23,6 @@ export type SendModalOpts = {
 
 const Send = () => {
   const options = useSelector(selectModalOptions) as SendModalOpts;
-  const chosenAsset = useSelector(selectChosenAsset);
   const myAddress = useSelector(selectAccountAddress);
   const mypubkey = useSelector(selectAccountPubKey);
   const sender = options.type === ResourceType.TOKEL ? myAddress : mypubkey;
@@ -64,12 +58,7 @@ const Send = () => {
   return (
     <SendRoot>
       {confirmation ? (
-        <TxConfirmation
-          currency={chosenAsset}
-          recipient={recipient}
-          amount={amountToSend}
-          from={sender}
-        />
+        <TxConfirmation recipient={recipient} amount={amountToSend} from={sender} />
       ) : options.type === ResourceType.TOKEL ? (
         <SendForm onSubmit={handleSubmit} />
       ) : (
