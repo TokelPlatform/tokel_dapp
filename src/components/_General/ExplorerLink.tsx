@@ -36,7 +36,7 @@ const TxButtons = styled.div`
 const ExplorerLink = ({
   txid,
   txidColor,
-  type,
+  type = 'tx',
   postfix = '',
 }: {
   txid: string;
@@ -44,14 +44,14 @@ const ExplorerLink = ({
   type?: string;
   postfix?: string;
 }) => {
+  const link = links.explorers[TICKER](`${type}/${txid}${postfix ? `/${postfix}` : ''}`);
+
   return (
     <ExplorerLinkRoot>
       <TxId txidColor={txidColor}>{txid}</TxId>
       <TxButtons>
         <CopyToClipboard textToCopy={txid} color={Colors.WHITE} />
-        <OpenInExplorer
-          link={links.explorers[TICKER](`${type || 'tx'}/${txid}${postfix && `/${postfix}`}`)}
-        />
+        <OpenInExplorer link={link} />
       </TxButtons>
     </ExplorerLinkRoot>
   );
