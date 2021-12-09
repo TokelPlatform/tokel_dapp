@@ -26,7 +26,8 @@ export const USD_VALUE = 5;
 export const IS_DEV = process.env.NODE_ENV === 'development';
 export const IS_PROD = process.env.NODE_ENV === 'production';
 
-export const checkIsIPFSLink = url => url && url.includes('https://ipfs.io/');
+export const EXTRACT_IPFS_HASH_REGEX =
+  /^(?:https:\/\/ipfs.io\/ipfs\/|ipfs:\/\/|dweb:\/\/)([a-zA-Z0-9]{46})/;
 
 export const TokenFilter = {
   ALL: 'ALL',
@@ -57,6 +58,7 @@ export enum ViewType {
   DASHBOARD = 'dashboard',
   DEX = 'dex',
   NFT_MARKET = 'nft_market',
+  CREATE_TOKEN = 'create_token',
   SETTINGS = 'settings',
 }
 
@@ -66,6 +68,9 @@ export enum ModalName {
   FEEDBACK = 'feedback',
   TX_DETAIL = 'tx_detail',
   TOKEN_SEND = 'token_send',
+  CONFIRM_TOKEN_CREATION = 'confirm_token_creation',
+  TOKEN_CREATED = 'token_created',
+  NFT_CREATED = 'nft_created',
 }
 
 export const Config = {
@@ -79,6 +84,8 @@ export const Colors = {
   BLACK: 'black',
   PURPLE: 'purple',
   TRANSPARENT: 'transparent',
+  DANGER: 'danger',
+  SUCCESS: 'success',
 };
 
 export const OsType = {
@@ -88,7 +95,7 @@ export const OsType = {
 };
 
 // https://datatracker.ietf.org/doc/html/rfc6838
-export const mediaTypes = ['audio', 'video', 'image', 'ipfs'];
+export const mediaTypes = <const>['audio', 'video', 'image', 'ipfs'];
 
 export const SEE_EXPLORER = 'See explorer link for details';
 
@@ -106,6 +113,14 @@ export const ErrorMessages = {
 
 export const NspvJSErrorMessages = {
   'invalid destination pubkey': 'Invalid token address (pubkey). Please try again.',
+  'could not find normal inputs': 'Not enough TKL for this transaction',
 };
 
 export const HTTP_ERR_405 = 'Request failed with status code 405';
+
+export const RESERVED_TOKEL_ARBITRARY_KEYS = [
+  'collection_name',
+  'number_in_collection',
+  'constellation_name',
+  'number_in_constellation',
+];

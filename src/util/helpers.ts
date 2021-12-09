@@ -1,10 +1,9 @@
-import axios from 'axios';
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
 import { toBitcoin } from 'satoshi-bitcoin';
 
-import { Config, WindowSize } from 'vars/defines';
+import { Config, EXTRACT_IPFS_HASH_REGEX, WindowSize } from 'vars/defines';
 
 interface ResponsiveType {
   XL: string;
@@ -25,6 +24,16 @@ export const Responsive = {
 };
 
 export const randomColor = () => `hsla(${(360 * Math.random()).toString()}, 70%, 80%, 1)`;
+
+// IPFS
+export const extractIPFSHash = (url: string): string | null => {
+  if (!url) return null;
+  const ipfsUrlMatch = url.match(EXTRACT_IPFS_HASH_REGEX);
+  if (ipfsUrlMatch) {
+    return ipfsUrlMatch[1];
+  }
+  return null;
+};
 
 // Number().toString() to cut down unnecessary trailing 0s
 export const formatDec = (num: number) => {
@@ -70,12 +79,7 @@ export const getUnixTimestamp = (d = null) => {
 
 export const formatDate = timestamp => format(fromUnixTime(timestamp), 'dd/MM/yyyy H:mm:ss');
 
-export const getContentType = async (requestType, url) => {
-  try {
-    const response = await axios[`${requestType}`](url);
-    // https://datatracker.ietf.org/doc/html/rfc6838
-    return [response.headers['content-type'].split(' ')[0].split('/')];
-  } catch (e) {
-    return 'unknown';
-  }
-};
+export const splitArrayInChunks = <T>(array: Array<T>, chunkSize: number): Array<Array<T>> =>
+  Array(Math.ceil(array.length / chunkSize))
+    .fill(undefined)
+    .map((_, index) => array.slice(index * chunkSize, index * chunkSize + chunkSize));

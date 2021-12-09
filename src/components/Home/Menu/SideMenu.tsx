@@ -8,6 +8,8 @@ import BagIcon from 'assets/Bag.svg';
 import DashIcon from 'assets/Dash.svg';
 import SwapIcon from 'assets/Swap.svg';
 import ToggleIcon from 'assets/Toggle.svg';
+import TokenIcon from 'assets/Token.svg';
+
 import { dispatch } from 'store/rematch';
 import { selectView } from 'store/selectors';
 import { VERSIONS_MSG, ViewType } from 'vars/defines';
@@ -20,6 +22,11 @@ export const menuData = [
     type: ViewType.DASHBOARD,
     name: 'Dashboard',
     icon: DashIcon,
+  },
+  {
+    type: ViewType.CREATE_TOKEN,
+    name: 'Create Token',
+    icon: TokenIcon,
   },
   {
     type: ViewType.DEX,
@@ -42,7 +49,7 @@ const SideMenuRoot = styled.div`
   position: relative;
   background-color: var(--color-almostBlack);
   height: 100%;
-  width: 96px;
+  width: 108px;
   display: flex;
   flex-direction: column;
   align-items: center;

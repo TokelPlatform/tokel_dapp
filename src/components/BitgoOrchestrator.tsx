@@ -109,6 +109,18 @@ const BitgoOrchestrator = () => {
         sendToBitgo(BitgoAction.LIST_TRANSACTIONS, { address });
         return;
       }
+      // CREATE TOKEN
+      if (payload.type === BitgoAction.TOKEN_V2_CREATE_TOKEL) {
+        if (payload.error) {
+          transactionError(payload.error);
+          return;
+        }
+        const success = spendSuccess(payload.data);
+        dispatch.currentTransaction.SET_TX_STATUS(success);
+        dispatch.currentTransaction.SET_TX_ID(success ? payload.data.txid : null);
+        dispatch.currentTransaction.SET_TOKEN_TX(true);
+        return;
+      }
       // HANDLE ALL OTHER ERRORS GENERICALLY
       if (payload.error) {
         commonError(payload.error);
@@ -142,12 +154,6 @@ const BitgoOrchestrator = () => {
       // TOKEN_V2_INFO_TOKEL
       if (payload.type === BitgoAction.TOKEN_V2_INFO_TOKEL) {
         dispatch.environment.SET_TOKEN_DETAIL(payload.data);
-        if (payload.data.dataAsJson?.url) {
-          dispatch.environment.getContentType({
-            tokenid: payload.data.tokenid,
-            url: payload.data.dataAsJson?.url,
-          });
-        }
       }
     });
     return () => {

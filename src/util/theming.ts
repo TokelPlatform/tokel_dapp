@@ -15,6 +15,9 @@ const baseTheme = {
     danger: 'hsla(340, 80%, 50%, 1.0)',
     growth: 'hsla(128, 65%, 48%, 1.0)',
     highlight: 'hsla(171, 94%, 61%, 1.0)',
+    modal: {
+      bg: 'hsla(216.9,28.3%,18%,1.0)',
+    },
     windowControl: {
       close: 'hsla(0, 100%, 65%, 1.0)',
       closeHover: 'hsla(0, 94%, 63%, 1.0)',
@@ -36,6 +39,9 @@ const baseTheme = {
   size: {
     borderRadius: '4px',
     borderRadiusBig: '8px',
+  },
+  grid: {
+    columnGap: '0.75rem',
   },
 };
 

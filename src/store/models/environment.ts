@@ -2,19 +2,12 @@ import { createModel } from '@rematch/core';
 import dp from 'dot-prop-immutable';
 
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
-import { getContentType } from 'util/helpers';
+import { splitArrayInChunks } from 'util/helpers';
 import { ThemeName, themeNames } from 'util/theming';
-import { TokenDetail } from 'util/token-types';
-import { HTTP_ERR_405, ModalName, NetworkType, ViewType, checkIsIPFSLink } from 'vars/defines';
+import { TokenDetail, TokenForm } from 'util/token-types';
+import { ModalName, NetworkType, ViewType } from 'vars/defines';
 
 import type { RootModel } from './models';
-
-const hex2ascii = (hex: string) => {
-  let ascii = '';
-  for (let i = 0; i < hex.length; i += 2)
-    ascii += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-  return ascii;
-};
 
 export type EnvironmentState = {
   theme?: ThemeName;
@@ -30,7 +23,7 @@ export type EnvironmentState = {
 
 export type Modal = {
   name: ModalName;
-  options: Record<string, unknown>;
+  options: TokenForm | Record<string, unknown>;
 };
 
 export const DEFAULT_NULL_MODAL: Modal = {
@@ -69,15 +62,15 @@ export default createModel<RootModel>()({
       const arbitrary = detail?.dataAsJson?.arbitrary;
       if (arbitrary) {
         try {
-          detail.dataAsJson.arbitraryAsJson = JSON.parse(hex2ascii(arbitrary));
+          detail.dataAsJson.arbitraryAsJson = JSON.parse(
+            Buffer.from(arbitrary, 'hex').toString('utf-8')
+          );
         } catch (e) {
           console.error(e);
         }
       }
       return dp.set(state, `tokenDetails.${detail.tokenid}`, detail);
     },
-    SET_TOKEN_CONTENT_TYPE: (state, { tokenid, type }) =>
-      dp.merge(state, `tokenDetails.${tokenid}.contentType`, type),
     SET_TOKEL_PRICE_USD: (state, tokelPriceUSD: number) => ({ ...state, tokelPriceUSD }),
     SET_LOGIN_FEEDBACK: (state, loginFeedback: string) => ({ ...state, loginFeedback }),
     SET_ERROR: (state, error: string) => ({ ...state, error }),
@@ -88,26 +81,20 @@ export default createModel<RootModel>()({
   },
   effects: () => ({
     async getTokenDetail(tokenBalances: string) {
-      Object.keys(tokenBalances).map(async tokenId =>
-        sendToBitgo(BitgoAction.TOKEN_V2_INFO_TOKEL, { tokenId })
-      );
-    },
-    async getContentType({ tokenid, url }) {
-      if (checkIsIPFSLink(url)) {
-        return this.SET_TOKEN_CONTENT_TYPE({ tokenid, type: 'ipfs' });
-      }
-      let type;
-      try {
-        type = await getContentType('head', url);
-      } catch (e) {
-        if (e.message === HTTP_ERR_405) {
-          type = await getContentType('get', url);
-        } else {
-          console.log(e);
-          return e;
-        }
-      }
-      return this.SET_TOKEN_CONTENT_TYPE({ tokenid, type });
+      // This batches infoTokel requests into chunks of 9, to be sent 1.1 seconds apart,
+      //      so the node we're connected to doesn't get mad and shuts the door on us.
+      const chunks = splitArrayInChunks(Object.keys(tokenBalances), 9);
+      let count = 1;
+      chunks.forEach(tokens => {
+        setTimeout(
+          () =>
+            tokens.forEach(async tokenId =>
+              sendToBitgo(BitgoAction.TOKEN_V2_INFO_TOKEL, { tokenId })
+            ),
+          count * 1100
+        );
+        count += 1;
+      });
     },
   }),
 });

@@ -4,15 +4,17 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { selectModalName, selectView } from 'store/selectors';
-import links from 'util/links';
 import { TOPBAR_HEIGHT_PX, ViewType } from 'vars/defines';
+import links from 'util/links';
 
-import InfoNote from 'components/_General/InfoNote';
 import Dashboard from 'components/Dashboard/Dashboard';
 import SideMenu from 'components/Home/Menu/SideMenu';
-import modals from 'components/Modal/content';
-import Modal from 'components/Modal/Modal';
+import CreateToken from 'components/CreateToken/CreateToken';
 import Settings from 'components/Settings/Settings';
+
+import Modal from 'components/Modal/Modal';
+import InfoNote from 'components/_General/InfoNote';
+import modals from 'components/Modal/content';
 
 const HomeRoot = styled.div`
   display: flex;
@@ -26,6 +28,7 @@ const ViewWrapper = styled.div`
   display: flex;
   justify-content: center;
   overflow: auto;
+  overflow-x: hidden;
 `;
 
 const getNote = (name: string) => (
@@ -52,6 +55,8 @@ const renderView = (viewType: ViewType[keyof ViewType]) => {
       return getNote('Decentralized Exchange');
     case ViewType.NFT_MARKET:
       return getNote('NFT Marketplace');
+    case ViewType.CREATE_TOKEN:
+      return <CreateToken />;
     case ViewType.SETTINGS:
       return <Settings />;
     default:
@@ -67,7 +72,11 @@ const Home = () => {
     <HomeRoot>
       <SideMenu />
       <ViewWrapper>{renderView(currentView)}</ViewWrapper>
-      {modalProps && <Modal title={modalProps.title}>{modalProps.component}</Modal>}
+      {modalProps && (
+        <Modal size={modalProps.size} title={modalProps.title}>
+          {modalProps.component}
+        </Modal>
+      )}
     </HomeRoot>
   );
 };

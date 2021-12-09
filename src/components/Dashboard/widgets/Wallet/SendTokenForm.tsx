@@ -92,7 +92,7 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
         }}
         onKeyDown={() => ''}
         value={recipient}
-        placeholder="Enter recipient TKL token pubkey"
+        placeholder={`Enter recipient ${TICKER} token pubkey`}
         width="390px"
         autoFocus
         label="Recipient"

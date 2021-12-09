@@ -53,6 +53,7 @@
         "to": ""
       },
       "index.html",
+      "externalMedia.html",
       "package.json",
       "worker.js",
       "nspv-bitgo.js",
@@ -221,6 +222,7 @@
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.0.8",
     "file-loader": "^6.0.0",
+    "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
     "import-sort-cli": "^6.0.0",
     "import-sort-style-supernotes": "^0.2.0",
@@ -274,13 +276,15 @@
     "react-dom": "^17.0.1",
     "react-minimal-pie-chart": "8.2.0",
     "react-redux": "^7.2.3",
+    "react-select": "^5.2.1",
     "react-tooltip": "4.2.15",
     "redux": "^4.0.5",
     "regenerator-runtime": "^0.13.5",
     "reselect": "^4.0.0",
     "satoshi-bitcoin": "1.0.5",
     "source-map-support": "^0.5.19",
-    "tar-stream": "^2.2.0"
+    "tar-stream": "^2.2.0",
+    "yup": "^0.32.11"
   },
   "engines": {
     "node": ">=15.x",

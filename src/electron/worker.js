@@ -16,10 +16,11 @@ const BitgoAction = {
   TOKEN_V2_ADDRESS: 'token_v2_address',
   TOKEN_V2_INFO_TOKEL: 'token_v2_info_tokel',
   TOKEN_V2_TRANSFER: 'token_v2_transfer',
+  TOKEN_V2_CREATE_TOKEL: 'token_v2_create_tokel',
 };
 
 const SATOSHIS = 100000000;
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 class BitgoSingleton {
   constructor(network) {
     this.network = network;
@@ -140,17 +141,14 @@ class BitgoSingleton {
       0
     );
     const res = {};
-    console.group('LIST_UNSPENT');
     ccUtxos.forEach(utxo => {
       if (utxo?.tokendata?.tokenid) {
         res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
+      } else if (!!utxo?.tokendata?.name && utxo?.tokendata?.funcid === 'c') {
+        // In case token was created by the wallet, but has no transactions
+        res[utxo.txid.reverse().toString('hex')] = utxo.satoshis;
       }
-      // for testing in case tokens are in the old format
-      // if (utxo?.tokeldata?.tokenid) {
-      //   res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
-      // }
     });
-    console.groupEnd();
     return {
       height: response.nodeheight,
       skipcount: response.skipcount,
@@ -261,6 +259,26 @@ class BitgoSingleton {
       destpubkey,
       tokenid,
       amount,
+    };
+  }
+
+  async [BitgoAction.TOKEN_V2_CREATE_TOKEL]({ name, supply, description, tokenData }) {
+    if (!this.connection || this.connection.length === 0) {
+      throw new Error('Not connected');
+    }
+    const tx = await cctokensv2.tokensv2CreateTokel(
+      this.connection,
+      this.network,
+      this.wif,
+      name,
+      description,
+      supply,
+      tokenData
+    );
+
+    const txResult = await this.broadcast({ txHex: tx.toHex() });
+    return {
+      ...txResult,
     };
   }
 }

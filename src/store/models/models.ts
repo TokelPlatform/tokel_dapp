@@ -12,4 +12,9 @@ export interface RootModel extends Models<RootModel> {
   currentTransaction: typeof currentTransaction;
 }
 
-export const models: RootModel = { account, environment, wallet, currentTransaction };
+export const models: RootModel = {
+  account,
+  environment,
+  wallet,
+  currentTransaction,
+};
