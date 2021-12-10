@@ -8,6 +8,7 @@ import Feedback from './Feedback';
 import Receive from './Receive';
 import Send from './Send';
 import TxDetail from './TxDetail';
+import IpfsExplainer from './IpfsExplainer';
 
 interface ModalPayloadType {
   title: string;
@@ -32,5 +33,9 @@ export default {
   [ModalName.TOKEN_CREATED]: {
     title: 'Transaction detail',
     component: <TokenCreatedTx />,
+  },
+  [ModalName.IPFS_EXPLAINER]: {
+    title: 'Store your digital media correctly',
+    component: <IpfsExplainer />,
   },
 } as ModalCollectionType;

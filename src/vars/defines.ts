@@ -70,7 +70,7 @@ export enum ModalName {
   TOKEN_SEND = 'token_send',
   CONFIRM_TOKEN_CREATION = 'confirm_token_creation',
   TOKEN_CREATED = 'token_created',
-  NFT_CREATED = 'nft_created',
+  IPFS_EXPLAINER = 'ipfs_explainer',
 }
 
 export const Config = {
@@ -124,3 +124,5 @@ export const RESERVED_TOKEL_ARBITRARY_KEYS = [
   'constellation_name',
   'number_in_constellation',
 ];
+
+export const HIDE_IPFS_EXPLAINER_KEY = 'HIDE_IPFS_EXPLAINER';

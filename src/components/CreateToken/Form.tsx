@@ -11,7 +11,7 @@ import { V } from 'util/theming';
 import { TokenForm } from 'util/token-types';
 import TokenType from 'util/types/TokenType';
 import useTokenCreationSchema from 'util/validators/useTokenCreationSchema';
-import { ModalName } from 'vars/defines';
+import { HIDE_IPFS_EXPLAINER_KEY, ModalName } from 'vars/defines';
 
 import Checkbox from 'components/_General/_FormikElements/Checkbox';
 import Field from 'components/_General/_FormikElements/Field';
@@ -82,6 +82,7 @@ const initialValues: Partial<TokenForm> = {
 const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
   const tokenTypeDisplay = tokenType === TokenType.NFT ? 'NFT' : 'Token';
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [shownIpfsNotice, setShownIpfsNotice] = useState(false);
   const tokenCreationSchema = useTokenCreationSchema();
 
   const formikBag = useFormik<Partial<TokenForm>>({
@@ -101,6 +102,20 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
   const previousTokenType = usePrevious(tokenType);
   const previousValues = usePrevious(values);
   const myCollections = useMyCollections();
+
+  const handleMediaFieldFocus = () => {
+    if (localStorage.getItem(HIDE_IPFS_EXPLAINER_KEY) || shownIpfsNotice) return;
+
+    dispatch.environment.SET_MODAL({
+      name: ModalName.IPFS_EXPLAINER,
+    });
+
+    setShownIpfsNotice(true);
+  };
+
+  useEffect(() => {
+    setShownIpfsNotice(false);
+  }, [tokenType]);
 
   useEffect(() => {
     // Persist only name, description, url and royalty if changing between fungible and NFT
@@ -189,6 +204,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               label="Media URL (optional)"
               placeholder={`Image, video, or audio URL representing your ${tokenTypeDisplay}`}
               help={`An image, video or audio file representing this ${tokenTypeDisplay}. We recommend using IPFS or other permantent file storage solution so your ${tokenTypeDisplay} doesn't get lost in time!`}
+              onFocus={handleMediaFieldFocus}
             />
 
             <Field
