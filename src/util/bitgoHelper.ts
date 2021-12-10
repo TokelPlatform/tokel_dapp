@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 
-import { BITGO_IPC_ID, NetworkType } from 'vars/defines';
+import { BITGO_IPC_ID, NetworkType } from '../vars/defines';
 
 import { CreateTokenPayload } from './token-types';
 

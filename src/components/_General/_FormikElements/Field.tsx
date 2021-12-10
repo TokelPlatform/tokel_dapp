@@ -43,6 +43,7 @@ const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({
   min,
   max,
   append,
+  onFocus,
   ...props
 }) => {
   const [field] = useField(props);
@@ -50,7 +51,11 @@ const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({
   return (
     <FieldContainer label={label} help={help} append={append} {...props}>
       {props.type === 'textarea' ? (
-        <Textarea {...field} placeholder={props.placeholder} />
+        <Textarea
+          {...field}
+          placeholder={props.placeholder}
+          onFocus={onFocus as React.FocusEventHandler<HTMLTextAreaElement>}
+        />
       ) : (
         <Input
           {...field}
@@ -60,6 +65,7 @@ const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({
           max={max}
           placeholder={props.placeholder}
           type={props.type}
+          onFocus={onFocus as React.FocusEventHandler<HTMLInputElement>}
         />
       )}
     </FieldContainer>
