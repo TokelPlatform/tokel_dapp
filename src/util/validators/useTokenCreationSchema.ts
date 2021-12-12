@@ -42,6 +42,7 @@ const useTokenCreationSchema = () => {
           .positive()
           .integer()
           .max(999999, 'ID can have a max length of 6 digits')
+          .nullable()
           .test(
             'only-numbers',
             'not a valid ID',
