@@ -1,7 +1,16 @@
 const { parentPort } = require('worker_threads');
 const sb = require('satoshi-bitcoin');
 
-const { ECPair, ccutils, general, networks, nspvConnect, cctokensv2 } = require('@tokel/nspv-js');
+const {
+  ECPair,
+  ccutils,
+  general,
+  networks,
+  nspvConnect,
+  cctokensv2,
+  ccbasic,
+  ccimp,
+} = require('@tokel/nspv-js');
 
 const BitgoAction = {
   SET_NETWORK: 'set_network',
@@ -33,6 +42,7 @@ class BitgoSingleton {
   // eslint-disable-next-line class-methods-use-this
   async [BitgoAction.RECONNECT]() {
     try {
+      ccbasic.cryptoconditions = await ccimp;
       this.connection = await nspvConnect({ network: this.network }, {});
       return true;
     } catch (e) {
