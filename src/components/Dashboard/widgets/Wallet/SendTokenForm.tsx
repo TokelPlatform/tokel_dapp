@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { selectChosenToken, selectCurrentTokenInfo, selectTokenDetails } from 'store/selectors';
+import { processPossibleBN } from 'util/helpers';
 import { FEE, ResourceType, TICKER } from 'vars/defines';
 
 import { Button, ButtonSmall } from 'components/_General/buttons';
@@ -82,7 +83,7 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
   return (
     <SendFormRoot>
       <h3>
-        {tokens[chosenToken].name} ({balance})
+        {tokens[chosenToken].name} ({processPossibleBN(balance)})
       </h3>
       <InputWithLabel
         id="recipient"

@@ -1,3 +1,4 @@
+import BN from 'bn.js';
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
@@ -24,6 +25,40 @@ export const Responsive = {
 };
 
 export const randomColor = () => `hsla(${(360 * Math.random()).toString()}, 70%, 80%, 1)`;
+
+// BN
+interface BigNumObject {
+  negative: number;
+  words: Array<number>;
+  length: number;
+  red: null;
+}
+
+const parseBigNumObject = (bnObj: BigNumObject) => {
+  const bn = new BN();
+  Object.entries(bnObj).forEach(([propName, propValue]) => {
+    bn[propName] = propValue;
+  });
+  return bn;
+};
+
+export const processPossibleBN = (value: unknown): string => {
+  if (!value) {
+    return '0';
+  }
+  if (typeof value === 'string') {
+    return value;
+  }
+  if (typeof value === 'number') {
+    return value.toString();
+  }
+  try {
+    const bigNum = parseBigNumObject(value as BigNumObject);
+    return bigNum.toString(10);
+  } catch {
+    return value.toString();
+  }
+};
 
 // IPFS
 export const extractIPFSHash = (url: string): string | null => {

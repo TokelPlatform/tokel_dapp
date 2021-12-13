@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
 import { selectCurrentTokenBalance, selectCurrentTokenInfo } from 'store/selectors';
+import { processPossibleBN } from 'util/helpers';
 import { V } from 'util/theming';
 import { Colors, ModalName, ResourceType } from 'vars/defines';
 
@@ -96,7 +97,7 @@ const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
           sections.map(section => (
             <HoldingSection key={section.label}>
               <HoldingSectionLabel>{section.label}</HoldingSectionLabel>
-              <HoldingSectionValue>{section.value}</HoldingSectionValue>
+              <HoldingSectionValue>{processPossibleBN(section.value)}</HoldingSectionValue>
             </HoldingSection>
           ))
         )}

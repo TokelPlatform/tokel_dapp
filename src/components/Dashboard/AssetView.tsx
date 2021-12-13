@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { selectTransactions, selectUnspentBalance } from 'store/selectors';
+import { processPossibleBN } from 'util/helpers';
 import { ResourceType, TICKER } from 'vars/defines';
 
 import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
@@ -28,7 +29,7 @@ const AssetView = (): ReactElement => {
   const holdings: Array<HoldingType> = [
     // { label: 'Unlocked', value: balance },
     // { label: 'Locked', value: balance },
-    { label: 'Total', value: `${balance} ${TICKER}` },
+    { label: 'Total', value: `${processPossibleBN(balance)} ${TICKER}` },
   ];
 
   return (
