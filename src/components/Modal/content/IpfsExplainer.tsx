@@ -1,12 +1,14 @@
 import React from 'react';
+
 import styled from '@emotion/styled';
-import { V } from 'util/theming';
 
 import { DEFAULT_NULL_MODAL } from 'store/models/environment';
-import { Button } from 'components/_General/buttons';
-import { Columns, Column } from 'components/_General/Grid';
 import { dispatch } from 'store/rematch';
+import { V } from 'util/theming';
 import { HIDE_IPFS_EXPLAINER_KEY } from 'vars/defines';
+
+import { Button } from 'components/_General/buttons';
+import { Column, Columns } from 'components/_General/Grid';
 
 const Header = styled.h1`
   color: ${V.color.cornflower};
@@ -33,25 +35,23 @@ const handleDoNotRemindMe = () => {
 const IpfsExplainer: React.FC = () => (
   <div>
     <Header>WARNING</Header>
-    <p>
-      This is a friendly notice to remind you to think about the long-term storage of your token
-      media.
-    </p>
+    <p>This is a friendly reminder to think about the long-term storage of your token media.</p>
     <p>
       If you add a link here to a centralized website or server, and this link breaks in the future,
       your token or NFT <b>will point to nothing</b>.
     </p>
     <Header>WHAT TO DO</Header>
     <p>
-      We recommend using IPFS for long-term storage of files. You can add an IPFS hash in this field
-      in the following way:
+      We recommend using IPFS for long-term storage of files. You can then use an IPFS hash here
+      like this:
     </p>
     <p>
       <LinkExample>ipfs://[file hash]</LinkExample>
     </p>
     <p>
-      Make sure to NOT point this field to any specific IPFS gateways you do not operate, as they
-      might not exist in the future either.
+      Make sure to NOT point this field at an IPFS <b>gateway</b> you do not operate, as they suffer
+      from the same issue as any other centralized service. Instead use an IPFS hash directly as
+      shown above.
     </p>
     <p>
       If you need help with IPFS, please refer to the{' '}
