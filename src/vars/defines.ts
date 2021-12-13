@@ -10,11 +10,6 @@ export enum IpfsAction {
   GET = 'get',
 }
 
-export enum NetworkType {
-  TOKEL = 'tokel',
-  TKLTEST = 'tkltest',
-}
-
 export const TOKEL_PRICE_URL = 'https://api.coinpaprika.com/v1/tickers/tkl-tokel';
 export const TOKEL_PRICE_UPDATE_PERIOD_MS = 10_000;
 
@@ -23,8 +18,15 @@ export const PORTFOLIO_ITEM_HEIGHT_PX = 86;
 export const FEE = 0.0001;
 export const FIAT_CURRENCY = 'USD';
 export const USD_VALUE = 5;
-export const IS_DEV = process.env.NODE_ENV === 'development';
+export const IS_DEV = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 export const IS_PROD = process.env.NODE_ENV === 'production';
+
+export enum NetworkType {
+  TOKEL = 'TOKEL',
+  TKLTEST = 'TKLTEST',
+}
+
+export const DEFAULT_NETWORK = IS_DEV ? NetworkType.TKLTEST : NetworkType.TOKEL;
 
 export const EXTRACT_IPFS_HASH_REGEX =
   /^(?:https:\/\/ipfs.io\/ipfs\/|ipfs:\/\/|dweb:\/\/)([a-zA-Z0-9]{46})/;

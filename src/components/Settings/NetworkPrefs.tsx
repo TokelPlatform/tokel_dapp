@@ -80,10 +80,10 @@ const SaveButton = styled(Button)`
   margin-right: 20px;
 `;
 
-const networkOptions = [
-  { label: 'TOKEL', value: NetworkType.TOKEL },
-  { label: 'TKLTEST', value: NetworkType.TKLTEST },
-];
+const networkOptions = Object.values(NetworkType).map(networkName => ({
+  label: networkName,
+  value: networkName,
+}));
 
 const NetworkPrefs = () => {
   const networkPrefs = useSelector(selectNetworkPrefs);

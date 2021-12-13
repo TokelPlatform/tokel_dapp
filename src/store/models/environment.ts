@@ -5,7 +5,7 @@ import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { splitArrayInChunks } from 'util/helpers';
 import { ThemeName, themeNames } from 'util/theming';
 import { TokenDetail, TokenForm } from 'util/token-types';
-import { ModalName, NetworkType, ViewType } from 'vars/defines';
+import { DEFAULT_NETWORK, ModalName, NetworkType, ViewType } from 'vars/defines';
 
 import type { RootModel } from './models';
 
@@ -49,7 +49,7 @@ export default createModel<RootModel>()({
     nspvStatus: true,
     networkPrefs: {
       show: false,
-      network: 'tokel',
+      network: DEFAULT_NETWORK,
       overrides: {},
     },
   } as EnvironmentState,
