@@ -20,5 +20,5 @@ test('Can login with valid WIF', async t => {
     .typeText(wifInput, TEST_KEY)
     .click(loginButton)
     .expect(sideMenu.exists)
-    .ok({ timeout: 4000 });
+    .ok({ timeout: 10000 });
 });
