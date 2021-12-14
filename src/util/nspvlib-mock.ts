@@ -1,3 +1,5 @@
+import BN from 'bn.js';
+
 export const getNewAddress = async (fail = false) => {
   if (fail) {
     throw new Error('Incorrect login details');
@@ -46,6 +48,7 @@ export interface UnspentType {
   lastpeer: string;
   tokens: { [key: string]: number };
 }
+
 export interface TokenUtxoDataType {
   evalcode: number;
   version: number;
@@ -56,7 +59,7 @@ export interface TokenUtxoDataType {
 export interface TxType {
   height?: number;
   txid?: string;
-  value: number;
+  value: BN;
   vin?: number;
   received?: boolean;
   recipient?: string;

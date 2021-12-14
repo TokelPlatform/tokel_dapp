@@ -66,7 +66,11 @@ export default createModel<RootModel>()({
             Buffer.from(arbitrary, 'hex').toString('utf-8')
           );
         } catch (e) {
-          console.error(e);
+          if (e instanceof SyntaxError) {
+            detail.dataAsJson.arbitraryAsJson = {};
+          } else {
+            console.error(e);
+          }
         }
       }
       return dp.set(state, `tokenDetails.${detail.tokenid}`, detail);

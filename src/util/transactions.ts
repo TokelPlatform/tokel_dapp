@@ -3,6 +3,7 @@ import { toSatoshi } from 'satoshi-bitcoin';
 import { TICKER, USD_VALUE } from 'vars/defines';
 
 import { getUnixTimestamp } from './helpers';
+import { TxType } from './nspvlib-mock';
 
 export const parseBlockchainTransaction = (tx, address: string) => {
   const iAmSender = tx.senders.find(s => s === address);
@@ -25,13 +26,13 @@ export const parseBlockchainTransaction = (tx, address: string) => {
  * @param tx spend.tx
  * @returns
  */
-export const parseSpendTx = (newtx, from) => {
+export const parseSpendTx = (newtx: TxType, from) => {
   return {
     received: false,
     unconfirmed: true,
     txid: newtx.txid,
     // height: newtx.tx.height ?? 'TBA',
-    value: toSatoshi(newtx.value),
+    value: toSatoshi(newtx.value.toString()),
     recipient: newtx.recipient,
     senders: [from],
     timestamp: getUnixTimestamp(),

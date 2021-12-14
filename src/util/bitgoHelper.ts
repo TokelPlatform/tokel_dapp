@@ -1,7 +1,6 @@
 import { ipcRenderer } from 'electron';
 
 import { BITGO_IPC_ID, NetworkType } from '../vars/defines';
-
 import { CreateTokenPayload } from './token-types';
 
 export enum BitgoAction {
@@ -32,7 +31,7 @@ export type BitgoMessageParamList = {
   [BitgoAction.LOGOUT]: undefined;
   [BitgoAction.LIST_UNSPENT]: { address: string };
   [BitgoAction.LIST_TRANSACTIONS]: { address: string; skipCount?: number };
-  [BitgoAction.SPEND]: { address: string; amount: number };
+  [BitgoAction.SPEND]: { address: string; amount: string };
   [BitgoAction.BROADCAST]: { txHex: string };
   [BitgoAction.TOKEN_V2_ADDRESS]: undefined;
   [BitgoAction.TOKEN_V2_INFO_TOKEL]: { tokenId: string };

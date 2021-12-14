@@ -140,10 +140,12 @@ const ActivityList = ({ transactions = [], resourceType }: ActivityListProps): R
                 secondary={activityData.secondary}
               />
               <TriCell
-                primary={` ${tx.received ? '+' : '-'}${toBitcoinAmount(tx.value)} ${TICKER}`}
+                primary={` ${tx.received ? '+' : '-'}${toBitcoinAmount(
+                  tx.value.toString()
+                )} ${TICKER}`}
                 secondary={
                   resourceType === ResourceType.TOKEL
-                    ? `$${getUsdValue(tx.value, tokelPriceUSD)}`
+                    ? `$${getUsdValue(tx.value.toString(), tokelPriceUSD)}`
                     : ''
                 }
                 justify="flex-end"

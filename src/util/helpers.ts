@@ -35,7 +35,7 @@ interface BigNumObject {
 }
 
 const parseBigNumObject = (bnObj: BigNumObject) => {
-  const bn = new BN();
+  const bn = new BN(0);
   Object.entries(bnObj).forEach(([propName, propValue]) => {
     bn[propName] = propValue;
   });
@@ -72,19 +72,19 @@ export const extractIPFSHash = (url: string): string | null => {
 
 // Number().toString() to cut down unnecessary trailing 0s
 export const formatDec = (num: number) => {
-  return Number(num.toFixed(Config.DECIMAL)).toString();
+  return num.toFixed(Config.DECIMAL);
 };
 
-export const toBitcoinAmount = (amount: number | string): string => {
-  const value = toBitcoin(String(amount));
-  return Number(value.toFixed(Config.DECIMAL)).toString();
+export const toBitcoinAmount = (amount: string): string => {
+  const value = toBitcoin(amount);
+  return value.toFixed(Config.DECIMAL);
 };
 
-export const getUsdValue = (amountInSatoshi: number, tokelPriceUSD: number) =>
+export const getUsdValue = (amountInSatoshi: string, tokelPriceUSD: number) =>
   (toBitcoin(amountInSatoshi) * tokelPriceUSD).toFixed(2);
 
 export const formatFiat = (num: number) => {
-  return Number(num.toFixed(Config.DECIMAL_FIAT)).toString();
+  return num.toFixed(Config.DECIMAL_FIAT);
 };
 
 export const limitLength = (value: string, len: number) => value.substr(0, len);

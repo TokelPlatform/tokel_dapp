@@ -1,5 +1,6 @@
 const { parentPort } = require('worker_threads');
 const sb = require('satoshi-bitcoin');
+const BN = require('bn.js');
 
 const {
   ECPair,
@@ -233,13 +234,16 @@ class BitgoSingleton {
 
   // eslint-disable-next-line consistent-return
   async [BitgoAction.SPEND]({ address, amount }) {
+    const amountInSatoshi = sb.toSatoshi(amount);
+    const satoshiBigNum = new BN(amountInSatoshi);
+    const amountBigNum = new BN(amount);
     if (!this.connection || this.connection.length === 0) {
       throw new Error('Not connected');
     }
     const txHex = await general.create_normaltx(
       this.wif,
       address,
-      sb.toSatoshi(Number(amount)),
+      satoshiBigNum,
       this.network,
       this.connection
     );
@@ -247,7 +251,7 @@ class BitgoSingleton {
     return {
       ...txResult,
       address,
-      amount,
+      amount: amountBigNum,
     };
   }
 

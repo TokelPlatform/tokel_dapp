@@ -28,8 +28,8 @@ const Send = () => {
   const sender = options.type === ResourceType.TOKEL ? myAddress : mypubkey;
 
   const [confirmation, setConfirmation] = useState(false);
-  const [recipient, setRecipient] = useState(null);
-  const [amountToSend, setAmountToSend] = useState(null);
+  const [recipient, setRecipient] = useState<string>(null);
+  const [amountToSend, setAmountToSend] = useState<string>(null);
 
   const handleSubmit = (address: string, amount: string) => {
     dispatch.currentTransaction.RESET_TX();
@@ -37,7 +37,7 @@ const Send = () => {
     setAmountToSend(amount);
     setConfirmation(true);
     try {
-      sendToBitgo(BitgoAction.SPEND, { address, amount: Number(amount) });
+      sendToBitgo(BitgoAction.SPEND, { address, amount: amount.toString() });
     } catch (e) {
       console.error(e);
     }
@@ -46,7 +46,7 @@ const Send = () => {
   const handleTokenSubmit = (destpubkey: string, tokenid: string, amount: number) => {
     dispatch.currentTransaction.RESET_TX();
     setRecipient(destpubkey);
-    setAmountToSend(amount);
+    setAmountToSend(amount.toString());
     setConfirmation(true);
     try {
       sendToBitgo(BitgoAction.TOKEN_V2_TRANSFER, { destpubkey, tokenid, amount });

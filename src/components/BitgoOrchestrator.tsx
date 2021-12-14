@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import BN from 'bn.js';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 
@@ -70,7 +71,7 @@ const BitgoOrchestrator = () => {
             recipient: payload.data.address,
             from: [myAddress],
             timestamp: getUnixTimestamp(),
-            value: Number(payload.data.amount),
+            value: new BN(payload.data.amount),
             unconfirmed: true,
           });
           dispatch.currentTransaction.SET_TX_ID(payload.data.txid);
