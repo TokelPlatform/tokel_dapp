@@ -1,6 +1,10 @@
 import { CreateTokenPayload, TokenForm } from './token-types';
 
 const formatTokenFormIntoStandard = (token: TokenForm): CreateTokenPayload => {
+  Object.keys(token.arbitraryAsJson).forEach(key => {
+    if (!token.arbitraryAsJson[key]) delete token.arbitraryAsJson[key];
+  });
+
   const arbitrary = token.arbitraryAsJsonUnformatted.reduce(
     (arb, { key, value }) => ({ ...arb, [key]: value }),
     // Make sure our own arbitrary information takes precedence over any other arbitrary key defined by user
