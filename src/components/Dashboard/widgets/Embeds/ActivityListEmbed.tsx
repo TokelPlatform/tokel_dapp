@@ -10,7 +10,7 @@ import receiveIcon from 'assets/receiveIcon.svg';
 import withdrawIcon from 'assets/withdrawIcon.svg';
 import { dispatch } from 'store/rematch';
 import { selectTokelPriceUSD } from 'store/selectors';
-import { formatDate, getUsdValue, toBitcoinAmount } from 'util/helpers';
+import { formatDate, getUsdValue, toBitcoinAmount, processPossibleBN } from 'util/helpers';
 import { TxType } from 'util/nspvlib-mock';
 import { V } from 'util/theming';
 import { ModalName, ResourceType, TICKER } from 'vars/defines';
@@ -141,11 +141,11 @@ const ActivityList = ({ transactions = [], resourceType }: ActivityListProps): R
               />
               <TriCell
                 primary={` ${tx.received ? '+' : '-'}${toBitcoinAmount(
-                  tx.value.toString()
+                  processPossibleBN(tx.value)
                 )} ${TICKER}`}
                 secondary={
                   resourceType === ResourceType.TOKEL
-                    ? `$${getUsdValue(tx.value.toString(), tokelPriceUSD)}`
+                    ? `$${getUsdValue(processPossibleBN(tx.value), tokelPriceUSD)}`
                     : ''
                 }
                 justify="flex-end"

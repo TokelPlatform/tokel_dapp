@@ -20,6 +20,7 @@ export const FIAT_CURRENCY = 'USD';
 export const USD_VALUE = 5;
 export const IS_DEV = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 export const IS_PROD = process.env.NODE_ENV === 'production';
+export const SATOSHIS = 100000000;
 
 export enum NetworkType {
   TOKEL = 'TOKEL',
