@@ -18,7 +18,7 @@ import { Responsive } from 'util/helpers';
 import formatTokenFormIntoStandard from 'util/formatTokenFormIntoStandard';
 import { V } from 'util/theming';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
-import { FEE, ModalName, TICKER } from 'vars/defines';
+import { FEE, ModalName, TICKER, TOKEN_MARKER_FEE } from 'vars/defines';
 import TokenType from 'util/types/TokenType';
 
 const MediaPreviewContainer = styled.div`
@@ -80,7 +80,7 @@ const ConfirmTokenCreationModal: React.FC = () => {
     const tokenTypeName = tokenType === TokenType.NFT ? 'NFT' : 'token';
     const tokenTypeNameCapitalized = tokenType === TokenType.NFT ? 'NFT' : 'Token';
 
-    const cost = toBitcoin(String(toSatoshi(FEE) + Number(token.supply)));
+    const cost = toBitcoin(String(toSatoshi(FEE + TOKEN_MARKER_FEE) + Number(token.supply)));
 
     const collectionAttributes =
       tokenType === TokenType.NFT

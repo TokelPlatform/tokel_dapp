@@ -16,6 +16,7 @@ export const TOKEL_PRICE_UPDATE_PERIOD_MS = 10_000;
 export const TOPBAR_HEIGHT_PX = 38;
 export const PORTFOLIO_ITEM_HEIGHT_PX = 86;
 export const FEE = 0.0001;
+export const TOKEN_MARKER_FEE = 0.0001;
 export const FIAT_CURRENCY = 'USD';
 export const USD_VALUE = 5;
 export const IS_DEV = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
