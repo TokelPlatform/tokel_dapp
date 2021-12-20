@@ -256,7 +256,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
             <MultiKeyValue
               name="arbitraryAsJsonUnformatted"
               label="Custom Attributes (optional)"
-              help={`You can use this field to add any property to your ${tokenTypeDisplay}, in a key-value fashion. Think of attributes like strenght, luck, color, etc.`}
+              help={`You can use this field to add any property to your ${tokenTypeDisplay}, in a key-value fashion. Think of attributes like strength, luck, color, etc.`}
             />
           </Column>
         </Columns>
