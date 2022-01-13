@@ -25,7 +25,7 @@ export const SATOSHIS = 100000000;
 
 export enum NetworkType {
   TOKEL = 'TOKEL',
-  TKLTEST = 'TKLTEST',
+  TKLTEST = 'TKLTEST2',
 }
 
 export const DEFAULT_NETWORK = IS_DEV ? NetworkType.TKLTEST : NetworkType.TOKEL;
