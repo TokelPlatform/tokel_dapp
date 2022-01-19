@@ -52,7 +52,7 @@ Make sure you are runing node 15.
 yarn
 ```
 
-The application is using [libnspv](https://github.com/KomodoPlatform/libnspv).
+The application is using [nspv-js](https://github.com/tokelPlatform/nspv-js/).
 
 
 ## Starting Development
@@ -81,7 +81,7 @@ The `tokel_app` project has a Github Action which allows builds for Linux/Mac/Wi
 
 ## Docs
 
-### Libnspv
+### nSPV
 
 [SPV technology](https://hackernoon.com/spv-proofs-explained-qd1p3r1q)
 [Bitcoin Wiki - SPV](https://en.bitcoin.it/wiki/Scalability#Simplified_payment_verification)
