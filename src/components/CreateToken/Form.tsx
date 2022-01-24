@@ -203,7 +203,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               type="text"
               label="Media URL (optional)"
               placeholder={`Image, video, or audio URL representing your ${tokenTypeDisplay}`}
-              help={`An image, video or audio file representing this ${tokenTypeDisplay}. We recommend using IPFS or other permantent file storage solution so your ${tokenTypeDisplay} doesn't get lost in time!`}
+              help={`An image, video or audio file representing this ${tokenTypeDisplay}. We recommend using IPFS or other permanent file storage solution so your ${tokenTypeDisplay} doesn't get lost in time!`}
               onFocus={handleMediaFieldFocus}
             />
 
@@ -212,7 +212,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
               type="number"
               label="Royalty (optional)"
               placeholder="0"
-              help={`Anytime this ${tokenTypeDisplay} is sold through the Tokel DEX, you can make a comission, even if you're not participating in the sale. Can range from 1% to 99.9%`}
+              help={`Anytime this ${tokenTypeDisplay} is sold through the Tokel DEX, you can make a commission, even if you're not participating in the sale. Can range from 1% to 99.9%`}
               append="%"
             />
 
