@@ -1,4 +1,5 @@
 const IPFS = require('ipfs-core');
+const { Multiaddr } = require('multiaddr');
 
 const tar = require('tar-stream');
 const toStream = require('it-to-stream');
@@ -8,6 +9,19 @@ const IpfsAction = {
   GET_IPFS_IMAGE_DATA: 'get',
   STOP: 'stop',
 };
+
+// TODO move to user settings?
+const IPFS_SEED_PEERS = [
+  '/ip6/2606:4700:60::6/tcp/4009/ipfs/QmcfgsJsMtx6qJb74akCw1M24X1zFwgGo11h1cuhwQjtJP',
+  '/ip4/172.65.0.13/tcp/4009/ipfs/QmcfgsJsMtx6qJb74akCw1M24X1zFwgGo11h1cuhwQjtJP',
+  '/ip4/145.40.69.133/tcp/4001/ipfs/12D3KooWMZmMp9QwmfJdq3aXXstMbTCCB3FTWv9SNLdQGqyPMdUw',
+  '/ip4/147.75.32.99/tcp/4001/ipfs/12D3KooWMSrRXHgbBTsNGfxG1E44fLB6nJ5wpjavXj4VGwXKuz9X',
+  '/ip4/145.40.69.171/tcp/4001/ipfs/12D3KooWCpu8Nk4wmoXSsVeVSVzVHmrwBnEoC9jpcVpeWP7n67Bt',
+  '/dnsaddr/nyc1-2.hostnodes.pinata.cloud/ipfs/QmPySsdmbczdZYBpbi2oq2WMJ8ErbfxtkG8Mo192UHkfGP',
+  '/dnsaddr/fra1-1.hostnodes.pinata.cloud/ipfs/QmWaik1eJcGHq1ybTWe7sezRfqKNcDRNkeBaLnGwQJz1Cj',
+  '/dns4/nft-storage-am6.nft.dwebops.net/tcp/18402/ipfs/12D3KooWCRscMgHgEo3ojm8ovzheydpvTEqsDtq7Vby38cMHrYjt',
+  '/ip4/139.178.69.155/tcp/4001/ipfs/12D3KooWR19qPPiZH4khepNjS3CLXiB7AbrbAD4ZcDjN1UjGUNE1',
+];
 
 const log = (...messages) => {
   console.group('IPFS NODE (IPFS HELPER)');
@@ -29,6 +43,9 @@ class IpfsNodeSingleton {
       const node = await IPFS.create();
       log('IPFS node created');
       this.node = node;
+
+      log('Adding IPFS peers');
+      IPFS_SEED_PEERS.forEach(peer => this.node.swarm.connect(new Multiaddr(peer)));
       return 0;
     } catch (e) {
       log('IPFS node creation error', e);
@@ -69,11 +86,7 @@ class IpfsNodeSingleton {
       });
 
       log('Starting stream', ipfsId);
-      const stream = toStream(
-        this.node.get(ipfsId, {
-          length: 100,
-        })
-      );
+      const stream = toStream(this.node.get(ipfsId));
 
       stream.pipe(extract);
     });

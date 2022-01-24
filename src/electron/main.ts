@@ -27,7 +27,7 @@ import { BITGO_IPC_ID, IPFS_IPC_ID, VERSIONS_MSG, WindowControl } from '../vars/
 import MenuBuilder from './menu';
 import packagejson from './package.json';
 
-const ipfsNode = require('./ipfsHelper');
+import ipfsNode from './ipfsHelper';
 
 // loading BitGo and Wasm Cryptoconditions in a separate process
 const workerPath = path.join(app.getAppPath(), 'worker.js');
@@ -79,7 +79,7 @@ ipcMain.on(IPFS_IPC_ID, async (event, msg) => {
   console.group('IPFS (RENDERER -> [MAIN])');
   console.log(msg);
   console.groupEnd();
-  const result = await ipfsNode.default[msg.type](msg.payload);
+  const result = await ipfsNode[msg.type](msg.payload);
   event.reply(IPFS_IPC_ID, { type: msg.type, payload: result });
 });
 
@@ -169,6 +169,11 @@ const createWindow = async () => {
   mainWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault();
     shell.openExternal(url);
+  });
+
+  mainWindow.on('close', () => {
+    if (ipfsNode.node) ipfsNode.node.stop();
+    console.log('IPFS node stopped');
   });
 
   // eslint-disable-next-line no-new

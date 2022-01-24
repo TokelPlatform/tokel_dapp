@@ -10,6 +10,9 @@ export enum IpfsAction {
   GET = 'get',
 }
 
+// TODO move to user settings?
+export const DEFAULT_IPFS_FALLBACK_GATEWAY = 'https://ipfs.io/ipfs';
+
 export const TOKEL_PRICE_URL = 'https://api.coinpaprika.com/v1/tickers/tkl-tokel';
 export const TOKEL_PRICE_UPDATE_PERIOD_MS = 10_000;
 

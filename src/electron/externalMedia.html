@@ -1,115 +1,121 @@
 <html>
-
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .loading {
-      width: 200px;
-      height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .loading>div {
-      height: 30px;
-      width: 30px;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      background: linear-gradient(0deg, rgba(63, 249, 220, 0.1) 33%, #3ff9dc 100%);
-      animation: spin 0.8s linear 0s infinite;
-    }
-
-    .loading>div>span {
-      width: 90%;
-      height: 90%;
-      background-color: hsla(214, 32%, 18%, 1);
-      border-radius: 50%;
-    }
-
-    @keyframes spin {
-      from {
-        transform: rotate(0);
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
       }
 
-      to {
-        transform: rotate(359deg);
+      .loading {
+        width: 200px;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-    }
-  </style>
-  <script type="text/javascript">
-    window.onload = function () {
-      window.addEventListener(
-        'message',
-        async event => {
-          console.group('Rendering External Media');
-          const mediaUrl = event.data.mediaUrl;
-          const width = event.data.width;
 
-          console.log('Received message. Width', width);
+      .loading > div {
+        height: 30px;
+        width: 30px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background: linear-gradient(0deg, rgba(63, 249, 220, 0.1) 33%, #3ff9dc 100%);
+        animation: spin 0.8s linear 0s infinite;
+      }
 
-          let mediaType = mediaUrl?.includes(';base64,')
-            ? mediaUrl?.split(';base64,')[0].replace('data:', '')
-            : undefined;
+      .loading > div > span {
+        width: 90%;
+        height: 90%;
+        background-color: hsla(214, 32%, 18%, 1);
+        border-radius: 50%;
+      }
 
-          window.document.getElementById('mediaWrapper').style.maxWidth = `${width}px`;
+      @keyframes spin {
+        from {
+          transform: rotate(0);
+        }
 
-          try {
-            mediaType = (await fetch(mediaUrl, { method: 'HEAD' })).headers
-              .get('content-type')
-              ?.split('/')?.[0];
+        to {
+          transform: rotate(359deg);
+        }
+      }
+    </style>
+    <script type="text/javascript">
+      window.onload = function () {
+        window.addEventListener(
+          'message',
+          async event => {
+            console.group('Rendering External Media');
+            const mediaUrl = event.data.mediaUrl;
+            const width = event.data.width;
 
-            if (!mediaType)
-              mediaType = (await fetch(mediaUrl, { method: 'GET' })).headers
-                .get('content-type')
-                ?.split('/')?.[0];
+            console.log('Received message. Width:', width, 'Media URL:', mediaUrl);
 
-            console.log('Media Type', mediaType);
+            let mediaType = mediaUrl?.includes(';base64,')
+              ? mediaUrl?.split(';base64,')[0].replace('data:', '')
+              : undefined;
 
-            if (mediaType?.includes('image')) {
+            window.document.getElementById('mediaWrapper').style.maxWidth =
+              width > 0 ? `${width}px` : undefined;
+
+            if (!mediaUrl || !mediaUrl.length) {
               window.document.getElementById(
                 'mediaWrapper'
-              ).innerHTML = `<img width="100%" height="auto" src="${mediaUrl}" />`;
-            } else if (mediaType?.includes('video')) {
-              window.document.getElementById(
-                'mediaWrapper'
-              ).innerHTML = `<video width="100%" height="auto" mute autoplay loop controls style="outline: none;"><source src="${mediaUrl}" /></video>`;
-            } else if (mediaType?.includes('audio')) {
-              window.document.getElementById(
-                'mediaWrapper'
-              ).innerHTML = `<audio width="100%" height="auto" controls style="outline: none;"><source src="${mediaUrl}" /></audio>`;
+              ).innerHTML = `<div class="loading"><div><span /></div></div>`;
+              console.log('No media passed. Spinning');
             } else {
-              // Its not media, so hide loader
-              window.document.getElementById('mediaWrapper').innerHTML = ``;
+              try {
+                mediaType = (await fetch(mediaUrl, { method: 'HEAD' })).headers
+                  .get('content-type')
+                  ?.split('/')?.[0];
+
+                if (!mediaType)
+                  mediaType = (await fetch(mediaUrl, { method: 'GET' })).headers
+                    .get('content-type')
+                    ?.split('/')?.[0];
+
+                console.log('Media Type', mediaType);
+
+                if (mediaType?.includes('image')) {
+                  window.document.getElementById(
+                    'mediaWrapper'
+                  ).innerHTML = `<img width="100%" height="auto" src="${mediaUrl}" />`;
+                } else if (mediaType?.includes('video')) {
+                  window.document.getElementById(
+                    'mediaWrapper'
+                  ).innerHTML = `<video width="100%" height="auto" mute autoplay loop controls style="outline: none;"><source src="${mediaUrl}" /></video>`;
+                } else if (mediaType?.includes('audio')) {
+                  window.document.getElementById(
+                    'mediaWrapper'
+                  ).innerHTML = `<audio width="100%" height="auto" controls style="outline: none;"><source src="${mediaUrl}" /></audio>`;
+                } else {
+                  // Its not media, so hide loader
+                  window.document.getElementById('mediaWrapper').innerHTML = ``;
+                }
+              } catch (error) {
+                console.error(error);
+                window.document.getElementById('mediaWrapper').innerHTML = ``;
+              }
             }
-          } catch (error) {
-            console.error(error);
-            window.document.getElementById('mediaWrapper').innerHTML = ``;
-          }
-          console.groupEnd();
-        },
-        false
-      );
-    };
-  </script>
-</head>
+            console.groupEnd();
+          },
+          false
+        );
+      };
+    </script>
+  </head>
 
-<body>
-  <div id="mediaWrapper">
-    <div class="loading">
-      <div><span /></div>
+  <body>
+    <div id="mediaWrapper">
+      <div class="loading">
+        <div><span /></div>
+      </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>
