@@ -5,7 +5,7 @@ import { ipcRenderer } from 'electron';
 
 import { Responsive, extractIPFSHash } from 'util/helpers';
 import { V } from 'util/theming';
-import { IPFS_IPC_ID, IpfsAction } from 'vars/defines';
+import { IPFS_IPC_ID, IpfsAction, DEFAULT_IPFS_FALLBACK_GATEWAY } from 'vars/defines';
 
 const MediaContent = styled.div`
   overflow-y: auto;
@@ -41,11 +41,9 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   const ipfsId = useMemo(() => extractIPFSHash(url), [url]);
 
   useEffect(() => {
-    if (!url) {
-      setIframeLoaded(false);
-      setIframeHeight('unset');
-      setMediaUrl(null);
-    }
+    setIframeHeight('unset');
+    setMediaUrl(null);
+    iframeRef.current?.contentWindow.postMessage({ mediaUrl: '', width: 0 });
   }, [url]);
 
   // Request IPFS file if it's an IPFS link. Set link meanwhile anyway
@@ -57,8 +55,12 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
           ipfsId,
         },
       });
+
+      // Set fallback in case IPFS data never streams to our node
+      setMediaUrl(`${DEFAULT_IPFS_FALLBACK_GATEWAY}/${ipfsId}`);
+    } else {
+      setMediaUrl(url);
     }
-    setMediaUrl(url);
   }, [url, ipfsId]);
 
   // Listen for IPFS files
