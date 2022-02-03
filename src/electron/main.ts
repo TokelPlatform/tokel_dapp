@@ -171,6 +171,11 @@ const createWindow = async () => {
     shell.openExternal(url);
   });
 
+  mainWindow.on('close', () => {
+    if (ipfsNode.default.node) ipfsNode.default.node.stop();
+    console.log('IPFS node stopped');
+  });
+
   // eslint-disable-next-line no-new
   // new AppUpdater();
 };

@@ -2,9 +2,9 @@ import BN from 'bn.js';
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
-import { toBitcoin } from 'satoshi-bitcoin';
+import BigNumObject from 'util/types/BigNum';
 
-import { Config, EXTRACT_IPFS_HASH_REGEX, WindowSize } from 'vars/defines';
+import { Config, EXTRACT_IPFS_HASH_REGEX, SATOSHIS, WindowSize } from 'vars/defines';
 
 interface ResponsiveType {
   XL: string;
@@ -25,14 +25,6 @@ export const Responsive = {
 };
 
 export const randomColor = () => `hsla(${(360 * Math.random()).toString()}, 70%, 80%, 1)`;
-
-// BN
-interface BigNumObject {
-  negative: number;
-  words: Array<number>;
-  length: number;
-  red: null;
-}
 
 const parseBigNumObject = (bnObj: BigNumObject) => {
   const bn = new BN(0);
@@ -75,13 +67,22 @@ export const formatDec = (num: number) => {
   return num.toFixed(Config.DECIMAL);
 };
 
-export const toBitcoinAmount = (amount: string): string => {
-  const value = toBitcoin(amount);
-  return value.toFixed(Config.DECIMAL);
+export const toBitcoinAmount = (amountInSatoshi: string): string => {
+  const bnAmountInSatoshi = new BN(amountInSatoshi);
+  const bnSatoshis = new BN(SATOSHIS);
+  let value;
+
+  if (bnAmountInSatoshi.lt(bnSatoshis)) {
+    value = parseInt(amountInSatoshi, 10) / SATOSHIS;
+  } else {
+    value = bnAmountInSatoshi.div(bnSatoshis).toNumber(); // Okay to do toNumber as we're dealing with TKL and not satoshis
+  }
+
+  return Number(value.toFixed(Config.DECIMAL)).toString();
 };
 
 export const getUsdValue = (amountInSatoshi: string, tokelPriceUSD: number) =>
-  (toBitcoin(amountInSatoshi) * tokelPriceUSD).toFixed(2);
+  (parseInt(toBitcoinAmount(amountInSatoshi), 10) * tokelPriceUSD).toFixed(2);
 
 export const formatFiat = (num: number) => {
   return num.toFixed(Config.DECIMAL_FIAT);
