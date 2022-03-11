@@ -1,55 +1,19 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import styled from '@emotion/styled';
-import TokenType from 'util/types/TokenType';
-import { V } from 'util/theming';
-
-import Icon from 'components/_General/_UIElements/Icon';
 
 import infoIcon from 'assets/friendlyWarning.svg';
 import nftIcon from 'assets/Star.svg';
-import tokenMenuIcon from 'assets/Token.svg';
 import tokenIcon from 'assets/Token-alt.svg';
-
-import { Column, Columns } from 'components/_General/Grid';
+import tokenMenuIcon from 'assets/Token.svg';
 import { Responsive } from 'util/helpers';
+import { V } from 'util/theming';
+import TokenType from 'util/types/TokenType';
+
+import { Box, Layout } from 'components/_General/_UIElements/common';
+import Icon from 'components/_General/_UIElements/Icon';
+import { Column } from 'components/_General/Grid';
 import CreateTokenForm from './Form';
-
-// dashboard root in dashboard.tsx
-const Layout = styled(Columns)`
-  background-color: ${V.color.backHard};
-  padding: 18px;
-  overflow-x: hidden;
-
-  ${Column}:last-child {
-    ${Responsive.above.L} {
-      padding-left: 18px;
-    }
-
-    ${Responsive.below.L} {
-      padding-top: 18px;
-    }
-  }
-`;
-
-// widgetcontainer in common.tsx
-const Box = styled.div<{ flex?: boolean }>`
-  background-color: ${V.color.back};
-  border: 1px solid ${V.color.backSofter};
-  border-radius: ${V.size.borderRadius};
-
-  ${props =>
-    props.flex &&
-    `
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-  `}
-
-  height: 100%;
-  padding: 35px;
-`;
 
 const HelperWidget = styled(Box)`
   height: 215px;

@@ -4,17 +4,17 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { selectModalName, selectView } from 'store/selectors';
-import { TOPBAR_HEIGHT_PX, ViewType } from 'vars/defines';
 import links from 'util/links';
+import { TOPBAR_HEIGHT_PX, ViewType } from 'vars/defines';
 
+import InfoNote from 'components/_General/InfoNote';
+import CreateToken from 'components/CreateToken/CreateToken';
 import Dashboard from 'components/Dashboard/Dashboard';
 import SideMenu from 'components/Home/Menu/SideMenu';
-import CreateToken from 'components/CreateToken/CreateToken';
-import Settings from 'components/Settings/Settings';
-
-import Modal from 'components/Modal/Modal';
-import InfoNote from 'components/_General/InfoNote';
+import Marketplace from 'components/Marketplace/Marketplace';
 import modals from 'components/Modal/content';
+import Modal from 'components/Modal/Modal';
+import Settings from 'components/Settings/Settings';
 
 const HomeRoot = styled.div`
   display: flex;
@@ -53,8 +53,8 @@ const renderView = (viewType: ViewType[keyof ViewType]) => {
       return <Dashboard />;
     case ViewType.DEX:
       return getNote('Decentralized Exchange');
-    case ViewType.NFT_MARKET:
-      return getNote('NFT Marketplace');
+    case ViewType.MARKETPLACE:
+      return <Marketplace />;
     case ViewType.CREATE_TOKEN:
       return <CreateToken />;
     case ViewType.SETTINGS:

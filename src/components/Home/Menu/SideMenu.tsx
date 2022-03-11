@@ -9,7 +9,6 @@ import DashIcon from 'assets/Dash.svg';
 import SwapIcon from 'assets/Swap.svg';
 import ToggleIcon from 'assets/Toggle.svg';
 import TokenIcon from 'assets/Token.svg';
-
 import { dispatch } from 'store/rematch';
 import { selectView } from 'store/selectors';
 import { VERSIONS_MSG, ViewType } from 'vars/defines';
@@ -34,8 +33,8 @@ export const menuData = [
     icon: SwapIcon,
   },
   {
-    type: ViewType.NFT_MARKET,
-    name: 'NFT Market',
+    type: ViewType.MARKETPLACE,
+    name: 'Marketplace',
     icon: BagIcon,
   },
   {

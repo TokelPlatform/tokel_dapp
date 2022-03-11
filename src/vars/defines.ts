@@ -64,7 +64,7 @@ export const WindowControl = {
 export enum ViewType {
   DASHBOARD = 'dashboard',
   DEX = 'dex',
-  NFT_MARKET = 'nft_market',
+  MARKETPLACE = 'marketplace',
   CREATE_TOKEN = 'create_token',
   SETTINGS = 'settings',
 }
