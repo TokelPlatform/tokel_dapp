@@ -4,6 +4,7 @@ import { Responsive } from 'util/helpers';
 import { V } from 'util/theming';
 
 import { Column, Columns } from 'components/_General/Grid';
+import { Button } from '../buttons';
 
 // dashboard root in dashboard.tsx
 const Layout = styled(Columns)`
@@ -38,7 +39,15 @@ const Box = styled.div<{ flex?: boolean }>`
   `}
 
   height: 100%;
-  padding: 35px;
+  padding: 22px;
 `;
 
-export { Layout, Box };
+const CenteredButtonWrapper = styled.div`
+  display: flex;
+  ${Button} {
+    margin-left: auto;
+    margin-right: auto;
+  }
+`;
+
+export { Layout, Box, CenteredButtonWrapper };

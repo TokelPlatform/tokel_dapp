@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Layout } from 'components/_General/_UIElements/common';
+import { Layout } from 'components/_General/_UIElements/common';
 import { Column } from 'components/_General/Grid';
 import AskOrderWidget from './widgets/AskOrder';
 import BidOrderWidget from './widgets/BidOrder';
