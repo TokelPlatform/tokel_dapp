@@ -1,6 +1,8 @@
 import { createModel } from '@rematch/core';
+import BN from 'bn.js';
 import dp from 'dot-prop-immutable';
 
+import { parseBigNumObject } from 'util/helpers';
 import { TICKER, TokenFilter } from 'vars/defines';
 
 import type { RootModel } from './models';
@@ -45,7 +47,9 @@ export default createModel<RootModel>()({
       ...state,
       tokenBalances,
     }),
-    UPDATE_TOKEN_BALANCE: (state, tokenid: string, balance: number) =>
-      dp.set(state, `tokenBalances.${tokenid}`, v => v - balance),
+    UPDATE_TOKEN_BALANCE: (state, tokenid: string, amount: number) =>
+      dp.set(state, `tokenBalances.${tokenid}`, balance =>
+        parseBigNumObject(balance).sub(new BN(amount))
+      ),
   },
 });

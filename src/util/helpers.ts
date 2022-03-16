@@ -2,8 +2,8 @@ import BN from 'bn.js';
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
-import BigNumObject from 'util/types/BigNum';
 
+import BigNumObject from 'util/types/BigNum';
 import { Config, EXTRACT_IPFS_HASH_REGEX, SATOSHIS, WindowSize } from 'vars/defines';
 
 interface ResponsiveType {
@@ -26,7 +26,9 @@ export const Responsive = {
 
 export const randomColor = () => `hsla(${(360 * Math.random()).toString()}, 70%, 80%, 1)`;
 
-const parseBigNumObject = (bnObj: BigNumObject) => {
+export const parseBigNumObject = (bnObj: BigNumObject) => {
+  if (!bnObj) return new BN(0);
+
   const bn = new BN(0);
   Object.entries(bnObj).forEach(([propName, propValue]) => {
     bn[propName] = propValue;
