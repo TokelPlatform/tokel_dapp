@@ -46,9 +46,7 @@ const Portfolio = (): ReactElement => {
   const tokenCount = useSelector(selectTokenCount);
 
   const tokelPriceUSD = useSelector(selectTokelPriceUSD);
-  const priceString = tokelPriceUSD
-    ? ` ~ $${Math.round(balance * tokelPriceUSD * 100) / 100}`
-    : null;
+  const priceString = tokelPriceUSD ? ` ~ $${Math.round(balance * tokelPriceUSD * 100) / 100}` : '';
 
   useEffect(() => {
     fetchTokelPrice();

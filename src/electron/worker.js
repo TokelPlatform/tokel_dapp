@@ -2,6 +2,17 @@ const { parentPort } = require('worker_threads');
 const sb = require('satoshi-bitcoin');
 const BN = require('bn.js');
 
+// Same as parseBigNumObject in helpers.ts TODO: don't repeat myself
+const parseBigNumObject = bnObj => {
+  if (!bnObj) return new BN(0);
+
+  const bn = new BN(0);
+  Object.entries(bnObj).forEach(([propName, propValue]) => {
+    bn[propName] = propValue;
+  });
+  return bn;
+};
+
 const {
   ECPair,
   ccutils,
@@ -154,10 +165,14 @@ class BitgoSingleton {
     const res = {};
     ccUtxos.forEach(utxo => {
       if (utxo?.tokendata?.tokenid) {
-        res[utxo.tokendata.tokenid.reverse().toString('hex')] = utxo.satoshis;
+        const tokenId = utxo.tokendata.tokenid.reverse().toString('hex');
+        const currentSatoshis = parseBigNumObject(res[tokenId]);
+        res[tokenId] = currentSatoshis.add(parseBigNumObject(utxo.satoshis));
       } else if (!!utxo?.tokendata?.name && utxo?.tokendata?.funcid === 'c') {
         // In case token was created by the wallet, but has no transactions
-        res[utxo.txid.reverse().toString('hex')] = utxo.satoshis;
+        const txId = utxo.txid.reverse().toString('hex');
+        const currentSatoshis = parseBigNumObject(res[txId]);
+        res[txId] = currentSatoshis.add(parseBigNumObject(utxo.satoshis));
       }
     });
     return {
