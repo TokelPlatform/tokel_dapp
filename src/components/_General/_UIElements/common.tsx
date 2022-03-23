@@ -50,4 +50,13 @@ const CenteredButtonWrapper = styled.div`
   }
 `;
 
-export { Layout, Box, CenteredButtonWrapper };
+const Title = styled.h1`
+  font-size: ${V.font.h1};
+`;
+
+const SubTitle = styled.h3`
+  font-size: ${V.font.h3};
+  color: ${V.color.frontSoft};
+`;
+
+export { Layout, Box, CenteredButtonWrapper, Title, SubTitle };

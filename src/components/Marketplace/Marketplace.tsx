@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import askOrderIcon from 'assets/askOrder.svg';
 import bidOrderIcon from 'assets/bidOrder.svg';
 import fillOrderIcon from 'assets/fillOrder.svg';
 import inboxIcon from 'assets/inbox.svg';
 import listIcon from 'assets/list.svg';
+import trendUpIcon from 'assets/trendUp.svg';
+import { V } from 'util/theming';
 
-import { Layout } from 'components/_General/_UIElements/common';
+import { Layout, SubTitle, Title } from 'components/_General/_UIElements/common';
+import Icon from 'components/_General/_UIElements/Icon';
 import { Column } from 'components/_General/Grid';
 import MenuItem from 'components/Home/Menu/MenuItem';
 import { SideMenuRoot } from 'components/Home/Menu/SideMenu';
@@ -56,8 +60,36 @@ const menuData = [
   },
 ];
 
+const AbsoluteCenter = styled.div`
+  margin: auto;
+  text-align: center;
+
+  ${Title} {
+    color: ${V.color.frontSoft};
+    margin-bottom: 0;
+  }
+
+  ${SubTitle} {
+    margin-top: 5px;
+  }
+`;
+
 const Marketplace: React.FC<MarketplaceProps> = () => {
   const [currentView, setCurrentView] = useState<MARKETPLACE_VIEWS | null>(null);
+
+  const CurrentTab = () => {
+    switch (currentView) {
+      case null:
+      default:
+        return (
+          <AbsoluteCenter>
+            <Icon icon={trendUpIcon} height={40} color="frontSoft" centered />
+            <Title>Welcome to to the Tokel Token & NFT market</Title>
+            <SubTitle>Select an option on the side menu to begin</SubTitle>
+          </AbsoluteCenter>
+        );
+    }
+  };
 
   return (
     <>
@@ -79,8 +111,9 @@ const Marketplace: React.FC<MarketplaceProps> = () => {
           ))}
         </div>
       </SideMenuRoot>
-      {/* <Layout>
-        <Column size={4}>
+      <Layout>
+        <CurrentTab />
+        {/* <Column size={4}>
           <AskOrderWidget />
           <FulfillOrderWidget />
         </Column>
@@ -90,8 +123,8 @@ const Marketplace: React.FC<MarketplaceProps> = () => {
         </Column>
         <Column size={4}>
           <MyAssetsBidsWidget />
-        </Column>
-      </Layout> */}
+        </Column> */}
+      </Layout>
     </>
   );
 };
