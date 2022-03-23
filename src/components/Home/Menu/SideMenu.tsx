@@ -23,20 +23,20 @@ export const menuData = [
     icon: DashIcon,
   },
   {
-    type: ViewType.CREATE_TOKEN,
-    name: 'Create Token',
-    icon: TokenIcon,
-  },
-  {
-    type: ViewType.DEX,
-    name: 'DEX',
-    icon: SwapIcon,
-  },
-  {
     type: ViewType.MARKETPLACE,
     name: 'Marketplace',
     icon: BagIcon,
   },
+  {
+    type: ViewType.CREATE_TOKEN,
+    name: 'Create',
+    icon: TokenIcon,
+  },
+  // {
+  //   type: ViewType.DEX,
+  //   name: 'DEX',
+  //   icon: SwapIcon,
+  // },
   {
     type: ViewType.SETTINGS,
     name: 'Settings',
@@ -93,4 +93,5 @@ const SideMenu = () => {
   );
 };
 
+export { SideMenuRoot };
 export default SideMenu;
