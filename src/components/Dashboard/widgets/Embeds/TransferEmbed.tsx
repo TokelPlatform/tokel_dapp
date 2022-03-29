@@ -10,7 +10,7 @@ import { V } from 'util/theming';
 import { Colors, ModalName, ResourceType } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
-import { ReceiveModalOpts } from 'components/Modal/content/Receive';
+import icons from 'util/icons';
 import { EmbedContentContainer } from '../common';
 
 const Holdings = styled.div`
@@ -28,25 +28,32 @@ const HoldingSection = styled.div`
   padding: 3px 0;
 `;
 
+const HoldingSectionRow = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+`;
+
 const HoldingSectionLabel = styled.h3`
   margin-bottom: 10px;
   text-transform: uppercase;
   font-size: ${V.font.h3};
   color: ${V.color.frontSoft};
 `;
+const HoldingSectionLabelCoin = styled.p`
+  font-size: ${V.font.pSmall};
+  color: ${V.color.slate};
+  text-transform: uppercase;
+  margin-bottom: 0;
+`;
+
+const HoldingSectionValueCoin = styled.h2`
+  margin-top: 0;
+`;
 
 const HoldingSectionValue = styled.span`
   font-size: ${V.font.h1};
 `;
-
-// const HoldingsValue = styled.span`
-//   background-color: ${V.color.backHarder};
-//   border: 1px solid ${V.color.backSoftest};
-//   padding: 4px 14px;
-//   border-radius: ${V.size.borderRadiusBig};
-//   font-size: ${V.font.h1};
-//   color: ${V.color.frontSofter};
-// `;
 
 const HoldingsNFTMessage = styled.span`
   background-color: ${V.color.backHarder};
@@ -58,11 +65,6 @@ const HoldingsNFTMessage = styled.span`
   text-align: center;
 `;
 
-const Buttons = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-`;
-
 const MarginedButton = styled(Button)`
   margin: 10px;
   margin-top: 0;
@@ -70,12 +72,11 @@ const MarginedButton = styled(Button)`
 
 const openSendModal = options => () =>
   dispatch.environment.SET_MODAL({ name: ModalName.SEND, options });
-const openReceiveModal = (options: ReceiveModalOpts) => () =>
-  dispatch.environment.SET_MODAL({ name: ModalName.RECEIVE, options });
 
 export type HoldingType = {
   label: string;
   value: string;
+  icon: string;
 };
 
 type TransferEmbedProps = {
@@ -86,12 +87,37 @@ const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
   const tokenInfo = useSelector(selectCurrentTokenInfo);
   const currentBalance = useSelector(selectCurrentTokenBalance);
   const isNFT = tokenInfo && tokenInfo.supply === 1;
+  const isToken = tokenInfo && tokenInfo.supply;
   const sections = holdingSections ?? [{ label: 'holdings', value: currentBalance }];
 
   return (
     <EmbedContentContainer>
       <Holdings>
-        {isNFT ? (
+        {!isToken ? (
+          sections.map(section => (
+            <HoldingSectionRow key={section.label}>
+              <HoldingSection style={{ width: '30px' }}>
+                <div>
+                  <img src={icons[section.icon]} alt="section-icon" />
+                </div>
+              </HoldingSection>
+              <HoldingSection>
+                <HoldingSectionLabelCoin>{section.label}</HoldingSectionLabelCoin>
+                <HoldingSectionValueCoin>
+                  {processPossibleBN(section.value)}
+                </HoldingSectionValueCoin>
+              </HoldingSection>
+              {section.label === 'Spendable' && (
+                <MarginedButton
+                  onClick={openSendModal({ type: ResourceType.TOKEL })}
+                  theme={Colors.TRANSPARENT}
+                >
+                  Send
+                </MarginedButton>
+              )}
+            </HoldingSectionRow>
+          ))
+        ) : isNFT ? (
           <HoldingsNFTMessage>This is an NFT. You own the only one!</HoldingsNFTMessage>
         ) : (
           sections.map(section => (
@@ -102,26 +128,6 @@ const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
           ))
         )}
       </Holdings>
-      <Buttons>
-        <MarginedButton
-          onClick={openSendModal({
-            // eslint-disable-next-line no-nested-ternary
-            type: tokenInfo ? (isNFT ? ResourceType.NFT : ResourceType.FST) : ResourceType.TOKEL,
-          })}
-          theme={Colors.TRANSPARENT}
-        >
-          Send
-        </MarginedButton>
-        <MarginedButton
-          onClick={openReceiveModal({
-            // eslint-disable-next-line no-nested-ternary
-            type: tokenInfo ? (isNFT ? ResourceType.NFT : ResourceType.FST) : ResourceType.TOKEL,
-          })}
-          theme={Colors.TRANSPARENT}
-        >
-          Receive
-        </MarginedButton>
-      </Buttons>
     </EmbedContentContainer>
   );
 };

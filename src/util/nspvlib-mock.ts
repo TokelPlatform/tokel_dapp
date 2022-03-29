@@ -30,11 +30,13 @@ export const login = async (key, fail = false) => {
 };
 
 export interface UtxoType {
-  height: number;
   txid: string;
+  satoshis: BN;
+  extradata: BN;
   vout: number;
-  value: number;
-  rewards: number;
+  height: number;
+  script: Buffer;
+  nLockTime: string;
 }
 
 export interface UnspentType {
@@ -47,6 +49,7 @@ export interface UnspentType {
   filter: number;
   lastpeer: string;
   tokens: { [key: string]: number };
+  utxos: UtxoType[];
 }
 
 export interface TokenUtxoDataType {
@@ -83,5 +86,16 @@ export const listUnspent = async (fail = false): Promise<UnspentType> => {
     filter: 0,
     lastpeer: '136.243.58.134:7770',
     tokens: { '123123': 1 },
+    utxos: [
+      {
+        txid: 'fh823fhi23h9238fh2938',
+        satoshis: new BN('2'),
+        extradata: new BN('123'),
+        vout: 0,
+        height: 123123,
+        script: Buffer.from('hello'),
+        nLockTime: '123123123',
+      },
+    ],
   };
 };

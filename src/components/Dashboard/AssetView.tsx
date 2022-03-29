@@ -27,9 +27,8 @@ const AssetView = (): ReactElement => {
   const txs = useSelector(selectTransactions);
   const balance = useSelector(selectUnspentBalance);
   const holdings: Array<HoldingType> = [
-    // { label: 'Unlocked', value: balance },
-    // { label: 'Locked', value: balance },
-    { label: 'Total', value: `${processPossibleBN(balance)} ${TICKER}` },
+    { label: 'Spendable', value: `${processPossibleBN(balance)} ${TICKER}`, icon: 'coinStack' },
+    { label: 'Locked', value: `${processPossibleBN(balance)} ${TICKER}`, icon: 'lock' },
   ];
 
   return (
