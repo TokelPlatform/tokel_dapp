@@ -63,6 +63,7 @@ const menuData = [
 const AbsoluteCenter = styled.div`
   margin: auto;
   text-align: center;
+  min-width: 480px;
 
   ${Title} {
     color: ${V.color.frontSoft};
@@ -79,6 +80,24 @@ const Marketplace: React.FC<MarketplaceProps> = () => {
 
   const CurrentTab = () => {
     switch (currentView) {
+      case MARKETPLACE_VIEWS.FILL:
+        return (
+          <AbsoluteCenter>
+            <FulfillOrderWidget />
+          </AbsoluteCenter>
+        );
+      case MARKETPLACE_VIEWS.BID:
+        return (
+          <AbsoluteCenter>
+            <BidOrderWidget />
+          </AbsoluteCenter>
+        );
+      case MARKETPLACE_VIEWS.ASK:
+        return (
+          <AbsoluteCenter>
+            <AskOrderWidget />
+          </AbsoluteCenter>
+        );
       case null:
       default:
         return (

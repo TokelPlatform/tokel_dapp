@@ -1,12 +1,15 @@
 import React from 'react';
+
 import styled from '@emotion/styled';
 import Tippy from '@tippyjs/react';
 import { FieldHookConfig, useField } from 'formik';
-import Icon from 'components/_General/_UIElements/Icon';
+
 import InfoIcon from 'assets/HelperInfoCircle.svg';
 import { V } from 'util/theming';
 
-const FieldContainerStyled = styled.div`
+import Icon from 'components/_General/_UIElements/Icon';
+
+const FieldContainerStyled = styled.div<{ appendLight?: boolean }>`
   margin-bottom: 1rem;
 
   .error {
@@ -22,8 +25,8 @@ const FieldContainerStyled = styled.div`
     position: absolute;
     right: 0px;
     bottom: 0px;
-    background-color: ${V.color.cornflower};
-    color: ${V.color.front};
+    background-color: ${props => (props.appendLight ? V.color.backSoftest : V.color.cornflower)};
+    color: ${props => (props.appendLight ? V.color.frontSofter : V.color.front)};
     padding: 7px;
     padding-left: 15px;
     padding-right: 15px;
@@ -52,6 +55,7 @@ interface FieldContainerProps {
   label?: string;
   help?: string;
   append?: string;
+  appendLight?: string;
 }
 
 const FieldContainer: React.FC<FieldContainerProps & FieldHookConfig<string>> = ({
@@ -59,12 +63,13 @@ const FieldContainer: React.FC<FieldContainerProps & FieldHookConfig<string>> = 
   label,
   help,
   append,
+  appendLight,
   ...props
 }) => {
   const [, meta] = useField(props);
 
   return (
-    <FieldContainerStyled>
+    <FieldContainerStyled appendLight={appendLight}>
       {Boolean(label) && (
         <Label>
           {label}

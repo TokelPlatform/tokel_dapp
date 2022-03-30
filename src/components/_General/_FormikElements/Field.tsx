@@ -1,10 +1,11 @@
 import React from 'react';
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { FieldHookConfig, useField } from 'formik';
 
 import { V } from 'util/theming';
+
 import { inputStyles } from './common';
 import FieldContainer from './FieldContainer';
 
@@ -31,25 +32,29 @@ interface FieldProps {
   label?: string;
   help?: string;
   readOnly?: boolean;
+  disabled?: boolean;
   min?: number;
   max?: number;
   append?: string;
+  appendLight?: boolean;
 }
 
 const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({
   label,
   help,
   readOnly,
+  disabled,
   min,
   max,
   append,
+  appendLight,
   onFocus,
   ...props
 }) => {
   const [field] = useField(props);
 
   return (
-    <FieldContainer label={label} help={help} append={append} {...props}>
+    <FieldContainer label={label} help={help} append={append} appendLight={appendLight} {...props}>
       {props.type === 'textarea' ? (
         <Textarea
           {...field}
@@ -61,6 +66,7 @@ const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({
           {...field}
           value={field?.value || ''}
           readOnly={readOnly}
+          disabled={disabled}
           min={min}
           max={max}
           placeholder={props.placeholder}

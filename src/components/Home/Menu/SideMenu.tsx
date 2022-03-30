@@ -32,11 +32,11 @@ export const menuData = [
     name: 'Create',
     icon: TokenIcon,
   },
-  // {
-  //   type: ViewType.DEX,
-  //   name: 'DEX',
-  //   icon: SwapIcon,
-  // },
+  {
+    type: ViewType.SWAP,
+    name: 'Swap',
+    icon: SwapIcon,
+  },
   {
     type: ViewType.SETTINGS,
     name: 'Settings',

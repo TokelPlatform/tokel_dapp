@@ -1,9 +1,11 @@
 import React from 'react';
 
+import MarketOrderWidget from './MarketOrder';
+
 interface BidOrderWidgetProps {}
 
 const BidOrderWidget: React.FC<BidOrderWidgetProps> = () => {
-  return <div>Change me! </div>;
+  return <MarketOrderWidget type="bid" />;
 };
 
 export default BidOrderWidget;

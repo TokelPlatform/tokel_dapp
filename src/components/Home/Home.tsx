@@ -51,8 +51,8 @@ const renderView = (viewType: ViewType[keyof ViewType]) => {
   switch (viewType) {
     case ViewType.DASHBOARD:
       return <Dashboard />;
-    case ViewType.DEX:
-      return getNote('Decentralized Exchange');
+    case ViewType.SWAP:
+      return getNote('Swapping Tokel');
     case ViewType.MARKETPLACE:
       return <Marketplace />;
     case ViewType.CREATE_TOKEN:
@@ -60,7 +60,7 @@ const renderView = (viewType: ViewType[keyof ViewType]) => {
     case ViewType.SETTINGS:
       return <Settings />;
     default:
-      return getNote('This functionality');
+      return getNote('This');
   }
 };
 
