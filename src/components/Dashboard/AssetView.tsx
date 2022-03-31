@@ -3,9 +3,14 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectTransactions, selectUnspentBalance } from 'store/selectors';
+import {
+  selectLockedTransactions,
+  selectLockedTransactionsBalance,
+  selectTransactions,
+  selectUnspentBalance,
+} from 'store/selectors';
 import { processPossibleBN } from 'util/helpers';
-import { ResourceType, TICKER } from 'vars/defines';
+import { LOCKED, ResourceType, SPENDABLE } from 'vars/defines';
 
 import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
 import TransferEmbed, { HoldingType } from './widgets/Embeds/TransferEmbed';
@@ -25,11 +30,24 @@ const AssetViewRoot = styled.div`
 
 const AssetView = (): ReactElement => {
   const txs = useSelector(selectTransactions);
-  const balance = useSelector(selectUnspentBalance);
+  const lockedTransactions = useSelector(selectLockedTransactions);
+  const lockedSum = useSelector(selectLockedTransactionsBalance);
+  console.log('lockedTransactions', lockedTransactions);
+  const balance = processPossibleBN(useSelector(selectUnspentBalance));
   const holdings: Array<HoldingType> = [
-    { label: 'Spendable', value: `${processPossibleBN(balance)} ${TICKER}`, icon: 'coinStack' },
-    { label: 'Locked', value: `${processPossibleBN(balance)} ${TICKER}`, icon: 'lock' },
+    {
+      label: SPENDABLE,
+      value: `${Number(balance) - Number(lockedSum)}`,
+      icon: 'coinStack',
+    },
   ];
+  if (lockedTransactions?.length > 0) {
+    holdings.push({
+      label: LOCKED,
+      value: lockedTransactions,
+      icon: 'lock',
+    });
+  }
 
   return (
     <AssetViewRoot>

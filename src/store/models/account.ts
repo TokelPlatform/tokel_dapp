@@ -1,7 +1,6 @@
 import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 
-import { formatDate } from 'util/helpers';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
 import { parseBlockchainTransaction, parseSpendTx } from 'util/transactions';
 import { getStillUnconfirmed } from 'util/transactionsHelper';
@@ -57,18 +56,10 @@ export default createModel<RootModel>()({
         parseSpendTx(transaction, state.address),
         ...list,
       ]),
-    SET_UNSPENT: (state, unspent: UnspentType) => {
-      unspent.utxos = unspent.utxos.map(ut => {
-        return {
-          ...ut,
-          nLockTime: ut.nLockTime ? formatDate(ut.nLockTime) : null,
-        };
-      });
-      return {
-        ...state,
-        unspent,
-      };
-    },
+    SET_UNSPENT: (state, unspent: UnspentType) => ({
+      ...state,
+      unspent,
+    }),
     SET_CHOSEN_TX: (state, chosenTx: TxType) => ({
       ...state,
       chosenTx,

@@ -2,15 +2,16 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+import isArray from 'lodash-es/isArray';
 
 import { dispatch } from 'store/rematch';
 import { selectCurrentTokenBalance, selectCurrentTokenInfo } from 'store/selectors';
 import { processPossibleBN } from 'util/helpers';
+import icons from 'util/icons';
 import { V } from 'util/theming';
-import { Colors, ModalName, ResourceType } from 'vars/defines';
+import { Colors, ModalName, ResourceType, TICKER } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
-import icons from 'util/icons';
 import { EmbedContentContainer } from '../common';
 
 const Holdings = styled.div`
@@ -18,20 +19,21 @@ const Holdings = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px 30px;
-  padding-top: 10px;
+  padding-top: 2rem;
   overflow-y: auto;
 `;
 
 const HoldingSection = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 3px 0;
+  padding: 0.5rem 0;
 `;
 
 const HoldingSectionRow = styled.div`
   display: flex;
-  align-items: center;
   column-gap: 2rem;
+  align-items: flex-start;
+  justify-content: flex-start;
 `;
 
 const HoldingSectionLabel = styled.h3`
@@ -44,11 +46,17 @@ const HoldingSectionLabelCoin = styled.p`
   font-size: ${V.font.pSmall};
   color: ${V.color.slate};
   text-transform: uppercase;
-  margin-bottom: 0;
+  margin: 0;
 `;
 
-const HoldingSectionValueCoin = styled.h2`
+const HoldingSectionTimelock = styled.p`
+  font-size: ${V.font.pSmall};
   margin-top: 0;
+  opacity: 0.6;
+`;
+
+const HoldingSectionValueCoin = styled.h3`
+  margin: 0 0 0.5rem 0;
 `;
 
 const HoldingSectionValue = styled.span`
@@ -67,7 +75,7 @@ const HoldingsNFTMessage = styled.span`
 
 const MarginedButton = styled(Button)`
   margin: 10px;
-  margin-top: 0;
+  margin-top: 1rem;
 `;
 
 const openSendModal = options => () =>
@@ -82,6 +90,13 @@ export type HoldingType = {
 type TransferEmbedProps = {
   holdingSections?: Array<HoldingType>;
 };
+
+const renderValue = one => (
+  <HoldingSectionValueCoin key={one.lockTime}>
+    {`${processPossibleBN(one.value)} ${TICKER}`}
+    {one.lockTime && <HoldingSectionTimelock>until {one.lockTime}</HoldingSectionTimelock>}
+  </HoldingSectionValueCoin>
+);
 
 const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
   const tokenInfo = useSelector(selectCurrentTokenInfo);
@@ -103,9 +118,9 @@ const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
               </HoldingSection>
               <HoldingSection>
                 <HoldingSectionLabelCoin>{section.label}</HoldingSectionLabelCoin>
-                <HoldingSectionValueCoin>
-                  {processPossibleBN(section.value)}
-                </HoldingSectionValueCoin>
+                {isArray(section.value)
+                  ? section.value.map(one => renderValue(one))
+                  : renderValue(section)}
               </HoldingSection>
               {section.label === 'Spendable' && (
                 <MarginedButton

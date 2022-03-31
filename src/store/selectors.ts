@@ -1,6 +1,8 @@
 import { findIndex, size } from 'lodash-es';
 import { createSelector } from 'reselect';
 
+import { formatDate, getUnixTimestamp, processPossibleBN, toBitcoinAmount } from 'util/helpers';
+
 import { RootState } from './rematch';
 
 export const selectTheme = (state: RootState) => state.environment.theme;
@@ -17,7 +19,7 @@ export const selectTokelPriceUSD = (state: RootState) => state.environment.tokel
 export const selectAccountAddress = (state: RootState) => state.account.address;
 export const selectAccountPubKey = (state: RootState) => state.account.pubkey;
 export const selectUnspentBalance = (state: RootState) => state.account.unspent?.balance;
-export const selectUnspent = (state: RootState) => state.account.unspent ?? {};
+export const selectUnspent = (state: RootState) => state.account.unspent ?? { utxos: null };
 export const selectChosenTransaction = (state: RootState) => state.account.chosenTx;
 export const selectTransactions = (state: RootState) =>
   state.account.txs[state.account.address] ?? [];
@@ -81,4 +83,20 @@ export const selectCurrentTokenInfo = createSelector(
   [selectChosenToken, selectTokenBalances, selectTokenDetails],
   (chosenToken, balances, details) =>
     chosenToken ? { ...details[chosenToken], balance: balances[chosenToken] } : null
+);
+
+export const selectLockedTransactions = createSelector([selectUnspent], unspent =>
+  unspent.utxos?.reduce((result, utxo) => {
+    if (utxo.nLockTime && utxo.nLockTime > getUnixTimestamp()) {
+      result.push({
+        value: toBitcoinAmount(processPossibleBN(utxo.satoshis)),
+        lockTime: formatDate(utxo.nLockTime),
+      });
+    }
+    return result;
+  }, [])
+);
+
+export const selectLockedTransactionsBalance = createSelector([selectLockedTransactions], locked =>
+  locked?.reduce((result, v) => result + Number(v.value), 0)
 );
