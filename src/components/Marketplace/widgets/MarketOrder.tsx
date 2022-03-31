@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { css } from '@emotion/react';
-import { Form, Formik } from 'formik';
+import { Form, FormikProvider, useFormik } from 'formik';
 
 import { TICKER } from 'vars/defines';
 
@@ -18,8 +18,27 @@ interface MarketOrderWidgetProps {
   type: 'ask' | 'bid' | 'fill';
 }
 
+type MarketOrder = {
+  asset_id?: string;
+  order_id?: string;
+  quantity: number;
+  price: number;
+};
+
 const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
-  const handleMarketOrder = () => {};
+  const handleMarketOrder = (values, { setSubmitting }) => {
+    setSubmitting(false);
+    // dispatch.environment.SET_MODAL({
+    //   name: ModalName.CONFIRM_TOKEN_CREATION,
+    //   options: { ...values, confirmation: false },
+    // });
+  };
+
+  const formikBag = useFormik<Partial<MarketOrder>>({
+    // validationSchema: tokenCreationSchema,
+    initialValues,
+    onSubmit: handleMarketOrder,
+  });
 
   const buttonLabel =
     type === 'ask' ? 'Review sell order' : type === 'bid' ? 'Review bid order' : 'Review order';
@@ -33,7 +52,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         padding-bottom: 2.5em;
       `}
     >
-      <Formik initialValues={initialValues} onSubmit={handleMarketOrder}>
+      <FormikProvider value={formikBag}>
         <Form>
           {type === 'fill' && (
             <Field
@@ -58,9 +77,9 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
           {type === 'bid' && (
             <Field
               name="asset_id"
-              placeholder="Paste a token ID to bid for"
+              placeholder="Paste a asset ID to bid for"
               label="Token ID"
-              help="You can get the token ID by asking the creator, or by navigating in the explorer"
+              help="You can get the token or nFT ID by asking the creator, or by navigating in the explorer"
             />
           )}
 
@@ -106,7 +125,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
             </Button>
           </CenteredButtonWrapper>
         </Form>
-      </Formik>
+      </FormikProvider>
     </Box>
   );
 };
