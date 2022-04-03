@@ -3,6 +3,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { Form, FormikProvider, useFormik } from 'formik';
 
+import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { TICKER } from 'vars/defines';
 
 import Field from 'components/_General/_FormikElements/Field';
@@ -32,6 +33,15 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
     //   name: ModalName.CONFIRM_TOKEN_CREATION,
     //   options: { ...values, confirmation: false },
     // });
+    sendToBitgo(BitgoAction.ASSET_V2_DECODE_ORDER, {
+      spk: {
+        asm: '4da240a00fa003800103af038001f5af038001f6a12da22b8020372291b16b9c8bab27def01f3d96e96f97f5ab14b1cab090dbe9296b70fd87bb810302040082020204 OP_CHECKCRYPTOCONDITION 0402f60101210345d2e7ab018619da6ed58ccc0138c5f58a7b754bd8e9a1a9d2b811c5fe72d467 OP_DROP',
+        hex: '434da240a00fa003800103af038001f5af038001f6a12da22b8020372291b16b9c8bab27def01f3d96e96f97f5ab14b1cab090dbe9296b70fd87bb810302040082020204cc270402f60101210345d2e7ab018619da6ed58ccc0138c5f58a7b754bd8e9a1a9d2b811c5fe72d46775',
+        reqSigs: 1,
+        type: 'cryptocondition',
+        addresses: ['CTYmzXTPdztg6NWy5vRu7jcnBVU3fRXrtk'],
+      },
+    });
   };
 
   const formikBag = useFormik<Partial<MarketOrder>>({
@@ -120,9 +130,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
               margin-top: 15px;
             `}
           >
-            <Button theme="purple" disabled>
-              {buttonLabel}
-            </Button>
+            <Button theme="purple">{buttonLabel}</Button>
           </CenteredButtonWrapper>
         </Form>
       </FormikProvider>

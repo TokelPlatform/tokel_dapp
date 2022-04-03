@@ -156,6 +156,10 @@ const BitgoOrchestrator = () => {
       if (payload.type === BitgoAction.TOKEN_V2_INFO_TOKEL) {
         dispatch.environment.SET_TOKEN_DETAIL(payload.data);
       }
+      // ASSET_V2_DECODE_ORDER
+      if (payload.type === BitgoAction.ASSET_V2_DECODE_ORDER) {
+        console.log(payload.data, 'ASSET_V2_DECODE_ORDER');
+      }
     });
     return () => {
       ipcRenderer.removeAllListeners(BITGO_IPC_ID);

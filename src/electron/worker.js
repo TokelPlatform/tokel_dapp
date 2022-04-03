@@ -20,6 +20,7 @@ const {
   networks,
   nspvConnect,
   cctokensv2,
+  ccassetsv2,
   ccbasic,
   ccimp,
 } = require('@tokel/nspv-js');
@@ -38,6 +39,7 @@ const BitgoAction = {
   TOKEN_V2_INFO_TOKEL: 'token_v2_info_tokel',
   TOKEN_V2_TRANSFER: 'token_v2_transfer',
   TOKEN_V2_CREATE_TOKEL: 'token_v2_create_tokel',
+  ASSET_V2_DECODE_ORDER: 'asset_v2_decode_order',
 };
 
 const IS_DEV = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
@@ -203,6 +205,16 @@ class BitgoSingleton {
         tokenId
       );
       return token;
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  async [BitgoAction.ASSET_V2_DECODE_ORDER]({ spk }) {
+    try {
+      const order = await ccassetsv2.decodeAssetsV2Data(Buffer.from(JSON.stringify(spk)));
+      return order;
     } catch (e) {
       console.error(e);
       throw new Error(e);
