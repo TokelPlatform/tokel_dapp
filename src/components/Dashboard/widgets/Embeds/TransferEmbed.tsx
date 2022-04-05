@@ -118,7 +118,7 @@ const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
               </HoldingSection>
               <HoldingSection>
                 <HoldingSectionLabelCoin>{section.label}</HoldingSectionLabelCoin>
-                {isArray(section.value)
+                {Array.isArray(section.value)
                   ? section.value.map(one => renderValue(one))
                   : renderValue(section)}
               </HoldingSection>
