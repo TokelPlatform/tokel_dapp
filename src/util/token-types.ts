@@ -1,3 +1,5 @@
+import BigNumObject from './types/BigNum';
+
 export type ArbitraryTokenData = Record<string, string | number | boolean>;
 
 export interface TokelStandardDataFormat {
@@ -26,6 +28,16 @@ export interface TokenDetail {
   version: number;
   IsMixed: boolean;
   contentType?: string;
+}
+
+export interface OrderDetail {
+  orderid: string;
+  amount: BigNumObject;
+  type: 'bid' | 'ask';
+  unitPrice: BigNumObject;
+  token: TokenDetail;
+  originPk: string;
+  originNormalAddress: string;
 }
 
 export interface TokenForm {

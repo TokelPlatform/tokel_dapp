@@ -46,6 +46,9 @@ export const selectCurrenTxTokenTx = (state: RootState) => state.currentTransact
 export const selectKey = (state: RootState) => state.account.key;
 export const selectSeed = (state: RootState) => state.account.seed;
 
+// mktplace
+export const selectOrderDetails = (state: RootState) => state.marketplace.orderDetails;
+
 // derived
 export const selectTokenCount = (state: RootState) => size(state.wallet.tokenBalances);
 

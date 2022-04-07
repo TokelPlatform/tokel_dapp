@@ -23,6 +23,7 @@ const {
   ccassetsv2,
   ccbasic,
   ccimp,
+  Transaction,
 } = require('@tokel/nspv-js');
 
 const BitgoAction = {
@@ -39,7 +40,7 @@ const BitgoAction = {
   TOKEN_V2_INFO_TOKEL: 'token_v2_info_tokel',
   TOKEN_V2_TRANSFER: 'token_v2_transfer',
   TOKEN_V2_CREATE_TOKEL: 'token_v2_create_tokel',
-  ASSET_V2_DECODE_ORDER: 'asset_v2_decode_order',
+  ASSET_V2_FETCH_ORDER_DECODED: 'asset_v2_fetch_order_decoded',
 };
 
 const IS_DEV = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
@@ -211,9 +212,14 @@ class BitgoSingleton {
     }
   }
 
-  async [BitgoAction.ASSET_V2_DECODE_ORDER]({ spk }) {
+  async [BitgoAction.ASSET_V2_FETCH_ORDER_DECODED]({ orderId }) {
     try {
-      const order = await ccassetsv2.decodeAssetsV2Data(Buffer.from(JSON.stringify(spk)));
+      const order = await ccassetsv2.tokenV2FetchOrder(
+        this.connection,
+        this.network,
+        this.wif,
+        orderId
+      );
       return order;
     } catch (e) {
       console.error(e);
