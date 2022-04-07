@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
-import isArray from 'lodash-es/isArray';
 
 import { dispatch } from 'store/rematch';
 import { selectCurrentTokenBalance, selectCurrentTokenInfo } from 'store/selectors';
