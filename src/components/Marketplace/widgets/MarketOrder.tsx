@@ -14,7 +14,7 @@ import Select, { SelectOption } from 'components/_General/_FormikElements/Select
 import { Box, CenteredButtonWrapper } from 'components/_General/_UIElements/common';
 import { Button } from 'components/_General/buttons';
 import { Column, Columns } from 'components/_General/Grid';
-import AssetPlaceholder from '../common/AssetPlaceholder';
+import AssetWidget from '../common/AssetWidget';
 
 const initialValues = {};
 
@@ -129,7 +129,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
             </Column>
           </Columns>
 
-          <AssetPlaceholder />
+          <AssetWidget asset={orderDetails?.[debouncedOrderId]?.token} />
 
           {orderDetails?.[debouncedOrderId]?.type}
 

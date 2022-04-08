@@ -3,6 +3,9 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import { V } from 'util/theming';
+import { TokenDetail } from 'util/token-types';
+
+import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 
 const Wrapper = styled.div`
   background-color: ${V.color.backSoftest};
@@ -14,10 +17,10 @@ const Wrapper = styled.div`
   & > span {
     height: 40px;
     width: 40px;
-    background-color: ${V.color.back};
+    /* background-color: ${V.color.back}; */
   }
 
-  div {
+  & > div {
     margin-left: 6px;
     display: flex;
     flex-direction: column;
@@ -39,18 +42,33 @@ const Wrapper = styled.div`
   }
 `;
 
-interface AssetPlaceholderProps {}
+interface AssetWidgetProps {
+  asset?: TokenDetail;
+}
 
-const AssetPlaceholder: React.FC<AssetPlaceholderProps> = () => {
+const AssetWidget: React.FC<AssetWidgetProps> = ({ asset }) => {
+  if (!asset)
+    return (
+      <Wrapper>
+        <span />
+        <div>
+          <span />
+          <span />
+        </div>
+      </Wrapper>
+    );
+
   return (
     <Wrapper>
-      <span />
+      <span>
+        <TokenMediaDisplay url={asset.dataAsJson?.url} />
+      </span>
       <div>
-        <span />
-        <span />
+        <span>{asset.name}</span>
+        <span>{asset.description}</span>
       </div>
     </Wrapper>
   );
 };
 
-export default AssetPlaceholder;
+export default AssetWidget;

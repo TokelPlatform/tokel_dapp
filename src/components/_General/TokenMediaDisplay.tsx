@@ -5,13 +5,13 @@ import { ipcRenderer } from 'electron';
 
 import { Responsive, extractIPFSHash } from 'util/helpers';
 import { V } from 'util/theming';
-import { IPFS_IPC_ID, IpfsAction, DEFAULT_IPFS_FALLBACK_GATEWAY } from 'vars/defines';
+import { DEFAULT_IPFS_FALLBACK_GATEWAY, IPFS_IPC_ID, IpfsAction } from 'vars/defines';
 
 const MediaContent = styled.div`
   overflow-y: auto;
   display: flex;
   width: 100%;
-  padding-left: 20px;
+  height: 100%;
   justify-content: center;
   ${Responsive.below.L} {
     order: 1;
@@ -25,6 +25,7 @@ const ImageFrame = styled.div`
 
 const TokenMediaIframe = styled.iframe`
   width: 100%;
+  height: 100%;
   border: 0;
 `;
 
@@ -80,6 +81,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
 
   // Post media to iframe, along with actual iframe width
   useEffect(() => {
+    console.log(iframeLoaded, iframeRef?.current);
     if (iframeLoaded) {
       iframeRef.current?.contentWindow.postMessage(
         { mediaUrl, width: iframeRef?.current.offsetWidth },
@@ -95,6 +97,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
 
     if (targetElement) {
       observer = new ResizeObserver(() => {
+        console.log(iframeRef?.current?.contentWindow.document.body.scrollHeight, 'resize');
         setIframeHeight(iframeRef?.current?.contentWindow.document.body.scrollHeight);
       });
 
@@ -112,7 +115,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
     <MediaContent>
       <ImageFrame>
         <TokenMediaIframe
-          height={iframeHeight}
+          // height={iframeHeight}
           ref={iframeRef}
           src={`file://${__dirname}/externalMedia.html`}
           onLoad={() => setIframeLoaded(true)}
