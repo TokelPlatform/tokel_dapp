@@ -143,7 +143,7 @@ const ActivityList = ({ transactions = [], resourceType }: ActivityListProps): R
             : ActivityType.MINTED;
           const activityData = ActivityMap[activityType];
           return (
-            <ActivityListItem key={tx.txid + tx.received}>
+            <ActivityListItem key={tx.txid}>
               <Transaction onClick={() => handleTxDetailView(tx)}>
                 <TriCell
                   icon={tx.unconfirmed ? clockIcon : checkIcon}

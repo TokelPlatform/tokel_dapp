@@ -278,7 +278,7 @@
     "react-minimal-pie-chart": "8.2.0",
     "react-redux": "^7.2.3",
     "react-select": "^5.2.1",
-    "react-tooltip": "4.2.15",
+    "react-tooltip": "4.2.21",
     "redux": "^4.0.5",
     "regenerator-runtime": "^0.13.5",
     "reselect": "^4.0.0",

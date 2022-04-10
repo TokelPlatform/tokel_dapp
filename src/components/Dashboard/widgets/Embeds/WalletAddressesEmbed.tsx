@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { dispatch } from 'store/rematch';
 import { selectAccountAddress, selectAccountPubKey, selectCurrentTokenInfo } from 'store/selectors';
 import { V } from 'util/theming';
-import { ModalName, ResourceType } from 'vars/defines';
+import { Colors, ModalName, ResourceType } from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
@@ -23,7 +23,7 @@ const WalletAddressWidgetLabel = styled.p`
   color: ${V.color.frontSoft};
 `;
 
-const Copy = styled.span`
+const Copy = styled.div`
   padding-top: 11px;
   margin-left: 5px;
 `;
@@ -38,13 +38,13 @@ const openWalletModal = (options: ReceiveModalOpts) => () =>
 
 const DisplayWalletAddress = ({ title, modal_type }: WalletAddressWidgetProps) => {
   const tokenInfo = useSelector(selectCurrentTokenInfo);
-  const isNFT = tokenInfo && tokenInfo.supply === 1;
+  const isNFT = tokenInfo?.supply === 1;
   const target = useSelector(
     modal_type === 'acc_address' ? selectAccountAddress : selectAccountPubKey
   );
 
   return (
-    <div>
+    <>
       <WalletAddressWidgetLabel>{title}</WalletAddressWidgetLabel>
       <RowWrapper>
         <Button
@@ -62,14 +62,14 @@ const DisplayWalletAddress = ({ title, modal_type }: WalletAddressWidgetProps) =
           Show
         </Button>
         <Copy>
-          <CopyToClipboard color="white" textToCopy={target} />
+          <CopyToClipboard textToCopy={target} color={Colors.WHITE} />
         </Copy>
       </RowWrapper>
-    </div>
+    </>
   );
 };
 
-const WalletAddresses = () => {
+const WalletAddressesEmbed = () => {
   return (
     <WalletAddressesEmbedRoot>
       <DisplayWalletAddress title="Receive TKL" modal_type="acc_address" />
@@ -78,4 +78,4 @@ const WalletAddresses = () => {
   );
 };
 
-export default WalletAddresses;
+export default WalletAddressesEmbed;
