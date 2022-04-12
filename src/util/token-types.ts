@@ -32,9 +32,9 @@ export interface TokenDetail {
 
 export interface OrderDetail {
   orderid: string;
-  amount: BigNumObject;
+  bnAmount: BigNumObject;
   type: 'bid' | 'ask';
-  unitPrice: BigNumObject;
+  bnUnitPrice: BigNumObject;
   token: TokenDetail;
   originPk: string;
   originNormalAddress: string;

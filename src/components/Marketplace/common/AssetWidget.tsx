@@ -7,7 +7,7 @@ import { TokenDetail } from 'util/token-types';
 
 import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ placeholder?: boolean }>`
   background-color: ${V.color.backSoftest};
   padding: 12px;
   border-radius: 4px;
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   & > span {
     height: 40px;
     width: 40px;
-    /* background-color: ${V.color.back}; */
+    ${props => props.placeholder && `background-color: ${V.color.back};`}
   }
 
   & > div {
@@ -26,18 +26,33 @@ const Wrapper = styled.div`
     flex-direction: column;
 
     span {
-      background-color: ${V.color.back};
+      ${props => props.placeholder && `background-color: ${V.color.back};`}
+
+      h1 {
+        text-align: left;
+        font-size: 16px;
+        margin: 0;
+      }
+
+      h2 {
+        font-size: 14px;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0;
+      }
     }
 
     span:first-child {
       height: 14px;
-      width: 120px;
+      min-width: 120px;
       margin-bottom: 4px;
     }
 
     span:last-child {
       height: 22px;
-      width: 160px;
+      min-width: 160px;
     }
   }
 `;
@@ -49,7 +64,7 @@ interface AssetWidgetProps {
 const AssetWidget: React.FC<AssetWidgetProps> = ({ asset }) => {
   if (!asset)
     return (
-      <Wrapper>
+      <Wrapper placeholder>
         <span />
         <div>
           <span />
@@ -64,8 +79,12 @@ const AssetWidget: React.FC<AssetWidgetProps> = ({ asset }) => {
         <TokenMediaDisplay url={asset.dataAsJson?.url} />
       </span>
       <div>
-        <span>{asset.name}</span>
-        <span>{asset.description}</span>
+        <span>
+          <h1>{asset.name}</h1>
+        </span>
+        <span>
+          <h2>{asset.description}</h2>
+        </span>
       </div>
     </Wrapper>
   );

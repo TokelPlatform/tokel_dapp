@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
 import { Form, FormikProvider, useFormik } from 'formik';
+import { toBitcoin } from 'satoshi-bitcoin';
 
 import useDebounce from 'hooks/useDebounce';
 import { selectOrderDetails } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
-import { TICKER } from 'vars/defines';
+import { parseBigNumObject } from 'util/helpers';
+import { Colors, TICKER } from 'vars/defines';
 
 import Field from 'components/_General/_FormikElements/Field';
 import Select, { SelectOption } from 'components/_General/_FormikElements/Select';
@@ -47,6 +49,31 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   });
 
   const debouncedOrderId = useDebounce(formikBag.values.order_id, 1000);
+  const currentOrderDetails = orderDetails?.[debouncedOrderId];
+
+  const buttonTheme = useMemo(() => {
+    if (type === 'ask' || (type === 'fill' && currentOrderDetails?.type === 'ask')) {
+      return Colors.SUCCESS;
+    } else if (type === 'bid' || (type === 'fill' && currentOrderDetails?.type === 'bid')) {
+      return Colors.DANGER;
+    } else {
+      return Colors.PURPLE;
+    }
+  }, [type, currentOrderDetails]);
+
+  useEffect(() => {
+    if (currentOrderDetails) {
+      formikBag.setFieldValue('asset_id', currentOrderDetails.token.tokenid);
+      formikBag.setFieldValue(
+        'quantity',
+        parseBigNumObject(currentOrderDetails.bnAmount).toNumber()
+      );
+      formikBag.setFieldValue(
+        'price',
+        toBitcoin(parseBigNumObject(currentOrderDetails.bnUnitPrice).toNumber())
+      );
+    }
+  }, [currentOrderDetails]);
 
   useEffect(() => {
     if (debouncedOrderId?.length === 64)
@@ -56,7 +83,15 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   }, [debouncedOrderId]);
 
   const buttonLabel =
-    type === 'ask' ? 'Review sell order' : type === 'bid' ? 'Review bid order' : 'Review order';
+    type === 'ask'
+      ? 'Review sell order'
+      : type === 'bid'
+      ? 'Review bid order'
+      : currentOrderDetails?.type === 'ask'
+      ? 'Review purchase'
+      : currentOrderDetails?.type === 'bid'
+      ? 'Review sale'
+      : 'Review order';
 
   return (
     <Box
@@ -129,16 +164,16 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
             </Column>
           </Columns>
 
-          <AssetWidget asset={orderDetails?.[debouncedOrderId]?.token} />
-
-          {orderDetails?.[debouncedOrderId]?.type}
+          <AssetWidget asset={currentOrderDetails?.token} />
 
           <CenteredButtonWrapper
             css={css`
               margin-top: 15px;
             `}
           >
-            <Button theme="purple">{buttonLabel}</Button>
+            <Button theme={buttonTheme} disabled={!currentOrderDetails}>
+              {buttonLabel}
+            </Button>
           </CenteredButtonWrapper>
         </Form>
       </FormikProvider>

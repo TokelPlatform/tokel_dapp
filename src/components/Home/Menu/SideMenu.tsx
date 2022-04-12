@@ -23,8 +23,8 @@ export const menuData = [
     icon: DashIcon,
   },
   {
-    type: ViewType.MARKETPLACE,
-    name: 'Marketplace',
+    type: ViewType.DEX,
+    name: 'DEX',
     icon: BagIcon,
   },
   {

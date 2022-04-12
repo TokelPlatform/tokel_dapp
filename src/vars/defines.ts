@@ -64,7 +64,7 @@ export const WindowControl = {
 export enum ViewType {
   DASHBOARD = 'dashboard',
   SWAP = 'swap',
-  MARKETPLACE = 'marketplace',
+  DEX = 'dex',
   CREATE_TOKEN = 'create_token',
   SETTINGS = 'settings',
 }
