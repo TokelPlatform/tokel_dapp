@@ -9285,10 +9285,10 @@ log-symbols@^4.0.0, log-symbols@^4.1.0:
     chalk "^4.1.0"
     is-unicode-supported "^0.1.0"
 
-log-update-async-hook@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/log-update-async-hook/-/log-update-async-hook-2.0.2.tgz#6eba89dbe67fa12d0b20ac47df7942947af1fcd1"
-  integrity sha512-HQwkKFTZeUOrDi1Duf2CSUa/pSpcaCHKLdx3D/Z16DsipzByOBffcg5y0JZA1q0n80dYgLXe2hFM9JGNgBsTDw==
+log-update-async-hook@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/log-update-async-hook/-/log-update-async-hook-2.0.6.tgz#33fa4414e73799920edaa64f2f931d2b6f627f68"
+  integrity sha512-UIFPlCpCxrSVL38TXzk34JhhDnvvhsjzuyqooCYy9TtTaVdBLNsuJiTWX9unO/wzBF7RwY1WTCmEmBSI3iPDCA==
   dependencies:
     ansi-escapes "^2.0.0"
     async-exit-hook "^1.1.2"
@@ -9892,7 +9892,7 @@ node-int64@^0.4.0:
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
 
-node-ipc@^9.1.0:
+node-ipc@9.2.1:
   version "9.2.1"
   resolved "https://registry.yarnpkg.com/node-ipc/-/node-ipc-9.2.1.tgz#b32f66115f9d6ce841dc4ec2009d6a733f98bb6b"
   integrity sha512-mJzaM6O3xHf9VT8BULvJSbdVbmHUKRNOH7zDDkCrA1/T+CVjq2WVIDfLt0azZRXpgArJtl3rtmEozrbXPZ9GaQ==
@@ -11442,10 +11442,10 @@ react-test-renderer@^17.0.1:
     react-shallow-renderer "^16.13.1"
     scheduler "^0.20.2"
 
-react-tooltip@4.2.15:
-  version "4.2.15"
-  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-4.2.15.tgz#ae278931a222434ae597c57aab07be215a2aa5f9"
-  integrity sha512-xmVWi6N1qsrACiAquv28jhQ10igFbQX0Xk5rjSjgUPi9BAf8lCFhYpdFXe6NrEeuPrM7hdZkePa3eS2SrIRxIw==
+react-tooltip@4.2.21:
+  version "4.2.21"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-4.2.21.tgz#840123ed86cf33d50ddde8ec8813b2960bfded7f"
+  integrity sha512-zSLprMymBDowknr0KVDiJ05IjZn9mQhhg4PRsqln0OZtURAJ1snt1xi5daZfagsh6vfsziZrc9pErPTDY1ACig==
   dependencies:
     prop-types "^15.7.2"
     uuid "^7.0.3"
@@ -13057,10 +13057,10 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
-testcafe-browser-provider-electron@^0.0.16:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/testcafe-browser-provider-electron/-/testcafe-browser-provider-electron-0.0.16.tgz#cb4255b775bdec226ec76699f408a4aba20a8146"
-  integrity sha512-3qBIXdlV2gN0I3pLYbEdVlhe6rgfGdihaB6hc/339ZYVtpXE/AOt4CW+EubBJLG6gkwJI+39rv8azzQ6NebgKg==
+testcafe-browser-provider-electron@^0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/testcafe-browser-provider-electron/-/testcafe-browser-provider-electron-0.0.18.tgz#c4294a7fefe5006c5eb85c06db9ca620f2ba919b"
+  integrity sha512-s2Oz62uMi+FygttEm6Ab+cCgBFdbDhoZmA2Q02jQePYK/cVmn8vFL9MDxqppwIcZeknZCtg33hFNX4MgQndPlA==
   dependencies:
     babel-runtime "^6.25.0"
     chrome-remote-interface "^0.27.0"
@@ -13069,7 +13069,7 @@ testcafe-browser-provider-electron@^0.0.16:
     endpoint-utils "^1.0.2"
     lodash "^4.17.4"
     mustache "^2.3.0"
-    node-ipc "^9.1.0"
+    node-ipc "9.2.1"
     os-family "^1.0.0"
     pify "^2.3.0"
     pinkie "^2.0.4"
@@ -13099,10 +13099,10 @@ testcafe-browser-tools@2.0.22:
     read-file-relative "^1.2.0"
     which-promise "^1.0.0"
 
-testcafe-hammerhead@24.5.13, testcafe-hammerhead@>=19.4.0:
-  version "24.5.13"
-  resolved "https://registry.yarnpkg.com/testcafe-hammerhead/-/testcafe-hammerhead-24.5.13.tgz#7eeca7f8f68b2d20ad93214ee0e93b49fb140e0b"
-  integrity sha512-81P9to2pXBCOy+jnyEaPcjrfKk3wOv7JmZSX3KQp0MxF12X9u6Tg0JEeTMYvnEfCeNhLRYDipAZvI+t9nfx0KA==
+testcafe-hammerhead@24.5.16, testcafe-hammerhead@>=19.4.0:
+  version "24.5.16"
+  resolved "https://registry.yarnpkg.com/testcafe-hammerhead/-/testcafe-hammerhead-24.5.16.tgz#5f8f7955d167b9b966a0504cdce47dc723dba94d"
+  integrity sha512-KAdthPCiL6Z4oomt8ukkggZ/WI20ZLuQVaaDyKnJAOplAPG8MRSI1URWQI1WCxzfkgqruBDA9FnmReG8tTrT7Q==
   dependencies:
     acorn-hammerhead "0.5.0"
     asar "^2.0.1"
@@ -13126,7 +13126,7 @@ testcafe-hammerhead@24.5.13, testcafe-hammerhead@>=19.4.0:
     pinkie "2.0.4"
     read-file-relative "^1.2.0"
     semver "5.5.0"
-    tough-cookie "2.3.3"
+    tough-cookie "4.0.0"
     tunnel-agent "0.6.0"
     webauth "^1.1.0"
 
@@ -13191,10 +13191,10 @@ testcafe-reporter-xunit@^2.2.1:
   resolved "https://registry.yarnpkg.com/testcafe-reporter-xunit/-/testcafe-reporter-xunit-2.2.1.tgz#674b6551bec88829d4ed08af43e7838793cf714e"
   integrity sha512-ge1msi8RyNVyK0QrsmC79zedV7jHasKpBPeOUZd/ORpbYLeYDnprjIeOuIukw0knnTieeYsOK29/ZD+UI7/tdw==
 
-testcafe@^1.16.1:
-  version "1.18.3"
-  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-1.18.3.tgz#6a03697d724d01cc31ac29c4ad1f52a30f604cf9"
-  integrity sha512-cBWPBmY20xI9iWQzS9s2t3oIYhXl5gJzM6CTQjLXt5CMAEvWThsOzLWWnNoA2nk4CLBexZ0S5SkrYOk/SGVSaw==
+testcafe@^1.18.5:
+  version "1.18.5"
+  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-1.18.5.tgz#6b63e1af2f7fb070eea048e3fe73e4a8d36779ee"
+  integrity sha512-XfzUUvyFa1BulADkw2HONGUtP9xP23zmd7eMQJVEaGwzoM/nu4KfWl1pe7d77KrX9A1CXildf3inCVQ99YruwQ==
   dependencies:
     "@babel/core" "^7.12.1"
     "@babel/plugin-proposal-async-generator-functions" "^7.12.1"
@@ -13248,7 +13248,7 @@ testcafe@^1.16.1:
     is-stream "^2.0.0"
     json5 "^2.1.0"
     lodash "^4.17.13"
-    log-update-async-hook "^2.0.2"
+    log-update-async-hook "^2.0.6"
     make-dir "^3.0.0"
     mime-db "^1.41.0"
     moment "^2.10.3"
@@ -13272,7 +13272,7 @@ testcafe@^1.16.1:
     source-map-support "^0.5.16"
     strip-bom "^2.0.0"
     testcafe-browser-tools "2.0.22"
-    testcafe-hammerhead "24.5.13"
+    testcafe-hammerhead "24.5.16"
     testcafe-legacy-api "5.1.2"
     testcafe-reporter-dashboard "0.2.5"
     testcafe-reporter-json "^2.1.0"
@@ -13448,7 +13448,7 @@ tough-cookie@2.3.3:
   dependencies:
     punycode "^1.4.1"
 
-tough-cookie@^4.0.0:
+tough-cookie@4.0.0, tough-cookie@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-4.0.0.tgz#d822234eeca882f991f0f908824ad2622ddbece4"
   integrity sha512-tHdtEpQCMrc1YLrMaqXXcj6AxhYi/xgit6mZu1+EDWUn+qhUf8wMQoFIy9NXuq23zAwtcB0t/MjACGR18pcRbg==

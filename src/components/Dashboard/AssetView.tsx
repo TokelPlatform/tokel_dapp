@@ -14,7 +14,7 @@ import { LOCKED, ResourceType, SPENDABLE } from 'vars/defines';
 
 import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
 import TransferEmbed, { HoldingType } from './widgets/Embeds/TransferEmbed';
-import LineGraph from './widgets/LineGraph';
+import WalletAddressesEmbed from './widgets/Embeds/WalletAddressesEmbed';
 import StandardWidget from './widgets/StandardWidget';
 
 const AssetViewRoot = styled.div`
@@ -51,12 +51,14 @@ const AssetView = (): ReactElement => {
 
   return (
     <AssetViewRoot>
-      <LineGraph />
-      <StandardWidget title="Transfer" width={2}>
+      <StandardWidget title="History" width={5}>
+        <ActivityListEmbed transactions={txs} resourceType={ResourceType.TOKEL} />
+      </StandardWidget>
+      <StandardWidget title="Transfer" width={3}>
         <TransferEmbed holdingSections={holdings} />
       </StandardWidget>
-      <StandardWidget title="History" width={3}>
-        <ActivityListEmbed transactions={txs} resourceType={ResourceType.TOKEL} />
+      <StandardWidget title="Wallet Addresses" width={2}>
+        <WalletAddressesEmbed />
       </StandardWidget>
     </AssetViewRoot>
   );
