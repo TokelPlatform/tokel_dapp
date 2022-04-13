@@ -8,14 +8,14 @@ export const WidgetContainer = styled.div`
   border-radius: ${V.size.borderRadius};
 `;
 
-export const WidgetTitle = styled.h2<{ bottomBorder?: boolean }>`
+export const WidgetTitle = styled.h2<{ bottomBorder?: boolean; mainWidget?: boolean }>`
   padding-left: 28px;
   padding-top: 28px;
   padding-bottom: 1rem;
   margin: 0;
   color: ${V.color.front};
   line-height: 24px;
-  /* height: 80px; */
+  ${p => p.mainWidget && 'height: 120px;'}
   border-bottom: 1px solid ${p => (p.bottomBorder ? V.color.backSoftest : 'transparent')};
 `;
 

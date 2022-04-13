@@ -21,12 +21,21 @@ type StandardWidgetProps = {
   children: React.ReactNode;
   width?: number;
   height?: number;
+  mainWidget?: boolean;
 };
 
-const StandardWidget = ({ title, children, width, height }: StandardWidgetProps) => {
+const StandardWidget = ({
+  title,
+  children,
+  width,
+  height,
+  mainWidget = false,
+}: StandardWidgetProps) => {
   return (
     <StandardWidgetRoot width={width} height={height}>
-      <WidgetTitle bottomBorder>{title}</WidgetTitle>
+      <WidgetTitle bottomBorder mainWidget={mainWidget}>
+        {title}
+      </WidgetTitle>
       {children}
     </StandardWidgetRoot>
   );

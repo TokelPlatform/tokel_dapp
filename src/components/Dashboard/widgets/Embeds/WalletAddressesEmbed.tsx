@@ -14,7 +14,7 @@ import { ReceiveModalOpts } from 'components/Modal/content/Receive';
 import { EmbedContentContainer, RowWrapper } from '../common';
 
 const WalletAddressesEmbedRoot = styled(EmbedContentContainer)`
-  padding: 20px 30px;
+  padding: 0px 30px 20px 30px;
 `;
 
 const WalletAddressWidgetLabel = styled.p`

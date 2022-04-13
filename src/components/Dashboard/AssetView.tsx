@@ -51,7 +51,7 @@ const AssetView = (): ReactElement => {
 
   return (
     <AssetViewRoot>
-      <StandardWidget title="History" width={5}>
+      <StandardWidget title="History" width={5} mainWidget>
         <ActivityListEmbed transactions={txs} resourceType={ResourceType.TOKEL} />
       </StandardWidget>
       <StandardWidget title="Transfer" width={3}>

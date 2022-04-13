@@ -18,14 +18,14 @@ const Holdings = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px 30px;
-  padding-top: 2rem;
+  padding-top: 1rem;
   overflow-y: auto;
 `;
 
 const HoldingSection = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 0;
+  /* padding: 0.5rem; */
 `;
 
 const HoldingSectionRow = styled.div`
@@ -33,6 +33,7 @@ const HoldingSectionRow = styled.div`
   column-gap: 2rem;
   align-items: flex-start;
   justify-content: flex-start;
+  margin-top: 2rem;
 `;
 
 const HoldingSectionLabel = styled.h3`
@@ -63,6 +64,7 @@ const HoldingSectionValue = styled.span`
 `;
 
 const HoldingsNFTMessage = styled.span`
+  margin-top: 1.75rem;
   background-color: ${V.color.backHarder};
   border: 1px solid ${V.color.backSoftest};
   padding: 4px 14px;
@@ -73,8 +75,12 @@ const HoldingsNFTMessage = styled.span`
 `;
 
 const MarginedButton = styled(Button)`
-  margin: 10px;
-  margin-top: 1rem;
+  margin-top: 2rem;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: flex-start;
 `;
 
 const openSendModal = options => () =>
@@ -107,7 +113,31 @@ const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
   return (
     <EmbedContentContainer>
       <Holdings>
-        {!isToken ? (
+        {isToken ? (
+          <>
+            {isNFT ? (
+              <HoldingsNFTMessage>This is an NFT. You own the only one!</HoldingsNFTMessage>
+            ) : (
+              sections.map(section => (
+                <HoldingSection key={section.label}>
+                  <HoldingSectionLabel>{section.label}</HoldingSectionLabel>
+                  <HoldingSectionValue>{processPossibleBN(section.value)}</HoldingSectionValue>
+                </HoldingSection>
+              ))
+            )}
+            <Buttons>
+              <MarginedButton
+                onClick={openSendModal({
+                  // eslint-disable-next-line no-nested-ternary
+                  type: isNFT ? ResourceType.NFT : ResourceType.FST,
+                })}
+                theme={Colors.TRANSPARENT}
+              >
+                Send
+              </MarginedButton>
+            </Buttons>
+          </>
+        ) : (
           sections.map(section => (
             <HoldingSectionRow key={section.label}>
               <HoldingSection style={{ width: '30px' }}>
@@ -115,30 +145,21 @@ const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
                   <img src={icons[section.icon]} alt="section-icon" />
                 </div>
               </HoldingSection>
-              <HoldingSection>
+              <HoldingSection style={{ width: '250px' }}>
                 <HoldingSectionLabelCoin>{section.label}</HoldingSectionLabelCoin>
                 {Array.isArray(section.value)
                   ? section.value.map(one => renderValue(one))
                   : renderValue(section)}
               </HoldingSection>
               {section.label === 'Spendable' && (
-                <MarginedButton
+                <Button
                   onClick={openSendModal({ type: ResourceType.TOKEL })}
                   theme={Colors.TRANSPARENT}
                 >
                   Send
-                </MarginedButton>
+                </Button>
               )}
             </HoldingSectionRow>
-          ))
-        ) : isNFT ? (
-          <HoldingsNFTMessage>This is an NFT. You own the only one!</HoldingsNFTMessage>
-        ) : (
-          sections.map(section => (
-            <HoldingSection key={section.label}>
-              <HoldingSectionLabel>{section.label}</HoldingSectionLabel>
-              <HoldingSectionValue>{processPossibleBN(section.value)}</HoldingSectionValue>
-            </HoldingSection>
           ))
         )}
       </Holdings>

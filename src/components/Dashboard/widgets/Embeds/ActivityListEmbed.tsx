@@ -79,12 +79,13 @@ type TriCellProps = {
   primary?: string;
   secondary?: string;
   justify?: 'flex-start' | 'center' | 'flex-end';
+  align?: 'flex-start' | 'center' | 'flex-end';
 };
 
-const TriCell = ({ icon, primary, secondary, justify }: TriCellProps) => (
+const TriCell = ({ icon, primary, secondary, justify, align }: TriCellProps) => (
   <TriCellRoot style={{ justifyContent: justify ?? 'flex-start' }}>
     {icon && <TriCellIcon width="20px" src={icon} alt={icon} />}
-    <TriCellInfo>
+    <TriCellInfo style={{ alignItems: align ?? 'flex-start' }}>
       <Primary>{primary}</Primary>
       <Secondary>{secondary}</Secondary>
     </TriCellInfo>
@@ -165,6 +166,7 @@ const ActivityList = ({ transactions = [], resourceType }: ActivityListProps): R
                       : ''
                   }
                   justify="flex-end"
+                  align="flex-end"
                 />
               </Transaction>
               <ExplorerLinkWrapper>
