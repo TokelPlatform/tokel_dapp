@@ -13,7 +13,6 @@ import { V } from 'util/theming';
 
 import { Layout, SubTitle, Title } from 'components/_General/_UIElements/common';
 import Icon from 'components/_General/_UIElements/Icon';
-import { Column } from 'components/_General/Grid';
 import MenuItem from 'components/Home/Menu/MenuItem';
 import { SideMenuRoot } from 'components/Home/Menu/SideMenu';
 import AskOrderWidget from './widgets/AskOrder';
@@ -62,7 +61,11 @@ const menuData = [
 
 const AbsoluteCenter = styled.div`
   margin: auto;
-  text-align: center;
+  width: 480px;
+`;
+
+const WelcomeMessageWrapper = styled.div`
+  margin: auto;
   min-width: 480px;
 
   ${Title} {
@@ -98,14 +101,22 @@ const Marketplace: React.FC<MarketplaceProps> = () => {
             <AskOrderWidget />
           </AbsoluteCenter>
         );
+      case MARKETPLACE_VIEWS.ORDERS:
+        return <MyOrdersWidget />;
+      case MARKETPLACE_VIEWS.OFFERS:
+        return <MyAssetsBidsWidget />;
       case null:
       default:
         return (
-          <AbsoluteCenter>
+          <WelcomeMessageWrapper
+            css={css`
+              text-align: center;
+            `}
+          >
             <Icon icon={trendUpIcon} height={40} color="frontSoft" centered />
             <Title>Welcome to to the Tokel Token & NFT market</Title>
             <SubTitle>Select an option on the side menu to begin</SubTitle>
-          </AbsoluteCenter>
+          </WelcomeMessageWrapper>
         );
     }
   };
@@ -132,17 +143,6 @@ const Marketplace: React.FC<MarketplaceProps> = () => {
       </SideMenuRoot>
       <Layout>
         <CurrentTab />
-        {/* <Column size={4}>
-          <AskOrderWidget />
-          <FulfillOrderWidget />
-        </Column>
-        <Column size={4}>
-          <BidOrderWidget />
-          <MyOrdersWidget />
-        </Column>
-        <Column size={4}>
-          <MyAssetsBidsWidget />
-        </Column> */}
       </Layout>
     </>
   );

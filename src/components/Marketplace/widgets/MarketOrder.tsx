@@ -9,10 +9,11 @@ import useDebounce from 'hooks/useDebounce';
 import { selectOrderDetails } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { parseBigNumObject } from 'util/helpers';
+import useFulfillOrderSchema from 'util/validators/useFulfillOrderSchema';
 import { Colors, TICKER } from 'vars/defines';
 
 import Field from 'components/_General/_FormikElements/Field';
-import Select, { SelectOption } from 'components/_General/_FormikElements/Select';
+import Select from 'components/_General/_FormikElements/Select';
 import { Box, CenteredButtonWrapper } from 'components/_General/_UIElements/common';
 import { Button } from 'components/_General/buttons';
 import { Column, Columns } from 'components/_General/Grid';
@@ -25,16 +26,17 @@ interface MarketOrderWidgetProps {
 }
 
 type MarketOrder = {
-  asset_id?: string;
-  order_id?: string;
+  assetId?: string;
+  orderId?: string;
   quantity: number;
   price: number;
 };
 
 const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const orderDetails = useSelector(selectOrderDetails);
+  const fulfillOrderSchema = useFulfillOrderSchema();
 
-  const handleMarketOrder = (values, { setSubmitting }) => {
+  const handleMarketOrder = (_, { setSubmitting }) => {
     setSubmitting(false);
     // dispatch.environment.SET_MODAL({
     //   name: ModalName.CONFIRM_TOKEN_CREATION,
@@ -43,12 +45,13 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   };
 
   const formikBag = useFormik<Partial<MarketOrder>>({
-    // validationSchema: tokenCreationSchema,
+    validationSchema: fulfillOrderSchema,
+    validateOnMount: true,
     initialValues,
     onSubmit: handleMarketOrder,
   });
 
-  const debouncedOrderId = useDebounce(formikBag.values.order_id, 1000);
+  const debouncedOrderId = useDebounce(formikBag.values.orderId, 1000);
   const currentOrderDetails = orderDetails?.[debouncedOrderId];
 
   const buttonTheme = useMemo(() => {
@@ -63,7 +66,8 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
   useEffect(() => {
     if (currentOrderDetails) {
-      formikBag.setFieldValue('asset_id', currentOrderDetails.token.tokenid);
+      formikBag.setFieldValue('order', currentOrderDetails);
+      formikBag.setFieldValue('assetId', currentOrderDetails.token.tokenid);
       formikBag.setFieldValue(
         'quantity',
         parseBigNumObject(currentOrderDetails.bnAmount).toNumber()
@@ -72,6 +76,9 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         'price',
         toBitcoin(parseBigNumObject(currentOrderDetails.bnUnitPrice).toNumber())
       );
+
+      formikBag.setFieldTouched('quantity', true);
+      formikBag.setFieldTouched('price', true);
     }
   }, [currentOrderDetails]);
 
@@ -106,7 +113,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         <Form>
           {type === 'fill' && (
             <Field
-              name="order_id"
+              name="orderId"
               placeholder="Paste an ask or bid ID to fill"
               label="Order ID"
               help="If someone has sent you an order ID, you may paste it here to see further information and fulfill it"
@@ -115,7 +122,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
           {type === 'ask' && (
             <Select
-              name="asset_id"
+              name="assetId"
               label="Asset to sell"
               placeholder="Search for an asset you own..."
               options={[]}
@@ -126,7 +133,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
           {type === 'bid' && (
             <Field
-              name="asset_id"
+              name="assetId"
               placeholder="Paste a asset ID to bid for"
               label="Token ID"
               help="You can get the token or nFT ID by asking the creator, or by navigating in the explorer"
@@ -171,7 +178,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
               margin-top: 15px;
             `}
           >
-            <Button theme={buttonTheme} disabled={!currentOrderDetails}>
+            <Button theme={buttonTheme} disabled={!formikBag.isValid}>
               {buttonLabel}
             </Button>
           </CenteredButtonWrapper>
