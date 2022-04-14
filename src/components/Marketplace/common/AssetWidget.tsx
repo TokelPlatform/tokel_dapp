@@ -2,9 +2,12 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
+import links from 'util/links';
 import { V } from 'util/theming';
 import { TokenDetail } from 'util/token-types';
+import { TICKER } from 'vars/defines';
 
+import OpenInExplorer from 'components/_General/OpenInExplorer';
 import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 
 const Wrapper = styled.div<{ placeholder?: boolean }>`
@@ -24,12 +27,19 @@ const Wrapper = styled.div<{ placeholder?: boolean }>`
     margin-left: 6px;
     display: flex;
     flex-direction: column;
+    &:last-child {
+      margin: auto;
+    }
 
     span {
       ${props => props.placeholder && `background-color: ${V.color.back};`}
 
       h1 {
         text-align: left;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         font-size: 16px;
         margin: 0;
       }
@@ -73,20 +83,27 @@ const AssetWidget: React.FC<AssetWidgetProps> = ({ asset }) => {
       </Wrapper>
     );
 
+  const link = links.explorers[TICKER](`tokens/${asset.tokenid}/transactions`);
+
   return (
-    <Wrapper>
-      <span>
-        <TokenMediaDisplay url={asset.dataAsJson?.url} />
-      </span>
-      <div>
+    <>
+      <Wrapper>
         <span>
-          <h1>{asset.name}</h1>
+          <TokenMediaDisplay url={asset.dataAsJson?.url} />
         </span>
-        <span>
-          <h2>{asset.description}</h2>
-        </span>
-      </div>
-    </Wrapper>
+        <div>
+          <span>
+            <h1>{asset.name}</h1>
+          </span>
+          <span>
+            <h2>{asset.description}</h2>
+          </span>
+        </div>
+        <div>
+          <OpenInExplorer link={link} />
+        </div>
+      </Wrapper>
+    </>
   );
 };
 

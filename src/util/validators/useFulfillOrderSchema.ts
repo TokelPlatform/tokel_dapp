@@ -23,8 +23,9 @@ const useFulfillOrderSchema = () => {
             'token-is-present',
             'token for this order not present in your wallet',
             (_, context) =>
-              context.parent.order?.type === 'bid' &&
-              myTokens[context.parent.order?.token?.tokenid] !== undefined
+              context.parent.order?.type === 'bid'
+                ? myTokens[context.parent.order?.token?.tokenid] !== undefined
+                : true
           ),
         quantity: yup
           .number()
@@ -43,7 +44,7 @@ const useFulfillOrderSchema = () => {
           .required('price is required')
           .test(
             'needs-funds',
-            `not enough funds ${TICKER}`,
+            `not enough ${TICKER}`,
             (value, context) => value <= (balance - FEE) / context.parent.quantity
           ),
       }),
