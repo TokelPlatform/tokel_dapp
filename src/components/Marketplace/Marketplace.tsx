@@ -89,16 +89,16 @@ const Marketplace: React.FC<MarketplaceProps> = () => {
             <FulfillOrderWidget />
           </AbsoluteCenter>
         );
-      case MARKETPLACE_VIEWS.BID:
-        return (
-          <AbsoluteCenter>
-            <BidOrderWidget />
-          </AbsoluteCenter>
-        );
       case MARKETPLACE_VIEWS.ASK:
         return (
           <AbsoluteCenter>
             <AskOrderWidget />
+          </AbsoluteCenter>
+        );
+      case MARKETPLACE_VIEWS.BID:
+        return (
+          <AbsoluteCenter>
+            <BidOrderWidget />
           </AbsoluteCenter>
         );
       case MARKETPLACE_VIEWS.ORDERS:

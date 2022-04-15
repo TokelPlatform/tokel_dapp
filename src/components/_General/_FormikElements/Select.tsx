@@ -1,8 +1,8 @@
 import React from 'react';
-import { FieldHookConfig, useFormikContext } from 'formik';
-
 import ReactSelect from 'react-select';
 import CreatableReactSelect from 'react-select/creatable';
+
+import { FieldHookConfig, useFormikContext } from 'formik';
 
 import { useReactSelectStyles } from './common';
 import FieldContainer from './FieldContainer';
@@ -19,6 +19,7 @@ interface SelectProps {
   help?: string;
   options: SelectOption[];
   formattedSelectedOption?: SelectOption;
+  useOptionValueAsFieldValue?: boolean;
 }
 
 const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
@@ -28,6 +29,7 @@ const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
   placeholder,
   options,
   formattedSelectedOption,
+  useOptionValueAsFieldValue,
   ...props
 }) => {
   const SelectComponent = creatable ? CreatableReactSelect : ReactSelect;
@@ -38,7 +40,7 @@ const Select: React.FC<SelectProps & FieldHookConfig<string>> = ({
   const handleChange = (option?: SelectOption) => {
     setFieldTouched(props.name, true);
     if (!option) setFieldValue(props.name, undefined);
-    else setFieldValue(props.name, option);
+    else setFieldValue(props.name, useOptionValueAsFieldValue ? option.value : option);
   };
 
   return (

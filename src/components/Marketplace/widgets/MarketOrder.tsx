@@ -6,10 +6,11 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import { toBitcoin } from 'satoshi-bitcoin';
 
 import useDebounce from 'hooks/useDebounce';
-import { selectOrderDetails } from 'store/selectors';
+import useMyTokens from 'hooks/useMyTokens';
+import { selectOrderDetails, selectTokenDetails } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { parseBigNumObject } from 'util/helpers';
-import useFulfillOrderSchema from 'util/validators/useFulfillOrderSchema';
+import useFulfillOrderSchema from 'util/validators/useMarketOrderSchema';
 import { Colors, TICKER } from 'vars/defines';
 
 import Field from 'components/_General/_FormikElements/Field';
@@ -34,7 +35,9 @@ type MarketOrder = {
 
 const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const orderDetails = useSelector(selectOrderDetails);
-  const fulfillOrderSchema = useFulfillOrderSchema();
+  const tokenDetails = useSelector(selectTokenDetails);
+  const myTokens = useMyTokens();
+  const fulfillOrderSchema = useFulfillOrderSchema(type);
 
   const handleMarketOrder = (_, { setSubmitting }) => {
     setSubmitting(false);
@@ -54,9 +57,9 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const currentOrderDetails = orderDetails?.[debouncedOrderId];
 
   const buttonTheme = useMemo(() => {
-    if (type === 'ask' || (type === 'fill' && currentOrderDetails?.type === 'ask')) {
+    if (type === 'bid' || (type === 'fill' && currentOrderDetails?.type === 'ask')) {
       return Colors.SUCCESS;
-    } else if (type === 'bid' || (type === 'fill' && currentOrderDetails?.type === 'bid')) {
+    } else if (type === 'ask' || (type === 'fill' && currentOrderDetails?.type === 'bid')) {
       return Colors.DANGER;
     } else {
       return Colors.PURPLE;
@@ -75,6 +78,11 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         'price',
         toBitcoin(parseBigNumObject(currentOrderDetails.bnUnitPrice).toNumber())
       );
+
+      if (type === 'fill') {
+        formikBag.setFieldTouched('quantity', true);
+        formikBag.setFieldTouched('price', true);
+      }
     }
   }, [formikBag.setFieldValue, currentOrderDetails]);
 
@@ -129,9 +137,9 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
               name="assetId"
               label="Asset to sell"
               placeholder="Search for an asset you own..."
-              options={[]}
+              options={Object.values(myTokens)}
               help="Select an asset you own and place an order to sell it. You'll receive an order ID you can send to the buyer to complete the order."
-              // formattedSelectedOption={formattedSelectedCollectionOption}
+              useOptionValueAsFieldValue
             />
           )}
 
@@ -175,7 +183,9 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
             </Column>
           </Columns>
 
-          <AssetWidget asset={currentOrderDetails?.token} />
+          <AssetWidget
+            asset={currentOrderDetails?.token || tokenDetails[formikBag.values.assetId]}
+          />
 
           <CenteredButtonWrapper
             css={css`
