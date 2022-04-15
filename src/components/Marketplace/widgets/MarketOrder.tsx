@@ -46,7 +46,6 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
   const formikBag = useFormik<Partial<MarketOrder>>({
     validationSchema: fulfillOrderSchema,
-    validateOnMount: true,
     initialValues,
     onSubmit: handleMarketOrder,
   });
@@ -76,18 +75,23 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         'price',
         toBitcoin(parseBigNumObject(currentOrderDetails.bnUnitPrice).toNumber())
       );
-
-      formikBag.setFieldTouched('quantity', true);
-      formikBag.setFieldTouched('price', true);
     }
-  }, [currentOrderDetails]);
+  }, [formikBag.setFieldValue, currentOrderDetails]);
 
   useEffect(() => {
-    if (debouncedOrderId?.length === 64)
+    if (debouncedOrderId?.length === 64) {
       sendToBitgo(BitgoAction.ASSET_V2_FETCH_ORDER_DECODED, {
         orderId: debouncedOrderId,
       });
+    }
   }, [debouncedOrderId]);
+
+  useEffect(() => {
+    formikBag.setFieldValue('order', {});
+    formikBag.setFieldValue('quantity', undefined);
+    formikBag.setFieldValue('price', undefined);
+    formikBag.setFieldValue('assetId', undefined);
+  }, [formikBag.values.orderId]);
 
   const buttonLabel =
     type === 'ask'

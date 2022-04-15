@@ -10,7 +10,7 @@ import { TICKER } from 'vars/defines';
 import OpenInExplorer from 'components/_General/OpenInExplorer';
 import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 
-const Wrapper = styled.div<{ placeholder?: boolean }>`
+const Wrapper = styled.div<{ isPlaceholder?: boolean }>`
   background-color: ${V.color.backSoftest};
   padding: 12px;
   border-radius: 4px;
@@ -20,19 +20,24 @@ const Wrapper = styled.div<{ placeholder?: boolean }>`
   & > span {
     height: 40px;
     width: 40px;
-    ${props => props.placeholder && `background-color: ${V.color.back};`}
+    ${props => props.isPlaceholder && `background-color: ${V.color.back};`}
   }
 
   & > div {
     margin-left: 6px;
     display: flex;
     flex-direction: column;
-    &:last-child {
-      margin: auto;
-    }
+
+    ${props =>
+      !props.isPlaceholder &&
+      `
+      &:last-child {
+        margin: auto;
+      }
+  `}
 
     span {
-      ${props => props.placeholder && `background-color: ${V.color.back};`}
+      ${props => props.isPlaceholder && `background-color: ${V.color.back};`}
 
       h1 {
         text-align: left;
@@ -74,7 +79,7 @@ interface AssetWidgetProps {
 const AssetWidget: React.FC<AssetWidgetProps> = ({ asset }) => {
   if (!asset)
     return (
-      <Wrapper placeholder>
+      <Wrapper isPlaceholder>
         <span />
         <div>
           <span />
