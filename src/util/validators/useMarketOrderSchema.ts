@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux';
 import BN from 'bn.js';
 import * as yup from 'yup';
 
-import { selectTokenBalances, selectUnspentBalance } from 'store/selectors';
+import { selectTokenBalances, selectTokenDetails, selectUnspentBalance } from 'store/selectors';
 import { parseBigNumObject } from 'util/helpers';
 import { FEE, TICKER } from 'vars/defines';
 
 const useFulfillOrderSchema = (type: 'fill' | 'ask' | 'bid') => {
   const balance = useSelector(selectUnspentBalance);
   const myTokensBalances = useSelector(selectTokenBalances);
+  const tokenDetails = useSelector(selectTokenDetails);
 
   const schema = useMemo(
     () =>
@@ -45,10 +46,13 @@ const useFulfillOrderSchema = (type: 'fill' | 'ask' | 'bid') => {
               ? new BN(value).lte(parseBigNumObject(context.parent.order?.bnAmount))
               : true
           )
-          .test('order-amount', 'not enough tokens in wallet', (value, context) =>
+          .test('enough-balance', 'not enough tokens in wallet', (value, context) =>
             type === 'ask'
               ? new BN(value).lte(parseBigNumObject(myTokensBalances[context.parent.assetId]))
               : true
+          )
+          .test('max-supply', 'not enough supply of this token', (value, context) =>
+            type === 'bid' ? value <= tokenDetails?.[context.parent.assetId]?.supply : true
           )
           .required('quantity is required'),
         price: yup

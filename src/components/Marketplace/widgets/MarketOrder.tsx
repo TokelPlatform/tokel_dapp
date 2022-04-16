@@ -56,6 +56,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const debouncedOrderId = useDebounce(formikBag.values.orderId, 1000);
   const debouncedAssetId = useDebounce(formikBag.values.assetId, 1000);
   const currentOrderDetails = orderDetails?.[debouncedOrderId];
+  const currentTokenDetails = currentOrderDetails?.token || tokenDetails?.[debouncedAssetId];
 
   const buttonTheme = useMemo(() => {
     if (type === 'bid' || (type === 'fill' && currentOrderDetails?.type === 'ask')) {
@@ -97,6 +98,12 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       }
     }
   }, [formikBag.setFieldValue, currentOrderDetails]);
+
+  useEffect(() => {
+    if (currentTokenDetails?.supply === 1) {
+      formikBag.setFieldValue('quantity', 1);
+    }
+  }, [formikBag.setFieldValue, currentTokenDetails]);
 
   useEffect(() => {
     if (debouncedOrderId?.length === 64 && !orderDetails?.[debouncedOrderId]) {
@@ -172,7 +179,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
                 name="quantity"
                 type="number"
                 label="Quantity"
-                // readOnly={tokenType === TokenType.NFT}
+                readOnly={tokenDetails[formikBag.values.assetId]?.supply === 1}
                 placeholder="100,000"
                 min={1}
                 help="Number of tokens to include in this order. Always one for NFTs."
@@ -192,9 +199,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
             </Column>
           </Columns>
 
-          <AssetWidget
-            asset={currentOrderDetails?.token || tokenDetails[formikBag.values.assetId]}
-          />
+          <AssetWidget asset={currentTokenDetails} />
 
           <CenteredButtonWrapper
             css={css`
