@@ -23,6 +23,12 @@ export const selectTransactions = (state: RootState) =>
   state.account.txs[state.account.address] ?? [];
 
 export const selectTokenDetails = (state: RootState) => state.environment.tokenDetails;
+export const selectMyTokenDetails = (state: RootState) =>
+  Object.fromEntries(
+    Object.entries(state.environment.tokenDetails).filter(([id]) =>
+      Object.keys(state.wallet.tokenBalances)?.includes(id)
+    )
+  );
 
 export const selectChosenAsset = (state: RootState) => state.wallet.chosenAsset;
 

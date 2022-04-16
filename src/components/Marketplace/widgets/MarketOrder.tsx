@@ -54,6 +54,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   });
 
   const debouncedOrderId = useDebounce(formikBag.values.orderId, 1000);
+  const debouncedAssetId = useDebounce(formikBag.values.assetId, 1000);
   const currentOrderDetails = orderDetails?.[debouncedOrderId];
 
   const buttonTheme = useMemo(() => {
@@ -65,6 +66,17 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       return Colors.PURPLE;
     }
   }, [type, currentOrderDetails]);
+
+  const buttonLabel =
+    type === 'ask'
+      ? 'Review sell order'
+      : type === 'bid'
+      ? 'Review bid order'
+      : currentOrderDetails?.type === 'ask'
+      ? 'Review purchase'
+      : currentOrderDetails?.type === 'bid'
+      ? 'Review sale'
+      : 'Review order';
 
   useEffect(() => {
     if (currentOrderDetails) {
@@ -87,7 +99,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   }, [formikBag.setFieldValue, currentOrderDetails]);
 
   useEffect(() => {
-    if (debouncedOrderId?.length === 64) {
+    if (debouncedOrderId?.length === 64 && !orderDetails?.[debouncedOrderId]) {
       sendToBitgo(BitgoAction.ASSET_V2_FETCH_ORDER_DECODED, {
         orderId: debouncedOrderId,
       });
@@ -95,22 +107,19 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   }, [debouncedOrderId]);
 
   useEffect(() => {
+    if (debouncedAssetId?.length === 64 && !tokenDetails?.[debouncedAssetId]) {
+      sendToBitgo(BitgoAction.TOKEN_V2_INFO_TOKEL, {
+        tokenId: debouncedAssetId,
+      });
+    }
+  }, [debouncedAssetId]);
+
+  useEffect(() => {
     formikBag.setFieldValue('order', {});
     formikBag.setFieldValue('quantity', undefined);
     formikBag.setFieldValue('price', undefined);
     formikBag.setFieldValue('assetId', undefined);
   }, [formikBag.values.orderId]);
-
-  const buttonLabel =
-    type === 'ask'
-      ? 'Review sell order'
-      : type === 'bid'
-      ? 'Review bid order'
-      : currentOrderDetails?.type === 'ask'
-      ? 'Review purchase'
-      : currentOrderDetails?.type === 'bid'
-      ? 'Review sale'
-      : 'Review order';
 
   return (
     <Box

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import BN from 'bn.js';
 
-import { selectTokenBalances, selectTokenDetails } from 'store/selectors';
+import { selectMyTokenDetails, selectTokenBalances } from 'store/selectors';
 import { parseBigNumObject } from 'util/helpers';
 
 import { SelectOption } from 'components/_General/_FormikElements/Select';
@@ -11,7 +11,7 @@ import { SelectOption } from 'components/_General/_FormikElements/Select';
 type Tokens = Record<string, SelectOption>;
 
 const useMyTokens = (): Tokens => {
-  const tokenDetails = useSelector(selectTokenDetails);
+  const tokenDetails = useSelector(selectMyTokenDetails);
   const tokenBalances = useSelector(selectTokenBalances);
 
   const tokensMap = useMemo(
