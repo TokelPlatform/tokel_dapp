@@ -8,17 +8,19 @@ const ImgClickableWrapper = styled.a`
   cursor: pointer;
   background: transparent;
   border: none;
+  display: flex;
 `;
 
 type CopyProps = {
   link: string;
   color?: string;
+  width?: string;
 };
 
-const OpenInExplorer = ({ link, color }: CopyProps) => {
+const OpenInExplorer = ({ link, color, width }: CopyProps) => {
   return (
     <ImgClickableWrapper href={link} rel="noreferrer" target="_blank">
-      <img style={{ color }} src={linkIcon} alt="open-in-explorer" />
+      <img style={{ color }} src={linkIcon} width={width} alt="open-in-explorer" />
     </ImgClickableWrapper>
   );
 };

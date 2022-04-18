@@ -4,11 +4,12 @@ import { ModalName } from 'vars/defines';
 
 import ConfirmTokenCreationModal from 'components/CreateToken/ConfirmTokenCreationModal';
 import TokenCreatedTx from 'components/CreateToken/TokenCreatedTx';
+import ConfirmOrderModal from 'components/Marketplace/ConfirmOrderModal';
 import Feedback from './Feedback';
+import IpfsExplainer from './IpfsExplainer';
 import Receive from './Receive';
 import Send from './Send';
 import TxDetail from './TxDetail';
-import IpfsExplainer from './IpfsExplainer';
 
 interface ModalPayloadType {
   title: string;
@@ -37,5 +38,10 @@ export default {
   [ModalName.IPFS_EXPLAINER]: {
     title: 'Store your digital media correctly',
     component: <IpfsExplainer />,
+  },
+  [ModalName.CONFIRM_MARKET_ORDER]: {
+    title: 'Confirm market order',
+    component: <ConfirmOrderModal />,
+    size: 'medium',
   },
 } as ModalCollectionType;

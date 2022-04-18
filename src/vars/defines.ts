@@ -78,6 +78,7 @@ export enum ModalName {
   CONFIRM_TOKEN_CREATION = 'confirm_token_creation',
   TOKEN_CREATED = 'token_created',
   IPFS_EXPLAINER = 'ipfs_explainer',
+  CONFIRM_MARKET_ORDER = 'confirm_market_order',
 }
 
 export const Config = {

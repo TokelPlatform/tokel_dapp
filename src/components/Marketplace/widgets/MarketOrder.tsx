@@ -7,11 +7,12 @@ import { toBitcoin } from 'satoshi-bitcoin';
 
 import useDebounce from 'hooks/useDebounce';
 import useMyTokens from 'hooks/useMyTokens';
+import { dispatch } from 'store/rematch';
 import { selectOrderDetails, selectTokenDetails } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { parseBigNumObject } from 'util/helpers';
 import useFulfillOrderSchema from 'util/validators/useMarketOrderSchema';
-import { Colors, TICKER } from 'vars/defines';
+import { Colors, ModalName, TICKER } from 'vars/defines';
 
 import Field from 'components/_General/_FormikElements/Field';
 import Select from 'components/_General/_FormikElements/Select';
@@ -39,12 +40,12 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const myTokens = useMyTokens();
   const fulfillOrderSchema = useFulfillOrderSchema(type);
 
-  const handleMarketOrder = (_, { setSubmitting }) => {
+  const handleMarketOrder = (values, { setSubmitting }) => {
     setSubmitting(false);
-    // dispatch.environment.SET_MODAL({
-    //   name: ModalName.CONFIRM_TOKEN_CREATION,
-    //   options: { ...values, confirmation: false },
-    // });
+    dispatch.environment.SET_MODAL({
+      name: ModalName.CONFIRM_MARKET_ORDER,
+      options: { type, ...values },
+    });
   };
 
   const formikBag = useFormik<Partial<MarketOrder>>({

@@ -23,9 +23,12 @@ export const ModalRoot = styled(motion.div)`
   opacity: 0;
 `;
 
-const ModalPanel = styled(motion.div)<{ size?: 'small' | 'large' }>`
+const ModalPanel = styled(motion.div)<{ size?: 'small' | 'medium' | 'large' }>`
   width: 100%;
-  max-width: min(${props => (props.size === 'large' ? '980px' : '440px')}, 90%);
+  max-width: min(
+    ${props => (props.size === 'large' ? '980px' : props.size === 'medium' ? '780px' : '440px')},
+    90%
+  );
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -65,7 +68,7 @@ const handleEscape = (e: KeyboardEvent) => e.key === 'Escape' && close();
 type ModalProps = {
   title: string;
   children: ReactElement;
-  size?: 'small' | 'large';
+  size?: 'small' | 'modal' | 'large';
 };
 
 const Modal = ({ title, size, children }: ModalProps) => {

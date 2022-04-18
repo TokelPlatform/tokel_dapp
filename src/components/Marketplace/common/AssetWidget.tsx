@@ -28,34 +28,38 @@ const Wrapper = styled.div<{ isPlaceholder?: boolean }>`
     display: flex;
     flex-direction: column;
 
+    &:first-of-type {
+      width: 70%;
+    }
+
     ${props =>
       !props.isPlaceholder &&
       `
       &:last-child {
-        margin: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: auto;
+        margin-right: 16px;
       }
-  `}
+    `}
 
     span {
       ${props => props.isPlaceholder && `background-color: ${V.color.back};`}
 
-      h1 {
-        text-align: left;
-        max-width: 200px;
+      h1,
+      h2 {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 16px;
         margin: 0;
+      }
+      h1 {
+        text-align: left;
+        font-size: 16px;
       }
 
       h2 {
         font-size: 14px;
-        max-width: 200px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin: 0;
       }
     }
 
@@ -105,7 +109,7 @@ const AssetWidget: React.FC<AssetWidgetProps> = ({ asset }) => {
           </span>
         </div>
         <div>
-          <OpenInExplorer link={link} />
+          <OpenInExplorer width="18px" link={link} />
         </div>
       </Wrapper>
     </>
