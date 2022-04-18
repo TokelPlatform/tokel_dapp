@@ -44,24 +44,33 @@ For more information about the project please join our [Discord](https://discord
 ## Git branches and development
 The default branch in the Github repo is `development`. However, releases are cut from the `main` branch. In general, PRs should be made against the `development` branch and reviewed by at least one other person before being merged. When ready for a release, a PR should be made from `development` to `main` and reviewed. Once happy with the PR, it can be merged and then a [release can be drafted for distribution](#automatic-github-distribution).
 
-## Install
+## Contributing
 
-Make sure you are runing node 15.
+You can fork the repo and develop your changes in a new branch there. Try naming it like `feature/awesome-feature-name` or `bug/succinct-name-here` to make things easier. Once you're done with your changes, you can trigger a Pull Request to the main repo, on the `development` branch and someone will take a look at it.
+
+### **Installation**
+
+Make sure you are runing node 16. You can use [nvm](https://github.com/nvm-sh/nvm) to manage your node versions. Run ```yarn install``` in the root directory and it's once done, you can do the same in `src/electron` directory.
 
 ```bash
-yarn
+yarn install
 ```
 
-The application is using [nspv-js](https://github.com/tokelPlatform/nspv-js/).
+The application is using [nspv-js](https://github.com/tokelPlatform/nspv-js/). Feel free to take a look at it and understand what it does.
 
-
-## Starting Development
+### **Starting Development**
 
 Start the app in the `dev` environment:
 
 ```bash
-yarn start
+yarn dev
 ```
+
+The app will automatically connect to a test network, in which you can just "create an account" by typing anything you want in the `Seed Phrase` input. Later you can use this same *Key* you just used here to login and your information will be loaded again.
+
+### **Tests**
+
+We currently have very little tests in our dApp, but feel free to help us out with test or develop tests to your own changes. We are using [Jest](https://jestjs.io/) and [Testcafe](https://testcafe.io/) as our test libraries.
 
 ## Packaging for Production
 
