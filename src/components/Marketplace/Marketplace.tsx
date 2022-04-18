@@ -15,9 +15,7 @@ import { Layout, SubTitle, Title } from 'components/_General/_UIElements/common'
 import Icon from 'components/_General/_UIElements/Icon';
 import MenuItem from 'components/Home/Menu/MenuItem';
 import { SideMenuRoot } from 'components/Home/Menu/SideMenu';
-import AskOrderWidget from './widgets/AskOrder';
-import BidOrderWidget from './widgets/BidOrder';
-import FulfillOrderWidget from './widgets/FulfillOrder';
+import MarketOrderWidget from './widgets/MarketOrder';
 import MyAssetsBidsWidget from './widgets/MyAssetsBids';
 import MyOrdersWidget from './widgets/MyOrders';
 
@@ -86,19 +84,19 @@ const Marketplace: React.FC<MarketplaceProps> = () => {
       case MARKETPLACE_VIEWS.FILL:
         return (
           <AbsoluteCenter>
-            <FulfillOrderWidget />
+            <MarketOrderWidget type="fill" />
           </AbsoluteCenter>
         );
       case MARKETPLACE_VIEWS.ASK:
         return (
           <AbsoluteCenter>
-            <AskOrderWidget />
+            <MarketOrderWidget type="ask" />
           </AbsoluteCenter>
         );
       case MARKETPLACE_VIEWS.BID:
         return (
           <AbsoluteCenter>
-            <BidOrderWidget />
+            <MarketOrderWidget type="bid" />
           </AbsoluteCenter>
         );
       case MARKETPLACE_VIEWS.ORDERS:
