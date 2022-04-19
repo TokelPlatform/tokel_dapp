@@ -23,7 +23,7 @@ export type EnvironmentState = {
 
 export type Modal = {
   name: ModalName;
-  options: TokenForm | Record<string, unknown>;
+  options: Record<string, unknown>;
 };
 
 export const DEFAULT_NULL_MODAL: Modal = {

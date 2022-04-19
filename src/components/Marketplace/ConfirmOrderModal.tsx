@@ -3,8 +3,10 @@ import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { toSatoshi } from 'satoshi-bitcoin';
 
 import { selectModalOptions, selectOrderDetails, selectTokenDetails } from 'store/selectors';
+import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { V } from 'util/theming';
 import { Colors, FEE, TICKER } from 'vars/defines';
 
@@ -30,14 +32,37 @@ const KeyValueDisplay = styled.div`
 interface ConfirmOrderModalProps {}
 
 const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
-  const formValues = useSelector(selectModalOptions);
+  const formValues = useSelector(selectModalOptions) as Record<string, any>;
   const orderDetails = useSelector(selectOrderDetails);
   const tokenDetails = useSelector(selectTokenDetails);
 
   const currentOrderDetails = orderDetails?.[formValues?.orderId];
   const currentTokenDetails = currentOrderDetails?.token || tokenDetails?.[formValues?.assetId];
 
-  const handleOrderBroadcast = () => {};
+  const handleOrderBroadcast = () => {
+    if (formValues?.type === 'fill') {
+      sendToBitgo(
+        currentOrderDetails?.type === 'bid'
+          ? BitgoAction.ASSET_V2_FILL_BID
+          : BitgoAction.ASSET_V2_FILL_ASK,
+        {
+          orderId: formValues?.orderId,
+          tokenId: formValues.assetId,
+          amount: formValues.quantity,
+          unitPrice: formValues.price,
+        }
+      );
+    } else {
+      sendToBitgo(
+        formValues?.type === 'bid' ? BitgoAction.ASSET_V2_POST_BID : BitgoAction.ASSET_V2_POST_ASK,
+        {
+          tokenId: formValues.assetId,
+          amount: formValues.quantity,
+          unitPrice: formValues.price,
+        }
+      );
+    }
+  };
 
   const buttonTheme = useMemo(() => {
     if (
@@ -126,7 +151,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
           <KeyValueDisplay>
             <label>Royalty</label>
             <p>
-              {currentTokenDetails.dataAsJson.royalty / 10}% {TICKER}
+              {currentTokenDetails?.dataAsJson?.royalty / 10 || 0}% {TICKER}
             </p>
           </KeyValueDisplay>
         </Column>

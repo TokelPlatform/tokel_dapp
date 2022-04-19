@@ -18,6 +18,12 @@ export enum BitgoAction {
   TOKEN_V2_TRANSFER = 'token_v2_transfer',
   TOKEN_V2_CREATE_TOKEL = 'token_v2_create_tokel',
   ASSET_V2_FETCH_ORDER_DECODED = 'asset_v2_fetch_order_decoded',
+  ASSET_V2_FILL_ASK = 'asset_v2_fill_ask',
+  ASSET_V2_FILL_BID = 'asset_v2_fill_bid',
+  ASSET_V2_POST_ASK = 'asset_v2_post_ask',
+  ASSET_V2_POST_BID = 'asset_v2_post_bid',
+  ASSET_V2_CANCEL_ASK = 'asset_v2_cancel_ask',
+  ASSET_V2_CANCEL_BID = 'asset_v2_cancel_bid',
 }
 
 export type MsgType = typeof BitgoAction;
@@ -39,6 +45,36 @@ export type BitgoMessageParamList = {
   [BitgoAction.TOKEN_V2_TRANSFER]: { destpubkey: string; tokenid: string; amount: number };
   [BitgoAction.TOKEN_V2_CREATE_TOKEL]: CreateTokenPayload;
   [BitgoAction.ASSET_V2_FETCH_ORDER_DECODED]: { orderId: string };
+  [BitgoAction.ASSET_V2_FILL_ASK]: {
+    orderId: string;
+    tokenId: string;
+    amount: number;
+    unitPrice: number;
+  };
+  [BitgoAction.ASSET_V2_FILL_BID]: {
+    orderId: string;
+    tokenId: string;
+    amount: number;
+    unitPrice: number;
+  };
+  [BitgoAction.ASSET_V2_POST_ASK]: {
+    tokenId: string;
+    amount: number;
+    unitPrice: number;
+  };
+  [BitgoAction.ASSET_V2_POST_BID]: {
+    tokenId: string;
+    amount: number;
+    unitPrice: number;
+  };
+  [BitgoAction.ASSET_V2_CANCEL_ASK]: {
+    tokenId: string;
+    amount: number;
+  };
+  [BitgoAction.ASSET_V2_CANCEL_BID]: {
+    tokenId: string;
+    amount: number;
+  };
 };
 
 type ConditionalOptions<T, K extends keyof T> = T[K] extends undefined ? [] : [T[K]];

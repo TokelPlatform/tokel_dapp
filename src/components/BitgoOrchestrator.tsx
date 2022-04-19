@@ -122,6 +122,26 @@ const BitgoOrchestrator = () => {
         dispatch.currentTransaction.SET_TOKEN_TX(true);
         return;
       }
+      if (
+        [
+          BitgoAction.ASSET_V2_POST_ASK,
+          BitgoAction.ASSET_V2_POST_BID,
+          BitgoAction.ASSET_V2_FILL_ASK,
+          BitgoAction.ASSET_V2_FILL_BID,
+          BitgoAction.ASSET_V2_CANCEL_ASK,
+          BitgoAction.ASSET_V2_CANCEL_BID,
+        ].includes(payload.type)
+      ) {
+        if (payload.error) {
+          transactionError(payload.error);
+          return;
+        }
+        const success = spendSuccess(payload.data);
+        dispatch.currentTransaction.SET_TX_STATUS(success);
+        dispatch.currentTransaction.SET_TX_ID(success ? payload.data.txid : null);
+        dispatch.currentTransaction.SET_TOKEN_TX(true);
+        return;
+      }
       // HANDLE ALL OTHER ERRORS GENERICALLY
       if (payload.error) {
         commonError(payload.error);
