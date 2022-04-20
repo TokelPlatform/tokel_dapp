@@ -1,25 +1,26 @@
 import React, { useMemo } from 'react';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 import { useSelector } from 'react-redux';
+
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { Form, FormikProvider, useFormik } from 'formik';
-import { selectModalOptions } from 'store/selectors';
-import { dispatch } from 'store/rematch';
 import { toBitcoin, toSatoshi } from 'satoshi-bitcoin';
 
-import { Columns, Column } from 'components/_General/Grid';
-import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
+import { dispatch } from 'store/rematch';
+import { selectModalOptions } from 'store/selectors';
+import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
+import formatTokenFormIntoStandard from 'util/formatTokenFormIntoStandard';
+import { Responsive } from 'util/helpers';
+import { V } from 'util/theming';
+import { TokenForm } from 'util/token-types';
+import TokenType from 'util/types/TokenType';
+import useTokenCreationSchema from 'util/validators/useTokenCreationSchema';
+import { FEE, ModalName, TICKER, TOKEN_MARKER_FEE } from 'vars/defines';
+
 import Checkbox from 'components/_General/_FormikElements/Checkbox';
 import { Button } from 'components/_General/buttons';
-
-import { TokenForm } from 'util/token-types';
-import useTokenCreationSchema from 'util/validators/useTokenCreationSchema';
-import { Responsive } from 'util/helpers';
-import formatTokenFormIntoStandard from 'util/formatTokenFormIntoStandard';
-import { V } from 'util/theming';
-import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
-import { FEE, ModalName, TICKER, TOKEN_MARKER_FEE } from 'vars/defines';
-import TokenType from 'util/types/TokenType';
+import { Column, Columns } from 'components/_General/Grid';
+import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 
 const MediaPreviewContainer = styled.div`
   text-align: center;
@@ -71,7 +72,7 @@ const CustomAttributesDivider = styled.div`
 const NotApplicable = () => <i>N/A</i>;
 
 const ConfirmTokenCreationModal: React.FC = () => {
-  const token = useSelector(selectModalOptions) as TokenForm;
+  const token = useSelector(selectModalOptions) as unknown as TokenForm;
 
   const tokenCreationSchema = useTokenCreationSchema();
 

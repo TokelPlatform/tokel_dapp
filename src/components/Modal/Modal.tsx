@@ -68,7 +68,7 @@ const handleEscape = (e: KeyboardEvent) => e.key === 'Escape' && close();
 type ModalProps = {
   title: string;
   children: ReactElement;
-  size?: 'small' | 'modal' | 'large';
+  size?: 'small' | 'medium' | 'large';
 };
 
 const Modal = ({ title, size, children }: ModalProps) => {

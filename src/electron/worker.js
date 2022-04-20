@@ -267,6 +267,8 @@ class BitgoSingleton {
         unitPrice
       );
 
+      console.log(tx.toHex(), 'hex tx');
+
       const txResult = await this.broadcast({ txHex: tx.toHex() });
       return {
         ...txResult,

@@ -4,10 +4,11 @@ import { useSelector } from 'react-redux';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { dispatch } from 'store/rematch';
 import { selectModalOptions, selectOrderDetails, selectTokenDetails } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { V } from 'util/theming';
-import { Colors, FEE, TICKER } from 'vars/defines';
+import { Colors, FEE, ModalName, TICKER } from 'vars/defines';
 
 import { CenteredButtonWrapper } from 'components/_General/_UIElements/common';
 import { Button } from 'components/_General/buttons';
@@ -40,6 +41,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
 
   const currentOrderDetails = orderDetails?.[formValues?.orderId];
   const currentTokenDetails = currentOrderDetails?.token || tokenDetails?.[formValues?.assetId];
+  const isFilling = formValues?.type === 'fill';
 
   const handleOrderBroadcast = () => {
     if (formValues?.type === 'fill') {
@@ -64,9 +66,15 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
         }
       );
     }
-  };
 
-  const isFilling = formValues?.type === 'fill';
+    dispatch.environment.SET_MODAL({
+      name: ModalName.MARKET_ORDER_SENT,
+      options: {
+        isFilling,
+        token: currentTokenDetails,
+      },
+    });
+  };
 
   const orderSide = useMemo(
     () => (isFilling ? currentOrderDetails?.type : formValues?.type),
@@ -116,6 +124,12 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
           margin-bottom: 0 !important;
         `}
       >
+        <Column size={3}>
+          <KeyValueDisplay color={orderSide === 'bid' ? Colors.SUCCESS : Colors.DANGER}>
+            <label>Order Type</label>
+            <p>{orderSide === 'bid' ? 'Bid (Purchase)' : 'Ask (Sale)'}</p>
+          </KeyValueDisplay>
+        </Column>
         {Boolean(formValues.orderId) && (
           <Column size={9}>
             <KeyValueDisplay>
@@ -124,19 +138,13 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             </KeyValueDisplay>
           </Column>
         )}
-        <Column size={3}>
-          <KeyValueDisplay color={orderSide === 'bid' ? Colors.SUCCESS : Colors.DANGER}>
-            <label>Order Type</label>
-            <p>{orderSide === 'bid' ? 'Bid (Purchase)' : 'Ask (Sale)'}</p>
-          </KeyValueDisplay>
-        </Column>
-        <Column size={3}>
+        <Column size={isFilling ? 4 : 3}>
           <KeyValueDisplay>
             <label>Amount</label>
             <p>{formValues.quantity}</p>
           </KeyValueDisplay>
         </Column>
-        <Column size={3}>
+        <Column size={isFilling ? 4 : 3}>
           <KeyValueDisplay>
             <label>Unit Price</label>
             <p>
@@ -144,7 +152,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             </p>
           </KeyValueDisplay>
         </Column>
-        <Column size={3}>
+        <Column size={isFilling ? 4 : 3}>
           <KeyValueDisplay>
             <label>Total</label>
             <p>
@@ -153,7 +161,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
           </KeyValueDisplay>
         </Column>
 
-        <Column size={3}>
+        <Column size={4}>
           <KeyValueDisplay>
             <label>Royalty</label>
             <p>
@@ -161,7 +169,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             </p>
           </KeyValueDisplay>
         </Column>
-        <Column size={isFilling ? 6 : 6}>
+        <Column size={4}>
           <KeyValueDisplay>
             <label>Transaction Fee</label>
             <p>
@@ -169,7 +177,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             </p>
           </KeyValueDisplay>
         </Column>
-        <Column size={isFilling ? 6 : 3}>
+        <Column size={4}>
           {myOrderSide === 'bid' && (
             <KeyValueDisplay color={Colors.DANGER}>
               <>
@@ -184,7 +192,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
           {myOrderSide === 'ask' && (
             <KeyValueDisplay color={Colors.SUCCESS}>
               <>
-                <label>Total Income</label>
+                <label>Total Proceeds</label>
                 <p>
                   {(formValues.price * formValues.quantity - FEE).toFixed(8)} {TICKER}
                 </p>

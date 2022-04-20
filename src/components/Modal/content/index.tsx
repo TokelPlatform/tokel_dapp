@@ -5,6 +5,7 @@ import { ModalName } from 'vars/defines';
 import ConfirmTokenCreationModal from 'components/CreateToken/ConfirmTokenCreationModal';
 import TokenCreatedTx from 'components/CreateToken/TokenCreatedTx';
 import ConfirmOrderModal from 'components/Marketplace/ConfirmOrderModal';
+import OrderCreatedTx from 'components/Marketplace/OrderCreatedTx';
 import Feedback from './Feedback';
 import IpfsExplainer from './IpfsExplainer';
 import Receive from './Receive';
@@ -14,7 +15,7 @@ import TxDetail from './TxDetail';
 interface ModalPayloadType {
   title: string;
   component: ReactElement;
-  size?: 'small' | 'large';
+  size?: 'small' | 'medium' | 'large';
 }
 
 interface ModalCollectionType {
@@ -43,5 +44,9 @@ export default {
     title: 'Confirm market order',
     component: <ConfirmOrderModal />,
     size: 'medium',
+  },
+  [ModalName.MARKET_ORDER_SENT]: {
+    title: 'Broadcasting market order',
+    component: <OrderCreatedTx />,
   },
 } as ModalCollectionType;

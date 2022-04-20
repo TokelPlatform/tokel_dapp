@@ -79,6 +79,7 @@ export enum ModalName {
   TOKEN_CREATED = 'token_created',
   IPFS_EXPLAINER = 'ipfs_explainer',
   CONFIRM_MARKET_ORDER = 'confirm_market_order',
+  MARKET_ORDER_SENT = 'market_order_sent',
 }
 
 export const Config = {
