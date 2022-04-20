@@ -89,6 +89,15 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
     }
   }, [formValues?.type, isFilling, currentOrderDetails?.type]);
 
+  const calculatedCostOrProceeds = useMemo(() => {
+    const total = formValues.price * formValues.quantity;
+    const royalty = currentTokenDetails?.dataAsJson?.royalty / 10 || 0;
+
+    return myOrderSide === 'bid'
+      ? (total + FEE).toFixed(8)
+      : (total - (total * royalty) / 100 - FEE).toFixed(8);
+  }, [formValues.price, formValues.quantity, myOrderSide]);
+
   const buttonTheme = useMemo(
     () => (myOrderSide === 'bid' ? Colors.SUCCESS : Colors.DANGER),
     [myOrderSide]
@@ -130,6 +139,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             <p>{orderSide === 'bid' ? 'Bid (Purchase)' : 'Ask (Sale)'}</p>
           </KeyValueDisplay>
         </Column>
+
         {Boolean(formValues.orderId) && (
           <Column size={9}>
             <KeyValueDisplay>
@@ -138,12 +148,14 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             </KeyValueDisplay>
           </Column>
         )}
+
         <Column size={isFilling ? 4 : 3}>
           <KeyValueDisplay>
             <label>Amount</label>
             <p>{formValues.quantity}</p>
           </KeyValueDisplay>
         </Column>
+
         <Column size={isFilling ? 4 : 3}>
           <KeyValueDisplay>
             <label>Unit Price</label>
@@ -152,6 +164,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             </p>
           </KeyValueDisplay>
         </Column>
+
         <Column size={isFilling ? 4 : 3}>
           <KeyValueDisplay>
             <label>Total</label>
@@ -169,6 +182,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             </p>
           </KeyValueDisplay>
         </Column>
+
         <Column size={4}>
           <KeyValueDisplay>
             <label>Transaction Fee</label>
@@ -177,13 +191,14 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             </p>
           </KeyValueDisplay>
         </Column>
+
         <Column size={4}>
           {myOrderSide === 'bid' && (
             <KeyValueDisplay color={Colors.DANGER}>
               <>
                 <label>Total Cost</label>
                 <p>
-                  {(formValues.price * formValues.quantity + FEE).toFixed(8)} {TICKER}
+                  {calculatedCostOrProceeds} {TICKER}
                 </p>
               </>
             </KeyValueDisplay>
@@ -194,7 +209,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
               <>
                 <label>Total Proceeds</label>
                 <p>
-                  {(formValues.price * formValues.quantity - FEE).toFixed(8)} {TICKER}
+                  {calculatedCostOrProceeds} {TICKER}
                 </p>
               </>
             </KeyValueDisplay>
