@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { colors } from 'react-select/dist/declarations/src/theme';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
