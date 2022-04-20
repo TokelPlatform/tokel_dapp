@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { colors } from 'react-select/dist/declarations/src/theme';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { toSatoshi } from 'satoshi-bitcoin';
 
 import { selectModalOptions, selectOrderDetails, selectTokenDetails } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
@@ -15,8 +15,9 @@ import { Button } from 'components/_General/buttons';
 import { Column, Columns } from 'components/_General/Grid';
 import AssetWidget from './common/AssetWidget';
 
-const KeyValueDisplay = styled.div`
+const KeyValueDisplay = styled.div<{ color?: string }>`
   margin-bottom: 15px;
+  margin-right: 10px;
 
   label {
     color: ${V.color.frontSoft};
@@ -26,6 +27,8 @@ const KeyValueDisplay = styled.div`
 
   p {
     margin: 0;
+    overflow-wrap: break-word;
+    ${props => !!props.color && `color: ${V.color[props.color]}`};
   }
 `;
 
@@ -64,21 +67,25 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
     }
   };
 
-  const buttonTheme = useMemo(() => {
-    if (
-      formValues.type === 'bid' ||
-      (formValues.type === 'fill' && currentOrderDetails?.type === 'ask')
-    ) {
-      return Colors.SUCCESS;
-    } else if (
-      formValues.type === 'ask' ||
-      (formValues.type === 'fill' && currentOrderDetails?.type === 'bid')
-    ) {
-      return Colors.DANGER;
+  const isFilling = formValues?.type === 'fill';
+
+  const orderSide = useMemo(
+    () => (isFilling ? currentOrderDetails?.type : formValues?.type),
+    [formValues?.type, isFilling, currentOrderDetails?.type]
+  );
+
+  const myOrderSide = useMemo(() => {
+    if (formValues?.type === 'bid' || (isFilling && currentOrderDetails?.type === 'ask')) {
+      return 'bid';
     } else {
-      return Colors.PURPLE;
+      return 'ask';
     }
-  }, [formValues.type, currentOrderDetails]);
+  }, [formValues?.type, isFilling, currentOrderDetails?.type]);
+
+  const buttonTheme = useMemo(
+    () => (myOrderSide === 'bid' ? Colors.SUCCESS : Colors.DANGER),
+    [myOrderSide]
+  );
 
   const buttonLabel =
     formValues.type === 'ask'
@@ -103,23 +110,25 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
         <AssetWidget asset={currentTokenDetails} />
       </KeyValueDisplay>
 
-      {Boolean(formValues.orderId) && (
-        <KeyValueDisplay>
-          <label>Order ID</label>
-          <p>{formValues.orderId}</p>
-        </KeyValueDisplay>
-      )}
-
       <Columns
         gapless
+        multiline
         css={css`
           margin-bottom: 0 !important;
         `}
       >
+        {Boolean(formValues.orderId) && (
+          <Column size={9}>
+            <KeyValueDisplay>
+              <label>Order ID</label>
+              <p>{formValues.orderId}</p>
+            </KeyValueDisplay>
+          </Column>
+        )}
         <Column size={3}>
-          <KeyValueDisplay>
+          <KeyValueDisplay color={orderSide === 'bid' ? Colors.SUCCESS : Colors.DANGER}>
             <label>Order Type</label>
-            <p>{formValues.type === 'bid' ? 'Bid (Purchase)' : 'Ask (Sale)'}</p>
+            <p>{orderSide === 'bid' ? 'Bid (Purchase)' : 'Ask (Sale)'}</p>
           </KeyValueDisplay>
         </Column>
         <Column size={3}>
@@ -144,10 +153,8 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             </p>
           </KeyValueDisplay>
         </Column>
-      </Columns>
 
-      <Columns gapless>
-        <Column size={4}>
+        <Column size={3}>
           <KeyValueDisplay>
             <label>Royalty</label>
             <p>
@@ -155,7 +162,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             </p>
           </KeyValueDisplay>
         </Column>
-        <Column size={4}>
+        <Column size={isFilling ? 6 : 6}>
           <KeyValueDisplay>
             <label>Transaction Fee</label>
             <p>
@@ -163,13 +170,28 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
             </p>
           </KeyValueDisplay>
         </Column>
-        <Column size={4}>
-          <KeyValueDisplay>
-            <label>Total Cost</label>
-            <p>
-              {(formValues.price * formValues.quantity + FEE).toFixed(8)} {TICKER}
-            </p>
-          </KeyValueDisplay>
+        <Column size={isFilling ? 6 : 3}>
+          {myOrderSide === 'bid' && (
+            <KeyValueDisplay color={Colors.DANGER}>
+              <>
+                <label>Total Cost</label>
+                <p>
+                  {(formValues.price * formValues.quantity + FEE).toFixed(8)} {TICKER}
+                </p>
+              </>
+            </KeyValueDisplay>
+          )}
+
+          {myOrderSide === 'ask' && (
+            <KeyValueDisplay color={Colors.SUCCESS}>
+              <>
+                <label>Total Income</label>
+                <p>
+                  {(formValues.price * formValues.quantity - FEE).toFixed(8)} {TICKER}
+                </p>
+              </>
+            </KeyValueDisplay>
+          )}
         </Column>
       </Columns>
 

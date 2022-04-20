@@ -81,7 +81,6 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
 
   // Post media to iframe, along with actual iframe width
   useEffect(() => {
-    console.log(iframeLoaded, iframeRef?.current);
     if (iframeLoaded) {
       iframeRef.current?.contentWindow.postMessage(
         { mediaUrl, width: iframeRef?.current.offsetWidth },
@@ -97,7 +96,6 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
 
     if (targetElement) {
       observer = new ResizeObserver(() => {
-        console.log(iframeRef?.current?.contentWindow.document.body.scrollHeight, 'resize');
         setIframeHeight(iframeRef?.current?.contentWindow.document.body.scrollHeight);
       });
 

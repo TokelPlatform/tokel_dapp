@@ -4,7 +4,7 @@ import dp from 'dot-prop-immutable';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { splitArrayInChunks } from 'util/helpers';
 import { ThemeName, themeNames } from 'util/theming';
-import { TokenDetail, TokenForm } from 'util/token-types';
+import { TokenDetail } from 'util/token-types';
 import { DEFAULT_NETWORK, ModalName, NetworkType, ViewType } from 'vars/defines';
 
 import type { RootModel } from './models';

@@ -15,6 +15,7 @@ const baseTheme = {
     danger: 'hsla(340, 80%, 50%, 1.0)',
     growth: 'hsla(128, 65%, 48%, 1.0)',
     highlight: 'hsla(171, 94%, 61%, 1.0)',
+    success: 'hsla(127, 100%, 40%, 1.0)',
     modal: {
       bg: 'hsla(216.9,28.3%,18%,1.0)',
     },
