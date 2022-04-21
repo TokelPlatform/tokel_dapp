@@ -13,6 +13,7 @@ import { Colors, FEE, ModalName, TICKER } from 'vars/defines';
 import { CenteredButtonWrapper } from 'components/_General/_UIElements/common';
 import { Button } from 'components/_General/buttons';
 import { Column, Columns } from 'components/_General/Grid';
+import WarningCritical from 'components/_General/WarningCritical';
 import AssetWidget from './common/AssetWidget';
 
 const KeyValueDisplay = styled.div<{ color?: string }>`
@@ -29,6 +30,18 @@ const KeyValueDisplay = styled.div<{ color?: string }>`
     margin: 0;
     overflow-wrap: break-word;
     ${props => !!props.color && `color: ${V.color[props.color]}`};
+  }
+`;
+
+const WarningWrapper = styled.div`
+  margin-top: 15px;
+  padding: 18px;
+  border-radius: ${V.size.borderRadius};
+  background-color: ${V.color.backHard};
+  margin-bottom: 20px;
+
+  & > [WarningCritical] {
+    margin-bottom: none;
   }
 `;
 
@@ -216,6 +229,17 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
           )}
         </Column>
       </Columns>
+
+      {!isFilling && (
+        <WarningWrapper>
+          <WarningCritical
+            title=""
+            subtitle={[
+              'The transaction fee will immediately be charged to broadcast the order. Upon broadcasting, the assets or coins involved will be sent to a global address and will leave your wallet temporarily until the order is filled or cancelled.',
+            ]}
+          />
+        </WarningWrapper>
+      )}
 
       <CenteredButtonWrapper onClick={handleOrderBroadcast}>
         <Button theme={buttonTheme}>{buttonLabel}</Button>

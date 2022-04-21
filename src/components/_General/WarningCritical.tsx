@@ -26,12 +26,12 @@ const WarningRoot = styled.div`
   margin-bottom: 2rem;
 `;
 
-type WarningProps = {
+type WarningCriticalProps = {
   title: string;
   subtitle: Array<string | ReactChild>;
 };
 
-const Warning = ({ title, subtitle }: WarningProps) => {
+const WarningCritical = ({ title, subtitle }: WarningCriticalProps) => {
   return (
     <WarningRoot>
       <img alt="warning" src={warning} />
@@ -43,4 +43,4 @@ const Warning = ({ title, subtitle }: WarningProps) => {
   );
 };
 
-export default Warning;
+export default WarningCritical;
