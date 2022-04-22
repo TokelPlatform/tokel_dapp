@@ -83,6 +83,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   useEffect(() => {
     if (currentOrderDetails) {
       formikBag.setFieldValue('order', currentOrderDetails);
+      formikBag.setFieldValue('orderId', currentOrderDetails.orderid);
       formikBag.setFieldValue('assetId', currentOrderDetails.token.tokenid);
       formikBag.setFieldValue(
         'quantity',
@@ -94,8 +95,9 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       );
 
       if (type === 'fill') {
-        formikBag.setFieldTouched('quantity', true);
-        formikBag.setFieldTouched('price', true);
+        // (very) dirty trick to force the form to re-validate properly after an order is loaded.
+        // @ts-ignore
+        setTimeout(() => document.activeElement?.blur?.(), 1);
       }
     }
   }, [formikBag.setFieldValue, currentOrderDetails]);

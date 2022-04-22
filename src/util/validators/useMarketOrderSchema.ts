@@ -65,7 +65,7 @@ const useFulfillOrderSchema = (type: 'fill' | 'ask' | 'bid') => {
               : true
           ),
       }),
-    [balance]
+    [balance, myTokensBalances, tokenDetails, type]
   );
 
   return schema;

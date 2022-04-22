@@ -55,7 +55,7 @@ interface FieldContainerProps {
   label?: string;
   help?: string;
   append?: string;
-  appendLight?: string;
+  appendLight?: boolean;
 }
 
 const FieldContainer: React.FC<FieldContainerProps & FieldHookConfig<string>> = ({
