@@ -33,7 +33,7 @@ const PortfolioRoot = styled(WidgetContainer)`
 const fetchTokelPrice = async () => {
   try {
     const priceJson = await axios(TOKEL_PRICE_URL);
-    dispatch.environment.SET_TOKEL_PRICE_USD(priceJson.data?.quotes?.USD?.price);
+    dispatch.environment.SET_TOKEL_PRICE_USD(priceJson.data[0]?.price);
   } catch (e) {
     console.log(e);
   }
@@ -61,7 +61,8 @@ const Portfolio = (): ReactElement => {
       {currentAsset && (
         <PortfolioItem
           key={currentAsset.name}
-          name={`${balance} ${currentAsset.ticker}${priceString}`}
+          name={`${balance} ${currentAsset.ticker}`}
+          price={`${priceString}`}
           subtitle={`${tokenCount} tokens`}
           selected={!chosenToken}
           onClick={() => dispatch.wallet.SET_CHOSEN_TOKEN(null)}

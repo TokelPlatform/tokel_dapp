@@ -13,7 +13,7 @@ export enum IpfsAction {
 // TODO move to user settings?
 export const DEFAULT_IPFS_FALLBACK_GATEWAY = 'https://ipfs.io/ipfs';
 
-export const TOKEL_PRICE_URL = 'https://api.coinpaprika.com/v1/tickers/tkl-tokel';
+export const TOKEL_PRICE_URL = `https://api.nomics.com/v1/currencies/ticker?key=${process.env.NOMICS_API_KEY}&ids=TKL2`;
 export const TOKEL_PRICE_UPDATE_PERIOD_MS = 10_000;
 
 export const TOPBAR_HEIGHT_PX = 38;
