@@ -75,9 +75,9 @@ export const toBitcoinAmount = (amountInSatoshi: string): string => {
   let value;
 
   if (bnAmountInSatoshi.lt(bnSatoshis)) {
-    value = parseInt(amountInSatoshi, 10) / SATOSHIS;
-  } else {
     value = bnAmountInSatoshi.div(bnSatoshis).toNumber(); // Okay to do toNumber as we're dealing with TKL and not satoshis
+  } else {
+    value = parseInt(amountInSatoshi, 10) / SATOSHIS;
   }
 
   return Number(value.toFixed(Config.DECIMAL)).toString();
