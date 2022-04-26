@@ -181,8 +181,13 @@ const BitgoOrchestrator = () => {
       if (payload.type === BitgoAction.ASSET_V2_FETCH_ORDER_DECODED) {
         dispatch.marketplace.SET_ORDER_DETAIL(payload.data);
       }
+      // MY WALLET ORDERS
       if (payload.type === BitgoAction.ASSET_V2_MY_ORDERS) {
         dispatch.marketplace.SET_MY_ORDERS(payload.data);
+      }
+      // OFFERS ON MY WALLET ASSETS
+      if (payload.type === BitgoAction.TOKEN_V2_ORDERS) {
+        dispatch.marketplace.SET_OFFERS(payload.data);
       }
     });
     return () => {

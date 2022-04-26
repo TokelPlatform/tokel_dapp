@@ -16,7 +16,7 @@ import Icon from 'components/_General/_UIElements/Icon';
 import MenuItem from 'components/Home/Menu/MenuItem';
 import { SideMenuRoot } from 'components/Home/Menu/SideMenu';
 import MarketOrderWidget from './widgets/MarketOrder';
-import MyAssetsBidsWidget from './widgets/MyAssetsBids';
+import MyOffersWidget from './widgets/MyOffers';
 import MyOrdersWidget from './widgets/MyOrders';
 
 interface MarketplaceProps {}
@@ -102,7 +102,7 @@ const Marketplace: React.FC<MarketplaceProps> = () => {
       case MARKETPLACE_VIEWS.ORDERS:
         return <MyOrdersWidget />;
       case MARKETPLACE_VIEWS.OFFERS:
-        return <MyAssetsBidsWidget />;
+        return <MyOffersWidget />;
       case null:
       default:
         return (

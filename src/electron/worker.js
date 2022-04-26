@@ -40,6 +40,7 @@ const BitgoAction = {
   TOKEN_V2_INFO_TOKEL: 'token_v2_info_tokel',
   TOKEN_V2_TRANSFER: 'token_v2_transfer',
   TOKEN_V2_CREATE_TOKEL: 'token_v2_create_tokel',
+  TOKEN_V2_ORDERS: 'token_v2_orders',
   ASSET_V2_FETCH_ORDER_DECODED: 'asset_v2_fetch_order_decoded',
   ASSET_V2_FILL_ASK: 'asset_v2_fill_ask',
   ASSET_V2_FILL_BID: 'asset_v2_fill_bid',
@@ -213,6 +214,21 @@ class BitgoSingleton {
         tokenId
       );
       return token;
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  async [BitgoAction.TOKEN_V2_ORDERS]({ tokenId }) {
+    try {
+      const orders = await ccassetsv2.tokenV2Orders(
+        this.connection,
+        this.network,
+        this.wif,
+        tokenId
+      );
+      return orders;
     } catch (e) {
       console.error(e);
       throw new Error(e);

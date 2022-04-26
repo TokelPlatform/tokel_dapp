@@ -51,12 +51,20 @@ const MyOrdersWidget: React.FC<MyOrdersWidgetProps> = () => {
             ) : (
               <div
                 css={css`
-                  overflow: auto;
+                  overflow: scroll;
+                  padding-top: 12px;
                   max-height: 90%;
                 `}
               >
                 {myAsks.map((ask, index) => (
-                  <ActiveOrderWidget order={ask} key={index} />
+                  <>
+                    <ActiveOrderWidget order={ask} key={index} />
+                    <ActiveOrderWidget order={ask} key={index} />
+                    <ActiveOrderWidget order={ask} key={index} />
+                    <ActiveOrderWidget order={ask} key={index} />
+                    <ActiveOrderWidget order={ask} key={index} />
+                    <ActiveOrderWidget order={ask} key={index} />
+                  </>
                 ))}
               </div>
             )}
@@ -70,25 +78,13 @@ const MyOrdersWidget: React.FC<MyOrdersWidgetProps> = () => {
             ) : (
               <div
                 css={css`
-                  overflow: auto;
+                  overflow: scroll;
+                  padding-top: 12px;
                   max-height: 90%;
                 `}
               >
                 {myBids.map((bid, index) => (
-                  <>
-                    <ActiveOrderWidget order={bid} key={index} />
-                    <ActiveOrderWidget order={bid} key={index} />
-                    <ActiveOrderWidget order={bid} key={index} />
-                    <ActiveOrderWidget order={bid} key={index} />
-                    <ActiveOrderWidget order={bid} key={index} />
-                    <ActiveOrderWidget order={bid} key={index} />
-                    <ActiveOrderWidget order={bid} key={index} />
-                    <ActiveOrderWidget order={bid} key={index} />
-                    <ActiveOrderWidget order={bid} key={index} />
-                    <ActiveOrderWidget order={bid} key={index} />
-                    <ActiveOrderWidget order={bid} key={index} />
-                    <ActiveOrderWidget order={bid} key={index} />
-                  </>
+                  <ActiveOrderWidget order={bid} key={index} />
                 ))}
               </div>
             )}

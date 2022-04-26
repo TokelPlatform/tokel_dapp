@@ -17,6 +17,7 @@ export enum BitgoAction {
   TOKEN_V2_INFO_TOKEL = 'token_v2_info_tokel',
   TOKEN_V2_TRANSFER = 'token_v2_transfer',
   TOKEN_V2_CREATE_TOKEL = 'token_v2_create_tokel',
+  TOKEN_V2_ORDERS = 'token_v2_orders',
   ASSET_V2_FETCH_ORDER_DECODED = 'asset_v2_fetch_order_decoded',
   ASSET_V2_FILL_ASK = 'asset_v2_fill_ask',
   ASSET_V2_FILL_BID = 'asset_v2_fill_bid',
@@ -45,6 +46,7 @@ export type BitgoMessageParamList = {
   [BitgoAction.TOKEN_V2_INFO_TOKEL]: { tokenId: string };
   [BitgoAction.TOKEN_V2_TRANSFER]: { destpubkey: string; tokenid: string; amount: number };
   [BitgoAction.TOKEN_V2_CREATE_TOKEL]: CreateTokenPayload;
+  [BitgoAction.TOKEN_V2_ORDERS]: { tokenId: string };
   [BitgoAction.ASSET_V2_FETCH_ORDER_DECODED]: { orderId: string };
   [BitgoAction.ASSET_V2_FILL_ASK]: {
     orderId: string;

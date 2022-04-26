@@ -37,15 +37,15 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
   const tokenDetails = useSelector(selectTokenDetails);
 
   const currentOrderDetails = orderDetails?.[formValues?.orderId];
+  // Check for funcid as well as we might be dealing with a lite object
+  const currentOrderType = currentOrderDetails?.type || formValues?.funcid === 'b' ? 'bid' : 'ask';
   const currentTokenDetails = currentOrderDetails?.token || tokenDetails?.[formValues?.assetId];
   const isFilling = formValues?.type === 'fill';
 
   const handleOrderBroadcast = () => {
     if (formValues?.type === 'fill') {
       sendToBitgo(
-        currentOrderDetails?.type === 'bid'
-          ? BitgoAction.ASSET_V2_FILL_BID
-          : BitgoAction.ASSET_V2_FILL_ASK,
+        currentOrderType === 'bid' ? BitgoAction.ASSET_V2_FILL_BID : BitgoAction.ASSET_V2_FILL_ASK,
         {
           orderId: formValues?.orderId,
           tokenId: formValues.assetId,
@@ -74,17 +74,17 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
   };
 
   const orderSide = useMemo(
-    () => (isFilling ? currentOrderDetails?.type : formValues?.type),
-    [formValues?.type, isFilling, currentOrderDetails?.type]
+    () => (isFilling ? currentOrderType : formValues?.type),
+    [formValues?.type, isFilling, currentOrderType]
   );
 
   const myOrderSide = useMemo(() => {
-    if (formValues?.type === 'bid' || (isFilling && currentOrderDetails?.type === 'ask')) {
+    if (formValues?.type === 'bid' || (isFilling && currentOrderType === 'ask')) {
       return 'bid';
     } else {
       return 'ask';
     }
-  }, [formValues?.type, isFilling, currentOrderDetails?.type]);
+  }, [formValues?.type, isFilling, currentOrderType]);
 
   const calculatedCostOrProceeds = useMemo(() => {
     const total = formValues.price * formValues.quantity;
@@ -105,9 +105,9 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
       ? 'Post sell order'
       : formValues.type === 'bid'
       ? 'Post bid order'
-      : currentOrderDetails?.type === 'ask'
+      : currentOrderType === 'ask'
       ? 'Confirm purchase'
-      : currentOrderDetails?.type === 'bid'
+      : currentOrderType === 'bid'
       ? 'Confirm sale'
       : 'Confirm order';
 

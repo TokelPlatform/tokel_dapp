@@ -19,7 +19,7 @@ import OpenInExplorer from 'components/_General/OpenInExplorer';
 const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
   const tokenDetails = useSelector(selectTokenDetails);
 
-  const handleCancelOrder = (order: OrderDetailLite) => {
+  const handleCancelOrder = () => {
     dispatch.environment.SET_MODAL({
       name: ModalName.CONFIRM_CANCEL_MARKET_ORDER,
       options: { order },
@@ -91,7 +91,7 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
             icon={times}
             color="front"
             width={15}
-            onClick={() => handleCancelOrder(order)}
+            onClick={handleCancelOrder}
             css={css`
               margin-left: auto;
               cursor: pointer;

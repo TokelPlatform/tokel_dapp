@@ -40,7 +40,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const myTokens = useMyTokens();
   const fulfillOrderSchema = useFulfillOrderSchema(type);
 
-  const handleMarketOrder = (values, { setSubmitting }) => {
+  const handleMarketOrder = (values: MarketOrder, { setSubmitting }) => {
     setSubmitting(false);
     dispatch.environment.SET_MODAL({
       name: ModalName.CONFIRM_MARKET_ORDER,
