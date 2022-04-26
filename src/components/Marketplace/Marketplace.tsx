@@ -52,7 +52,7 @@ const menuData = [
   },
   {
     type: MARKETPLACE_VIEWS.OFFERS,
-    name: 'My Offers',
+    name: 'Offers',
     icon: inboxIcon,
   },
 ];

@@ -47,6 +47,7 @@ const BitgoAction = {
   ASSET_V2_POST_BID: 'asset_v2_post_bid',
   ASSET_V2_CANCEL_ASK: 'asset_v2_cancel_ask',
   ASSET_V2_CANCEL_BID: 'asset_v2_cancel_bid',
+  ASSET_V2_MY_ORDERS: 'asset_v2_my_orders',
 };
 
 const IS_DEV = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
@@ -218,6 +219,16 @@ class BitgoSingleton {
     }
   }
 
+  async [BitgoAction.ASSET_V2_MY_ORDERS]() {
+    try {
+      const orders = await ccassetsv2.myTokenV2Orders(this.connection, this.network, this.wif);
+      return orders;
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
   async [BitgoAction.ASSET_V2_FETCH_ORDER_DECODED]({ orderId }) {
     try {
       const order = await ccassetsv2.tokenV2FetchOrder(
@@ -326,7 +337,7 @@ class BitgoSingleton {
         this.network,
         this.wif,
         tokenId,
-        orderIdr
+        orderId
       );
 
       const txResult = await this.broadcast({ txHex: tx.toHex() });
@@ -346,7 +357,7 @@ class BitgoSingleton {
         this.network,
         this.wif,
         tokenId,
-        orderIdr
+        orderId
       );
 
       const txResult = await this.broadcast({ txHex: tx.toHex() });

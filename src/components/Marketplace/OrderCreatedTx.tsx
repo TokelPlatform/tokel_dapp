@@ -29,8 +29,9 @@ const Title = styled.h2<{ success: boolean }>`
 const closeModal = () => dispatch.environment.SET_MODAL(DEFAULT_NULL_MODAL);
 
 const OrderCreatedTx: React.FC = () => {
-  const { isFilling, token } = useSelector(selectModalOptions) as {
-    isFilling: boolean;
+  const { isFilling, isCancelling, token } = useSelector(selectModalOptions) as {
+    isFilling?: boolean;
+    isCancelling?: boolean;
     token: TokenDetail;
   };
   const error = useSelector(selectCurrentTxError);
@@ -62,7 +63,13 @@ const OrderCreatedTx: React.FC = () => {
 
   return (
     <div>
-      <Title success={!hasError}>{hasError ? `Failed to send order` : `Order sent!`}</Title>
+      <Title success={!hasError}>
+        {hasError
+          ? `Failed to send order`
+          : isCancelling
+          ? `Cancellation request sent`
+          : `Order sent!`}
+      </Title>
 
       <AssetWidget asset={token} />
 
@@ -78,7 +85,9 @@ const OrderCreatedTx: React.FC = () => {
       ) : (
         <p>
           A transaction has been broadcast to the DEX.{' '}
-          {isFilling
+          {isCancelling
+            ? 'As soon as it is confirmed, your order will be considered cancelled and the relevant assets or coins will return to your wallet.'
+            : isFilling
             ? 'Please check your wallet in a few minutes.'
             : 'You can share the TX ID below with a buyer or seller so they can fulfill it.'}
         </p>

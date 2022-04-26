@@ -23,7 +23,6 @@ const WarningRoot = styled.div`
     color: var(--color-gray);
     font-size: var(--font-size-p);
   }
-  margin-bottom: 2rem;
 `;
 
 type WarningCriticalProps = {

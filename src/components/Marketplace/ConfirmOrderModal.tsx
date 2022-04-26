@@ -15,23 +15,7 @@ import { Button } from 'components/_General/buttons';
 import { Column, Columns } from 'components/_General/Grid';
 import WarningCritical from 'components/_General/WarningCritical';
 import AssetWidget from './common/AssetWidget';
-
-const KeyValueDisplay = styled.div<{ color?: string }>`
-  margin-bottom: 15px;
-  margin-right: 10px;
-
-  label {
-    color: ${V.color.frontSoft};
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  p {
-    margin: 0;
-    overflow-wrap: break-word;
-    ${props => !!props.color && `color: ${V.color[props.color]}`};
-  }
-`;
+import KeyValueDisplay from './common/KeyValueDisplay';
 
 const WarningWrapper = styled.div`
   margin-top: 15px;

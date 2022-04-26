@@ -4,6 +4,7 @@ import { ModalName } from 'vars/defines';
 
 import ConfirmTokenCreationModal from 'components/CreateToken/ConfirmTokenCreationModal';
 import TokenCreatedTx from 'components/CreateToken/TokenCreatedTx';
+import ConfirmOrderCancelModal from 'components/Marketplace/ConfirmOrderCancelModal';
 import ConfirmOrderModal from 'components/Marketplace/ConfirmOrderModal';
 import OrderCreatedTx from 'components/Marketplace/OrderCreatedTx';
 import Feedback from './Feedback';
@@ -48,5 +49,10 @@ export default {
   [ModalName.MARKET_ORDER_SENT]: {
     title: 'Broadcasting market order',
     component: <OrderCreatedTx />,
+  },
+  [ModalName.CONFIRM_CANCEL_MARKET_ORDER]: {
+    title: 'Cancel Order',
+    size: 'medium',
+    component: <ConfirmOrderCancelModal />,
   },
 } as ModalCollectionType;

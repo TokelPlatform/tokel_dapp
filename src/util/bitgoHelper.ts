@@ -24,6 +24,7 @@ export enum BitgoAction {
   ASSET_V2_POST_BID = 'asset_v2_post_bid',
   ASSET_V2_CANCEL_ASK = 'asset_v2_cancel_ask',
   ASSET_V2_CANCEL_BID = 'asset_v2_cancel_bid',
+  ASSET_V2_MY_ORDERS = 'asset_v2_my_orders',
 }
 
 export type MsgType = typeof BitgoAction;
@@ -69,12 +70,13 @@ export type BitgoMessageParamList = {
   };
   [BitgoAction.ASSET_V2_CANCEL_ASK]: {
     tokenId: string;
-    amount: number;
+    orderId: string;
   };
   [BitgoAction.ASSET_V2_CANCEL_BID]: {
     tokenId: string;
-    amount: number;
+    orderId: string;
   };
+  [BitgoAction.ASSET_V2_MY_ORDERS]: undefined;
 };
 
 type ConditionalOptions<T, K extends keyof T> = T[K] extends undefined ? [] : [T[K]];

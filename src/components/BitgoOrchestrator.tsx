@@ -122,6 +122,7 @@ const BitgoOrchestrator = () => {
         dispatch.currentTransaction.SET_TOKEN_TX(true);
         return;
       }
+      // MARKET ORDERS INTERACTION
       if (
         [
           BitgoAction.ASSET_V2_POST_ASK,
@@ -179,6 +180,9 @@ const BitgoOrchestrator = () => {
       // ASSET_V2_FETCH_ORDER_DECODED
       if (payload.type === BitgoAction.ASSET_V2_FETCH_ORDER_DECODED) {
         dispatch.marketplace.SET_ORDER_DETAIL(payload.data);
+      }
+      if (payload.type === BitgoAction.ASSET_V2_MY_ORDERS) {
+        dispatch.marketplace.SET_MY_ORDERS(payload.data);
       }
     });
     return () => {

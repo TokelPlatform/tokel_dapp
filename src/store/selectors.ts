@@ -54,6 +54,7 @@ export const selectSeed = (state: RootState) => state.account.seed;
 
 // mktplace
 export const selectOrderDetails = (state: RootState) => state.marketplace.orderDetails;
+export const selectMyOrders = (state: RootState) => state.marketplace.myOrders;
 
 // derived
 export const selectTokenCount = (state: RootState) => size(state.wallet.tokenBalances);

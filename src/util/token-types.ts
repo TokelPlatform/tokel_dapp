@@ -40,6 +40,19 @@ export interface OrderDetail {
   originNormalAddress: string;
 }
 
+export interface OrderDetailLite {
+  ExpiryHeight: number;
+  bidamount?: number;
+  askamount?: number;
+  funcid: string;
+  origaddress: string;
+  origtokenaddress: string;
+  price: number;
+  tokenid: string;
+  totalrequired: number;
+  txid: string;
+}
+
 export interface TokenForm {
   name: string;
   description: string;
