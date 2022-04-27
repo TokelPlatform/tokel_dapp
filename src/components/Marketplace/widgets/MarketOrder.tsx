@@ -191,7 +191,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
             <Column size={7}>
               <Field
                 name="price"
-                type="number"
+                type="text"
                 label="Price per unit"
                 placeholder="0"
                 help="The price per unit of this asset for this order. Multiply this value by the quantity to get the total price."

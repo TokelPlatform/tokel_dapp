@@ -57,14 +57,7 @@ const MyOrdersWidget: React.FC<MyOrdersWidgetProps> = () => {
                 `}
               >
                 {myAsks.map((ask, index) => (
-                  <>
-                    <ActiveOrderWidget order={ask} key={index} />
-                    <ActiveOrderWidget order={ask} key={index} />
-                    <ActiveOrderWidget order={ask} key={index} />
-                    <ActiveOrderWidget order={ask} key={index} />
-                    <ActiveOrderWidget order={ask} key={index} />
-                    <ActiveOrderWidget order={ask} key={index} />
-                  </>
+                  <ActiveOrderWidget order={ask} key={index} />
                 ))}
               </div>
             )}

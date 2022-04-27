@@ -57,10 +57,12 @@ const useFulfillOrderSchema = (type: 'fill' | 'ask' | 'bid') => {
           .required('quantity is required'),
         price: yup
           .number()
+          .transform((_, v) => parseFloat(v.replace(/,/g, '.')))
+          .positive()
           .min(0.00000001, 'price must be greater than 1 satoshi')
           .required('price is required')
           .test('needs-funds', `not enough ${TICKER}`, (value, context) =>
-            type === 'fill' || type === 'bid'
+            (type === 'fill' || type === 'bid') && context.parent.quantity > 0
               ? value <= (balance - FEE) / context.parent.quantity
               : true
           ),

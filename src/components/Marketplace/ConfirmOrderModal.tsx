@@ -38,7 +38,11 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
 
   const currentOrderDetails = orderDetails?.[formValues?.orderId];
   // Check for funcid as well as we might be dealing with a lite object
-  const currentOrderType = currentOrderDetails?.type || formValues?.funcid === 'b' ? 'bid' : 'ask';
+  const currentOrderType = currentOrderDetails
+    ? currentOrderDetails?.type
+    : formValues?.funcid === 'b'
+    ? 'bid'
+    : 'ask';
   const currentTokenDetails = currentOrderDetails?.token || tokenDetails?.[formValues?.assetId];
   const isFilling = formValues?.type === 'fill';
 
