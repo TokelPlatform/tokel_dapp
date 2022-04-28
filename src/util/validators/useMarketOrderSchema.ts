@@ -57,7 +57,6 @@ const useFulfillOrderSchema = (type: 'fill' | 'ask' | 'bid') => {
           .required('quantity is required'),
         price: yup
           .number()
-          .transform((_, v) => parseFloat(v.replace(/,/g, '.')))
           .positive()
           .min(0.00000001, 'price must be greater than 1 satoshi')
           .required('price is required')

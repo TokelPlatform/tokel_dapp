@@ -31,7 +31,7 @@ type MarketOrder = {
   assetId?: string;
   orderId?: string;
   quantity: number;
-  price: number;
+  price: string;
 };
 
 const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
@@ -44,7 +44,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
     setSubmitting(false);
     dispatch.environment.SET_MODAL({
       name: ModalName.CONFIRM_MARKET_ORDER,
-      options: { type, ...values },
+      options: { type, ...{ ...values, price: parseFloat(values.price) } },
     });
   };
 
