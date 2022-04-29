@@ -37,6 +37,7 @@ interface FieldProps {
   max?: number;
   append?: string;
   appendLight?: boolean;
+  autoFocus?: boolean;
 }
 
 const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({
@@ -49,6 +50,7 @@ const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({
   append,
   appendLight,
   onFocus,
+  autoFocus,
   ...props
 }) => {
   const [field] = useField(props);
@@ -58,12 +60,14 @@ const Field: React.FC<FieldProps & FieldHookConfig<string>> = ({
       {props.type === 'textarea' ? (
         <Textarea
           {...field}
+          autoFocus={autoFocus}
           placeholder={props.placeholder}
           onFocus={onFocus as React.FocusEventHandler<HTMLTextAreaElement>}
         />
       ) : (
         <Input
           {...field}
+          autoFocus={autoFocus}
           value={field?.value || ''}
           readOnly={readOnly}
           disabled={disabled}

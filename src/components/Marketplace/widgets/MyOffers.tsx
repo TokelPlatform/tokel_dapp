@@ -16,8 +16,6 @@ const MyOffersWidget: React.FC<MyOffersWidgetProps> = () => {
   const allMyOffers = useSelector(selectAllMyOffers);
   const myTokensDetails = useSelector(selectMyTokenDetails);
 
-  console.log(allMyOffers);
-
   useEffect(() => {
     Object.keys(myTokensDetails).forEach(tokenId => {
       sendToBitgo(BitgoAction.TOKEN_V2_ORDERS, { tokenId });

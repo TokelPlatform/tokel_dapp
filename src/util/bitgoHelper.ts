@@ -52,13 +52,13 @@ export type BitgoMessageParamList = {
     orderId: string;
     tokenId: string;
     amount: number;
-    unitPrice: number;
+    unitPrice?: number;
   };
   [BitgoAction.ASSET_V2_FILL_BID]: {
     orderId: string;
     tokenId: string;
     amount: number;
-    unitPrice: number;
+    unitPrice?: number;
   };
   [BitgoAction.ASSET_V2_POST_ASK]: {
     tokenId: string;

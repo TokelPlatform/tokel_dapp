@@ -36,6 +36,15 @@ const useFulfillOrderSchema = (type: 'fill' | 'ask' | 'bid') => {
               context.parent.order?.type === 'bid'
                 ? myTokensBalances[context.parent.order?.token?.tokenid] !== undefined
                 : true
+          )
+          // let user know that fillasks for tokens with > 50% royalty will faill
+          .test(
+            'token-has-problematic-royalty',
+            'token has > 50% royalty, order will fail',
+            (_, context) =>
+              type === 'fill' && context.parent.order?.type === 'ask'
+                ? tokenDetails[context.parent.order?.token?.tokenid]?.dataAsJson?.royalty <= 500
+                : true
           ),
         quantity: yup
           .number()

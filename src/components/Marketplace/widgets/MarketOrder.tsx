@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
@@ -20,6 +20,7 @@ import { Box, CenteredButtonWrapper } from 'components/_General/_UIElements/comm
 import { Button } from 'components/_General/buttons';
 import { Column, Columns } from 'components/_General/Grid';
 import AssetWidget from '../common/AssetWidget';
+import ViewContext from '../common/ViewContext';
 
 const initialValues = {};
 
@@ -39,6 +40,8 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const tokenDetails = useSelector(selectTokenDetails);
   const myTokens = useMyTokens();
   const fulfillOrderSchema = useFulfillOrderSchema(type);
+  const { currentOrderId: prefillOrderId, setCurrentOrderId: setPrefillOrderId } =
+    useContext(ViewContext);
 
   const handleMarketOrder = (values: MarketOrder, { setSubmitting }) => {
     setSubmitting(false);
@@ -81,18 +84,20 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       : 'Review order';
 
   useEffect(() => {
+    if (prefillOrderId) formikBag.setFieldValue('orderId', prefillOrderId);
+  }, [prefillOrderId, formikBag.setFieldValue]);
+
+  useEffect(() => () => setPrefillOrderId(undefined), []);
+
+  useEffect(() => {
     if (currentOrderDetails) {
+      let quantity = parseBigNumObject(currentOrderDetails.bnAmount).toNumber();
+      let price = toBitcoin(parseBigNumObject(currentOrderDetails.bnUnitPrice).toNumber());
       formikBag.setFieldValue('order', currentOrderDetails);
       formikBag.setFieldValue('orderId', currentOrderDetails.orderid);
       formikBag.setFieldValue('assetId', currentOrderDetails.token.tokenid);
-      formikBag.setFieldValue(
-        'quantity',
-        parseBigNumObject(currentOrderDetails.bnAmount).toNumber()
-      );
-      formikBag.setFieldValue(
-        'price',
-        toBitcoin(parseBigNumObject(currentOrderDetails.bnUnitPrice).toNumber())
-      );
+      formikBag.setFieldValue('quantity', quantity);
+      formikBag.setFieldValue('price', price);
 
       if (type === 'fill') {
         // (very) dirty trick to force the form to re-validate properly after an order is loaded.
@@ -144,7 +149,9 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         <Form>
           {type === 'fill' && (
             <Field
+              autoFocus
               name="orderId"
+              type="textarea"
               placeholder="Paste an ask or bid ID to fill"
               label="Order ID"
               help="If someone has sent you an order ID, you may paste it here to see further information and fulfill it"
@@ -154,6 +161,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
           {type === 'ask' && (
             <Select
               name="assetId"
+              type="textarea"
               label="Asset to sell"
               placeholder="Search for an asset you own..."
               options={Object.values(myTokens)}
@@ -165,6 +173,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
           {type === 'bid' && (
             <Field
               name="assetId"
+              type="textarea"
               placeholder="Paste a asset ID to bid for"
               label="Token ID"
               help="You can get the token or nFT ID by asking the creator, or by navigating in the explorer"

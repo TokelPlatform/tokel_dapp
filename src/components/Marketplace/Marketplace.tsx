@@ -15,19 +15,12 @@ import { Layout, SubTitle, Title } from 'components/_General/_UIElements/common'
 import Icon from 'components/_General/_UIElements/Icon';
 import MenuItem from 'components/Home/Menu/MenuItem';
 import { SideMenuRoot } from 'components/Home/Menu/SideMenu';
+import ViewContext, { MARKETPLACE_VIEWS } from './common/ViewContext';
 import MarketOrderWidget from './widgets/MarketOrder';
 import MyOffersWidget from './widgets/MyOffers';
 import MyOrdersWidget from './widgets/MyOrders';
 
 interface MarketplaceProps {}
-
-enum MARKETPLACE_VIEWS {
-  FILL,
-  ASK,
-  BID,
-  ORDERS,
-  OFFERS,
-}
 
 const menuData = [
   {
@@ -78,6 +71,7 @@ const WelcomeMessageWrapper = styled.div`
 
 const Marketplace: React.FC<MarketplaceProps> = () => {
   const [currentView, setCurrentView] = useState<MARKETPLACE_VIEWS | null>(null);
+  const [currentOrderId, setCurrentOrderId] = useState<string | undefined>();
 
   const CurrentTab = () => {
     switch (currentView) {
@@ -140,7 +134,11 @@ const Marketplace: React.FC<MarketplaceProps> = () => {
         </div>
       </SideMenuRoot>
       <Layout>
-        <CurrentTab />
+        <ViewContext.Provider
+          value={{ currentView, setCurrentView, currentOrderId, setCurrentOrderId }}
+        >
+          <CurrentTab />
+        </ViewContext.Provider>
       </Layout>
     </>
   );

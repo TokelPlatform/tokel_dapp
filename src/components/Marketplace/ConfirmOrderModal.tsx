@@ -37,12 +37,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
   const tokenDetails = useSelector(selectTokenDetails);
 
   const currentOrderDetails = orderDetails?.[formValues?.orderId];
-  // Check for funcid as well as we might be dealing with a lite object
-  const currentOrderType = currentOrderDetails
-    ? currentOrderDetails?.type
-    : formValues?.funcid === 'b'
-    ? 'bid'
-    : 'ask';
+  const currentOrderType = currentOrderDetails?.type;
   const currentTokenDetails = currentOrderDetails?.token || tokenDetails?.[formValues?.assetId];
   const isFilling = formValues?.type === 'fill';
 
@@ -54,7 +49,6 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
           orderId: formValues?.orderId,
           tokenId: formValues.assetId,
           amount: formValues.quantity,
-          unitPrice: formValues.price,
         }
       );
     } else {

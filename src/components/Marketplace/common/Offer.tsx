@@ -1,33 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
 
-import { dispatch } from 'store/rematch';
 import { selectTokenDetails } from 'store/selectors';
 import links from 'util/links';
 import { V } from 'util/theming';
 import { OrderDetailLite } from 'util/token-types';
-import { ModalName, TICKER } from 'vars/defines';
+import { TICKER } from 'vars/defines';
 
 import { ButtonSmall } from 'components/_General/buttons';
 import OpenInExplorer from 'components/_General/OpenInExplorer';
+import ViewContext, { MARKETPLACE_VIEWS } from './ViewContext';
 
 const OfferWidget = ({ order }: { order: OrderDetailLite }) => {
   const tokenDetails = useSelector(selectTokenDetails);
+  const { setCurrentView, setCurrentOrderId } = useContext(ViewContext);
 
   const handleReviewOffer = () => {
-    dispatch.environment.SET_MODAL({
-      name: ModalName.CONFIRM_MARKET_ORDER,
-      options: {
-        type: 'fill',
-        funcid: order.funcid,
-        orderId: order.txid,
-        assetId: order.tokenid,
-        quantity: order.askamount || order.bidamount,
-        price: order.price,
-      },
-    });
+    setCurrentOrderId(order.txid);
+    setCurrentView(MARKETPLACE_VIEWS.FILL);
   };
 
   return (
