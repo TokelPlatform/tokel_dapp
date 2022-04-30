@@ -51,7 +51,7 @@ const MyOrdersWidget: React.FC<MyOrdersWidgetProps> = () => {
             ) : (
               <div
                 css={css`
-                  overflow: scroll;
+                  overflow: auto;
                   padding-top: 12px;
                   max-height: 90%;
                 `}
@@ -71,7 +71,7 @@ const MyOrdersWidget: React.FC<MyOrdersWidgetProps> = () => {
             ) : (
               <div
                 css={css`
-                  overflow: scroll;
+                  overflow: auto;
                   padding-top: 12px;
                   max-height: 90%;
                 `}

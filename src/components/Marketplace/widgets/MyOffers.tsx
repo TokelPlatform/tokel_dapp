@@ -45,7 +45,7 @@ const MyOffersWidget: React.FC<MyOffersWidgetProps> = () => {
             ) : (
               <div
                 css={css`
-                  overflow: scroll;
+                  overflow: auto;
                   padding-top: 12px;
                   max-height: 90%;
                 `}
