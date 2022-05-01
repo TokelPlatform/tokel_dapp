@@ -15,7 +15,6 @@ export const WidgetTitle = styled.h2<{ bottomBorder?: boolean }>`
   margin: 0;
   color: ${V.color.front};
   line-height: 24px;
-  /* height: 80px; */
   border-bottom: 1px solid ${p => (p.bottomBorder ? V.color.backSoftest : 'transparent')};
 `;
 
@@ -76,6 +75,13 @@ type RowProp = {
 export const RowWrapper = styled.div<RowProp>`
   display: flex;
   flex-direction: row;
+  width: 100%;
+  justify-content: ${p => (p.center ? 'center' : 'flex-start')};
+`;
+
+export const ColWrapper = styled.div<RowProp>`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   justify-content: ${p => (p.center ? 'center' : 'flex-start')};
 `;

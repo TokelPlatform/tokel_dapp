@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectUnspentBalance } from 'store/selectors';
+import { selectLockedTransactionsBalance, selectUnspentBalance } from 'store/selectors';
 import { formatFiat, isAddressValid, limitLength } from 'util/helpers';
 import { FEE, TICKER } from 'vars/defines';
 
@@ -72,7 +72,8 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
   // const [fiatAmount, setFiatAmount] = useState('');
   const [error, setError] = useState('');
   const [errorAmount, setErrorAmount] = useState('');
-  const balance = useSelector(selectUnspentBalance);
+  const lockedBalance = useSelector(selectLockedTransactionsBalance);
+  const balance = useSelector(selectUnspentBalance) - lockedBalance;
 
   const remaining = balance ? formatFiat(balance - Number(amount) - FEE) : 0;
 
@@ -124,7 +125,7 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
       <label htmlFor="amount">
         <RowWrapper>
           <GrayLabel style={{ marginLeft: '2px' }}>Amount</GrayLabel>
-          <span style={{ marginLeft: '4px' }}> {`(balance: ${balance})`}</span>
+          <span style={{ marginLeft: '4px' }}> {`(spendable balance: ${balance})`}</span>
         </RowWrapper>
         <VSpaceSmall />
         <RowWrapper>
