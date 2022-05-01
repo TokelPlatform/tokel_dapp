@@ -14,6 +14,7 @@ const StandardWidgetRoot = styled(WidgetContainer)<StandardWidgetRootProps>`
   grid-row: span ${({ height }) => height ?? 2};
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 
 type StandardWidgetProps = {
@@ -21,21 +22,12 @@ type StandardWidgetProps = {
   children: React.ReactNode;
   width?: number;
   height?: number;
-  mainWidget?: boolean;
 };
 
-const StandardWidget = ({
-  title,
-  children,
-  width,
-  height,
-  mainWidget = false,
-}: StandardWidgetProps) => {
+const StandardWidget = ({ title, children, width, height }: StandardWidgetProps) => {
   return (
     <StandardWidgetRoot width={width} height={height}>
-      <WidgetTitle bottomBorder mainWidget={mainWidget}>
-        {title}
-      </WidgetTitle>
+      <WidgetTitle bottomBorder>{title}</WidgetTitle>
       {children}
     </StandardWidgetRoot>
   );

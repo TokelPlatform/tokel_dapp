@@ -38,7 +38,10 @@ const TextWrapper = styled.p`
   margin: 0;
   color: ${V.color.slate};
   text-align: left;
-  ${p => (p.onClick ? 'cursor: pointer' : '')}
+  &:hover {
+    color: ${V.color.cornflower};
+    ${p => (p.onClick ? 'cursor: pointer' : '')}
+  }
 `;
 
 const TextLabel = styled.p`

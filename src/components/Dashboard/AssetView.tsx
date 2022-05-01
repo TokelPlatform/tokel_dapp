@@ -24,7 +24,7 @@ const AssetViewRoot = styled.div`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  grid-gap: 20px;
+  grid-gap: 15px;
   overflow-y: auto;
 `;
 
@@ -51,13 +51,13 @@ const AssetView = (): ReactElement => {
 
   return (
     <AssetViewRoot>
-      <StandardWidget title="Send" width={3} mainWidget height={1}>
+      <StandardWidget title="Send" width={3} height={1}>
         <TransferEmbed holdingSections={holdings} />
       </StandardWidget>
-      <StandardWidget title="Receive" width={3} mainWidget height={1}>
+      <StandardWidget title="Receive" width={3} height={1}>
         <WalletAddressesEmbed />
       </StandardWidget>
-      <StandardWidget title="Activity" width={6}>
+      <StandardWidget title="Activity" width={6} height={1}>
         <ActivityListEmbed transactions={txs} resourceType={ResourceType.TOKEL} />
       </StandardWidget>
     </AssetViewRoot>
