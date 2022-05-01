@@ -5,27 +5,22 @@ import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
 import { selectAccountAddress, selectAccountPubKey, selectCurrentTokenInfo } from 'store/selectors';
-import { V } from 'util/theming';
-import { Colors, ModalName, ResourceType } from 'vars/defines';
+import { ModalName, ResourceType } from 'vars/defines';
 
-import { Button } from 'components/_General/buttons';
-import CopyToClipboard from 'components/_General/CopyToClipboard';
+import CopyTextInput from 'components/_General/CopyTextInput';
 import { ReceiveModalOpts } from 'components/Modal/content/Receive';
-import { EmbedContentContainer, RowWrapper } from '../common';
+import { ColWrapper, EmbedContentContainer, RowWrapper } from '../common';
 
 const WalletAddressesEmbedRoot = styled(EmbedContentContainer)`
-  padding: 0px 30px 20px 30px;
+  padding: 20px 30px 20px 30px;
 `;
 
-const WalletAddressWidgetLabel = styled.p`
-  text-transform: uppercase;
-  font-size: ${V.font.pSmall};
-  color: ${V.color.frontSoft};
-`;
-
-const Copy = styled.div`
-  padding-top: 11px;
-  margin-left: 5px;
+const Note = styled.p`
+  font-size: var(--font-size-small-p);
+  color: var(--color-slate);
+  font-weight: 400;
+  margin-bottom: 0;
+  margin-top: 4px;
 `;
 
 type WalletAddressWidgetProps = {
@@ -44,10 +39,11 @@ const DisplayWalletAddress = ({ title, modal_type }: WalletAddressWidgetProps) =
   );
 
   return (
-    <>
-      <WalletAddressWidgetLabel>{title}</WalletAddressWidgetLabel>
-      <RowWrapper>
-        <Button
+    <RowWrapper>
+      <ColWrapper>
+        <CopyTextInput
+          textToCopy={target}
+          label={title}
           onClick={openWalletModal({
             type:
               modal_type === 'pub_key'
@@ -56,24 +52,21 @@ const DisplayWalletAddress = ({ title, modal_type }: WalletAddressWidgetProps) =
                   : ResourceType.FST
                 : ResourceType.TOKEL,
           })}
-          theme="transparent"
-          customWidth="120px"
-        >
-          Show
-        </Button>
-        <Copy>
-          <CopyToClipboard textToCopy={target} color={Colors.WHITE} />
-        </Copy>
-      </RowWrapper>
-    </>
+        />
+      </ColWrapper>
+    </RowWrapper>
   );
 };
 
 const WalletAddressesEmbed = () => {
   return (
     <WalletAddressesEmbedRoot>
-      <DisplayWalletAddress title="Receive TKL" modal_type="acc_address" />
-      <DisplayWalletAddress title="Receive NFTs and Tokens" modal_type="pub_key" />
+      <Note>
+        Currently TOKEL has different address for tokens and TKL, however we are working on changing
+        that to one unified address. Stay tuned.
+      </Note>
+      <DisplayWalletAddress title="TKL address" modal_type="acc_address" />
+      <DisplayWalletAddress title="Tokens and NFTS (pubkey)" modal_type="pub_key" />
     </WalletAddressesEmbedRoot>
   );
 };

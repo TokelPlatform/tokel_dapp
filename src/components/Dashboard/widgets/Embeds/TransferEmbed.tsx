@@ -83,6 +83,13 @@ const Buttons = styled.div`
   justify-content: flex-start;
 `;
 
+const Note = styled.p`
+  font-size: var(--font-size-small-p);
+  color: var(--color-slate);
+  font-weight: 400;
+  margin-bottom: 0;
+`;
+
 const openSendModal = options => () =>
   dispatch.environment.SET_MODAL({ name: ModalName.SEND, options });
 
@@ -113,6 +120,7 @@ const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
   return (
     <EmbedContentContainer>
       <Holdings>
+        {!isToken && <Note>Your current holdings</Note>}
         {isToken ? (
           <>
             {isNFT ? (
@@ -152,10 +160,7 @@ const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
                   : renderValue(section)}
               </HoldingSection>
               {section.label === 'Spendable' && (
-                <Button
-                  onClick={openSendModal({ type: ResourceType.TOKEL })}
-                  theme={Colors.TRANSPARENT}
-                >
+                <Button onClick={openSendModal({ type: ResourceType.TOKEL })} theme={Colors.PURPLE}>
                   Send
                 </Button>
               )}

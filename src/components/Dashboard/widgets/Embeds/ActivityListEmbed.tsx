@@ -39,21 +39,21 @@ const Transaction = styled.div`
   display: grid;
   min-width: 400px;
   width: fill-available;
-  grid-template-columns: 36% 24% 38%;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   padding: 0 14px;
   cursor: pointer;
 `;
 
 const ExplorerLinkWrapper = styled.div`
   width: 60px;
-  padding-right: 5px;
+  padding-right: 1rem;
   display: flex;
   align-items: center;
 `;
 
 const TriCellRoot = styled.div`
   display: flex;
-  padding: 14px 8px;
+  padding: 1.2rem 0.5rem;
 `;
 
 const TriCellIcon = styled.img`
@@ -71,7 +71,7 @@ const Primary = styled.span`
 
 const Secondary = styled.span`
   color: ${V.color.frontSoft};
-  font-size: ${V.font.pSmall};
+  font-size: ${V.font.p};
 `;
 
 type TriCellProps = {
@@ -85,9 +85,9 @@ type TriCellProps = {
 const TriCell = ({ icon, primary, secondary, justify, align }: TriCellProps) => (
   <TriCellRoot style={{ justifyContent: justify ?? 'flex-start' }}>
     {icon && <TriCellIcon width="20px" src={icon} alt={icon} />}
-    <TriCellInfo style={{ alignItems: align ?? 'flex-start' }}>
+    <TriCellInfo style={{ alignItems: align ?? 'flex-start', justifyContent: 'center' }}>
       <Primary>{primary}</Primary>
-      <Secondary>{secondary}</Secondary>
+      {secondary && <Secondary>{secondary}</Secondary>}
     </TriCellInfo>
   </TriCellRoot>
 );
@@ -146,27 +146,22 @@ const ActivityList = ({ transactions = [], resourceType }: ActivityListProps): R
           return (
             <ActivityListItem key={tx.txid}>
               <Transaction onClick={() => handleTxDetailView(tx)}>
-                <TriCell
-                  icon={tx.unconfirmed ? clockIcon : checkIcon}
-                  primary={times[0]}
-                  secondary={times[1]}
-                />
-                <TriCell
-                  icon={activityData.icon}
-                  primary={activityData.primary}
-                  secondary={activityData.secondary}
-                />
+                <TriCell icon={tx.unconfirmed ? clockIcon : checkIcon} primary={times[0]} />
+                <TriCell secondary={times[1]} />
+
+                <TriCell icon={activityData.icon} secondary={activityData.primary} align="center" />
                 <TriCell
                   primary={` ${tx.received ? '+' : '-'}${toBitcoinAmount(
                     processPossibleBN(tx.value)
                   )} ${TICKER}`}
+                  justify="flex-start"
+                />
+                <TriCell
                   secondary={
                     resourceType === ResourceType.TOKEL
                       ? `$${getUsdValue(processPossibleBN(tx.value), tokelPriceUSD)}`
                       : ''
                   }
-                  justify="flex-end"
-                  align="flex-end"
                 />
               </Transaction>
               <ExplorerLinkWrapper>

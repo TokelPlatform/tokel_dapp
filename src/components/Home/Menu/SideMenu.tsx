@@ -9,7 +9,6 @@ import DashIcon from 'assets/Dash.svg';
 import SwapIcon from 'assets/Swap.svg';
 import ToggleIcon from 'assets/Toggle.svg';
 import TokenIcon from 'assets/Token.svg';
-
 import { dispatch } from 'store/rematch';
 import { selectView } from 'store/selectors';
 import { VERSIONS_MSG, ViewType } from 'vars/defines';
@@ -20,7 +19,7 @@ import MenuItem from './MenuItem';
 export const menuData = [
   {
     type: ViewType.DASHBOARD,
-    name: 'Dashboard',
+    name: 'Wallet',
     icon: DashIcon,
   },
   {
