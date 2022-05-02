@@ -75,7 +75,7 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
             >
               {tokenDetails[order.tokenid]?.name}
             </span>
-            <OpenInExplorer inline link={links.explorers[TICKER](`tokens/${order.tokenid}$`)} />
+            <OpenInExplorer inline link={links.explorers[TICKER](`tokens/${order.tokenid}`)} />
           </p>
           <p
             css={css`

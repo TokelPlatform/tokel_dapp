@@ -43,7 +43,8 @@ const useFulfillOrderSchema = (type: 'fill' | 'ask' | 'bid') => {
             'token has > 50% royalty, order will fail',
             (_, context) =>
               type === 'fill' && context.parent.order?.type === 'ask'
-                ? tokenDetails[context.parent.order?.token?.tokenid]?.dataAsJson?.royalty <= 500
+                ? !tokenDetails[context.parent.order?.token?.tokenid]?.dataAsJson?.royalty ||
+                  tokenDetails[context.parent.order?.token?.tokenid]?.dataAsJson?.royalty <= 500
                 : true
           ),
         quantity: yup
