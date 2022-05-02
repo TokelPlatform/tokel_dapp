@@ -32,12 +32,11 @@ const AssetView = (): ReactElement => {
   const txs = useSelector(selectTransactions);
   const lockedTransactions = useSelector(selectLockedTransactions);
   const lockedSum = useSelector(selectLockedTransactionsBalance);
-  console.log('lockedTransactions', lockedTransactions);
   const balance = processPossibleBN(useSelector(selectUnspentBalance));
   const holdings: Array<HoldingType> = [
     {
       label: SPENDABLE,
-      value: `${Number(balance) - Number(lockedSum)}`,
+      value: `${Number(balance) - (Number(lockedSum) || 0)}`,
       icon: 'coinStack',
     },
   ];
