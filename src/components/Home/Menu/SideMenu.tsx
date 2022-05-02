@@ -19,7 +19,7 @@ import MenuItem from './MenuItem';
 export const menuData = [
   {
     type: ViewType.DASHBOARD,
-    name: 'Dashboard',
+    name: 'Wallet',
     icon: DashIcon,
   },
   {

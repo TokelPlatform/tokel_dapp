@@ -14,6 +14,7 @@ const StandardWidgetRoot = styled(WidgetContainer)<StandardWidgetRootProps>`
   grid-row: span ${({ height }) => height ?? 2};
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 
 type StandardWidgetProps = {

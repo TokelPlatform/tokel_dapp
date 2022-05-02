@@ -136,3 +136,6 @@ export const RESERVED_TOKEL_ARBITRARY_KEYS = [
 ];
 
 export const HIDE_IPFS_EXPLAINER_KEY = 'HIDE_IPFS_EXPLAINER';
+
+export const SPENDABLE = 'Spendable';
+export const LOCKED = 'Locked';
