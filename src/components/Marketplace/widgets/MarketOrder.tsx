@@ -22,7 +22,12 @@ import { Column, Columns } from 'components/_General/Grid';
 import AssetWidget from '../common/AssetWidget';
 import ViewContext from '../common/ViewContext';
 
-const initialValues = {};
+const initialValues = {
+  orderId: '',
+  assetId: '',
+  quantity: 0,
+  price: '',
+};
 
 interface MarketOrderWidgetProps {
   type: 'ask' | 'bid' | 'fill';
@@ -59,8 +64,12 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
   const debouncedOrderId = useDebounce(formikBag.values.orderId, 1000);
   const debouncedAssetId = useDebounce(formikBag.values.assetId, 1000);
-  const currentOrderDetails = orderDetails?.[debouncedOrderId];
-  const currentTokenDetails = currentOrderDetails?.token || tokenDetails?.[debouncedAssetId];
+  const currentOrderDetails = useMemo(
+    () => orderDetails?.[formikBag.values.orderId],
+    [orderDetails, formikBag.values.orderId, formikBag]
+  );
+  const currentTokenDetails =
+    currentOrderDetails?.token || tokenDetails?.[formikBag.values.assetId];
 
   const buttonTheme = useMemo(() => {
     if (type === 'bid' || (type === 'fill' && currentOrderDetails?.type === 'ask')) {
@@ -93,25 +102,47 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
     if (currentOrderDetails) {
       let quantity = parseBigNumObject(currentOrderDetails.bnAmount).toNumber();
       let price = toBitcoin(parseBigNumObject(currentOrderDetails.bnUnitPrice).toNumber());
-      formikBag.setFieldValue('order', currentOrderDetails);
-      formikBag.setFieldValue('orderId', currentOrderDetails.orderid);
-      formikBag.setFieldValue('assetId', currentOrderDetails.token.tokenid);
-      formikBag.setFieldValue('quantity', quantity);
-      formikBag.setFieldValue('price', price);
 
-      if (type === 'fill') {
-        // (very) dirty trick to force the form to re-validate properly after an order is loaded.
-        // @ts-ignore
-        setTimeout(() => document.activeElement?.blur?.(), 1);
-      }
+      const values = {
+        ...formikBag.values,
+        ...{
+          price: `${price}`,
+          order: currentOrderDetails,
+          orderId: currentOrderDetails?.orderid,
+          assetId: currentOrderDetails?.token.tokenid,
+          quantity: currentOrderDetails?.token?.supply === 1 ? 1 : quantity,
+        },
+      };
+
+      formikBag.setFormikState({
+        ...formikBag,
+        values,
+        touched: {
+          price: true,
+          orderId: true,
+          assetId: true,
+          quantity: true,
+        },
+      });
+
+      formikBag.validateForm(values);
     }
   }, [formikBag.setFieldValue, currentOrderDetails]);
 
   useEffect(() => {
-    if (currentTokenDetails?.supply === 1) {
+    if (
+      !currentOrderDetails &&
+      currentTokenDetails?.supply === 1 &&
+      formikBag.values.quantity !== 1
+    ) {
       formikBag.setFieldValue('quantity', 1);
     }
-  }, [formikBag.setFieldValue, currentTokenDetails]);
+  }, [
+    formikBag.setFieldValue,
+    formikBag.values.quantity,
+    currentTokenDetails,
+    currentOrderDetails,
+  ]);
 
   useEffect(() => {
     if (debouncedOrderId?.length === 64 && !orderDetails?.[debouncedOrderId]) {
@@ -130,10 +161,12 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   }, [debouncedAssetId]);
 
   useEffect(() => {
-    formikBag.setFieldValue('order', {});
-    formikBag.setFieldValue('quantity', undefined);
-    formikBag.setFieldValue('price', undefined);
-    formikBag.setFieldValue('assetId', undefined);
+    if (formikBag.values.orderId?.length !== 64) {
+      formikBag.setFieldValue('order', {});
+      formikBag.setFieldValue('quantity', 0);
+      formikBag.setFieldValue('price', 0);
+      formikBag.setFieldValue('assetId', '');
+    }
   }, [formikBag.values.orderId]);
 
   return (
@@ -149,7 +182,6 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         <Form>
           {type === 'fill' && (
             <Field
-              autoFocus
               name="orderId"
               type="textarea"
               placeholder="Paste an ask or bid ID to fill"
@@ -218,7 +250,14 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
               margin-top: 15px;
             `}
           >
-            <Button theme={buttonTheme} disabled={!formikBag.isValid}>
+            <Button
+              theme={buttonTheme}
+              disabled={!formikBag.isValid}
+              loading={
+                formikBag.isValidating ||
+                (debouncedOrderId !== formikBag.values.orderId && !currentOrderDetails)
+              }
+            >
               {buttonLabel}
             </Button>
           </CenteredButtonWrapper>

@@ -113,7 +113,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
     <MediaContent>
       <ImageFrame>
         <TokenMediaIframe
-          // height={iframeHeight}
+          height={iframeHeight}
           ref={iframeRef}
           src={`file://${__dirname}/externalMedia.html`}
           onLoad={() => setIframeLoaded(true)}
