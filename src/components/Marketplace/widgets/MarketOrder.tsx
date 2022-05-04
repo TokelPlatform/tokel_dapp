@@ -255,7 +255,8 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
               disabled={!formikBag.isValid}
               loading={
                 formikBag.isValidating ||
-                (debouncedOrderId !== formikBag.values.orderId && !currentOrderDetails)
+                (debouncedOrderId !== formikBag.values.orderId && !currentOrderDetails) ||
+                (debouncedAssetId !== formikBag.values.assetId && !currentTokenDetails)
               }
             >
               {buttonLabel}
