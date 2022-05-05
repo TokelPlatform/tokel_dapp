@@ -15,6 +15,7 @@ import Icon from 'components/_General/_UIElements/Icon';
 import ExplorerLink from 'components/_General/ExplorerLink';
 import { Column, Columns } from 'components/_General/Grid';
 import OpenInExplorer from 'components/_General/OpenInExplorer';
+import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 
 const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
   const tokenDetails = useSelector(selectTokenDetails);
@@ -41,7 +42,17 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
       `}
     >
       <Columns multiline>
-        <Column size={10}>
+        {!!tokenDetails[order.tokenid]?.dataAsJson?.url && (
+          <Column
+            size={2}
+            css={css`
+              height: 50px;
+            `}
+          >
+            <TokenMediaDisplay url={tokenDetails[order.tokenid]?.dataAsJson?.url} />
+          </Column>
+        )}
+        <Column size={!!tokenDetails[order.tokenid]?.dataAsJson?.url ? 8 : 10}>
           <p
             css={css`
               display: flex;
@@ -63,6 +74,8 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
                 margin-left: 8px;
                 margin-right: 8px;
                 font-size: 20px;
+                overflow-x: hidden;
+                text-overflow: ellipsis;
 
                 ${!tokenDetails[order.tokenid] &&
                 `
@@ -82,11 +95,12 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
               color: ${V.color.frontSoft};
             `}
           >
-            {order.bidamount || order.askamount} x {order.price} {TICKER} = {order.totalrequired}{' '}
-            {TICKER}
+            {order.funcid === 's'
+              ? `${order.askamount} units x ${order.price} ${TICKER} = ${order.totalrequired} ${TICKER}`
+              : `${order.totalrequired} units x ${order.price} ${TICKER} = ${order.bidamount} ${TICKER}`}
           </p>
         </Column>
-        <Column>
+        <Column size={2}>
           <Icon
             icon={times}
             color="front"

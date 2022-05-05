@@ -37,7 +37,7 @@ const MyOffersWidget: React.FC<MyOffersWidgetProps> = () => {
           padding: 0 !important;
         `}
       >
-        <Column size={6}>
+        <Column size={8}>
           <Box>
             <Title>Offers on my assets</Title>
             {allMyOffers?.length === 0 ? (
