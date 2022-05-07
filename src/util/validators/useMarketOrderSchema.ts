@@ -32,14 +32,11 @@ const useFulfillOrderSchema = (type: 'fill' | 'ask' | 'bid') => {
       .test('not-null-in-fill', 'order ID is required', value =>
         type === 'fill' ? value?.length > 0 : true
       )
-      // .test(
-      //   'token-is-present',
-      //   'token for this order not present in your wallet',
-      //   (_, context) =>
-      //     orderDetails[value]?.type === 'bid'
-      //       ? myTokensBalances[orderDetails[value]?.token?.tokenid] !== undefined
-      //       : true
-      // )
+      .test('token-is-present', 'token for this order not present in your wallet', value =>
+        orderDetails[value]?.type === 'bid'
+          ? myTokensBalances[orderDetails[value]?.token?.tokenid] !== undefined
+          : true
+      )
       // let user know that fillasks for tokens with > 50% royalty will faill
       .test('token-has-problematic-royalty', 'token has > 50% royalty, order will fail', value =>
         type === 'fill' && orderDetails[value]?.type === 'ask'
@@ -57,7 +54,7 @@ const useFulfillOrderSchema = (type: 'fill' | 'ask' | 'bid') => {
           : true
       )
       .test('enough-balance', 'not enough tokens in wallet', (value, context) =>
-        type === 'ask'
+        type === 'ask' || (type === 'fill' && orderDetails[context.parent.orderId]?.type === 'bid')
           ? new BN(value).lte(parseBigNumObject(myTokensBalances[context.parent.assetId]))
           : true
       )
