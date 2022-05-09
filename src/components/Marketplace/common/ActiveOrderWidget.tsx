@@ -2,7 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
+import Tippy from '@tippyjs/react';
 
+import InfoIcon from 'assets/HelperInfoCircle.svg';
 import times from 'assets/times.svg';
 import { dispatch } from 'store/rematch';
 import { selectTokenDetails } from 'store/selectors';
@@ -16,6 +18,9 @@ import ExplorerLink from 'components/_General/ExplorerLink';
 import { Column, Columns } from 'components/_General/Grid';
 import OpenInExplorer from 'components/_General/OpenInExplorer';
 import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
+
+const orderIDExplainer =
+  "This identifies the order in the blockchain. It's not the same as the token ID of the asset you're buying or selling. You can send this order ID to someone and they can fulfill the order and complete the trade.";
 
 const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
   const tokenDetails = useSelector(selectTokenDetails);
@@ -115,11 +120,21 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
         <Column size={12}>
           <label
             css={css`
-              font-size: ${V.font.pSmaller};
+              font-size: ${V.font.pSmall};
               color: ${V.color?.frontOp[50]};
+              display: flex;
+              align-items: center;
+              margin-bottom: 2px;
+
+              ${Icon} {
+                margin-left: 5px;
+              }
             `}
           >
             Order ID
+            <Tippy content={orderIDExplainer} arrow>
+              <Icon icon={InfoIcon} color="gradient" width={12} height={12} className="icon" />
+            </Tippy>
           </label>
           <ExplorerLink txid={order.txid} noLink />
         </Column>
