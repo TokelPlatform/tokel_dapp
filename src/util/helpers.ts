@@ -75,12 +75,20 @@ export const toBitcoinAmount = (amountInSatoshi: string): string => {
   let value;
 
   if (bnAmountInSatoshi.lt(bnSatoshis)) {
-    value = bnAmountInSatoshi.div(bnSatoshis).toNumber(); // Okay to do toNumber as we're dealing with TKL and not satoshis
-  } else {
     value = parseInt(amountInSatoshi, 10) / SATOSHIS;
+    value = Number(value.toFixed(Config.DECIMAL)).toString();
+  } else {
+    value = bnAmountInSatoshi.div(bnSatoshis).toNumber(); // Okay to do toNumber as we're dealing with TKL and not satoshis
+
+    value = parseFloat(
+      `${value.toString()}.${bnAmountInSatoshi
+        .toNumber()
+        .toString()
+        .substring(value.toString().length)}`
+    );
   }
 
-  return Number(value.toFixed(Config.DECIMAL)).toString();
+  return value;
 };
 
 export const getUsdValue = (amountInSatoshi: string, tokelPriceUSD: number) =>
