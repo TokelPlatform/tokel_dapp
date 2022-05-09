@@ -113,7 +113,15 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
           />
         </Column>
         <Column size={12}>
-          <ExplorerLink txid={order.txid} />
+          <label
+            css={css`
+              font-size: ${V.font.pSmaller};
+              color: ${V.color?.frontOp[50]};
+            `}
+          >
+            Order ID
+          </label>
+          <ExplorerLink txid={order.txid} noLink />
         </Column>
       </Columns>
     </div>
