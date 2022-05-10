@@ -3,13 +3,18 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectTransactions, selectUnspentBalance } from 'store/selectors';
+import {
+  selectLockedTransactions,
+  selectLockedTransactionsBalance,
+  selectTransactions,
+  selectUnspentBalance,
+} from 'store/selectors';
 import { processPossibleBN } from 'util/helpers';
-import { ResourceType, TICKER } from 'vars/defines';
+import { LOCKED, ResourceType, SPENDABLE } from 'vars/defines';
 
 import ActivityListEmbed from './widgets/Embeds/ActivityListEmbed';
 import TransferEmbed, { HoldingType } from './widgets/Embeds/TransferEmbed';
-import LineGraph from './widgets/LineGraph';
+import WalletAddressesEmbed from './widgets/Embeds/WalletAddressesEmbed';
 import StandardWidget from './widgets/StandardWidget';
 
 const AssetViewRoot = styled.div`
@@ -17,28 +22,41 @@ const AssetViewRoot = styled.div`
   height: 100%;
   margin-left: 20px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  grid-gap: 20px;
+  grid-gap: 15px;
   overflow-y: auto;
 `;
 
 const AssetView = (): ReactElement => {
   const txs = useSelector(selectTransactions);
-  const balance = useSelector(selectUnspentBalance);
+  const lockedTransactions = useSelector(selectLockedTransactions);
+  const lockedSum = useSelector(selectLockedTransactionsBalance);
+  const balance = processPossibleBN(useSelector(selectUnspentBalance));
   const holdings: Array<HoldingType> = [
-    // { label: 'Unlocked', value: balance },
-    // { label: 'Locked', value: balance },
-    { label: 'Total', value: `${processPossibleBN(balance)} ${TICKER}` },
+    {
+      label: SPENDABLE,
+      value: `${Number(balance) - (Number(lockedSum) || 0)}`,
+      icon: 'coinStack',
+    },
   ];
+  if (lockedTransactions?.length > 0) {
+    holdings.push({
+      label: LOCKED,
+      value: lockedTransactions,
+      icon: 'lock',
+    });
+  }
 
   return (
     <AssetViewRoot>
-      <LineGraph />
-      <StandardWidget title="Transfer" width={2}>
+      <StandardWidget title="Send" width={3} height={1}>
         <TransferEmbed holdingSections={holdings} />
       </StandardWidget>
-      <StandardWidget title="History" width={3}>
+      <StandardWidget title="Receive" width={3} height={1}>
+        <WalletAddressesEmbed />
+      </StandardWidget>
+      <StandardWidget title="Activity" width={6} height={1}>
         <ActivityListEmbed transactions={txs} resourceType={ResourceType.TOKEL} />
       </StandardWidget>
     </AssetViewRoot>

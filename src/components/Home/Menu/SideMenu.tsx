@@ -5,11 +5,10 @@ import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
 
 import BagIcon from 'assets/Bag.svg';
-import DashIcon from 'assets/Dash.svg';
 import SwapIcon from 'assets/Swap.svg';
 import ToggleIcon from 'assets/Toggle.svg';
 import TokenIcon from 'assets/Token.svg';
-
+import WalletIcon from 'assets/Wallet.svg';
 import { dispatch } from 'store/rematch';
 import { selectView } from 'store/selectors';
 import { VERSIONS_MSG, ViewType } from 'vars/defines';
@@ -20,8 +19,8 @@ import MenuItem from './MenuItem';
 export const menuData = [
   {
     type: ViewType.DASHBOARD,
-    name: 'Dashboard',
-    icon: DashIcon,
+    name: 'Wallet',
+    icon: WalletIcon,
   },
   {
     type: ViewType.CREATE_TOKEN,

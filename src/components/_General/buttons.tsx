@@ -20,6 +20,10 @@ const getTheme = theme =>
     [Colors.TRANSPARENT]: `
         background: var(--color-almostBlack);
         border: 1px solid var(--color-lighterBlack);`,
+    [Colors.PURPLE]: `
+        background: var(--color-almostBlack);
+        border: 1px solid var(--color-purple);
+        `,
     [Colors.DANGER]: `
         &, &:hover {
           background: var(--color-danger);

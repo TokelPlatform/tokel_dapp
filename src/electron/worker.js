@@ -181,6 +181,7 @@ class BitgoSingleton {
       filter: response.filter,
       balance: response.total / SATOSHIS,
       numutxos: response.utxos.length,
+      utxos: response.utxos,
       address: this.address,
       tokens: res,
     };
