@@ -214,7 +214,8 @@ class BitgoSingleton {
     if (!this.connection) {
       throw new Error('Not connected');
     }
-    const txIds = await ccutils.getTxids(this.connection, address, 0, skipCount, 30);
+    // todo there is a better more dynamic way to implement transaction limit than hardcoded number
+    const txIds = await ccutils.getTxids(this.connection, address, 0, skipCount, 100);
     const ids = txIds.txids.map(tx => tx.txid.reverse().toString('hex'));
     const uniqueIds = [...new Set(ids)];
     if (uniqueIds.length > 0) {
