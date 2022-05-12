@@ -45,6 +45,10 @@ const Name = styled.h3`
   margin: 0;
 `;
 
+const Price = styled.small`
+  color: ${V.color.frontSoft};
+`;
+
 const Amount = styled.p`
   color: var(--color-gray);
   margin: 0;
@@ -65,6 +69,7 @@ const NFTBadge = styled.div`
 
 type PortfolioItemProps = {
   name: string;
+  price?: string;
   subtitle?: string;
   icon?: boolean;
   nft?: boolean;
@@ -74,6 +79,7 @@ type PortfolioItemProps = {
 
 const PortfolioItem = ({
   name,
+  price,
   subtitle,
   icon,
   nft,
@@ -88,7 +94,9 @@ const PortfolioItem = ({
         </IconWrapper>
       )}
       <Information>
-        <Name>{name}</Name>
+        <Name>
+          {name} <Price color={V.color.frontSoft}>{price}</Price>
+        </Name>
         <Amount>{subtitle}</Amount>
       </Information>
       {nft && <NFTBadge />}

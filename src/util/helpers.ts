@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
+import { toBitcoin } from 'satoshi-bitcoin';
 
 import BigNumObject from 'util/types/BigNum';
 import { Config, EXTRACT_IPFS_HASH_REGEX, SATOSHIS, WindowSize } from 'vars/defines';
@@ -73,14 +74,19 @@ export const toBitcoinAmount = (amountInSatoshi: string): string => {
   const bnAmountInSatoshi = new BN(amountInSatoshi);
   const bnSatoshis = new BN(SATOSHIS);
   let value;
+  let decimals;
 
   if (bnAmountInSatoshi.lt(bnSatoshis)) {
     value = parseInt(amountInSatoshi, 10) / SATOSHIS;
+    value = Number(value.toFixed(Config.DECIMAL));
   } else {
-    value = bnAmountInSatoshi.div(bnSatoshis).toNumber(); // Okay to do toNumber as we're dealing with TKL and not satoshis
+    value = bnAmountInSatoshi.div(bnSatoshis).toNumber();
+    decimals = toBitcoin(bnAmountInSatoshi.mod(bnSatoshis).toNumber());
+
+    value = Number(value + decimals);
   }
 
-  return Number(value.toFixed(Config.DECIMAL)).toString();
+  return value.toString();
 };
 
 export const getUsdValue = (amountInSatoshi: string, tokelPriceUSD: number) =>
