@@ -11,6 +11,7 @@ import { dispatch } from 'store/rematch';
 import { selectOrderDetails, selectTokenDetails } from 'store/selectors';
 import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { parseBigNumObject } from 'util/helpers';
+import { V } from 'util/theming';
 import useFulfillOrderSchema from 'util/validators/useMarketOrderSchema';
 import { Colors, ModalName, TICKER } from 'vars/defines';
 
@@ -81,6 +82,13 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
     }
   }, [type, currentOrderDetails]);
 
+  const title = type === 'ask' ? 'Sell order' : type === 'bid' ? 'Bid Order' : 'Fill Order';
+  const subTitle =
+    type === 'ask'
+      ? 'Put your tokens up for sale.'
+      : type === 'bid'
+      ? 'Place a bid on a sale order using sale order id. The seller will provide you with sale order id.'
+      : 'Accept a bid on your sale order.';
   const buttonLabel =
     type === 'ask'
       ? 'Review sell order'
@@ -178,6 +186,8 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         padding-bottom: 2.5em;
       `}
     >
+      <h3 style={{ marginBottom: '4px' }}>{title}</h3>
+      <h5 style={{ fontWeight: 400, marginTop: 0, color: `${V.color.frontSoft}` }}>{subTitle}</h5>
       <FormikProvider value={formikBag}>
         <Form>
           {type === 'fill' && (

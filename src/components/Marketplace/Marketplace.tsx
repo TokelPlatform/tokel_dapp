@@ -119,6 +119,8 @@ const Marketplace: React.FC<MarketplaceProps> = () => {
         data-tid="mktplace-sidemenu"
         css={css`
           margin-right: auto;
+          border-left: 1px solid ${V.color.backSofter};
+          background-color: ${V.color.backHard};
         `}
       >
         <div>
