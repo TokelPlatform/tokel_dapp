@@ -24,13 +24,12 @@ export default createModel<RootModel>()({
     SET_MY_ORDERS: (state, orders: OrderDetailLite[]) => ({ ...state, myOrders: orders }),
     SET_OFFERS: (state, offers: OrderDetailLite[]) => {
       let newState = state;
-      offers.forEach(
-        (offer, index) =>
-          (newState =
-            offer.funcid === 'b'
-              ? dp.set(newState, `offers.${offer.tokenid}[${index}]`, offer)
-              : newState)
-      );
+      offers.forEach((offer, index) => {
+        newState =
+          offer.funcid === 'b'
+            ? dp.set(newState, `offers.${offer.tokenid}[${index}]`, offer)
+            : newState;
+      });
       return newState;
     },
   },

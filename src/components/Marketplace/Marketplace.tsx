@@ -20,6 +20,7 @@ import MarketOrderWidget from './widgets/MarketOrder';
 import MyOffersWidget from './widgets/MyOffers';
 import MyOrdersWidget from './widgets/MyOrders';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface MarketplaceProps {}
 
 const menuData = [

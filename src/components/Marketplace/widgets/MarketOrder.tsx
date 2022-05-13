@@ -67,7 +67,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const debouncedAssetId = useDebounce(formikBag.values.assetId, 1000);
   const currentOrderDetails = useMemo(
     () => orderDetails?.[formikBag.values.orderId],
-    [orderDetails, formikBag.values.orderId, formikBag]
+    [orderDetails, formikBag]
   );
   const currentTokenDetails =
     currentOrderDetails?.token || tokenDetails?.[formikBag.values.assetId];
@@ -75,11 +75,11 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const buttonTheme = useMemo(() => {
     if (type === 'bid' || (type === 'fill' && currentOrderDetails?.type === 'ask')) {
       return Colors.SUCCESS;
-    } else if (type === 'ask' || (type === 'fill' && currentOrderDetails?.type === 'bid')) {
-      return Colors.DANGER;
-    } else {
-      return Colors.PURPLE;
     }
+    if (type === 'ask' || (type === 'fill' && currentOrderDetails?.type === 'bid')) {
+      return Colors.DANGER;
+    }
+    return Colors.PURPLE;
   }, [type, currentOrderDetails]);
 
   const title = type === 'ask' ? 'Sell order' : type === 'bid' ? 'Bid Order' : 'Fill Order';
@@ -88,7 +88,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       ? 'Put your tokens up for sale.'
       : type === 'bid'
       ? 'Place a bid on a sale order using sale order id. The seller will provide you with sale order id.'
-      : 'Accept a bid on your sale order.';
+      : 'Use this form to fill an order. You can either fill a buy order (sell your token/NFT), or fill a sell order (buy someone elses token/NFT).';
   const buttonLabel =
     type === 'ask'
       ? 'Review sell order'
@@ -102,14 +102,15 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
   useEffect(() => {
     if (prefillOrderId) formikBag.setFieldValue('orderId', prefillOrderId);
-  }, [prefillOrderId, formikBag.setFieldValue]);
+  }, [prefillOrderId, formikBag.setFieldValue, formikBag]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => setPrefillOrderId(undefined), []);
 
   useEffect(() => {
     if (currentOrderDetails) {
-      let quantity = parseBigNumObject(currentOrderDetails.bnAmount).toNumber();
-      let price = toBitcoin(parseBigNumObject(currentOrderDetails.bnUnitPrice).toNumber());
+      const quantity = parseBigNumObject(currentOrderDetails.bnAmount).toNumber();
+      const price = toBitcoin(parseBigNumObject(currentOrderDetails.bnUnitPrice).toNumber());
 
       const values = {
         ...formikBag.values,
@@ -135,7 +136,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
       formikBag.validateForm(values);
     }
-  }, [formikBag.setFieldValue, currentOrderDetails]);
+  }, [formikBag.setFieldValue, currentOrderDetails, formikBag]);
 
   useEffect(() => {
     if (
@@ -150,6 +151,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
     formikBag.values.quantity,
     currentTokenDetails,
     currentOrderDetails,
+    formikBag,
   ]);
 
   useEffect(() => {
@@ -158,7 +160,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         orderId: debouncedOrderId,
       });
     }
-  }, [debouncedOrderId]);
+  }, [debouncedOrderId, orderDetails]);
 
   useEffect(() => {
     if (debouncedAssetId?.length === 64 && !tokenDetails?.[debouncedAssetId]) {
@@ -166,7 +168,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         tokenId: debouncedAssetId,
       });
     }
-  }, [debouncedAssetId]);
+  }, [debouncedAssetId, tokenDetails]);
 
   useEffect(() => {
     if (formikBag.values.orderId?.length !== 64) {
@@ -175,7 +177,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       formikBag.setFieldValue('price', 0);
       formikBag.setFieldValue('assetId', '');
     }
-  }, [formikBag.values.orderId]);
+  }, [formikBag, formikBag.values.orderId]);
 
   return (
     <Box

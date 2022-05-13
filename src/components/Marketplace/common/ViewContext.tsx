@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 enum MARKETPLACE_VIEWS {
   FILL,
   ASK,
