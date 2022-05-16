@@ -118,7 +118,7 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
           />
         </Column>
         <Column size={12}>
-          <label
+          <span
             css={css`
               font-size: ${V.font.pSmall};
               color: ${V.color?.frontOp[50]};
@@ -135,7 +135,7 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
             <Tippy content={orderIDExplainer} arrow>
               <Icon icon={InfoIcon} color="gradient" width={12} height={12} className="icon" />
             </Tippy>
-          </label>
+          </span>
           <ExplorerLink txid={order.txid} noLink />
         </Column>
       </Columns>

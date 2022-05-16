@@ -20,9 +20,6 @@ import MarketOrderWidget from './widgets/MarketOrder';
 import MyOffersWidget from './widgets/MyOffers';
 import MyOrdersWidget from './widgets/MyOrders';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface MarketplaceProps {}
-
 const menuData = [
   {
     type: MARKETPLACE_VIEWS.FILL,
@@ -70,7 +67,7 @@ const WelcomeMessageWrapper = styled.div`
   }
 `;
 
-const Marketplace: React.FC<MarketplaceProps> = () => {
+const Marketplace: React.FC = () => {
   const [currentView, setCurrentView] = useState<MARKETPLACE_VIEWS | null>(null);
   const [currentOrderId, setCurrentOrderId] = useState<string | undefined>();
 

@@ -29,16 +29,15 @@ const WarningWrapper = styled.div`
   }
 `;
 
-interface ConfirmOrderModalProps {}
-
-const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
-  const formValues = useSelector(selectModalOptions) as Record<string, any>;
+const ConfirmOrderModal: React.FC = () => {
+  const formValues = useSelector(selectModalOptions) as Record<string, unknown>;
   const orderDetails = useSelector(selectOrderDetails);
   const tokenDetails = useSelector(selectTokenDetails);
 
-  const currentOrderDetails = orderDetails?.[formValues?.orderId];
+  const currentOrderDetails = orderDetails?.[formValues?.orderId as string];
   const currentOrderType = currentOrderDetails?.type;
-  const currentTokenDetails = currentOrderDetails?.token || tokenDetails?.[formValues?.assetId];
+  const currentTokenDetails =
+    currentOrderDetails?.token || tokenDetails?.[formValues?.assetId as string];
   const isFilling = formValues?.type === 'fill';
 
   const handleOrderBroadcast = () => {
@@ -46,18 +45,18 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
       sendToBitgo(
         currentOrderType === 'bid' ? BitgoAction.ASSET_V2_FILL_BID : BitgoAction.ASSET_V2_FILL_ASK,
         {
-          orderId: formValues?.orderId,
-          tokenId: formValues.assetId,
-          amount: formValues.quantity,
+          orderId: formValues?.orderId as string,
+          tokenId: formValues.assetId as string,
+          amount: formValues.quantity as number,
         }
       );
     } else {
       sendToBitgo(
         formValues?.type === 'bid' ? BitgoAction.ASSET_V2_POST_BID : BitgoAction.ASSET_V2_POST_ASK,
         {
-          tokenId: formValues.assetId,
-          amount: formValues.quantity,
-          unitPrice: formValues.price,
+          tokenId: formValues.assetId as string,
+          amount: formValues.quantity as number,
+          unitPrice: formValues.price as number,
         }
       );
     }
@@ -79,19 +78,18 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
   const myOrderSide = useMemo(() => {
     if (formValues?.type === 'bid' || (isFilling && currentOrderType === 'ask')) {
       return 'bid';
-    } else {
-      return 'ask';
     }
+    return 'ask';
   }, [formValues?.type, isFilling, currentOrderType]);
 
   const calculatedCostOrProceeds = useMemo(() => {
-    const total = formValues.price * formValues.quantity;
+    const total = (formValues.price as number) * (formValues.quantity as number);
     const royalty = currentTokenDetails?.dataAsJson?.royalty / 10 || 0;
 
     return myOrderSide === 'bid'
       ? (total + FEE).toFixed(8)
       : (total - (total * royalty) / 100 - FEE).toFixed(8);
-  }, [formValues.price, formValues.quantity, myOrderSide]);
+  }, [formValues.price, formValues.quantity, myOrderSide, currentTokenDetails]);
 
   const buttonTheme = useMemo(
     () => (myOrderSide === 'bid' ? Colors.SUCCESS : Colors.DANGER),
@@ -117,7 +115,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
       `}
     >
       <KeyValueDisplay>
-        <label>Asset</label>
+        <span>Asset</span>
         <AssetWidget asset={currentTokenDetails} />
       </KeyValueDisplay>
 
@@ -130,7 +128,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
       >
         <Column size={3}>
           <KeyValueDisplay color={orderSide === 'bid' ? Colors.SUCCESS : Colors.DANGER}>
-            <label>Order Type</label>
+            <span>Order Type</span>
             <p>{orderSide === 'bid' ? 'Bid (Purchase)' : 'Ask (Sale)'}</p>
           </KeyValueDisplay>
         </Column>
@@ -138,7 +136,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
         {Boolean(formValues.orderId) && (
           <Column size={9}>
             <KeyValueDisplay>
-              <label>Order ID</label>
+              <span>Order ID</span>
               <p>{formValues.orderId}</p>
             </KeyValueDisplay>
           </Column>
@@ -146,14 +144,14 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
 
         <Column size={isFilling ? 4 : 3}>
           <KeyValueDisplay>
-            <label>Amount</label>
+            <span>Amount</span>
             <p>{formValues.quantity}</p>
           </KeyValueDisplay>
         </Column>
 
         <Column size={isFilling ? 4 : 3}>
           <KeyValueDisplay>
-            <label>Unit Price</label>
+            <span>Unit Price</span>
             <p>
               {formValues.price} {TICKER}
             </p>
@@ -162,16 +160,16 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
 
         <Column size={isFilling ? 4 : 3}>
           <KeyValueDisplay>
-            <label>Total</label>
+            <span>Total</span>
             <p>
-              {formValues.price * formValues.quantity} {TICKER}
+              {(formValues.price as number) * (formValues.quantity as number)} {TICKER}
             </p>
           </KeyValueDisplay>
         </Column>
 
         <Column size={4}>
           <KeyValueDisplay>
-            <label>Royalty</label>
+            <span>Royalty</span>
             <p>
               {currentTokenDetails?.dataAsJson?.royalty / 10 || 0}% {TICKER}
             </p>
@@ -180,7 +178,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
 
         <Column size={4}>
           <KeyValueDisplay>
-            <label>Transaction Fee</label>
+            <span>Transaction Fee</span>
             <p>
               {FEE} {TICKER}
             </p>
@@ -191,7 +189,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
           {myOrderSide === 'bid' && (
             <KeyValueDisplay color={Colors.DANGER}>
               <>
-                <label>Total Cost</label>
+                <span>Total Cost</span>
                 <p>
                   {calculatedCostOrProceeds} {TICKER}
                 </p>
@@ -202,7 +200,7 @@ const ConfirmOrderModal: React.FC<ConfirmOrderModalProps> = () => {
           {myOrderSide === 'ask' && (
             <KeyValueDisplay color={Colors.SUCCESS}>
               <>
-                <label>Total Proceeds</label>
+                <span>Total Proceeds</span>
                 <p>
                   {calculatedCostOrProceeds} {TICKER}
                 </p>

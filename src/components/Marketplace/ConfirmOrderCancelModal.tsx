@@ -15,10 +15,7 @@ import { Column, Columns } from 'components/_General/Grid';
 import AssetWidget from './common/AssetWidget';
 import KeyValueDisplay from './common/KeyValueDisplay';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface ConfirmOrderCancelModalProps {}
-
-const ConfirmOrderCancelModal: React.FC<ConfirmOrderCancelModalProps> = () => {
+const ConfirmOrderCancelModal: React.FC = () => {
   const { order } = useSelector(selectModalOptions) as { order: OrderDetailLite };
   const tokenDetails = useSelector(selectTokenDetails);
   const currentTokenDetails = tokenDetails[order.tokenid];
@@ -46,34 +43,34 @@ const ConfirmOrderCancelModal: React.FC<ConfirmOrderCancelModalProps> = () => {
       `}
     >
       <KeyValueDisplay>
-        <label>Asset</label>
+        <span>Asset</span>
         <AssetWidget asset={currentTokenDetails} />
       </KeyValueDisplay>
 
       <Columns multiline>
         <Column size={12}>
           <KeyValueDisplay>
-            <label>Order ID</label>
+            <span>Order ID</span>
             <p>{order.txid}</p>
           </KeyValueDisplay>
         </Column>
 
         <Column size={3}>
           <KeyValueDisplay color={order.funcid === 'b' ? Colors.SUCCESS : Colors.DANGER}>
-            <label>Order Type</label>
+            <span>Order Type</span>
             <p>{order.funcid === 'b' ? 'Bid (Purchase)' : 'Ask (Sale)'}</p>
           </KeyValueDisplay>
         </Column>
 
         <Column size={3}>
           <KeyValueDisplay>
-            <label>Amount</label>
+            <span>Amount</span>
             <p>{order.askamount || order.bidamount}</p>
           </KeyValueDisplay>
         </Column>
         <Column size={3}>
           <KeyValueDisplay>
-            <label>Unit Price</label>
+            <span>Unit Price</span>
             <p>
               {order.price} {TICKER}
             </p>
@@ -82,7 +79,7 @@ const ConfirmOrderCancelModal: React.FC<ConfirmOrderCancelModalProps> = () => {
 
         <Column size={3}>
           <KeyValueDisplay>
-            <label>Total</label>
+            <span>Total</span>
             <p>
               {order.totalrequired} {TICKER}
             </p>

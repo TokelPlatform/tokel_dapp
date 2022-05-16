@@ -6,7 +6,7 @@ const KeyValueDisplay = styled.div<{ color?: string }>`
   margin-bottom: 15px;
   margin-right: 10px;
 
-  label {
+  span {
     color: ${V.color.frontSoft};
     font-weight: bold;
     margin-bottom: 5px;

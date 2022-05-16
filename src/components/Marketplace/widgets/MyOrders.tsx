@@ -10,10 +10,7 @@ import { Box, SubTitle, Title } from 'components/_General/_UIElements/common';
 import { Column, Columns } from 'components/_General/Grid';
 import ActiveOrderWidget from 'components/Marketplace/common/ActiveOrderWidget';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface MyOrdersWidgetProps {}
-
-const MyOrdersWidget: React.FC<MyOrdersWidgetProps> = () => {
+const MyOrdersWidget: React.FC = () => {
   const myOrders = useSelector(selectMyOrders);
   const tokenDetails = useSelector(selectTokenDetails);
 

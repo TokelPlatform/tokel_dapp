@@ -102,7 +102,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
   useEffect(() => {
     if (prefillOrderId) formikBag.setFieldValue('orderId', prefillOrderId);
-  }, [prefillOrderId, formikBag.setFieldValue, formikBag]);
+  }, [prefillOrderId, formikBag]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => setPrefillOrderId(undefined), []);
@@ -136,7 +136,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
       formikBag.validateForm(values);
     }
-  }, [formikBag.setFieldValue, currentOrderDetails, formikBag]);
+  }, [currentOrderDetails, formikBag]);
 
   useEffect(() => {
     if (
