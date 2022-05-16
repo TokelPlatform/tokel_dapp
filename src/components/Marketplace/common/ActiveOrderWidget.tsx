@@ -57,7 +57,7 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
             <TokenMediaDisplay url={tokenDetails[order.tokenid]?.dataAsJson?.url} />
           </Column>
         )}
-        <Column size={!!tokenDetails[order.tokenid]?.dataAsJson?.url ? 8 : 10}>
+        <Column size={tokenDetails[order.tokenid]?.dataAsJson?.url ? 8 : 10}>
           <p
             css={css`
               display: flex;

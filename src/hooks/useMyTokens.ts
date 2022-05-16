@@ -17,7 +17,7 @@ const useMyTokens = (): Tokens => {
   const tokensMap = useMemo(
     () =>
       Object.values(tokenDetails).reduce((tokens, { name, tokenid }) => {
-        let bnBalance = parseBigNumObject(tokenBalances[tokenid]);
+        const bnBalance = parseBigNumObject(tokenBalances[tokenid]);
         if (bnBalance.gt(new BN(0)))
           return {
             ...tokens,
@@ -29,7 +29,7 @@ const useMyTokens = (): Tokens => {
 
         return tokens;
       }, {}),
-    [tokenDetails]
+    [tokenBalances, tokenDetails]
   );
 
   return tokensMap;

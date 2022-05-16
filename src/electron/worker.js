@@ -23,7 +23,6 @@ const {
   ccassetsv2,
   ccbasic,
   ccimp,
-  Transaction,
 } = require('@tokel/nspv-js');
 
 const BitgoAction = {

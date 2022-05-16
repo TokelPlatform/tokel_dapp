@@ -1,6 +1,7 @@
 // Extracted from https://usehooks.com/useDebounce/
 import { useEffect, useState } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useDebounce = (value: any, delayMs: number) => {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState(value);

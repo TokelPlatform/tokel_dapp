@@ -10,6 +10,7 @@ import { Box, SubTitle, Title } from 'components/_General/_UIElements/common';
 import { Column, Columns } from 'components/_General/Grid';
 import ActiveOrderWidget from 'components/Marketplace/common/ActiveOrderWidget';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface MyOrdersWidgetProps {}
 
 const MyOrdersWidget: React.FC<MyOrdersWidgetProps> = () => {
@@ -24,7 +25,7 @@ const MyOrdersWidget: React.FC<MyOrdersWidgetProps> = () => {
       if (!tokenDetails[order.tokenid])
         sendToBitgo(BitgoAction.TOKEN_V2_INFO_TOKEL, { tokenId: order.tokenid });
     });
-  }, [myOrders]);
+  }, [myOrders, tokenDetails]);
 
   useEffect(() => {
     sendToBitgo(BitgoAction.ASSET_V2_MY_ORDERS);
@@ -56,8 +57,8 @@ const MyOrdersWidget: React.FC<MyOrdersWidgetProps> = () => {
                   max-height: 90%;
                 `}
               >
-                {myAsks.map((ask, index) => (
-                  <ActiveOrderWidget order={ask} key={index} />
+                {myAsks.map(ask => (
+                  <ActiveOrderWidget order={ask} key={ask.txid} />
                 ))}
               </div>
             )}
@@ -76,8 +77,8 @@ const MyOrdersWidget: React.FC<MyOrdersWidgetProps> = () => {
                   max-height: 90%;
                 `}
               >
-                {myBids.map((bid, index) => (
-                  <ActiveOrderWidget order={bid} key={index} />
+                {myBids.map(bid => (
+                  <ActiveOrderWidget order={bid} key={bid.txid} />
                 ))}
               </div>
             )}

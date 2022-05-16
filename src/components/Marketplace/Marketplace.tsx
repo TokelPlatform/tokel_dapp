@@ -20,6 +20,7 @@ import MarketOrderWidget from './widgets/MarketOrder';
 import MyOffersWidget from './widgets/MyOffers';
 import MyOrdersWidget from './widgets/MyOrders';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface MarketplaceProps {}
 
 const menuData = [
@@ -119,6 +120,8 @@ const Marketplace: React.FC<MarketplaceProps> = () => {
         data-tid="mktplace-sidemenu"
         css={css`
           margin-right: auto;
+          border-left: 1px solid ${V.color.backSofter};
+          background-color: ${V.color.backHard};
         `}
       >
         <div>

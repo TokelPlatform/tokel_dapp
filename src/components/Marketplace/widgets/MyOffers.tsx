@@ -10,6 +10,7 @@ import { Box, SubTitle, Title } from 'components/_General/_UIElements/common';
 import { Column, Columns } from 'components/_General/Grid';
 import Offer from 'components/Marketplace/common/Offer';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface MyOffersWidgetProps {}
 
 const MyOffersWidget: React.FC<MyOffersWidgetProps> = () => {
@@ -50,8 +51,8 @@ const MyOffersWidget: React.FC<MyOffersWidgetProps> = () => {
                   max-height: 90%;
                 `}
               >
-                {allMyOffers.map((offer, index) => (
-                  <Offer order={offer} key={index} />
+                {allMyOffers.map(offer => (
+                  <Offer order={offer} key={offer.txid} />
                 ))}
               </div>
             )}

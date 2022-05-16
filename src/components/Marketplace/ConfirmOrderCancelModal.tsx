@@ -15,6 +15,7 @@ import { Column, Columns } from 'components/_General/Grid';
 import AssetWidget from './common/AssetWidget';
 import KeyValueDisplay from './common/KeyValueDisplay';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ConfirmOrderCancelModalProps {}
 
 const ConfirmOrderCancelModal: React.FC<ConfirmOrderCancelModalProps> = () => {
