@@ -67,7 +67,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const debouncedAssetId = useDebounce(formikBag.values.assetId, 1000);
   const currentOrderDetails = useMemo(
     () => orderDetails?.[formikBag.values.orderId],
-    [orderDetails, formikBag]
+    [orderDetails, formikBag.values.orderId]
   );
   const currentTokenDetails =
     currentOrderDetails?.token || tokenDetails?.[formikBag.values.assetId];
@@ -85,9 +85,9 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const title = type === 'ask' ? 'Sell order' : type === 'bid' ? 'Bid Order' : 'Fill Order';
   const subTitle =
     type === 'ask'
-      ? 'Put your tokens up for sale.'
+      ? 'Put a token up for sale.'
       : type === 'bid'
-      ? 'Place a bid on a sale order using sale order id. The seller will provide you with sale order id.'
+      ? 'Place a bid on a token order using a token ID. You can get the token ID at the token details in the explorer'
       : 'Use this form to fill an order. You can either fill a buy order (sell your token/NFT), or fill a sell order (buy someone elses token/NFT).';
   const buttonLabel =
     type === 'ask'
@@ -102,7 +102,8 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
   useEffect(() => {
     if (prefillOrderId) formikBag.setFieldValue('orderId', prefillOrderId);
-  }, [prefillOrderId, formikBag]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefillOrderId, formikBag.setFieldValue]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => setPrefillOrderId(undefined), []);
@@ -136,7 +137,13 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
       formikBag.validateForm(values);
     }
-  }, [currentOrderDetails, formikBag]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    currentOrderDetails,
+    formikBag.setFieldValue,
+    formikBag.validateForm,
+    formikBag.setFormikState,
+  ]);
 
   useEffect(() => {
     if (
@@ -146,12 +153,12 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
     ) {
       formikBag.setFieldValue('quantity', 1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     formikBag.setFieldValue,
     formikBag.values.quantity,
     currentTokenDetails,
     currentOrderDetails,
-    formikBag,
   ]);
 
   useEffect(() => {
@@ -177,7 +184,8 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       formikBag.setFieldValue('price', 0);
       formikBag.setFieldValue('assetId', '');
     }
-  }, [formikBag, formikBag.values.orderId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formikBag.setFieldValue, formikBag.values.orderId]);
 
   return (
     <Box
