@@ -66,8 +66,8 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const debouncedOrderId = useDebounce(formikBag.values.orderId, 1000);
   const debouncedAssetId = useDebounce(formikBag.values.assetId, 1000);
   const currentOrderDetails = useMemo(
-    () => orderDetails?.[formikBag.values.orderId],
-    [orderDetails, formikBag.values.orderId]
+    () => orderDetails?.[formikBag.values.orderId] || orderDetails?.[formikBag.values.assetId],
+    [orderDetails, formikBag.values.orderId, formikBag.values.assetId]
   );
   const currentTokenDetails =
     currentOrderDetails?.token || tokenDetails?.[formikBag.values.assetId];
@@ -116,11 +116,12 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       const values = {
         ...formikBag.values,
         ...{
-          price: `${price}`,
           order: currentOrderDetails,
           orderId: currentOrderDetails?.orderid,
           assetId: currentOrderDetails?.token.tokenid,
-          quantity: currentOrderDetails?.token?.supply === 1 ? 1 : quantity,
+          price: type === 'fill' ? `${price}` : undefined,
+          quantity:
+            type === 'fill' ? (currentOrderDetails?.token?.supply === 1 ? 1 : quantity) : undefined,
         },
       };
 
@@ -128,10 +129,10 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         ...formikBag,
         values,
         touched: {
-          price: true,
           orderId: true,
           assetId: true,
-          quantity: true,
+          price: type === 'fill',
+          quantity: type === 'fill',
         },
       });
 
@@ -174,6 +175,13 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       sendToBitgo(BitgoAction.TOKEN_V2_INFO_TOKEL, {
         tokenId: debouncedAssetId,
       });
+
+      // User might be confusing order ID with asset ID. Query blockchain just in case
+      if (type === 'bid') {
+        sendToBitgo(BitgoAction.ASSET_V2_FETCH_ORDER_DECODED, {
+          orderId: debouncedAssetId,
+        });
+      }
     }
   }, [debouncedAssetId, tokenDetails]);
 
@@ -243,7 +251,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
                 name="quantity"
                 type="number"
                 label="Quantity"
-                readOnly={tokenDetails[formikBag.values.assetId]?.supply === 1}
+                readOnly={currentTokenDetails?.supply === 1}
                 placeholder="100,000"
                 min={1}
                 help="Number of tokens to include in this order. Always one for NFTs."
