@@ -4,16 +4,19 @@ import { ModalName } from 'vars/defines';
 
 import ConfirmTokenCreationModal from 'components/CreateToken/ConfirmTokenCreationModal';
 import TokenCreatedTx from 'components/CreateToken/TokenCreatedTx';
+import ConfirmOrderCancelModal from 'components/Marketplace/ConfirmOrderCancelModal';
+import ConfirmOrderModal from 'components/Marketplace/ConfirmOrderModal';
+import OrderCreatedTx from 'components/Marketplace/OrderCreatedTx';
 import Feedback from './Feedback';
+import IpfsExplainer from './IpfsExplainer';
 import Receive from './Receive';
 import Send from './Send';
 import TxDetail from './TxDetail';
-import IpfsExplainer from './IpfsExplainer';
 
 interface ModalPayloadType {
   title: string;
   component: ReactElement;
-  size?: 'small' | 'large';
+  size?: 'small' | 'medium' | 'large';
 }
 
 interface ModalCollectionType {
@@ -37,5 +40,19 @@ export default {
   [ModalName.IPFS_EXPLAINER]: {
     title: 'Store your digital media correctly',
     component: <IpfsExplainer />,
+  },
+  [ModalName.CONFIRM_MARKET_ORDER]: {
+    title: 'Confirm market order',
+    component: <ConfirmOrderModal />,
+    size: 'medium',
+  },
+  [ModalName.MARKET_ORDER_SENT]: {
+    title: 'Broadcasting market order',
+    component: <OrderCreatedTx />,
+  },
+  [ModalName.CONFIRM_CANCEL_MARKET_ORDER]: {
+    title: 'Cancel Order',
+    size: 'medium',
+    component: <ConfirmOrderCancelModal />,
   },
 } as ModalCollectionType;

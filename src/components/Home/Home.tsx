@@ -4,17 +4,17 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { selectModalName, selectView } from 'store/selectors';
-import { TOPBAR_HEIGHT_PX, ViewType } from 'vars/defines';
 import links from 'util/links';
+import { TOPBAR_HEIGHT_PX, ViewType } from 'vars/defines';
 
+import InfoNote from 'components/_General/InfoNote';
+import CreateToken from 'components/CreateToken/CreateToken';
 import Dashboard from 'components/Dashboard/Dashboard';
 import SideMenu from 'components/Home/Menu/SideMenu';
-import CreateToken from 'components/CreateToken/CreateToken';
-import Settings from 'components/Settings/Settings';
-
-import Modal from 'components/Modal/Modal';
-import InfoNote from 'components/_General/InfoNote';
+import Marketplace from 'components/Marketplace/Marketplace';
 import modals from 'components/Modal/content';
+import Modal from 'components/Modal/Modal';
+import Settings from 'components/Settings/Settings';
 
 const HomeRoot = styled.div`
   display: flex;
@@ -51,16 +51,16 @@ const renderView = (viewType: ViewType[keyof ViewType]) => {
   switch (viewType) {
     case ViewType.DASHBOARD:
       return <Dashboard />;
+    case ViewType.SWAP:
+      return getNote('Swapping Tokel');
     case ViewType.DEX:
-      return getNote('Decentralized Exchange');
-    case ViewType.NFT_MARKET:
-      return getNote('NFT Marketplace');
+      return <Marketplace />;
     case ViewType.CREATE_TOKEN:
       return <CreateToken />;
     case ViewType.SETTINGS:
       return <Settings />;
     default:
-      return getNote('This functionality');
+      return getNote('This');
   }
 };
 

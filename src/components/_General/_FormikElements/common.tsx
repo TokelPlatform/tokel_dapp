@@ -1,5 +1,7 @@
-import { css } from '@emotion/react';
 import { GroupBase, StylesConfig } from 'react-select';
+
+import { css } from '@emotion/react';
+
 import { V } from 'util/theming';
 
 const inputStyles = css`
@@ -13,7 +15,8 @@ const inputStyles = css`
   font-family: source-sans-pro, sans-serif;
   resize: none;
 
-  &[readOnly] {
+  &[readOnly],
+  &[disabled] {
     background-color: ${V.color?.backSoftest};
     color: ${V.color?.frontOp[50]};
   }
@@ -42,6 +45,11 @@ const useReactSelectStyles = () => {
     input: provided => ({
       ...provided,
       color: V.color?.frontSofter,
+    }),
+
+    placeholder: provided => ({
+      ...provided,
+      marginRight: 'auto',
     }),
 
     singleValue: provided => ({

@@ -63,8 +63,8 @@ export const WindowControl = {
 
 export enum ViewType {
   DASHBOARD = 'dashboard',
+  SWAP = 'swap',
   DEX = 'dex',
-  NFT_MARKET = 'nft_market',
   CREATE_TOKEN = 'create_token',
   SETTINGS = 'settings',
 }
@@ -78,6 +78,9 @@ export enum ModalName {
   CONFIRM_TOKEN_CREATION = 'confirm_token_creation',
   TOKEN_CREATED = 'token_created',
   IPFS_EXPLAINER = 'ipfs_explainer',
+  CONFIRM_MARKET_ORDER = 'confirm_market_order',
+  CONFIRM_CANCEL_MARKET_ORDER = 'confirm_cancel_market_order',
+  MARKET_ORDER_SENT = 'market_order_sent',
 }
 
 export const Config = {

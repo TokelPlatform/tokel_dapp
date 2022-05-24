@@ -6,6 +6,7 @@ type ButtonProps = {
   theme: string;
   customWidth?: string;
   hasIcon?: boolean;
+  loading?: boolean;
 };
 
 const getTheme = theme =>
@@ -43,6 +44,39 @@ export const Button = styled.button<ButtonProps>`
   color: var(--color-white);
   font-size: 14px;
   font-weight: 400;
+  position: relative;
+
+  @keyframes button-loading-spinner {
+    from {
+      transform: rotate(0turn);
+    }
+
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  ${props =>
+    props.loading &&
+    `
+      text-indent: -9999em; /* hide text */
+    
+      &:after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        border: 4px solid transparent;
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        animation: button-loading-spinner 1s ease infinite;
+      }
+  `}
 
   ${props =>
     props.hasIcon &&

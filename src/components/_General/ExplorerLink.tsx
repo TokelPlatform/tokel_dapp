@@ -38,11 +38,13 @@ const ExplorerLink = ({
   txid,
   txidColor,
   display,
+  noLink,
   type = 'tx',
   postfix = '',
 }: {
   txid: string;
   display?: string;
+  noLink?: boolean;
   txidColor?: string;
   type?: string;
   postfix?: string;
@@ -51,12 +53,12 @@ const ExplorerLink = ({
 
   return (
     <ExplorerLinkRoot>
-      <TxId txidColor={txidColor} display={display}>
+      <TxId txidColor={txidColor} display={display} title={txid}>
         {txid}
       </TxId>
       <TxButtons>
         <CopyToClipboard textToCopy={txid} color={Colors.WHITE} />
-        <OpenInExplorer link={link} />
+        {!noLink && <OpenInExplorer link={link} />}
       </TxButtons>
     </ExplorerLinkRoot>
   );

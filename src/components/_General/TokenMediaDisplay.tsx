@@ -5,13 +5,13 @@ import { ipcRenderer } from 'electron';
 
 import { Responsive, extractIPFSHash } from 'util/helpers';
 import { V } from 'util/theming';
-import { IPFS_IPC_ID, IpfsAction, DEFAULT_IPFS_FALLBACK_GATEWAY } from 'vars/defines';
+import { DEFAULT_IPFS_FALLBACK_GATEWAY, IPFS_IPC_ID, IpfsAction } from 'vars/defines';
 
 const MediaContent = styled.div`
   overflow-y: auto;
   display: flex;
   width: 100%;
-  padding-left: 20px;
+  height: 100%;
   justify-content: center;
   ${Responsive.below.L} {
     order: 1;
@@ -25,6 +25,7 @@ const ImageFrame = styled.div`
 
 const TokenMediaIframe = styled.iframe`
   width: 100%;
+  height: 100%;
   border: 0;
 `;
 

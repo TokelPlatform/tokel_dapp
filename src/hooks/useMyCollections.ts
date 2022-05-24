@@ -1,12 +1,14 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectAccountPubKey, selectTokenDetails } from 'store/selectors';
+import { selectAccountPubKey, selectMyTokenDetails } from 'store/selectors';
 
-type Collections = Record<string, { label: string; value: number }>;
+import { SelectOption } from 'components/_General/_FormikElements/Select';
+
+type Collections = Record<string, SelectOption>;
 
 const useMyCollections = (): Collections => {
-  const tokenDetails = useSelector(selectTokenDetails);
+  const tokenDetails = useSelector(selectMyTokenDetails);
   const myPubKey = useSelector(selectAccountPubKey);
 
   const collectionsMap = useMemo(

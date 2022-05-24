@@ -3,6 +3,7 @@ import { Models } from '@rematch/core';
 import account from './account';
 import currentTransaction from './currentTransaction';
 import environment from './environment';
+import marketplace from './marketplace';
 import wallet from './wallet';
 
 export interface RootModel extends Models<RootModel> {
@@ -10,6 +11,7 @@ export interface RootModel extends Models<RootModel> {
   environment: typeof environment;
   wallet: typeof wallet;
   currentTransaction: typeof currentTransaction;
+  marketplace: typeof marketplace;
 }
 
 export const models: RootModel = {
@@ -17,4 +19,5 @@ export const models: RootModel = {
   environment,
   wallet,
   currentTransaction,
+  marketplace,
 };

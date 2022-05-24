@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { selectChosenToken, selectCurrentTokenInfo, selectTokenDetails } from 'store/selectors';
+import { selectChosenToken, selectCurrentTokenInfo, selectMyTokenDetails } from 'store/selectors';
 import { processPossibleBN } from 'util/helpers';
 import { FEE, ResourceType, TICKER } from 'vars/defines';
 
@@ -48,7 +48,7 @@ const getAmount = (e, balance) => {
 
 const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
   const chosenToken = useSelector(selectChosenToken);
-  const tokens = useSelector(selectTokenDetails);
+  const tokens = useSelector(selectMyTokenDetails);
   const currentToken = useSelector(selectCurrentTokenInfo);
   const { balance } = currentToken;
   const isNFT = type === ResourceType.NFT;

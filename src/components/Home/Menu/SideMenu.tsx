@@ -23,19 +23,19 @@ export const menuData = [
     icon: WalletIcon,
   },
   {
+    type: ViewType.DEX,
+    name: 'DEX',
+    icon: BagIcon,
+  },
+  {
     type: ViewType.CREATE_TOKEN,
-    name: 'Create Token',
+    name: 'Create',
     icon: TokenIcon,
   },
   {
-    type: ViewType.DEX,
-    name: 'DEX',
+    type: ViewType.SWAP,
+    name: 'Swap',
     icon: SwapIcon,
-  },
-  {
-    type: ViewType.NFT_MARKET,
-    name: 'NFT Market',
-    icon: BagIcon,
   },
   {
     type: ViewType.SETTINGS,
@@ -93,4 +93,5 @@ const SideMenu = () => {
   );
 };
 
+export { SideMenuRoot };
 export default SideMenu;
