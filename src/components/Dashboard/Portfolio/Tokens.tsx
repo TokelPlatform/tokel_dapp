@@ -8,7 +8,7 @@ import { ReactComponent as SearchIcon } from 'assets/Search.svg';
 import { dispatch } from 'store/rematch';
 import {
   selectChosenToken,
-  selectTokenDetails,
+  selectMyTokenDetails,
   selectTokenFilterId,
   selectTokenSearchTerm,
 } from 'store/selectors';
@@ -100,7 +100,7 @@ const Tokens = () => {
 
   const tokenFilterId = useSelector(selectTokenFilterId);
   const tokenSearchTerm = useSelector(selectTokenSearchTerm);
-  const tokenDetails = useSelector(selectTokenDetails);
+  const tokenDetails = useSelector(selectMyTokenDetails);
 
   const filteredTokenDetails = useMemo(() => {
     let result = Object.values(tokenDetails ?? []);

@@ -36,6 +36,19 @@
         border-radius: 50%;
       }
 
+      #mediaWrapper {
+        max-width: 40px;
+        height: 100%;
+        display: flex;
+      }
+
+      #mediaWrapper > img,
+      video,
+      audio {
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+
       @keyframes spin {
         from {
           transform: rotate(0);
@@ -64,11 +77,15 @@
             window.document.getElementById('mediaWrapper').style.maxWidth =
               width > 0 ? `${width}px` : undefined;
 
+            console.groupEnd();
+
             if (!mediaUrl || !mediaUrl.length) {
               window.document.getElementById(
                 'mediaWrapper'
               ).innerHTML = `<div class="loading"><div><span /></div></div>`;
+              console.group('Rendering External Media');
               console.log('No media passed. Spinning');
+              console.groupEnd();
             } else {
               try {
                 mediaType = (await fetch(mediaUrl, { method: 'HEAD' })).headers
@@ -80,7 +97,9 @@
                     .get('content-type')
                     ?.split('/')?.[0];
 
+                console.group('Rendering External Media');
                 console.log('Media Type', mediaType);
+                console.groupEnd();
 
                 if (mediaType?.includes('image')) {
                   window.document.getElementById(
@@ -103,7 +122,6 @@
                 window.document.getElementById('mediaWrapper').innerHTML = ``;
               }
             }
-            console.groupEnd();
           },
           false
         );

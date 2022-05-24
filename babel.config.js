@@ -9,7 +9,7 @@ const productionPlugins = [
 
   // babel-preset-react-optimize
   require('@babel/plugin-transform-react-constant-elements'),
-  require('@babel/plugin-transform-react-inline-elements'),
+  // require('@babel/plugin-transform-react-inline-elements'), # Emotion's css prop does not go well with this plugin
   require('babel-plugin-transform-react-remove-prop-types'),
 ];
 

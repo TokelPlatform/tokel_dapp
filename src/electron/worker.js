@@ -20,6 +20,7 @@ const {
   networks,
   nspvConnect,
   cctokensv2,
+  ccassetsv2,
   ccbasic,
   ccimp,
 } = require('@tokel/nspv-js');
@@ -38,6 +39,15 @@ const BitgoAction = {
   TOKEN_V2_INFO_TOKEL: 'token_v2_info_tokel',
   TOKEN_V2_TRANSFER: 'token_v2_transfer',
   TOKEN_V2_CREATE_TOKEL: 'token_v2_create_tokel',
+  TOKEN_V2_ORDERS: 'token_v2_orders',
+  ASSET_V2_FETCH_ORDER_DECODED: 'asset_v2_fetch_order_decoded',
+  ASSET_V2_FILL_ASK: 'asset_v2_fill_ask',
+  ASSET_V2_FILL_BID: 'asset_v2_fill_bid',
+  ASSET_V2_POST_ASK: 'asset_v2_post_ask',
+  ASSET_V2_POST_BID: 'asset_v2_post_bid',
+  ASSET_V2_CANCEL_ASK: 'asset_v2_cancel_ask',
+  ASSET_V2_CANCEL_BID: 'asset_v2_cancel_bid',
+  ASSET_V2_MY_ORDERS: 'asset_v2_my_orders',
 };
 
 const IS_DEV = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
@@ -204,6 +214,172 @@ class BitgoSingleton {
         tokenId
       );
       return token;
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  async [BitgoAction.TOKEN_V2_ORDERS]({ tokenId }) {
+    try {
+      const orders = await ccassetsv2.tokenV2Orders(
+        this.connection,
+        this.network,
+        this.wif,
+        tokenId
+      );
+      return orders;
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  async [BitgoAction.ASSET_V2_MY_ORDERS]() {
+    try {
+      const orders = await ccassetsv2.myTokenV2Orders(this.connection, this.network, this.wif);
+      return orders;
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  async [BitgoAction.ASSET_V2_FETCH_ORDER_DECODED]({ orderId }) {
+    try {
+      const order = await ccassetsv2.tokenV2FetchOrder(
+        this.connection,
+        this.network,
+        this.wif,
+        orderId
+      );
+      return order;
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  async [BitgoAction.ASSET_V2_FILL_ASK]({ orderId, tokenId, amount, unitPrice }) {
+    try {
+      const tx = await ccassetsv2.tokenv2fillask(
+        this.connection,
+        this.network,
+        this.wif,
+        tokenId,
+        orderId,
+        amount,
+        unitPrice
+      );
+
+      const txResult = await this.broadcast({ txHex: tx.toHex() });
+      return {
+        ...txResult,
+      };
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  async [BitgoAction.ASSET_V2_FILL_BID]({ orderId, tokenId, amount, unitPrice }) {
+    try {
+      const tx = await ccassetsv2.tokenv2fillbid(
+        this.connection,
+        this.network,
+        this.wif,
+        tokenId,
+        orderId,
+        amount,
+        unitPrice
+      );
+
+      const txResult = await this.broadcast({ txHex: tx.toHex() });
+      return {
+        ...txResult,
+      };
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  async [BitgoAction.ASSET_V2_POST_ASK]({ tokenId, amount, unitPrice }) {
+    try {
+      const tx = await ccassetsv2.tokenv2ask(
+        this.connection,
+        this.network,
+        this.wif,
+        amount,
+        tokenId,
+        unitPrice
+      );
+
+      const txResult = await this.broadcast({ txHex: tx.toHex() });
+      return {
+        ...txResult,
+      };
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  async [BitgoAction.ASSET_V2_POST_BID]({ tokenId, amount, unitPrice }) {
+    try {
+      const tx = await ccassetsv2.tokenv2bid(
+        this.connection,
+        this.network,
+        this.wif,
+        amount,
+        tokenId,
+        unitPrice
+      );
+
+      const txResult = await this.broadcast({ txHex: tx.toHex() });
+      return {
+        ...txResult,
+      };
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  async [BitgoAction.ASSET_V2_CANCEL_ASK]({ tokenId, orderId }) {
+    try {
+      const tx = await ccassetsv2.tokenv2cancelask(
+        this.connection,
+        this.network,
+        this.wif,
+        tokenId,
+        orderId
+      );
+
+      const txResult = await this.broadcast({ txHex: tx.toHex() });
+      return {
+        ...txResult,
+      };
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  async [BitgoAction.ASSET_V2_CANCEL_BID]({ tokenId, orderId }) {
+    try {
+      const tx = await ccassetsv2.tokenv2cancelbid(
+        this.connection,
+        this.network,
+        this.wif,
+        tokenId,
+        orderId
+      );
+
+      const txResult = await this.broadcast({ txHex: tx.toHex() });
+      return {
+        ...txResult,
+      };
     } catch (e) {
       console.error(e);
       throw new Error(e);

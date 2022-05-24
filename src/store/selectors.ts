@@ -25,6 +25,12 @@ export const selectTransactions = (state: RootState) =>
   state.account.txs[state.account.address] ?? [];
 
 export const selectTokenDetails = (state: RootState) => state.environment.tokenDetails;
+export const selectMyTokenDetails = (state: RootState) =>
+  Object.fromEntries(
+    Object.entries(state.environment.tokenDetails).filter(([id]) =>
+      Object.keys(state.wallet.tokenBalances)?.includes(id)
+    )
+  );
 
 export const selectChosenAsset = (state: RootState) => state.wallet.chosenAsset;
 
@@ -47,6 +53,15 @@ export const selectCurrenTxTokenTx = (state: RootState) => state.currentTransact
 
 export const selectKey = (state: RootState) => state.account.key;
 export const selectSeed = (state: RootState) => state.account.seed;
+
+// mktplace
+export const selectOrderDetails = (state: RootState) => state.marketplace.orderDetails;
+export const selectMyOrders = (state: RootState) => state.marketplace.myOrders;
+export const selectMyOffers = (state: RootState) => state.marketplace.offers;
+export const selectAllMyOffers = (state: RootState) =>
+  Object.values(state.marketplace.offers)
+    ?.flat()
+    .filter(offer => Object.keys(state.wallet.tokenBalances).includes(offer.tokenid));
 
 // derived
 export const selectTokenCount = (state: RootState) => size(state.wallet.tokenBalances);
