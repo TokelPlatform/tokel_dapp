@@ -183,7 +183,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
         });
       }
     }
-  }, [debouncedAssetId, tokenDetails]);
+  }, [debouncedAssetId, tokenDetails, type]);
 
   useEffect(() => {
     if (formikBag.values.orderId?.length !== 64) {
