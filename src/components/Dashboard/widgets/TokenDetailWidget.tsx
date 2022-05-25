@@ -4,14 +4,16 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { upperFirst } from 'lodash-es';
 
+import linkIcon from 'assets/link.svg';
 import { selectCurrentTokenDetail } from 'store/selectors';
 import { Responsive, limitLength } from 'util/helpers';
 import { V } from 'util/theming';
-import { RESERVED_TOKEL_ARBITRARY_KEYS } from 'vars/defines';
+import { Colors, EXTRACT_IPFS_HASH_REGEX, RESERVED_TOKEL_ARBITRARY_KEYS } from 'vars/defines';
 
-import { Columns, Column } from 'components/_General/Grid';
+import { Button } from 'components/_General/buttons';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ExplorerLink from 'components/_General/ExplorerLink';
+import { Column, Columns } from 'components/_General/Grid';
 import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 import { VSpaceSmall, WidgetContainer } from './common';
 
@@ -87,6 +89,10 @@ const ContentLink = styled.a`
   color: ${V.color.front};
 `;
 
+const OpenInGatewayButton = styled(Button)`
+  margin-top: 1rem;
+`;
+
 type MetadataItemProps = {
   name: string;
   value: unknown;
@@ -125,13 +131,28 @@ const TokenDetail: React.FC = () => {
             <MetadataContent>
               <Description>{tokenDetail.description}</Description>
               {tokenDetail.dataAsJson?.url && (
-                <ContentLink
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={tokenDetail.dataAsJson?.url}
-                >
-                  {tokenDetail.dataAsJson?.url}
-                </ContentLink>
+                <>
+                  <ContentLink
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={tokenDetail.dataAsJson?.url}
+                  >
+                    {tokenDetail.dataAsJson?.url}
+                  </ContentLink>
+                  {tokenDetail.dataAsJson?.url.match(EXTRACT_IPFS_HASH_REGEX) && (
+                    <OpenInGatewayButton theme={Colors.TRANSPARENT}>
+                      <a
+                        style={{ color: 'white' }}
+                        href={tokenDetail.dataAsJson?.url}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        Open in gateway
+                        <img css={{ margin: '0 0 0 5px' }} src={linkIcon} alt="open-in-explorer" />
+                      </a>
+                    </OpenInGatewayButton>
+                  )}
+                </>
               )}
               <VSpaceSmall />
               <Metadata>
