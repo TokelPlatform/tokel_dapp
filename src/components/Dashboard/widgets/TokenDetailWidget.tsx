@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -6,9 +6,14 @@ import { upperFirst } from 'lodash-es';
 
 import linkIcon from 'assets/link.svg';
 import { selectCurrentTokenDetail } from 'store/selectors';
-import { Responsive, limitLength } from 'util/helpers';
+import { Responsive, extractIPFSHash, limitLength } from 'util/helpers';
 import { V } from 'util/theming';
-import { Colors, EXTRACT_IPFS_HASH_REGEX, RESERVED_TOKEL_ARBITRARY_KEYS } from 'vars/defines';
+import {
+  Colors,
+  DEFAULT_IPFS_FALLBACK_GATEWAY,
+  EXTRACT_IPFS_HASH_REGEX,
+  RESERVED_TOKEL_ARBITRARY_KEYS,
+} from 'vars/defines';
 
 import { Button } from 'components/_General/buttons';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
@@ -115,9 +120,22 @@ const TokenDetail: React.FC = () => {
 
   const arbitraryJson = tokenDetail.dataAsJson?.arbitraryAsJson;
 
+  const tokenUrl = tokenDetail.dataAsJson?.url;
+  const [tokenGatewayUrl, setTokenGatewayUrl] = useState(null);
+
   const hasNumberInCollection =
     arbitraryJson?.number_in_collection || arbitraryJson?.number_in_constellation;
   const hasCollectionName = arbitraryJson?.collection_name || arbitraryJson?.constellation_name;
+
+  useEffect(() => {
+    const ipfsId = extractIPFSHash(tokenUrl);
+
+    if (ipfsId) {
+      setTokenGatewayUrl(`${DEFAULT_IPFS_FALLBACK_GATEWAY}/${ipfsId}`);
+    } else {
+      setTokenGatewayUrl(tokenUrl);
+    }
+  }, [tokenUrl]);
 
   return (
     <TokenDetailRoot>
@@ -130,20 +148,16 @@ const TokenDetail: React.FC = () => {
           <Column size={7}>
             <MetadataContent>
               <Description>{tokenDetail.description}</Description>
-              {tokenDetail.dataAsJson?.url && (
+              {tokenUrl && (
                 <>
-                  <ContentLink
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={tokenDetail.dataAsJson?.url}
-                  >
-                    {tokenDetail.dataAsJson?.url}
+                  <ContentLink target="_blank" rel="noopener noreferrer" href={tokenUrl}>
+                    {tokenUrl}
                   </ContentLink>
-                  {tokenDetail.dataAsJson?.url.match(EXTRACT_IPFS_HASH_REGEX) && (
+                  {tokenUrl.match(EXTRACT_IPFS_HASH_REGEX) && (
                     <OpenInGatewayButton theme={Colors.TRANSPARENT}>
                       <a
                         style={{ color: 'white' }}
-                        href={tokenDetail.dataAsJson?.url}
+                        href={tokenGatewayUrl}
                         rel="noreferrer"
                         target="_blank"
                       >
@@ -193,7 +207,7 @@ const TokenDetail: React.FC = () => {
             </MetadataContent>
           </Column>
           <Column size={5} css={{ overflow: 'auto' }}>
-            <TokenMediaDisplay url={tokenDetail?.dataAsJson?.url} />
+            <TokenMediaDisplay url={tokenUrl} />
           </Column>
         </Columns>
       </Content>
