@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 import { upperFirst } from 'lodash-es';
 
+import linkIcon from 'assets/link.svg';
 import { selectCurrentTokenDetail } from 'store/selectors';
-import { Responsive, limitLength } from 'util/helpers';
+import { Responsive, extractIPFSHash, limitLength } from 'util/helpers';
 import { V } from 'util/theming';
-import { RESERVED_TOKEL_ARBITRARY_KEYS } from 'vars/defines';
+import {
+  Colors,
+  DEFAULT_IPFS_FALLBACK_GATEWAY,
+  EXTRACT_IPFS_HASH_REGEX,
+  RESERVED_TOKEL_ARBITRARY_KEYS,
+} from 'vars/defines';
 
-import { Columns, Column } from 'components/_General/Grid';
+import { Button } from 'components/_General/buttons';
 import CopyToClipboard from 'components/_General/CopyToClipboard';
 import ExplorerLink from 'components/_General/ExplorerLink';
+import { Column, Columns } from 'components/_General/Grid';
 import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 import { VSpaceSmall, WidgetContainer } from './common';
 
@@ -87,6 +94,10 @@ const ContentLink = styled.a`
   color: ${V.color.front};
 `;
 
+const OpenInGatewayButton = styled(Button)`
+  margin-top: 1rem;
+`;
+
 type MetadataItemProps = {
   name: string;
   value: unknown;
@@ -109,9 +120,22 @@ const TokenDetail: React.FC = () => {
 
   const arbitraryJson = tokenDetail.dataAsJson?.arbitraryAsJson;
 
+  const tokenUrl = tokenDetail.dataAsJson?.url;
+  const [tokenGatewayUrl, setTokenGatewayUrl] = useState(null);
+
   const hasNumberInCollection =
     arbitraryJson?.number_in_collection || arbitraryJson?.number_in_constellation;
   const hasCollectionName = arbitraryJson?.collection_name || arbitraryJson?.constellation_name;
+
+  useEffect(() => {
+    const ipfsId = extractIPFSHash(tokenUrl);
+
+    if (ipfsId) {
+      setTokenGatewayUrl(`${DEFAULT_IPFS_FALLBACK_GATEWAY}/${ipfsId}`);
+    } else {
+      setTokenGatewayUrl(tokenUrl);
+    }
+  }, [tokenUrl]);
 
   return (
     <TokenDetailRoot>
@@ -124,14 +148,25 @@ const TokenDetail: React.FC = () => {
           <Column size={7}>
             <MetadataContent>
               <Description>{tokenDetail.description}</Description>
-              {tokenDetail.dataAsJson?.url && (
-                <ContentLink
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={tokenDetail.dataAsJson?.url}
-                >
-                  {tokenDetail.dataAsJson?.url}
-                </ContentLink>
+              {tokenUrl && (
+                <>
+                  <ContentLink target="_blank" rel="noopener noreferrer" href={tokenUrl}>
+                    {tokenUrl}
+                  </ContentLink>
+                  {tokenUrl.match(EXTRACT_IPFS_HASH_REGEX) && (
+                    <OpenInGatewayButton theme={Colors.TRANSPARENT}>
+                      <a
+                        style={{ color: 'white' }}
+                        href={tokenGatewayUrl}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        Open in gateway
+                        <img css={{ margin: '0 0 0 5px' }} src={linkIcon} alt="open-in-explorer" />
+                      </a>
+                    </OpenInGatewayButton>
+                  )}
+                </>
               )}
               <VSpaceSmall />
               <Metadata>
@@ -172,7 +207,7 @@ const TokenDetail: React.FC = () => {
             </MetadataContent>
           </Column>
           <Column size={5} css={{ overflow: 'auto' }}>
-            <TokenMediaDisplay url={tokenDetail?.dataAsJson?.url} />
+            <TokenMediaDisplay url={tokenUrl} />
           </Column>
         </Columns>
       </Content>
