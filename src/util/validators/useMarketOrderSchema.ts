@@ -72,7 +72,9 @@ const useFulfillOrderSchema = (type: 'fill' | 'ask' | 'bid') => {
       )
       .required('price is required')
       .test('needs-funds', `not enough ${TICKER}`, (value, context) =>
-        (type === 'fill' || type === 'bid') && context.parent.quantity > 0
+        ((type === 'fill' && orderDetails[context.parent.orderId]?.type === 'ask') ||
+          type === 'bid') &&
+        context.parent.quantity > 0
           ? parseFloat(value) <= (balance - FEE) / context.parent.quantity
           : true
       ),
