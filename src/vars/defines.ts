@@ -34,7 +34,7 @@ export enum NetworkType {
 export const DEFAULT_NETWORK = IS_DEV ? NetworkType.TKLTEST : NetworkType.TOKEL;
 
 export const EXTRACT_IPFS_HASH_REGEX =
-  /^(?:https:\/\/ipfs.io\/ipfs\/|ipfs:\/\/|dweb:\/\/)([a-zA-Z0-9]{46})/;
+  /^(?:https:\/\/ipfs.io\/ipfs\/|ipfs:\/\/|dweb:\/\/)([a-zA-Z0-9]*$)/;
 
 export const TokenFilter = {
   ALL: 'ALL',
