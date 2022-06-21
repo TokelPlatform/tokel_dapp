@@ -165,9 +165,9 @@ class BitgoSingleton {
       throw new Error('Not connected');
     }
     const response = await ccutils.getNormalUtxos(this.connection, data.address, 0, 0);
-    const ccUtxos = await cctokensv2.getTokensForPubkey(
-      this.network,
+    const ccUtxos = await cctokensv2.getAllTokensV2ForPubkey(
       this.connection,
+      this.network,
       this.pubkeyBuffer,
       0,
       0

@@ -84,10 +84,14 @@ export default createModel<RootModel>()({
     TOGGLE_SHOW_NETWORK_PREFS: state => dp.toggle(state, `networkPrefs.show`),
   },
   effects: () => ({
-    async getTokenDetail(tokenBalances: string) {
+    async getTokenDetail(tokenBalances: Record<string, number>, rootState) {
+      const tokenDetailsIds = Object.keys(rootState.environment.tokenDetails);
+      const unfetchedTokenIds = Object.keys(tokenBalances).filter(
+        tokenId => !tokenDetailsIds.includes(tokenId)
+      );
       // This batches infoTokel requests into chunks of 9, to be sent 1.1 seconds apart,
       //      so the node we're connected to doesn't get mad and shuts the door on us.
-      const chunks = splitArrayInChunks(Object.keys(tokenBalances), 9);
+      const chunks = splitArrayInChunks(unfetchedTokenIds, 9);
       let count = 1;
       chunks.forEach(tokens => {
         setTimeout(
