@@ -74,7 +74,7 @@ const Receive = () => {
       <FriendlyWarning
         message={
           options.type === ResourceType.TOKEL
-            ? `Make sure to only send ${TICKER} to this address`
+            ? `You can send both tokens and ${TICKER} to this address.`
             : 'Make sure to only send tokens to this pubkey'
         }
       />
