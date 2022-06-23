@@ -66,7 +66,7 @@ export const getStillUnconfirmed = (newTxs, currentTxs) => {
 };
 
 // retcode < 0 .. error, === 1 success
-export const spendSuccess = broadcasted => Number(broadcasted.retcode) === 1;
+export const spendSuccess = broadcasted => Number(broadcasted?.retcode) === 1;
 
 export const isTheSameTx = (tx1, tx2) =>
   tx1 &&

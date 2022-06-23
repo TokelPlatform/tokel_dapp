@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { dispatch } from 'store/rematch';
 import { selectAccountAddress, selectAccountPubKey, selectCurrentTokenInfo } from 'store/selectors';
-import { ModalName, ResourceType } from 'vars/defines';
+import { ModalName, ResourceType, TICKER } from 'vars/defines';
 
 import CopyTextInput from 'components/_General/CopyTextInput';
 import { ReceiveModalOpts } from 'components/Modal/content/Receive';
@@ -62,11 +62,11 @@ const WalletAddressesEmbed = () => {
   return (
     <WalletAddressesEmbedRoot>
       <Note>
-        Currently TOKEL has different address for tokens and TKL, however we are working on changing
-        that to one unified address. Stay tuned.
+        You can receive {TICKER}, tokens, and NFTs in your address. You can use your public key to
+        search full balances of tokens on explorers
       </Note>
-      <DisplayWalletAddress title="TKL address" modal_type="acc_address" />
-      <DisplayWalletAddress title="Tokens and NFTS (pubkey)" modal_type="pub_key" />
+      <DisplayWalletAddress title="Address" modal_type="acc_address" />
+      <DisplayWalletAddress title="Public Key" modal_type="pub_key" />
     </WalletAddressesEmbedRoot>
   );
 };
