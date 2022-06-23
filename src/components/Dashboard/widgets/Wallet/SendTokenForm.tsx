@@ -2,10 +2,17 @@
 import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { selectChosenToken, selectCurrentTokenInfo, selectMyTokenDetails } from 'store/selectors';
-import { processPossibleBN } from 'util/helpers';
+import {
+  selectChosenToken,
+  selectCurrentTokenInfo,
+  selectLockedTransactionsBalance,
+  selectMyTokenDetails,
+  selectUnspentBalance,
+} from 'store/selectors';
+import { isAddressValid, processPossibleBN } from 'util/helpers';
 import { FEE, ResourceType, TICKER } from 'vars/defines';
 
 import { Button, ButtonSmall } from 'components/_General/buttons';
@@ -47,6 +54,8 @@ const getAmount = (e, balance) => {
 };
 
 const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
+  const lockedBalance = useSelector(selectLockedTransactionsBalance);
+  const coinBalance = useSelector(selectUnspentBalance) - lockedBalance;
   const chosenToken = useSelector(selectChosenToken);
   const tokens = useSelector(selectMyTokenDetails);
   const currentToken = useSelector(selectCurrentTokenInfo);
@@ -55,11 +64,11 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
 
   const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState(isNFT ? '1' : '');
-  // const [fiatAmount, setFiatAmount] = useState('');
+  // const [fiatAmount, setFiatAmount] = useState('');s
   const [error, setError] = useState('');
   const [errorAmount, setErrorAmount] = useState('');
 
-  const remaining = Number(balance) - Number(amount);
+  const remaining = Number(processPossibleBN(balance)) - Number(amount);
 
   const handleSetAmount = e => {
     setErrorAmount('');
@@ -70,8 +79,17 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
     setError('');
     setErrorAmount('');
     let err = false;
-    if (!isNFT && (Number(amount) <= 0 || Number(amount) <= FEE)) {
+
+    if (coinBalance < FEE) {
+      setError(`Not enough ${TICKER} to pay for fee`);
+      err = true;
+    }
+    if (Number(amount) <= 0 || remaining < 0) {
       setErrorAmount('Invalid amount');
+      err = true;
+    }
+    if (!isAddressValid(recipient)) {
+      setError('Invalid recipient address');
       err = true;
     }
     if (err) {
@@ -82,7 +100,11 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
 
   return (
     <SendFormRoot>
-      <h3>
+      <h3
+        css={css`
+          margin-top: 0;
+        `}
+      >
         {tokens[chosenToken].name} ({processPossibleBN(balance)})
       </h3>
       <InputWithLabel
@@ -93,7 +115,7 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
         }}
         onKeyDown={() => ''}
         value={recipient}
-        placeholder={`Enter recipient ${TICKER} token pubkey`}
+        placeholder={`Enter recipient ${TICKER} address`}
         width="390px"
         autoFocus
         label="Recipient"
@@ -127,7 +149,7 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
                   padding: '9px 12px',
                 }}
                 theme="transparent"
-                onClick={() => handleSetAmount(balance)}
+                onClick={() => handleSetAmount(Number(processPossibleBN(balance)))}
               >
                 <span style={{ opacity: 0.6 }}>MAX</span>
               </ButtonSmall>
@@ -142,7 +164,7 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
       {!isNFT && (
         <ValueRow
           keyProp={`Remaining balance ${tokens[chosenToken].name}`}
-          value={`${remaining}`}
+          value={Math.max(0, remaining).toString()}
         />
       )}
 
