@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
 
+import warning from 'assets/warningIcon.svg';
 import { Responsive, extractIPFSHash } from 'util/helpers';
 import { V } from 'util/theming';
 import {
@@ -37,15 +38,17 @@ const TokenMediaIframe = styled.iframe`
 `;
 
 const ButtonWrapper = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-top: 25px;
 `;
 
-const DisclaimerText = styled.p`
+const DisclaimerText = styled.div`
   text-align: justify;
   text-align-last: center;
   font-size: 0.9rem;
+  margin-top: 25px;
 `;
 
 interface TokenMediaDisplayProps {
@@ -142,25 +145,44 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
     setMediaShouldLoad(true);
   }
 
+  function removeTokenFromWhiteList() {
+    localStorage.removeItem(`${TOKEN_WHITE_LIST_LOCATION}/${tokenAddress}`);
+    setMediaShouldLoad(false);
+    setIframeLoaded(false);
+  }
+
   return (
     <>
       {mediaShouldLoad && (
-        <MediaContent>
-          <ImageFrame>
-            <TokenMediaIframe
-              height={iframeHeight}
-              ref={iframeRef}
-              src={`file://${__dirname}/externalMedia.html`}
-              onLoad={() => {
-                setIframeLoaded(true);
-                setMediaShouldLoad(true);
-              }}
-            />
-          </ImageFrame>
-        </MediaContent>
+        <>
+          <MediaContent>
+            <ImageFrame>
+              <TokenMediaIframe
+                height={iframeHeight}
+                ref={iframeRef}
+                src={`file://${__dirname}/externalMedia.html`}
+                onLoad={() => {
+                  setIframeLoaded(true);
+                  setMediaShouldLoad(true);
+                }}
+              />
+            </ImageFrame>
+          </MediaContent>
+          <ButtonWrapper>
+            <ButtonSmall
+              type="button"
+              theme="transparent"
+              onClick={() => removeTokenFromWhiteList()}
+            >
+              Hide Image
+            </ButtonSmall>
+          </ButtonWrapper>
+        </>
       )}
       {!mediaShouldLoad && (
-        <>
+        <div style={{ textAlign: 'center' }}>
+          <img alt="warning" src={warning} />
+
           <DisclaimerText>
             The Tokel team does not own, endorse, host or content moderate anything that is shown in
             the dApp. By it&apos;s nature, the dApp merely reads the media URL&apos;s that are
@@ -176,6 +198,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
             creating and/or shipping this open source software holds no liability for what is shown,
             and that the decision to proceed is completely voluntary and at your own risk.
           </DisclaimerText>
+
           <ButtonWrapper>
             <ButtonSmall type="button" theme="success" onClick={() => setMediaShouldLoad(true)}>
               View once
@@ -184,7 +207,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
               View and never ask again
             </ButtonSmall>
           </ButtonWrapper>
-        </>
+        </div>
       )}
     </>
   );
