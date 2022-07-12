@@ -23,7 +23,14 @@ import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 
 import { BitgoAction, checkData } from '../util/bitgoHelper';
-import { BITGO_IPC_ID, IPFS_IPC_ID, VERSIONS_MSG, WindowControl } from '../vars/defines';
+import {
+  BITGO_IPC_ID,
+  DEEP_LINK_IPC_ID,
+  DEEP_LINK_PROTOCOL,
+  IPFS_IPC_ID,
+  VERSIONS_MSG,
+  WindowControl,
+} from '../vars/defines';
 import MenuBuilder from './menu';
 import packagejson from './package.json';
 
@@ -103,6 +110,15 @@ ipcMain.on('window-controls', async (_, arg) => {
     }
   }
 });
+
+// handle deep links
+if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient('tokel', process.execPath, [path.resolve(process.argv[1])]);
+  }
+} else {
+  app.setAsDefaultProtocolClient('tokel');
+}
 
 const createWindow = async () => {
   if (isDev || process.env.DEBUG_PROD === 'true') {
@@ -215,6 +231,17 @@ autoUpdater.on('download-progress', data => {
 
 autoUpdater.on('update-downloaded', data => {
   mainWindow?.webContents.send('update-downloaded', data);
+});
+
+app.on('open-url', (_, url) => {
+  if (url.startsWith(DEEP_LINK_PROTOCOL)) {
+    console.log('RECEIVED DEEP LINK:', url);
+    const urlObj = new URL(url);
+    mainWindow.webContents.send(DEEP_LINK_IPC_ID, {
+      view: urlObj.hostname,
+      params: urlObj.search,
+    });
+  }
 });
 
 app.on('window-all-closed', () => {

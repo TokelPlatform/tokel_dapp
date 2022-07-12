@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -9,6 +10,8 @@ import fillOrderIcon from 'assets/fillOrder.svg';
 import inboxIcon from 'assets/inbox.svg';
 import listIcon from 'assets/list.svg';
 import trendUpIcon from 'assets/trendUp.svg';
+import { dispatch } from 'store/rematch';
+import { selectDeepLinkParams } from 'store/selectors';
 import { V } from 'util/theming';
 
 import { Layout, SubTitle, Title } from 'components/_General/_UIElements/common';
@@ -68,8 +71,27 @@ const WelcomeMessageWrapper = styled.div`
 `;
 
 const Marketplace: React.FC = () => {
+  const deepLinkParams = useSelector(selectDeepLinkParams);
   const [currentView, setCurrentView] = useState<MARKETPLACE_VIEWS | null>(null);
   const [currentOrderId, setCurrentOrderId] = useState<string | undefined>();
+
+  const handleViewChange = (view: MARKETPLACE_VIEWS | null) => {
+    setCurrentView(view);
+    setCurrentOrderId(undefined);
+  };
+
+  useEffect(() => {
+    if (deepLinkParams?.length) {
+      const params = new URLSearchParams(deepLinkParams);
+      const action =
+        params.get('action') === 'bid' ? MARKETPLACE_VIEWS.BID : MARKETPLACE_VIEWS.FILL;
+
+      setCurrentView(action);
+      setCurrentOrderId(params.get('orderid') || params.get('tokenid'));
+
+      dispatch.environment.SET_DEEP_LINK_PARAMS('');
+    }
+  }, [deepLinkParams, currentView]);
 
   const CurrentTab = () => {
     switch (currentView) {
@@ -123,7 +145,7 @@ const Marketplace: React.FC = () => {
           {menuData.map(menuItem => (
             <MenuItem
               key={menuItem.name}
-              onClick={() => setCurrentView(menuItem.type)}
+              onClick={() => handleViewChange(menuItem.type)}
               name={menuItem.name}
               icon={menuItem.icon}
               selected={menuItem.type === currentView}
