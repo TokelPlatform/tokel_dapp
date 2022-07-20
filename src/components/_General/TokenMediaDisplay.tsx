@@ -48,7 +48,6 @@ const DisclaimerText = styled.div`
   text-align: justify;
   text-align-last: center;
   font-size: 0.9rem;
-  margin-top: 25px;
 `;
 
 interface TokenMediaDisplayProps {
@@ -61,6 +60,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   const [iframeHeight, setIframeHeight] = useState<number | 'unset'>('unset');
   const [mediaUrl, setMediaUrl] = useState(null);
   const [mediaShouldLoad, setMediaShouldLoad] = useState(false);
+  const [readMore, setReadMore] = useState(false);
 
   const ipfsId = useMemo(() => extractIPFSHash(url), [url]);
   const tokenAddress = ipfsId || url;
@@ -71,6 +71,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
     setMediaUrl(null);
     setIframeLoaded(false);
     setMediaShouldLoad(false);
+    setReadMore(false);
     iframeRef.current?.contentWindow.postMessage({ mediaUrl: '', width: 0 });
   }, [url]);
 
@@ -182,31 +183,51 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
       {!mediaShouldLoad && (
         <div style={{ textAlign: 'center' }}>
           <img alt="warning" src={warning} />
+          <p>Disclaimer</p>
 
-          <DisclaimerText>
-            The Tokel team does not own, endorse, host or content moderate anything that is shown in
-            the dApp. By it&apos;s nature, the dApp merely reads the media URL&apos;s that are
-            linked within the meta data of tokens that are created on the Tokel public blockchain.
-            Content moderation issues should be addressed with the token creator, owner, or through
-            the web host that stores the media itself.
-          </DisclaimerText>
-          <DisclaimerText>
-            By accepting this disclaimer, you are accepting that you have personally verified the
-            source of the image and are happy for it to be displayed, knowing that there are no
-            content moderators and you&apos;re taking all responsibility for viewing the media and
-            any risks associated with that. You are accepting that anybody that participates in
-            creating and/or shipping this open source software holds no liability for what is shown,
-            and that the decision to proceed is completely voluntary and at your own risk.
-          </DisclaimerText>
+          {!readMore && (
+            <>
+              <DisclaimerText>
+                The Tokel team does not own, endorse, host or content moderate anything that is
+                shown in the dApp. By it&apos;s nature, the dApp merely reads...
+              </DisclaimerText>
+              <br />
+              <ButtonSmall type="button" theme="purpler" onClick={() => setReadMore(true)}>
+                Read More
+              </ButtonSmall>
+            </>
+          )}
 
-          <ButtonWrapper>
-            <ButtonSmall type="button" theme="success" onClick={() => setMediaShouldLoad(true)}>
-              View once
-            </ButtonSmall>
-            <ButtonSmall type="button" theme="purple" onClick={() => addTokenToWhiteList()}>
-              View and never ask again
-            </ButtonSmall>
-          </ButtonWrapper>
+          {readMore && (
+            <>
+              <DisclaimerText>
+                The Tokel team does not own, endorse, host or content moderate anything that is
+                shown in the dApp. By it&apos;s nature, the dApp merely reads the media URL&apos;s
+                that are linked within the meta data of tokens that are created on the Tokel public
+                blockchain. Content moderation issues should be addressed with the token creator,
+                owner, or through the web host that stores the media itself.
+              </DisclaimerText>
+              <br />
+              <DisclaimerText>
+                By accepting this disclaimer, you are accepting that you have personally verified
+                the source of the image and are happy for it to be displayed, knowing that there are
+                no content moderators and you&apos;re taking all responsibility for viewing the
+                media and any risks associated with that. You are accepting that anybody that
+                participates in creating and/or shipping this open source software holds no
+                liability for what is shown, and that the decision to proceed is completely
+                voluntary and at your own risk.
+              </DisclaimerText>
+
+              <ButtonWrapper>
+                <ButtonSmall type="button" theme="success" onClick={() => setMediaShouldLoad(true)}>
+                  View once
+                </ButtonSmall>
+                <ButtonSmall type="button" theme="purple" onClick={() => addTokenToWhiteList()}>
+                  View and never ask again
+                </ButtonSmall>
+              </ButtonWrapper>
+            </>
+          )}
         </div>
       )}
     </>
