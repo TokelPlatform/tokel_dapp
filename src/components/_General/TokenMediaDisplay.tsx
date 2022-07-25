@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
 
-import warning from 'assets/warningIcon.svg';
 import { Responsive, extractIPFSHash } from 'util/helpers';
 import { V } from 'util/theming';
 import {
@@ -14,6 +13,7 @@ import {
 } from 'vars/defines';
 
 import { ButtonSmall } from 'components/_General/buttons';
+import FriendlyWarning from 'components/_General/WarningFriendly';
 
 const MediaContent = styled.div`
   overflow-y: auto;
@@ -182,8 +182,9 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
       )}
       {!mediaShouldLoad && (
         <div style={{ textAlign: 'center' }}>
-          <img alt="warning" src={warning} />
-          <p>Disclaimer</p>
+          <FriendlyWarning message="Image Preview Disclaimer" />
+
+          <br />
 
           {!readMore && (
             <>
