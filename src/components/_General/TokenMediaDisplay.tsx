@@ -5,7 +5,15 @@ import { ipcRenderer } from 'electron';
 
 import { Responsive, extractIPFSHash } from 'util/helpers';
 import { V } from 'util/theming';
-import { DEFAULT_IPFS_FALLBACK_GATEWAY, IPFS_IPC_ID, IpfsAction } from 'vars/defines';
+import {
+  DEFAULT_IPFS_FALLBACK_GATEWAY,
+  IPFS_IPC_ID,
+  IpfsAction,
+  TOKEN_WHITE_LIST_LOCATION,
+} from 'vars/defines';
+
+import { ButtonSmall } from 'components/_General/buttons';
+import FriendlyWarning from 'components/_General/WarningFriendly';
 
 const MediaContent = styled.div`
   overflow-y: auto;
@@ -29,6 +37,19 @@ const TokenMediaIframe = styled.iframe`
   border: 0;
 `;
 
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 25px;
+`;
+
+const DisclaimerText = styled.div`
+  text-align: justify;
+  text-align-last: center;
+  font-size: 0.9rem;
+`;
+
 interface TokenMediaDisplayProps {
   url?: string;
 }
@@ -38,31 +59,44 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [iframeHeight, setIframeHeight] = useState<number | 'unset'>('unset');
   const [mediaUrl, setMediaUrl] = useState(null);
+  const [mediaShouldLoad, setMediaShouldLoad] = useState(false);
+  const [readMore, setReadMore] = useState(false);
 
   const ipfsId = useMemo(() => extractIPFSHash(url), [url]);
+  const tokenAddress = ipfsId || url;
+  const tokenInWhiteList = !!localStorage.getItem(`${TOKEN_WHITE_LIST_LOCATION}/${tokenAddress}`);
 
   useEffect(() => {
     setIframeHeight('unset');
     setMediaUrl(null);
+    setIframeLoaded(false);
+    setMediaShouldLoad(false);
+    setReadMore(false);
     iframeRef.current?.contentWindow.postMessage({ mediaUrl: '', width: 0 });
   }, [url]);
 
+  useEffect(() => {
+    if (tokenInWhiteList && !iframeLoaded) setMediaShouldLoad(true);
+  }, [tokenInWhiteList, iframeLoaded]);
+
   // Request IPFS file if it's an IPFS link. Set link meanwhile anyway
   useEffect(() => {
-    if (ipfsId) {
-      ipcRenderer.send(IPFS_IPC_ID, {
-        type: IpfsAction.GET,
-        payload: {
-          ipfsId,
-        },
-      });
+    if (mediaShouldLoad) {
+      if (ipfsId) {
+        ipcRenderer.send(IPFS_IPC_ID, {
+          type: IpfsAction.GET,
+          payload: {
+            ipfsId,
+          },
+        });
 
-      // Set fallback in case IPFS data never streams to our node
-      setMediaUrl(`${DEFAULT_IPFS_FALLBACK_GATEWAY}/${ipfsId}`);
-    } else {
-      setMediaUrl(url);
+        // Set fallback in case IPFS data never streams to our node
+        setMediaUrl(`${DEFAULT_IPFS_FALLBACK_GATEWAY}/${ipfsId}`);
+      } else {
+        setMediaUrl(url);
+      }
     }
-  }, [url, ipfsId]);
+  }, [url, ipfsId, mediaShouldLoad]);
 
   // Listen for IPFS files
   useEffect(() => {
@@ -105,21 +139,99 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
     return () => {
       if (observer) observer.disconnect();
     };
-  }, [iframeRef, iframeLoaded]);
+  }, [iframeRef]);
 
-  if (!mediaUrl) return null;
+  function addTokenToWhiteList() {
+    localStorage.setItem(`${TOKEN_WHITE_LIST_LOCATION}/${tokenAddress}`, `${tokenAddress}`);
+    setMediaShouldLoad(true);
+  }
+
+  function removeTokenFromWhiteList() {
+    localStorage.removeItem(`${TOKEN_WHITE_LIST_LOCATION}/${tokenAddress}`);
+    setMediaShouldLoad(false);
+    setIframeLoaded(false);
+  }
 
   return (
-    <MediaContent>
-      <ImageFrame>
-        <TokenMediaIframe
-          height={iframeHeight}
-          ref={iframeRef}
-          src={`file://${__dirname}/externalMedia.html`}
-          onLoad={() => setIframeLoaded(true)}
-        />
-      </ImageFrame>
-    </MediaContent>
+    <>
+      {mediaShouldLoad && (
+        <>
+          <MediaContent>
+            <ImageFrame>
+              <TokenMediaIframe
+                height={iframeHeight}
+                ref={iframeRef}
+                src={`file://${__dirname}/externalMedia.html`}
+                onLoad={() => {
+                  setIframeLoaded(true);
+                  setMediaShouldLoad(true);
+                }}
+              />
+            </ImageFrame>
+          </MediaContent>
+          <ButtonWrapper>
+            <ButtonSmall
+              type="button"
+              theme="transparent"
+              onClick={() => removeTokenFromWhiteList()}
+            >
+              Hide Image
+            </ButtonSmall>
+          </ButtonWrapper>
+        </>
+      )}
+      {!mediaShouldLoad && (
+        <div style={{ textAlign: 'center' }}>
+          <FriendlyWarning message="Image Preview Disclaimer" />
+
+          <br />
+
+          {!readMore && (
+            <>
+              <DisclaimerText>
+                The Tokel team does not own, endorse, host or content moderate anything that is
+                shown in the dApp. By it&apos;s nature, the dApp merely reads...
+              </DisclaimerText>
+              <br />
+              <ButtonSmall type="button" theme="purpler" onClick={() => setReadMore(true)}>
+                Read More
+              </ButtonSmall>
+            </>
+          )}
+
+          {readMore && (
+            <>
+              <DisclaimerText>
+                The Tokel team does not own, endorse, host or content moderate anything that is
+                shown in the dApp. By it&apos;s nature, the dApp merely reads the media URL&apos;s
+                that are linked within the meta data of tokens that are created on the Tokel public
+                blockchain. Content moderation issues should be addressed with the token creator,
+                owner, or through the web host that stores the media itself.
+              </DisclaimerText>
+              <br />
+              <DisclaimerText>
+                By accepting this disclaimer, you are accepting that you have personally verified
+                the source of the image and are happy for it to be displayed, knowing that there are
+                no content moderators and you&apos;re taking all responsibility for viewing the
+                media and any risks associated with that. You are accepting that anybody that
+                participates in creating and/or shipping this open source software holds no
+                liability for what is shown, and that the decision to proceed is completely
+                voluntary and at your own risk.
+              </DisclaimerText>
+
+              <ButtonWrapper>
+                <ButtonSmall type="button" theme="success" onClick={() => setMediaShouldLoad(true)}>
+                  View once
+                </ButtonSmall>
+                <ButtonSmall type="button" theme="purple" onClick={() => addTokenToWhiteList()}>
+                  View and never ask again
+                </ButtonSmall>
+              </ButtonWrapper>
+            </>
+          )}
+        </div>
+      )}
+    </>
   );
 };
 

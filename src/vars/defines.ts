@@ -26,6 +26,8 @@ export const IS_DEV = process.env.NODE_ENV === 'development' || process.env.NODE
 export const IS_PROD = process.env.NODE_ENV === 'production';
 export const SATOSHIS = 100000000;
 
+export const TOKEN_WHITE_LIST_LOCATION = 'token_white_list';
+
 export enum NetworkType {
   TOKEL = 'TOKEL',
   TKLTEST = 'TKLTEST2',
