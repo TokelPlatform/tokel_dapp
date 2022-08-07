@@ -12,6 +12,7 @@ import type { RootModel } from './models';
 export type EnvironmentState = {
   theme?: ThemeName;
   view?: string;
+  deepLinkParams?: string;
   modal: Modal;
   tokenDetails: Record<string, TokenDetail>;
   tokelPriceUSD?: number;
@@ -41,6 +42,7 @@ export default createModel<RootModel>()({
   state: {
     theme: themeNames[0],
     view: ViewType.DASHBOARD,
+    deepLinkParams: '',
     modal: DEFAULT_NULL_MODAL,
     tokenDetails: {},
     tokelPriceUSD: null,
@@ -56,6 +58,7 @@ export default createModel<RootModel>()({
   reducers: {
     SET_THEME: (state, theme: string) => ({ ...state, theme }),
     SET_VIEW: (state, view: string) => ({ ...state, view }),
+    SET_DEEP_LINK_PARAMS: (state, deepLinkParams: string) => ({ ...state, deepLinkParams }),
     SET_MODAL: (state, modal: Modal) => ({ ...state, modal }),
     SET_MODAL_NAME: (state, modalName: ModalName) => dp.set(state, `modal.name`, modalName),
     SET_TOKEN_DETAIL: (state, detail: TokenDetail) => {

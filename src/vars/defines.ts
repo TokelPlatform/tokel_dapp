@@ -5,7 +5,9 @@ export const TICKER = 'TKL';
 export const RPC_PORT = '29405';
 export const BITGO_IPC_ID = 'bitgo';
 export const IPFS_IPC_ID = 'ipfs';
+export const DEEP_LINK_IPC_ID = 'link';
 export const VERSIONS_MSG = 'version';
+export const DEEP_LINK_PROTOCOL = 'tokel://';
 export enum IpfsAction {
   GET = 'get',
 }
@@ -25,6 +27,8 @@ export const USD_VALUE = 5;
 export const IS_DEV = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 export const IS_PROD = process.env.NODE_ENV === 'production';
 export const SATOSHIS = 100000000;
+
+export const TOKEN_WHITE_LIST_LOCATION = 'token_white_list';
 
 export enum NetworkType {
   TOKEL = 'TOKEL',

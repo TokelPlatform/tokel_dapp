@@ -46,8 +46,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const tokenDetails = useSelector(selectTokenDetails);
   const myTokens = useMyTokens();
   const fulfillOrderSchema = useFulfillOrderSchema(type);
-  const { currentOrderId: prefillOrderId, setCurrentOrderId: setPrefillOrderId } =
-    useContext(ViewContext);
+  const { currentOrderId: prefillOrderId } = useContext(ViewContext);
 
   const handleMarketOrder = (values: MarketOrder, { setSubmitting }) => {
     setSubmitting(false);
@@ -101,12 +100,10 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       : 'Review order';
 
   useEffect(() => {
-    if (prefillOrderId) formikBag.setFieldValue('orderId', prefillOrderId);
+    if (prefillOrderId?.length)
+      formikBag.setFieldValue(type === 'fill' ? 'orderId' : 'assetId', prefillOrderId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prefillOrderId, formikBag.setFieldValue]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => () => setPrefillOrderId(undefined), []);
 
   useEffect(() => {
     if (currentOrderDetails) {
@@ -190,7 +187,6 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       formikBag.setFieldValue('order', {});
       formikBag.setFieldValue('quantity', 0);
       formikBag.setFieldValue('price', 0);
-      formikBag.setFieldValue('assetId', '');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formikBag.setFieldValue, formikBag.values.orderId]);
