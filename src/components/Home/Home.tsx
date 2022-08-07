@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
+import { ipcRenderer } from 'electron';
 
+import { dispatch } from 'store/rematch';
 import { selectModalName, selectView } from 'store/selectors';
 import links from 'util/links';
-import { TOPBAR_HEIGHT_PX, ViewType } from 'vars/defines';
+import { DEEP_LINK_IPC_ID, TOPBAR_HEIGHT_PX, ViewType } from 'vars/defines';
 
 import InfoNote from 'components/_General/InfoNote';
 import CreateToken from 'components/CreateToken/CreateToken';
@@ -67,6 +69,19 @@ const renderView = (viewType: ViewType[keyof ViewType]) => {
 const Home = () => {
   const currentView = useSelector(selectView);
   const modalProps = modals[useSelector(selectModalName)];
+
+  useEffect(() => {
+    const listener = (_, { view, params }) => {
+      dispatch.environment.SET_VIEW(view || ViewType.DASHBOARD);
+      if (params) dispatch.environment.SET_DEEP_LINK_PARAMS(params);
+    };
+
+    ipcRenderer.on(DEEP_LINK_IPC_ID, listener);
+
+    return () => {
+      ipcRenderer.removeListener(DEEP_LINK_IPC_ID, listener);
+    };
+  }, []);
 
   return (
     <HomeRoot>

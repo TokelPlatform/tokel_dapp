@@ -5,7 +5,9 @@ export const TICKER = 'TKL';
 export const RPC_PORT = '29405';
 export const BITGO_IPC_ID = 'bitgo';
 export const IPFS_IPC_ID = 'ipfs';
+export const DEEP_LINK_IPC_ID = 'link';
 export const VERSIONS_MSG = 'version';
+export const DEEP_LINK_PROTOCOL = 'tokel://';
 export enum IpfsAction {
   GET = 'get',
 }

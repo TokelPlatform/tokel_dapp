@@ -7,6 +7,7 @@ import { RootState } from './rematch';
 
 export const selectTheme = (state: RootState) => state.environment.theme;
 export const selectView = (state: RootState) => state.environment.view;
+export const selectDeepLinkParams = (state: RootState) => state.environment.deepLinkParams;
 export const selectModal = (state: RootState) => state.environment.modal;
 export const selectModalName = (state: RootState) => state.environment.modal.name;
 export const selectModalOptions = (state: RootState) => state.environment.modal.options;
