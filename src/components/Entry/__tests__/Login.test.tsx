@@ -11,14 +11,14 @@ import { render } from '@testing-library/react';
 
 import store from 'store/rematch';
 
-import Login from '../Login';
+import Entry from '../Entry';
 
 describe('Login', () => {
   it('should render', () => {
     expect(
       render(
         <Provider store={store}>
-          <Login />
+          <Entry />
         </Provider>
       )
     ).toBeTruthy();

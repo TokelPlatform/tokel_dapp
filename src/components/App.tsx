@@ -12,8 +12,8 @@ import { cssVarStyle } from 'util/theming';
 import { TOKEL_PRICE_UPDATE_PERIOD_MS, TOKEL_PRICE_URL } from 'vars/defines';
 import { scrollbarStyle } from 'vars/styles/platformSpecific';
 
+import Entry from 'components/Entry/Entry';
 import Home from 'components/Home/Home';
-import Login from 'components/Login/Login';
 import NetworkPrefs from 'components/Settings/NetworkPrefs';
 import TopBar from './TopBar';
 
@@ -57,7 +57,7 @@ export default function App() {
     <AppRoot>
       <Global styles={[cssVarStyle, isWindowsOrLinux && scrollbarStyle].filter(Boolean)} />
       <TopBar />
-      {accountReady ? <Home /> : <Login />}
+      {accountReady ? <Home /> : <Entry />}
       {showNetworkPrefs && <NetworkPrefs />}
     </AppRoot>
   );

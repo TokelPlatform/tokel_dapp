@@ -15,11 +15,10 @@ import {
 import { isAddressValid, processPossibleBN } from 'util/helpers';
 import { FEE, ResourceType, TICKER } from 'vars/defines';
 
-import { Button, ButtonSmall } from 'components/_General/buttons';
-import Input from 'components/_General/Input';
+import { Button } from 'components/_General/buttons';
 import InputWithLabel from 'components/_General/InputWithLabel';
 import ValueRow from 'components/_General/ValueRow';
-import { GrayLabel, RowWrapper, VSpaceBig, VSpaceMed, VSpaceSmall } from '../common';
+import { RowWrapper, VSpaceBig, VSpaceMed, VSpaceSmall } from '../common';
 
 const SendFormRoot = styled.div`
   display: flex;
@@ -29,12 +28,6 @@ const SendFormRoot = styled.div`
   font-size: var(--font-size-additional-p);
   color: var(--color-gray);
   height: var(--modal-content-height);
-`;
-
-const MaxButtonWrapper = styled.div`
-  position: absolute;
-  margin-left: 343px;
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
 `;
 
 type SendFormProps = {
@@ -116,50 +109,27 @@ const SendForm = ({ onSubmit, type }: SendFormProps): React.ReactElement => {
         onKeyDown={() => ''}
         value={recipient}
         placeholder={`Enter recipient ${TICKER} address`}
-        width="390px"
         autoFocus
         label="Recipient"
         error={error}
       />
-      <label htmlFor="amount">
-        {isNFT ? null : (
-          <RowWrapper>
-            <GrayLabel style={{ marginLeft: '2px' }}>Amount</GrayLabel>
-          </RowWrapper>
-        )}
-        <RowWrapper>
-          <RowWrapper>
-            {isNFT ? null : (
-              <Input
-                id="amount"
-                onChange={e => handleSetAmount(e)}
-                onKeyDown={() => null}
-                value={amount}
-                placeholder="0"
-                width="336px"
-                type="number"
-                error={errorAmount}
-              />
-            )}
-          </RowWrapper>
-          {!isNFT && (
-            <MaxButtonWrapper>
-              <ButtonSmall
-                style={{
-                  padding: '9px 12px',
-                }}
-                theme="transparent"
-                onClick={() => handleSetAmount(Number(processPossibleBN(balance)))}
-              >
-                <span style={{ opacity: 0.6 }}>MAX</span>
-              </ButtonSmall>
-            </MaxButtonWrapper>
-          )}
-        </RowWrapper>
-      </label>
+      {!isNFT && (
+        <InputWithLabel
+          id="amount"
+          onChange={handleSetAmount}
+          onKeyDown={() => ''}
+          value={amount}
+          placeholder="0"
+          label="Amount"
+          error={errorAmount}
+          button={{
+            text: 'MAX',
+            onClick: () => handleSetAmount(balance),
+          }}
+        />
+      )}
       <VSpaceSmall />
       <ValueRow keyProp="Network Fee" value={`${FEE} ${TICKER}`} />
-
       <VSpaceMed />
       {!isNFT && (
         <ValueRow
@@ -167,7 +137,6 @@ const SendForm = ({ onSubmit, type }: SendFormProps): React.ReactElement => {
           value={Math.max(0, remaining).toString()}
         />
       )}
-
       <VSpaceBig />
       <RowWrapper center>
         <Button onClick={handleSubmit} customWidth="170px" theme="purple">

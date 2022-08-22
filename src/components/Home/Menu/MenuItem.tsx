@@ -29,7 +29,7 @@ const MenuItemRoot = styled.div<MenuItemRootProps>`
   text-align: center;
   margin-bottom: 1rem;
   cursor: pointer;
-  &: hover {
+  &:hover {
     opacity: 0.7;
   }
   p {

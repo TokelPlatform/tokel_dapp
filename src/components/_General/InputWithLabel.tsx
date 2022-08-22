@@ -1,57 +1,111 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 
-import Input from 'components/_General/Input';
-import { GrayLabel, VSpaceSmall } from 'components/Dashboard/widgets/common';
+import styled from '@emotion/styled';
+
+import { V } from 'util/theming';
+
+import { VSpaceMed } from 'components/Dashboard/widgets/common';
+import DottedLoader from './_Loaders/DottedLoader';
+import { ButtonSmall } from './buttons';
+import { IconImg, StyledInput } from './Input';
+
+const InputWithLabelRoot = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const AboveInputContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  font-size: ${V.font.p};
+  padding: 0 6px;
+  margin-bottom: 6px;
+`;
+
+const Label = styled.label`
+  color: var(--color-darkerGray);
+`;
+
+const Error = styled.span`
+  margin: 0.5rem 0;
+  color: var(--color-danger);
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+`;
 
 type InputWithLabelProps = {
-  id?: string;
-  placeholder: string;
+  id: string;
   value: string;
-  autoFocus?: boolean;
-  width?: string;
-  type?: string;
-  onChange: (e) => void;
-  onKeyDown: (e) => void;
-  error: string;
   label: string;
+  button?: {
+    text: string;
+    onClick: React.MouseEventHandler<HTMLButtonElement>;
+    loading?: boolean;
+  };
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  placeholder?: string;
+  icon?: string;
+  autoFocus?: boolean;
+  type?: string;
+  error?: string;
+  disabled?: boolean;
 };
 
 const InputWithLabel = ({
   id,
+  value,
+  label,
+  button,
   onChange,
   onKeyDown,
-  value,
-  placeholder,
-  width,
-  autoFocus,
+  icon,
   error,
-  type,
-  label,
+  placeholder,
+  disabled,
+  autoFocus,
+  type = 'text',
 }: InputWithLabelProps): React.ReactElement => {
   return (
-    <label htmlFor={id}>
-      <GrayLabel style={{ marginLeft: '2px' }}>{label}</GrayLabel>
-      <VSpaceSmall />
-      <Input
-        id={id}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        value={value}
-        placeholder={placeholder}
-        width={width}
-        autoFocus={autoFocus}
-        type={type}
-        error={error}
-      />
-    </label>
+    <InputWithLabelRoot>
+      <AboveInputContainer>
+        <Label htmlFor={id}>{label}</Label>
+        <Error>{error}</Error>
+      </AboveInputContainer>
+      <InputContainer>
+        {icon && <IconImg src={icon} />}
+        <StyledInput
+          id={id}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          value={value}
+          placeholder={placeholder}
+          icon={Boolean(icon)}
+          autoFocus={autoFocus}
+          disabled={disabled}
+          width="flex"
+          type={type}
+        />
+        {button && (
+          <ButtonSmall
+            theme="transparent"
+            onClick={button.onClick}
+            css={{ marginLeft: 6 }}
+            disabled={button.loading}
+          >
+            <span>{button.loading ? <DottedLoader /> : button.text}</span>
+          </ButtonSmall>
+        )}
+      </InputContainer>
+      <VSpaceMed />
+    </InputWithLabelRoot>
   );
 };
 
-InputWithLabel.defaultProps = {
-  id: '',
-  autoFocus: false,
-  width: '240px',
-  type: 'text',
-};
 export default InputWithLabel;

@@ -4,30 +4,21 @@ import styled from '@emotion/styled';
 
 import links from 'util/links';
 
-import BackButton from 'components/_General/BackButton';
 import { Button } from 'components/_General/buttons';
-import Warning from '../_General/WarningCritical';
+import Warning from 'components/_General/WarningCritical';
 import CredentialsRow from './CredentialsRow';
 
 type GeneratedCredentialProps = {
-  goBack: () => void;
   forward: () => void;
   wifkey: string;
   seed: string;
 };
 
-const Container = styled.div`
+const GeneratedCredentialRoot = styled.div`
+  position: relative;
   display: grid;
-  grid-template-rows: 23% 50% 20%;
   justify-items: center;
   align-items: end;
-`;
-
-const BtnWrapper = styled.div`
-  position: absolute;
-  left: 7.75rem;
-  top: 5.5rem;
-  cursor: pointer;
 `;
 
 const Confidential = styled.div`
@@ -40,13 +31,10 @@ const Confidential = styled.div`
   border-radius: var(--border-radius);
 `;
 
-const GeneratedCredential = ({ wifkey, seed, forward, goBack }: GeneratedCredentialProps) => {
+const GeneratedCredential = ({ wifkey, seed, forward }: GeneratedCredentialProps) => {
   return (
-    <Container>
-      <BtnWrapper>
-        <BackButton onClick={goBack} />
-      </BtnWrapper>
-      <h1>Your WIF and your Seed Phrase</h1>
+    <GeneratedCredentialRoot>
+      <h2>Your WIF and your Seed Phrase</h2>
       <Confidential>
         <CredentialsRow
           label="Seed Phrase"
@@ -72,7 +60,7 @@ const GeneratedCredential = ({ wifkey, seed, forward, goBack }: GeneratedCredent
       <Button onClick={forward} customWidth="170px" theme="gray">
         Next
       </Button>
-    </Container>
+    </GeneratedCredentialRoot>
   );
 };
 

@@ -1,6 +1,8 @@
 import React from 'react';
+
 import styled from '@emotion/styled';
-import CopyToClipboard from '../_General/CopyToClipboard';
+
+import CopyToClipboard from 'components/_General/CopyToClipboard';
 
 type CredentialsRowProps = {
   label: string;
