@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { toSatoshi } from 'satoshi-bitcoin';
@@ -9,9 +9,9 @@ import { EXTRACT_IPFS_HASH_REGEX, FEE, RESERVED_TOKEL_ARBITRARY_KEYS, TICKER } f
 
 const useTokenCreationSchema = () => {
   const balance = useSelector(selectUnspentBalance);
-  const maxSupply = useMemo(() => toSatoshi(balance) - toSatoshi(FEE), [balance]);
+  const maxSupply = React.useMemo(() => toSatoshi(balance) - toSatoshi(FEE), [balance]);
 
-  const schema = useMemo(
+  const schema = React.useMemo(
     () =>
       yup.object().shape({
         name: yup.string().max(32).required(),

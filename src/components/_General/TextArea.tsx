@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 
@@ -6,7 +6,7 @@ type InputProps = {
   height: string;
   width: string;
   value: string;
-  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   margin?: string;
 };
 

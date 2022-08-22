@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 
@@ -24,7 +24,7 @@ type TxConfirmationProps = {
   children?: JSX.Element | JSX.Element[];
 };
 
-const TxConfirmationRow = ({ label, value, children }: TxConfirmationProps): ReactElement => {
+const TxConfirmationRow = ({ label, value, children }: TxConfirmationProps): React.ReactElement => {
   return (
     <ColumnRoot>
       <GrayLabel>{label}</GrayLabel>

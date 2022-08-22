@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectAccountPubKey, selectMyTokenDetails } from 'store/selectors';
@@ -11,7 +11,7 @@ const useMyCollections = (): Collections => {
   const tokenDetails = useSelector(selectMyTokenDetails);
   const myPubKey = useSelector(selectAccountPubKey);
 
-  const collectionsMap = useMemo(
+  const collectionsMap = React.useMemo(
     () =>
       Object.values(tokenDetails).reduce((collections, { owner, supply, dataAsJson }) => {
         if (

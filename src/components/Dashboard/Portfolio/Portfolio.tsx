@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -28,7 +28,7 @@ const PortfolioRoot = styled(WidgetContainer)`
   border-radius: ${V.size.borderRadius};
 `;
 
-const Portfolio = (): ReactElement => {
+const Portfolio = (): React.ReactElement => {
   const currentAsset = useSelector(selectCurrentAsset);
   const balance = useSelector(selectUnspentBalance);
   const chosenToken = useSelector(selectChosenToken);

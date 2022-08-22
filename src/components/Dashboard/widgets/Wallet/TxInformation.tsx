@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -51,7 +51,7 @@ const TxInformation = ({
   timestamp,
   recipient,
   tokenTx,
-}: TxConfirmationProps): ReactElement => {
+}: TxConfirmationProps): React.ReactElement => {
   const currentToken = useSelector(selectCurrentTokenInfo);
   const txAmount = toBitcoinAmount(amountInSatoshi);
   return (

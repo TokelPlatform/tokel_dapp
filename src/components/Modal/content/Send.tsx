@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -27,9 +27,9 @@ const Send = () => {
   const mypubkey = useSelector(selectAccountPubKey);
   const sender = options.type === ResourceType.TOKEL ? myAddress : mypubkey;
 
-  const [confirmation, setConfirmation] = useState(false);
-  const [recipient, setRecipient] = useState<string>(null);
-  const [amountToSend, setAmountToSend] = useState<string>(null);
+  const [confirmation, setConfirmation] = React.useState(false);
+  const [recipient, setRecipient] = React.useState<string>(null);
+  const [amountToSend, setAmountToSend] = React.useState<string>(null);
 
   const handleSubmit = (address: string, amount: string) => {
     dispatch.currentTransaction.RESET_TX();

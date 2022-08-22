@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 
@@ -36,8 +36,8 @@ const Container = styled.div`
 `;
 
 const ConfirmString = ({ title, desc, goBack, forward, originalString }: CredentialsRowProps) => {
-  const [error, setError] = useState('');
-  const [value, setValue] = useState('');
+  const [error, setError] = React.useState('');
+  const [value, setValue] = React.useState('');
 
   const handleClick = (): void => {
     if (value === originalString) {
@@ -53,7 +53,7 @@ const ConfirmString = ({ title, desc, goBack, forward, originalString }: Credent
       <p>{desc}</p>
       <TextArea
         value={value}
-        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setValue(e.currentTarget.value)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setValue(e.currentTarget.value)}
         height="72px"
         width="464px"
       />

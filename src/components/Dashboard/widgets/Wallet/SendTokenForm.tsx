@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { ReactElement, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
@@ -53,7 +53,7 @@ const getAmount = (e, balance) => {
   return amount;
 };
 
-const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
+const SendForm = ({ onSubmit, type }: SendFormProps): React.ReactElement => {
   const lockedBalance = useSelector(selectLockedTransactionsBalance);
   const coinBalance = useSelector(selectUnspentBalance) - lockedBalance;
   const chosenToken = useSelector(selectChosenToken);
@@ -62,11 +62,11 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
   const { balance } = currentToken;
   const isNFT = type === ResourceType.NFT;
 
-  const [recipient, setRecipient] = useState('');
-  const [amount, setAmount] = useState(isNFT ? '1' : '');
-  // const [fiatAmount, setFiatAmount] = useState('');s
-  const [error, setError] = useState('');
-  const [errorAmount, setErrorAmount] = useState('');
+  const [recipient, setRecipient] = React.useState('');
+  const [amount, setAmount] = React.useState(isNFT ? '1' : '');
+  // const [fiatAmount, setFiatAmount] = React.useState('');s
+  const [error, setError] = React.useState('');
+  const [errorAmount, setErrorAmount] = React.useState('');
 
   const remaining = Number(processPossibleBN(balance)) - Number(amount);
 

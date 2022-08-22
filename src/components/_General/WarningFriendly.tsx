@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 import warning from 'assets/friendlyWarning.svg';
 
-const FriendlyWarningRoot = styled.div`
+const WarningFriendlyRoot = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 32px;
@@ -16,17 +16,17 @@ const FriendlyWarningRoot = styled.div`
   }
 `;
 
-type FriendlyWarningProps = {
+type WarningFriendlyProps = {
   message: string;
 };
 
-const FriendlyWarning = ({ message }: FriendlyWarningProps) => {
+const WarningFriendly = ({ message }: WarningFriendlyProps) => {
   return (
-    <FriendlyWarningRoot>
+    <WarningFriendlyRoot>
       <img alt="warn" src={warning} />
       <p>{message}</p>
-    </FriendlyWarningRoot>
+    </WarningFriendlyRoot>
   );
 };
 
-export default FriendlyWarning;
+export default WarningFriendly;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 import { Form, FormikProvider, useFormik } from 'formik';
@@ -81,8 +81,8 @@ const initialValues: Partial<TokenForm> = {
 
 const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
   const tokenTypeDisplay = tokenType === TokenType.NFT ? 'NFT' : 'Token';
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [shownIpfsNotice, setShownIpfsNotice] = useState(false);
+  const [showAdvanced, setShowAdvanced] = React.useState(false);
+  const [shownIpfsNotice, setShownIpfsNotice] = React.useState(false);
   const tokenCreationSchema = useTokenCreationSchema();
 
   const formikBag = useFormik<Partial<TokenForm>>({
@@ -113,11 +113,11 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
     setShownIpfsNotice(true);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     setShownIpfsNotice(false);
   }, [tokenType]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Persist only name, description, url and royalty if changing between fungible and NFT
     if (previousTokenType !== tokenType)
       setValues(
@@ -134,7 +134,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
   }, [tokenType, previousTokenType, setValues, values]);
 
   // If collection changes, format received ReactSelect option and set ID
-  useEffect(() => {
+  React.useEffect(() => {
     const collectionOption = values.arbitraryAsJson?.collection_name as SelectOption;
     if (typeof collectionOption === 'object') {
       /* eslint no-underscore-dangle: 0 */
@@ -151,7 +151,7 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = ({ tokenType }) => {
   }, [values.arbitraryAsJson.collection_name, setFieldValue]);
 
   // If ID changes manually, set collection
-  useEffect(() => {
+  React.useEffect(() => {
     if (
       values?.id !== previousValues?.id &&
       values?.arbitraryAsJson?.collection_name === previousValues?.arbitraryAsJson?.collection_name

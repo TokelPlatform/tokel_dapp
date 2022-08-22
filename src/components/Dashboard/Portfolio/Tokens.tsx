@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -102,7 +102,7 @@ const Tokens = () => {
   const tokenSearchTerm = useSelector(selectTokenSearchTerm);
   const tokenDetails = useSelector(selectMyTokenDetails);
 
-  const filteredTokenDetails = useMemo(() => {
+  const filteredTokenDetails = React.useMemo(() => {
     let result = Object.values(tokenDetails ?? []);
     const filterFunc = FilterFunc[tokenFilterId];
     if (filterFunc) {

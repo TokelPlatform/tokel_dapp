@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React from 'react';
 
 export const Platform = {
   MAC: 'mac',
@@ -7,7 +7,7 @@ export const Platform = {
   OTHER: 'other',
 };
 
-const PlatformContext = createContext(null);
+const PlatformContext = React.createContext(null);
 
 export const checkPlatform = () => {
   const navigatorPlatform = window.navigator.platform;
@@ -34,4 +34,4 @@ const PlatformProvider = ({ children }: PlatformProviderProps) => {
 };
 
 export default PlatformProvider;
-export const usePlatform = () => useContext(PlatformContext);
+export const usePlatform = () => React.useContext(PlatformContext);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -121,13 +121,13 @@ const TokenDetail: React.FC = () => {
   const arbitraryJson = tokenDetail.dataAsJson?.arbitraryAsJson;
 
   const tokenUrl = tokenDetail.dataAsJson?.url;
-  const [tokenGatewayUrl, setTokenGatewayUrl] = useState(null);
+  const [tokenGatewayUrl, setTokenGatewayUrl] = React.useState(null);
 
   const hasNumberInCollection =
     arbitraryJson?.number_in_collection || arbitraryJson?.number_in_constellation;
   const hasCollectionName = arbitraryJson?.collection_name || arbitraryJson?.constellation_name;
 
-  useEffect(() => {
+  React.useEffect(() => {
     const ipfsId = extractIPFSHash(tokenUrl);
 
     if (ipfsId) {

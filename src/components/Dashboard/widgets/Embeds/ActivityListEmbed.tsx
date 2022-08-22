@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -126,7 +126,10 @@ type ActivityListProps = {
   resourceType: ResourceType;
 };
 
-const ActivityList = ({ transactions = [], resourceType }: ActivityListProps): ReactElement => {
+const ActivityList = ({
+  transactions = [],
+  resourceType,
+}: ActivityListProps): React.ReactElement => {
   const tokelPriceUSD = useSelector(selectTokelPriceUSD);
 
   return (

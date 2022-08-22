@@ -1,6 +1,4 @@
-/* eslint-disable no-nested-ternary */
-
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 import { ProgressInfo } from 'builder-util-runtime';
@@ -32,7 +30,7 @@ const UpdateText = styled.span`
 const restartApp = () => ipcRenderer.send('update-restart');
 
 const Updater = () => {
-  const [update, setUpdate] = useState<UpdateInfo>({
+  const [update, setUpdate] = React.useState<UpdateInfo>({
     checking: false,
     available: false,
     progress: undefined,
@@ -45,9 +43,9 @@ const Updater = () => {
     ipcRenderer.send('update-check');
   };
 
-  useEffect(checkForUpdate, []);
+  React.useEffect(checkForUpdate, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     ipcRenderer.on('update-error', payload => {
       console.log(payload);
       setUpdate(u => ({ ...u, checking: false, error: true }));

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
@@ -14,17 +14,17 @@ const MyOrdersWidget: React.FC = () => {
   const myOrders = useSelector(selectMyOrders);
   const tokenDetails = useSelector(selectTokenDetails);
 
-  const myAsks = useMemo(() => myOrders?.filter(order => order.funcid === 's'), [myOrders]);
-  const myBids = useMemo(() => myOrders?.filter(order => order.funcid === 'b'), [myOrders]);
+  const myAsks = React.useMemo(() => myOrders?.filter(order => order.funcid === 's'), [myOrders]);
+  const myBids = React.useMemo(() => myOrders?.filter(order => order.funcid === 'b'), [myOrders]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     myOrders.forEach(order => {
       if (!tokenDetails[order.tokenid])
         sendToBitgo(BitgoAction.TOKEN_V2_INFO_TOKEL, { tokenId: order.tokenid });
     });
   }, [myOrders, tokenDetails]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     sendToBitgo(BitgoAction.ASSET_V2_MY_ORDERS);
   }, []);
 

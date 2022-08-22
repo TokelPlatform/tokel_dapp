@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -22,7 +22,7 @@ const TokenViewRoot = styled.div`
   overflow-y: auto;
 `;
 
-const TokenView = (): ReactElement => {
+const TokenView = (): React.ReactElement => {
   const tokenInfo = useSelector(selectCurrentTokenDetail);
   const isNFT = tokenInfo?.supply === 1;
 

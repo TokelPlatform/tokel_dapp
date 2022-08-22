@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -47,14 +47,14 @@ const Feedback = styled.p`
 `;
 
 const LoginForm = ({ addNewWallet }: LoginFormProps) => {
-  const [loginValue, setloginValue] = useState('');
-  const [error, setError] = useState(null);
-  const [showSpinner, setShowSpinner] = useState(false);
+  const [loginValue, setloginValue] = React.useState('');
+  const [error, setError] = React.useState(null);
+  const [showSpinner, setShowSpinner] = React.useState(false);
 
   const loginFeedback = useSelector(selectLoginFeedback);
   const envError = useSelector(selectEnvError);
 
-  const performLogin = useCallback(() => {
+  const performLogin = React.useCallback(() => {
     dispatch.environment.SET_ERROR(null);
     if (!loginValue) {
       setError(ErrorMessages.ENTER_WIF);
@@ -63,14 +63,14 @@ const LoginForm = ({ addNewWallet }: LoginFormProps) => {
     sendToBitgo(BitgoAction.LOGIN, { key: loginValue });
   }, [loginValue]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setError(envError);
     if (error || envError) {
       setShowSpinner(false);
     }
   }, [error, envError]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (loginFeedback) {
       if (loginFeedback === BROKEN_WALLET_MSG) {
         setShowSpinner(false);

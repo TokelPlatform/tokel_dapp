@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import ReactTooltip from 'react-tooltip';
 
 import styled from '@emotion/styled';
@@ -22,7 +22,7 @@ type CopyProps = {
 };
 
 const CopyToClipboard = ({ textToCopy, color }: CopyProps) => {
-  const idRef = useRef(null);
+  const idRef = React.useRef(null);
 
   const copy = () => {
     ReactTooltip.show(idRef.current);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { Global } from '@emotion/react';
@@ -39,11 +39,11 @@ export default function App() {
   const themeName = useSelector(selectTheme);
   const showNetworkPrefs = useSelector(selectShowNetworkPrefs);
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.body.dataset.theme = themeName;
   }, [themeName]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchTokelPrice();
     const priceClock = setInterval(fetchTokelPrice, TOKEL_PRICE_UPDATE_PERIOD_MS);
     return () => {

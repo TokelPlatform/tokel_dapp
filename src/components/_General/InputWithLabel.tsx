@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import Input from 'components/_General/Input';
 import { GrayLabel, VSpaceSmall } from 'components/Dashboard/widgets/common';
@@ -28,7 +28,7 @@ const InputWithLabel = ({
   error,
   type,
   label,
-}: InputWithLabelProps): ReactElement => {
+}: InputWithLabelProps): React.ReactElement => {
   return (
     <label htmlFor={id}>
       <GrayLabel style={{ marginLeft: '2px' }}>{label}</GrayLabel>

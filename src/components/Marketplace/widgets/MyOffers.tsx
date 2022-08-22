@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
@@ -14,7 +14,7 @@ const MyOffersWidget: React.FC = () => {
   const allMyOffers = useSelector(selectAllMyOffers);
   const myTokensDetails = useSelector(selectMyTokenDetails);
 
-  useEffect(() => {
+  React.useEffect(() => {
     Object.keys(myTokensDetails).forEach(tokenId => {
       sendToBitgo(BitgoAction.TOKEN_V2_ORDERS, { tokenId });
     });

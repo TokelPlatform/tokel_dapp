@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { ReactElement, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -66,12 +66,12 @@ const getAmount = (e, balance) => {
   return limitLength(amount.toString(), 10);
 };
 
-const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
-  const [recipient, setRecipient] = useState('');
-  const [amount, setAmount] = useState('');
-  // const [fiatAmount, setFiatAmount] = useState('');
-  const [error, setError] = useState('');
-  const [errorAmount, setErrorAmount] = useState('');
+const SendForm = ({ onSubmit }: SendFormProps): React.ReactElement => {
+  const [recipient, setRecipient] = React.useState('');
+  const [amount, setAmount] = React.useState('');
+  // const [fiatAmount, setFiatAmount] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [errorAmount, setErrorAmount] = React.useState('');
   const lockedBalance = useSelector(selectLockedTransactionsBalance);
   const balance = useSelector(selectUnspentBalance) - lockedBalance;
 

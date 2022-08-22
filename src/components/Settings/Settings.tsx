@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -35,7 +35,7 @@ const SubsectionBody = styled.div<{ contrast?: boolean }>`
 type SubsectionProps = {
   name: string;
   contrast?: boolean;
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 const Subsection = ({ name, contrast, children }: SubsectionProps) => (

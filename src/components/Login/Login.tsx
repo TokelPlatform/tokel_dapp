@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -70,12 +70,12 @@ const STEP4 = 4;
 const STEP5 = 5;
 
 const Login = () => {
-  const [step, setStep] = useState(STEP1);
-  const [showSpinner, setShowSpinner] = useState(false);
+  const [step, setStep] = React.useState(STEP1);
+  const [showSpinner, setShowSpinner] = React.useState(false);
   const key = useSelector(selectKey);
   const seed = useSelector(selectSeed);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (step === STEP2) {
       sendToBitgo(BitgoAction.NEW_ADDRESS);
     }
