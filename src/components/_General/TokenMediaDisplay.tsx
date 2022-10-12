@@ -45,8 +45,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const DisclaimerText = styled.div`
-  text-align: justify;
-  text-align-last: center;
+  text-align: left;
   font-size: 0.9rem;
 `;
 
@@ -184,19 +183,25 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
         <div style={{ textAlign: 'center' }}>
           <FriendlyWarning message="Image Preview Disclaimer" />
 
-          <br />
-
           {!readMore && (
-            <>
+            <div style={{ marginTop: '4px' }}>
               <DisclaimerText>
                 The Tokel team does not own, endorse, host or content moderate anything that is
-                shown in the dApp. By it&apos;s nature, the dApp merely reads...
+                shown in the dApp. By it&apos;s nature, the dApp...{' '}
+                <a href="#" onClick={() => setReadMore(true)}>
+                  Read more
+                </a>
               </DisclaimerText>
-              <br />
-              <ButtonSmall type="button" theme="purpler" onClick={() => setReadMore(true)}>
-                Read More
-              </ButtonSmall>
-            </>
+
+              <ButtonWrapper>
+                <ButtonSmall type="button" theme="success" onClick={() => setMediaShouldLoad(true)}>
+                  View once
+                </ButtonSmall>
+                <ButtonSmall type="button" theme="purple" onClick={() => addTokenToWhiteList()}>
+                  View and never ask again
+                </ButtonSmall>
+              </ButtonWrapper>
+            </div>
           )}
 
           {readMore && (
