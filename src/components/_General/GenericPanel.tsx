@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -41,7 +41,7 @@ const Content = styled.div`
 type GenericPanelProps = {
   title: string;
   thin: boolean;
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 const GenericPanel = ({ title, thin, children }: GenericPanelProps) => (

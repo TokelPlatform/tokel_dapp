@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 import { ipcRenderer } from 'electron';
@@ -65,18 +65,18 @@ const DisclaimerHeader = styled.h4`
 `;
 
 const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
-  const iframeRef = useRef<HTMLIFrameElement>();
-  const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [iframeHeight, setIframeHeight] = useState<number | 'unset'>('unset');
-  const [mediaUrl, setMediaUrl] = useState(null);
-  const [mediaShouldLoad, setMediaShouldLoad] = useState(false);
-  const [readMore, setReadMore] = useState(false);
+  const iframeRef = React.useRef<HTMLIFrameElement>();
+  const [iframeLoaded, setIframeLoaded] = React.useState(false);
+  const [iframeHeight, setIframeHeight] = React.useState<number | 'unset'>('unset');
+  const [mediaUrl, setMediaUrl] = React.useState(null);
+  const [mediaShouldLoad, setMediaShouldLoad] = React.useState(false);
+  const [readMore, setReadMore] = React.useState(false);
 
-  const ipfsId = useMemo(() => extractIPFSHash(url), [url]);
+  const ipfsId = React.useMemo(() => extractIPFSHash(url), [url]);
   const tokenAddress = ipfsId || url;
   const tokenInWhiteList = !!localStorage.getItem(`${TOKEN_WHITE_LIST_LOCATION}/${tokenAddress}`);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setIframeHeight('unset');
     setMediaUrl(null);
     setIframeLoaded(false);
@@ -85,12 +85,12 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
     iframeRef.current?.contentWindow.postMessage({ mediaUrl: '', width: 0 });
   }, [url]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (tokenInWhiteList && !iframeLoaded) setMediaShouldLoad(true);
   }, [tokenInWhiteList, iframeLoaded]);
 
   // Request IPFS file if it's an IPFS link. Set link meanwhile anyway
-  useEffect(() => {
+  React.useEffect(() => {
     if (mediaShouldLoad) {
       if (ipfsId) {
         ipcRenderer.send(IPFS_IPC_ID, {
@@ -109,7 +109,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   }, [url, ipfsId, mediaShouldLoad]);
 
   // Listen for IPFS files
-  useEffect(() => {
+  React.useEffect(() => {
     const listener = (_, data) => {
       if (data.type === IpfsAction.GET && ipfsId) {
         setMediaUrl(data.payload.filedata);
@@ -124,7 +124,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   }, [ipfsId]);
 
   // Post media to iframe, along with actual iframe width
-  useEffect(() => {
+  React.useEffect(() => {
     if (iframeLoaded) {
       iframeRef.current?.contentWindow.postMessage(
         { mediaUrl, width: iframeRef?.current.offsetWidth },
@@ -134,7 +134,7 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   }, [mediaUrl, iframeRef, iframeLoaded]);
 
   // Adjust iframe height based on content height
-  useEffect(() => {
+  React.useEffect(() => {
     let observer;
     const targetElement = iframeRef?.current?.contentWindow.document.getElementById('mediaWrapper');
 

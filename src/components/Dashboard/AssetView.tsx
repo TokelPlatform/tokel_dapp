@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -28,7 +28,7 @@ const AssetViewRoot = styled.div`
   overflow-y: auto;
 `;
 
-const AssetView = (): ReactElement => {
+const AssetView = (): React.ReactElement => {
   const txs = useSelector(selectTransactions);
   const lockedTransactions = useSelector(selectLockedTransactions);
   const lockedSum = useSelector(selectLockedTransactionsBalance);

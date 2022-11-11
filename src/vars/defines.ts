@@ -1,5 +1,8 @@
 // nspv settings
 // export const TICKER = 'TKLTEST';
+
+import { CipherGCMTypes } from 'crypto';
+
 // export const RPC_PORT = '22025';
 export const TICKER = 'TKL';
 export const RPC_PORT = '29405';
@@ -18,6 +21,20 @@ export const DEFAULT_IPFS_FALLBACK_GATEWAY = 'https://ipfs.io/ipfs';
 export const TOKEL_PRICE_URL = 'http://price.tokel.io';
 export const TOKEL_PRICE_UPDATE_PERIOD_MS = 7_200_000; // two hours
 
+export const SIZES = {
+  MIN_PASSWORD_LENGTH: 8,
+};
+
+export const ENCRYPTION_DEFAULTS = {
+  WALLET_EXT: '.wallet',
+  WALLET_FILE_ENCODING: 'utf8' as BufferEncoding,
+  KEY_LENGTH: 32,
+  IV_LENGTH: 12,
+  ALGORITHM: 'aes-256-gcm' as CipherGCMTypes,
+  HASH_ALGO: 'sha256',
+  DERIVATION_ITERATIONS: 10_000_000,
+};
+
 export const TOPBAR_HEIGHT_PX = 38;
 export const PORTFOLIO_ITEM_HEIGHT_PX = 86;
 export const FEE = 0.0001;
@@ -33,6 +50,12 @@ export const TOKEN_WHITE_LIST_LOCATION = 'token_white_list';
 export enum NetworkType {
   TOKEL = 'TOKEL',
   TKLTEST = 'TKLTEST2',
+}
+
+export enum LoginType {
+  PASSWORD = 'PASSWORD',
+  PRIVKEY = 'PRIVKEY',
+  CREATE = 'CREATE',
 }
 
 export const DEFAULT_NETWORK = IS_DEV ? NetworkType.TKLTEST : NetworkType.TOKEL;

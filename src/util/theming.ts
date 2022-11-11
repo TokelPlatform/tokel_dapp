@@ -14,6 +14,7 @@ const baseTheme = {
     slate: 'hsla(211, 20%, 57%, 1.0)',
     danger: 'hsla(340, 80%, 50%, 1.0)',
     growth: 'hsla(128, 65%, 48%, 1.0)',
+    undergrowth: 'hsla(141, 43%, 17%, 1.0)',
     highlight: 'hsla(171, 94%, 61%, 1.0)',
     success: 'hsla(127, 100%, 40%, 1.0)',
     modal: {

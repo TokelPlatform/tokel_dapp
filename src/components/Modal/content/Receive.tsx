@@ -8,7 +8,7 @@ import { selectAccountAddress, selectAccountPubKey, selectModalOptions } from 's
 import { Colors, ResourceType, TICKER } from 'vars/defines';
 
 import CopyToClipboard from 'components/_General/CopyToClipboard';
-import FriendlyWarning from 'components/_General/WarningFriendly';
+import WarningFriendly from 'components/_General/WarningFriendly';
 import { VSpaceBig } from 'components/Dashboard/widgets/common';
 
 const ReceiveRoot = styled.div`
@@ -71,7 +71,7 @@ const Receive = () => {
           <CopyToClipboard color={Colors.WHITE} textToCopy={target} />
         </Copy>
       </AddressInput>
-      <FriendlyWarning
+      <WarningFriendly
         message={
           options.type === ResourceType.TOKEL
             ? `You can send both tokens and ${TICKER} to this address.`

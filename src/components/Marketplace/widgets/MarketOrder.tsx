@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
@@ -46,7 +46,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
   const tokenDetails = useSelector(selectTokenDetails);
   const myTokens = useMyTokens();
   const fulfillOrderSchema = useFulfillOrderSchema(type);
-  const { currentOrderId: prefillOrderId } = useContext(ViewContext);
+  const { currentOrderId: prefillOrderId } = React.useContext(ViewContext);
 
   const handleMarketOrder = (values: MarketOrder, { setSubmitting }) => {
     setSubmitting(false);
@@ -64,14 +64,14 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
 
   const debouncedOrderId = useDebounce(formikBag.values.orderId, 1000);
   const debouncedAssetId = useDebounce(formikBag.values.assetId, 1000);
-  const currentOrderDetails = useMemo(
+  const currentOrderDetails = React.useMemo(
     () => orderDetails?.[formikBag.values.orderId] || orderDetails?.[formikBag.values.assetId],
     [orderDetails, formikBag.values.orderId, formikBag.values.assetId]
   );
   const currentTokenDetails =
     currentOrderDetails?.token || tokenDetails?.[formikBag.values.assetId];
 
-  const buttonTheme = useMemo(() => {
+  const buttonTheme = React.useMemo(() => {
     if (type === 'bid' || (type === 'fill' && currentOrderDetails?.type === 'ask')) {
       return Colors.SUCCESS;
     }
@@ -99,13 +99,13 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
       ? 'Review sale'
       : 'Review order';
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (prefillOrderId?.length)
       formikBag.setFieldValue(type === 'fill' ? 'orderId' : 'assetId', prefillOrderId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prefillOrderId, formikBag.setFieldValue]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (currentOrderDetails) {
       const quantity = parseBigNumObject(currentOrderDetails.bnAmount).toNumber();
       const price = toBitcoin(parseBigNumObject(currentOrderDetails.bnUnitPrice).toNumber());
@@ -143,7 +143,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
     formikBag.setFormikState,
   ]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (
       !currentOrderDetails &&
       currentTokenDetails?.supply === 1 &&
@@ -159,7 +159,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
     currentOrderDetails,
   ]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (debouncedOrderId?.length === 64 && !orderDetails?.[debouncedOrderId]) {
       sendToBitgo(BitgoAction.ASSET_V2_FETCH_ORDER_DECODED, {
         orderId: debouncedOrderId,
@@ -167,7 +167,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
     }
   }, [debouncedOrderId, orderDetails]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (debouncedAssetId?.length === 64 && !tokenDetails?.[debouncedAssetId]) {
       sendToBitgo(BitgoAction.TOKEN_V2_INFO_TOKEL, {
         tokenId: debouncedAssetId,
@@ -182,7 +182,7 @@ const MarketOrderWidget: React.FC<MarketOrderWidgetProps> = ({ type }) => {
     }
   }, [debouncedAssetId, tokenDetails, type]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (formikBag.values.orderId?.length !== 64) {
       formikBag.setFieldValue('order', {});
       formikBag.setFieldValue('quantity', 0);

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -23,11 +23,11 @@ const DashboardRoot = styled.div`
 
 const TX_FETCH_INTERVAL_MS = 30 * 1000;
 
-const Dashboard = (): ReactElement => {
+const Dashboard = (): React.ReactElement => {
   const key = useSelector(selectKey);
   const chosenToken = useSelector(selectChosenToken);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const txInterval = setInterval(() => {
       sendToBitgo(BitgoAction.LOGIN, { key });
     }, TX_FETCH_INTERVAL_MS);

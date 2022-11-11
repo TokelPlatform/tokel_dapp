@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -55,7 +55,7 @@ const Pane = {
 };
 
 const TokenOwnershipWidget = () => {
-  const [activeTab, setActiveTab] = useState(Tab.WALLET);
+  const [activeTab, setActiveTab] = React.useState(Tab.WALLET);
 
   return (
     <TokenOwnershipWidgetRoot>

@@ -1,10 +1,10 @@
-import React, { ReactChild } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 
 import warning from 'assets/warningIcon.svg';
 
-const WarningRoot = styled.div`
+const WarningCriticalRoot = styled.div`
   display: flex;
   flex-direction: row;
   img {
@@ -27,18 +27,18 @@ const WarningRoot = styled.div`
 
 type WarningCriticalProps = {
   title: string;
-  subtitle: Array<string | ReactChild>;
+  subtitle: Array<string | React.ReactChild>;
 };
 
 const WarningCritical = ({ title, subtitle }: WarningCriticalProps) => {
   return (
-    <WarningRoot>
+    <WarningCriticalRoot>
       <img alt="warning" src={warning} />
       <div>
         <h3>{title}</h3>
         <p>{subtitle}</p>
       </div>
-    </WarningRoot>
+    </WarningCriticalRoot>
   );
 };
 

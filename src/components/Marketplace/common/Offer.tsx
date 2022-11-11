@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
@@ -26,7 +26,7 @@ const PricingParagraph = styled.p`
 
 const OfferWidget = ({ order }: { order: OrderDetailLite }) => {
   const tokenDetails = useSelector(selectTokenDetails);
-  const { setCurrentView, setCurrentOrderId } = useContext(ViewContext);
+  const { setCurrentView, setCurrentOrderId } = React.useContext(ViewContext);
 
   const handleReviewOffer = () => {
     setCurrentOrderId(order.txid);

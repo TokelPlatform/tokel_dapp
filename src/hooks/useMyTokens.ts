@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import BN from 'bn.js';
@@ -14,7 +14,7 @@ const useMyTokens = (): Tokens => {
   const tokenDetails = useSelector(selectMyTokenDetails);
   const tokenBalances = useSelector(selectTokenBalances);
 
-  const tokensMap = useMemo(
+  const tokensMap = React.useMemo(
     () =>
       Object.values(tokenDetails).reduce((tokens, { name, tokenid }) => {
         const bnBalance = parseBigNumObject(tokenBalances[tokenid]);

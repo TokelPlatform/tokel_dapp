@@ -5,6 +5,6 @@
     "msjsdiag.debugger-for-chrome",
     "esbenp.prettier-vscode",
     "amatiasq.sort-imports",
-    "jpoissonnier.vscode-styled-components"
+    "styled-components.vscode-styled-components"
   ]
 }

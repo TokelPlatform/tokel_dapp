@@ -17,6 +17,8 @@ export const selectShowNetworkPrefs = (state: RootState) => state.environment.ne
 
 export const selectTokelPriceUSD = (state: RootState) => state.environment.tokelPriceUSD;
 
+export const selectAccountWallets = (state: RootState) => state.account.wallets;
+export const selectAccountWalletName = (state: RootState) => state.account.walletFileName;
 export const selectAccountAddress = (state: RootState) => state.account.address;
 export const selectAccountPubKey = (state: RootState) => state.account.pubkey;
 export const selectUnspentBalance = (state: RootState) => state.account.unspent?.balance;

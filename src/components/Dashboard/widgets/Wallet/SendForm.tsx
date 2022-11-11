@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { ReactElement, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -8,11 +8,10 @@ import { selectLockedTransactionsBalance, selectUnspentBalance } from 'store/sel
 import { formatFiat, isAddressValid, limitLength } from 'util/helpers';
 import { FEE, TICKER } from 'vars/defines';
 
-import { Button, ButtonSmall } from 'components/_General/buttons';
-import Input from 'components/_General/Input';
+import { Button } from 'components/_General/buttons';
 import InputWithLabel from 'components/_General/InputWithLabel';
 import ValueRow from 'components/_General/ValueRow';
-import { GrayLabel, RowWrapper, VSpaceBig, VSpaceMed, VSpaceSmall } from '../common';
+import { RowWrapper, VSpaceBig, VSpaceMed, VSpaceSmall } from '../common';
 
 const SendFormRoot = styled.div`
   display: flex;
@@ -45,12 +44,6 @@ const SendFormRoot = styled.div`
 //   color: var(--color-darkerGray);
 // `;
 
-const MaxButtonWrapper = styled.div`
-  position: absolute;
-  margin-left: 343px;
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
-`;
-
 type SendFormProps = {
   onSubmit: (arg1: string, arg2: string) => void;
 };
@@ -66,12 +59,12 @@ const getAmount = (e, balance) => {
   return limitLength(amount.toString(), 10);
 };
 
-const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
-  const [recipient, setRecipient] = useState('');
-  const [amount, setAmount] = useState('');
-  // const [fiatAmount, setFiatAmount] = useState('');
-  const [error, setError] = useState('');
-  const [errorAmount, setErrorAmount] = useState('');
+const SendForm = ({ onSubmit }: SendFormProps): React.ReactElement => {
+  const [recipient, setRecipient] = React.useState('');
+  const [amount, setAmount] = React.useState('');
+  // const [fiatAmount, setFiatAmount] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [errorAmount, setErrorAmount] = React.useState('');
   const lockedBalance = useSelector(selectLockedTransactionsBalance);
   const balance = useSelector(selectUnspentBalance) - lockedBalance;
 
@@ -114,74 +107,29 @@ const SendForm = ({ onSubmit }: SendFormProps): ReactElement => {
           setError('');
           setRecipient(e.target.value);
         }}
-        onKeyDown={() => ''}
         value={recipient}
         placeholder={`Enter ${TICKER} address`}
-        width="390px"
         autoFocus
         label="Recipient"
         error={error}
       />
-      <label htmlFor="amount">
-        <RowWrapper>
-          <GrayLabel style={{ marginLeft: '2px' }}>Amount</GrayLabel>
-          <span style={{ marginLeft: '4px' }}> {`(spendable balance: ${balance})`}</span>
-        </RowWrapper>
-        <VSpaceSmall />
-        <RowWrapper>
-          <RowWrapper>
-            <Input
-              id="amount"
-              onChange={e => handleSetAmount(e)}
-              onKeyDown={() => ''}
-              value={amount}
-              placeholder="0.0000"
-              width="336px"
-              type="number"
-              error={errorAmount}
-            />
-            {/* <CurrencyWrapper>{TICKER}</CurrencyWrapper> */}
-          </RowWrapper>
-          <MaxButtonWrapper>
-            <ButtonSmall
-              style={{
-                padding: '9px 12px',
-              }}
-              theme="transparent"
-              onClick={() => handleSetAmount(balance)}
-            >
-              <span style={{ opacity: 0.6 }}>MAX</span>
-            </ButtonSmall>
-          </MaxButtonWrapper>
-          {/*
-          <Approx>≈</Approx>
-          <RowWrapper>
-            <Input
-              id="amountUSD"
-              onChange={e => handleSetFiatAmount(e)}
-              onKeyDown={() => ''}
-              value={fiatAmount}
-              placeholder="0.0000"
-              type="number"
-              width="146px"
-            />
-            <CurrencyWrapper>{FIAT_CURRENCY}</CurrencyWrapper>
-          </RowWrapper> */}
-        </RowWrapper>
-      </label>
+      <InputWithLabel
+        id="amount"
+        onChange={handleSetAmount}
+        value={amount}
+        placeholder="0.0000"
+        label={`Amount (spendable balance: ${balance})`}
+        error={errorAmount}
+        type="number"
+        button={{
+          text: 'MAX',
+          onClick: () => handleSetAmount(balance),
+        }}
+      />
       <VSpaceSmall />
-      <ValueRow
-        keyProp="Network Fee"
-        value={`${FEE} ${TICKER}`}
-        // value={`${FEE} ${TICKER} ≈ ${formatFiat(FEE * USD_VALUE)} USD`}
-      />
-
+      <ValueRow keyProp="Network Fee" value={`${FEE} ${TICKER}`} />
       <VSpaceMed />
-      <ValueRow
-        keyProp="Remaining balance"
-        value={`${remaining} ${TICKER}`}
-        // value={`${remaining} ${TICKER} ≈ ${formatFiat(Number(remaining) * USD_VALUE)} USD`}
-      />
+      <ValueRow keyProp="Remaining balance" value={`${remaining} ${TICKER}`} />
       <VSpaceBig />
       <RowWrapper center>
         <Button onClick={handleSubmit} customWidth="170px" theme="purple">

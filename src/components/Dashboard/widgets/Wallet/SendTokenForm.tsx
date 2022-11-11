@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { ReactElement, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
@@ -15,11 +15,10 @@ import {
 import { isAddressValid, processPossibleBN } from 'util/helpers';
 import { FEE, ResourceType, TICKER } from 'vars/defines';
 
-import { Button, ButtonSmall } from 'components/_General/buttons';
-import Input from 'components/_General/Input';
+import { Button } from 'components/_General/buttons';
 import InputWithLabel from 'components/_General/InputWithLabel';
 import ValueRow from 'components/_General/ValueRow';
-import { GrayLabel, RowWrapper, VSpaceBig, VSpaceMed, VSpaceSmall } from '../common';
+import { RowWrapper, VSpaceBig, VSpaceMed, VSpaceSmall } from '../common';
 
 const SendFormRoot = styled.div`
   display: flex;
@@ -29,12 +28,6 @@ const SendFormRoot = styled.div`
   font-size: var(--font-size-additional-p);
   color: var(--color-gray);
   height: var(--modal-content-height);
-`;
-
-const MaxButtonWrapper = styled.div`
-  position: absolute;
-  margin-left: 343px;
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
 `;
 
 type SendFormProps = {
@@ -53,7 +46,7 @@ const getAmount = (e, balance) => {
   return amount;
 };
 
-const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
+const SendForm = ({ onSubmit, type }: SendFormProps): React.ReactElement => {
   const lockedBalance = useSelector(selectLockedTransactionsBalance);
   const coinBalance = useSelector(selectUnspentBalance) - lockedBalance;
   const chosenToken = useSelector(selectChosenToken);
@@ -62,11 +55,11 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
   const { balance } = currentToken;
   const isNFT = type === ResourceType.NFT;
 
-  const [recipient, setRecipient] = useState('');
-  const [amount, setAmount] = useState(isNFT ? '1' : '');
-  // const [fiatAmount, setFiatAmount] = useState('');s
-  const [error, setError] = useState('');
-  const [errorAmount, setErrorAmount] = useState('');
+  const [recipient, setRecipient] = React.useState('');
+  const [amount, setAmount] = React.useState(isNFT ? '1' : '');
+  // const [fiatAmount, setFiatAmount] = React.useState('');s
+  const [error, setError] = React.useState('');
+  const [errorAmount, setErrorAmount] = React.useState('');
 
   const remaining = Number(processPossibleBN(balance)) - Number(amount);
 
@@ -116,50 +109,27 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
         onKeyDown={() => ''}
         value={recipient}
         placeholder={`Enter recipient ${TICKER} address`}
-        width="390px"
         autoFocus
         label="Recipient"
         error={error}
       />
-      <label htmlFor="amount">
-        {isNFT ? null : (
-          <RowWrapper>
-            <GrayLabel style={{ marginLeft: '2px' }}>Amount</GrayLabel>
-          </RowWrapper>
-        )}
-        <RowWrapper>
-          <RowWrapper>
-            {isNFT ? null : (
-              <Input
-                id="amount"
-                onChange={e => handleSetAmount(e)}
-                onKeyDown={() => null}
-                value={amount}
-                placeholder="0"
-                width="336px"
-                type="number"
-                error={errorAmount}
-              />
-            )}
-          </RowWrapper>
-          {!isNFT && (
-            <MaxButtonWrapper>
-              <ButtonSmall
-                style={{
-                  padding: '9px 12px',
-                }}
-                theme="transparent"
-                onClick={() => handleSetAmount(Number(processPossibleBN(balance)))}
-              >
-                <span style={{ opacity: 0.6 }}>MAX</span>
-              </ButtonSmall>
-            </MaxButtonWrapper>
-          )}
-        </RowWrapper>
-      </label>
+      {!isNFT && (
+        <InputWithLabel
+          id="amount"
+          onChange={handleSetAmount}
+          onKeyDown={() => ''}
+          value={amount}
+          placeholder="0"
+          label="Amount"
+          error={errorAmount}
+          button={{
+            text: 'MAX',
+            onClick: () => handleSetAmount(balance),
+          }}
+        />
+      )}
       <VSpaceSmall />
       <ValueRow keyProp="Network Fee" value={`${FEE} ${TICKER}`} />
-
       <VSpaceMed />
       {!isNFT && (
         <ValueRow
@@ -167,7 +137,6 @@ const SendForm = ({ onSubmit, type }: SendFormProps): ReactElement => {
           value={Math.max(0, remaining).toString()}
         />
       )}
-
       <VSpaceBig />
       <RowWrapper center>
         <Button onClick={handleSubmit} customWidth="170px" theme="purple">

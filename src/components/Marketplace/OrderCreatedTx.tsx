@@ -1,6 +1,6 @@
 // This file has a lot of similarities with TokenCreatexTx.tsx. Consider merging?
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -38,15 +38,15 @@ const OrderCreatedTx: React.FC = () => {
   const txStatus = useSelector(selectCurrentTxStatus);
   const txId = useSelector(selectCurrentTxId);
 
-  const [isBroadcasting, setIsBroadcasting] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const [isBroadcasting, setIsBroadcasting] = React.useState(true);
+  const [hasError, setHasError] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setIsBroadcasting(txStatus === 0);
     setHasError(txStatus < 0);
   }, [txStatus]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     return () => {
       dispatch.currentTransaction.RESET_TX();
     };

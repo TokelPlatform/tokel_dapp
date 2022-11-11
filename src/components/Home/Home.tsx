@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -70,7 +70,7 @@ const Home = () => {
   const currentView = useSelector(selectView);
   const modalProps = modals[useSelector(selectModalName)];
 
-  useEffect(() => {
+  React.useEffect(() => {
     const listener = (_, { view, params }) => {
       dispatch.environment.SET_VIEW(view || ViewType.DASHBOARD);
       if (params) dispatch.environment.SET_DEEP_LINK_PARAMS(params);

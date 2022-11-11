@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 
@@ -16,28 +16,30 @@ type CredentialsRowProps = {
   forward: () => void;
 };
 
-const Container = styled.div`
+const ConfirmStringRoot = styled.div`
+  position: relative;
   display: grid;
-  grid-template-rows: 26% 10% 45% 12.75%;
   justify-items: center;
   align-items: center;
   button:nth-of-type(1) {
     position: absolute;
-    left: 7.75rem;
-    top: 5.5rem;
-    cursor: pointer;
+    left: 6px;
+    top: 6px;
   }
-  p:nth-of-type(1) {
+  h2 {
+    margin-top: 8px;
+  }
+  p {
     color: var(--color-gray);
-    margin: 1.5rem 0 1.85rem 0;
+    margin: 1rem 0 1rem 0;
     width: 450px;
     text-align: center;
   }
 `;
 
 const ConfirmString = ({ title, desc, goBack, forward, originalString }: CredentialsRowProps) => {
-  const [error, setError] = useState('');
-  const [value, setValue] = useState('');
+  const [error, setError] = React.useState('');
+  const [value, setValue] = React.useState('');
 
   const handleClick = (): void => {
     if (value === originalString) {
@@ -47,13 +49,13 @@ const ConfirmString = ({ title, desc, goBack, forward, originalString }: Credent
     }
   };
   return (
-    <Container>
+    <ConfirmStringRoot>
       <BackButton onClick={goBack} />
-      <h1>{title}</h1>
+      <h2>{title}</h2>
       <p>{desc}</p>
       <TextArea
         value={value}
-        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setValue(e.currentTarget.value)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setValue(e.currentTarget.value)}
         height="72px"
         width="464px"
       />
@@ -62,7 +64,7 @@ const ConfirmString = ({ title, desc, goBack, forward, originalString }: Credent
         Confirm
       </Button>
       <VSpaceMed />
-    </Container>
+    </ConfirmStringRoot>
   );
 };
 

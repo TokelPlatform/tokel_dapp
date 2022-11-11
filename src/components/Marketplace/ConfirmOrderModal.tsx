@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
@@ -70,19 +70,19 @@ const ConfirmOrderModal: React.FC = () => {
     });
   };
 
-  const orderSide = useMemo(
+  const orderSide = React.useMemo(
     () => (isFilling ? currentOrderType : formValues?.type),
     [formValues?.type, isFilling, currentOrderType]
   );
 
-  const myOrderSide = useMemo(() => {
+  const myOrderSide = React.useMemo(() => {
     if (formValues?.type === 'bid' || (isFilling && currentOrderType === 'ask')) {
       return 'bid';
     }
     return 'ask';
   }, [formValues?.type, isFilling, currentOrderType]);
 
-  const calculatedCostOrProceeds = useMemo(() => {
+  const calculatedCostOrProceeds = React.useMemo(() => {
     const total = (formValues.price as number) * (formValues.quantity as number);
     const royalty = currentTokenDetails?.dataAsJson?.royalty / 10 || 0;
 
@@ -91,7 +91,7 @@ const ConfirmOrderModal: React.FC = () => {
       : (total - (total * royalty) / 100 - FEE).toFixed(8);
   }, [formValues.price, formValues.quantity, myOrderSide, currentTokenDetails]);
 
-  const buttonTheme = useMemo(
+  const buttonTheme = React.useMemo(
     () => (myOrderSide === 'bid' ? Colors.SUCCESS : Colors.DANGER),
     [myOrderSide]
   );

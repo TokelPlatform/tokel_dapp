@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 
@@ -19,7 +19,7 @@ type ValueRowProps = {
   value: string;
 };
 
-const ValueRow = ({ keyProp, value }: ValueRowProps): ReactElement => {
+const ValueRow = ({ keyProp, value }: ValueRowProps): React.ReactElement => {
   return (
     <Row>
       <p>{keyProp}</p>

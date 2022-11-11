@@ -96,7 +96,7 @@ type BitgoMsg = {
 };
 
 export const checkData = (msg: BitgoMsg) => {
-  if (msg.type === BitgoAction.LOGIN) {
+  if (msg.type === BitgoAction.LOGIN || msg.type === BitgoAction.NEW_ADDRESS) {
     return {
       type: msg.type,
     };
