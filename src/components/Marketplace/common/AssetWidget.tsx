@@ -8,7 +8,6 @@ import { TokenDetail } from 'util/token-types';
 import { TICKER } from 'vars/defines';
 
 import OpenInExplorer from 'components/_General/OpenInExplorer';
-import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 
 const Wrapper = styled.div<{ isPlaceholder?: boolean }>`
   background-color: ${V.color.backSoftest};
@@ -97,9 +96,6 @@ const AssetWidget: React.FC<AssetWidgetProps> = ({ asset }) => {
   return (
     <>
       <Wrapper>
-        <span>
-          <TokenMediaDisplay url={asset.dataAsJson?.url} />
-        </span>
         <div>
           <span>
             <h1>{asset.name}</h1>

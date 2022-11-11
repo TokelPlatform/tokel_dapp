@@ -7,7 +7,6 @@ import warning from 'assets/friendlyWarning.svg';
 const WarningFriendlyRoot = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 32px;
   padding: 6px 16px;
   background-color: var(--color-lighterBlack);
   border-radius: 4px;

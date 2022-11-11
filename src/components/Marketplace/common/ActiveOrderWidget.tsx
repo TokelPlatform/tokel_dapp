@@ -17,7 +17,6 @@ import Icon from 'components/_General/_UIElements/Icon';
 import ExplorerLink from 'components/_General/ExplorerLink';
 import { Column, Columns } from 'components/_General/Grid';
 import OpenInExplorer from 'components/_General/OpenInExplorer';
-import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 
 const orderIDExplainer =
   "This identifies the order in the blockchain. It's not the same as the token ID of the asset you're buying or selling. You can send this order ID to someone and they can fulfill the order and complete the trade.";
@@ -47,17 +46,7 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
       `}
     >
       <Columns multiline>
-        {!!tokenDetails[order.tokenid]?.dataAsJson?.url && (
-          <Column
-            size={2}
-            css={css`
-              height: 50px;
-            `}
-          >
-            <TokenMediaDisplay url={tokenDetails[order.tokenid]?.dataAsJson?.url} />
-          </Column>
-        )}
-        <Column size={tokenDetails[order.tokenid]?.dataAsJson?.url ? 8 : 10}>
+        <Column size={10}>
           <p
             css={css`
               display: flex;
@@ -70,6 +59,7 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
                 color: ${order.funcid === 's' ? V.color.danger : V.color.success};
                 font-weight: bold;
                 font-size: 20px;
+                padding-left: 8px;
               `}
             >
               {order.funcid === 's' ? 'SELL' : 'BUY'}
@@ -98,6 +88,7 @@ const ActiveOrderWidget = ({ order }: { order: OrderDetailLite }) => {
           <p
             css={css`
               color: ${V.color.frontSoft};
+              padding-left: 8px;
             `}
           >
             {order.funcid === 's'
