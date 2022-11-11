@@ -7,13 +7,13 @@ import { Responsive, extractIPFSHash } from 'util/helpers';
 import { V } from 'util/theming';
 import {
   DEFAULT_IPFS_FALLBACK_GATEWAY,
+  DisclaimerTextContent,
   IPFS_IPC_ID,
   IpfsAction,
   TOKEN_WHITE_LIST_LOCATION,
 } from 'vars/defines';
 
 import { ButtonSmall } from 'components/_General/buttons';
-import FriendlyWarning from 'components/_General/WarningFriendly';
 
 const MediaContent = styled.div`
   overflow-y: auto;
@@ -40,19 +40,29 @@ const TokenMediaIframe = styled.iframe`
 const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-around;
-  margin-top: 25px;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
 `;
 
 const DisclaimerText = styled.div`
-  text-align: justify;
-  text-align-last: center;
-  font-size: 0.9rem;
+  text-align: left;
+  font-size: var(--font-size-additional-p);
+  opacity: 0.8;
+  padding: 0 16px;
 `;
 
 interface TokenMediaDisplayProps {
   url?: string;
 }
+
+const DisclaimerHeader = styled.h4`
+  text-align: left;
+  padding: 0px 0 0 16px;
+  opacity: 0.8;
+  margin-bottom: 8px;
+  margin-top: 16px;
+`;
 
 const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
   const iframeRef = useRef<HTMLIFrameElement>();
@@ -152,6 +162,17 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
     setIframeLoaded(false);
   }
 
+  const Buttons = () => (
+    <ButtonWrapper>
+      <ButtonSmall type="button" theme="success" onClick={() => setMediaShouldLoad(true)}>
+        View once
+      </ButtonSmall>
+      <ButtonSmall type="button" theme="purple" onClick={() => addTokenToWhiteList()}>
+        View always
+      </ButtonSmall>
+    </ButtonWrapper>
+  );
+
   return (
     <>
       {mediaShouldLoad && (
@@ -181,52 +202,37 @@ const TokenMediaDisplay: React.FC<TokenMediaDisplayProps> = ({ url }) => {
         </>
       )}
       {!mediaShouldLoad && (
-        <div style={{ textAlign: 'center' }}>
-          <FriendlyWarning message="Image Preview Disclaimer" />
-
-          <br />
+        <div
+          style={{
+            textAlign: 'center',
+            backgroundColor: 'var(--color-lighterBlack)',
+            borderRadius: 'var(--border-radius)',
+            padding: '0 8px 16px 8px',
+            marginTop: '16px',
+            overflowY: 'hidden',
+          }}
+        >
+          <DisclaimerHeader>Image Preview Disclaimer</DisclaimerHeader>
 
           {!readMore && (
             <>
               <DisclaimerText>
-                The Tokel team does not own, endorse, host or content moderate anything that is
-                shown in the dApp. By it&apos;s nature, the dApp merely reads...
+                {DisclaimerTextContent.par1.substring(0, 180)}...
+                <a href="#" onClick={() => setReadMore(true)}>
+                  {' '}
+                  Read more
+                </a>
               </DisclaimerText>
-              <br />
-              <ButtonSmall type="button" theme="purpler" onClick={() => setReadMore(true)}>
-                Read More
-              </ButtonSmall>
+              <Buttons />
             </>
           )}
 
           {readMore && (
             <>
-              <DisclaimerText>
-                The Tokel team does not own, endorse, host or content moderate anything that is
-                shown in the dApp. By it&apos;s nature, the dApp merely reads the media URL&apos;s
-                that are linked within the meta data of tokens that are created on the Tokel public
-                blockchain. Content moderation issues should be addressed with the token creator,
-                owner, or through the web host that stores the media itself.
-              </DisclaimerText>
+              <DisclaimerText>{DisclaimerTextContent.par1}</DisclaimerText>
               <br />
-              <DisclaimerText>
-                By accepting this disclaimer, you are accepting that you have personally verified
-                the source of the image and are happy for it to be displayed, knowing that there are
-                no content moderators and you&apos;re taking all responsibility for viewing the
-                media and any risks associated with that. You are accepting that anybody that
-                participates in creating and/or shipping this open source software holds no
-                liability for what is shown, and that the decision to proceed is completely
-                voluntary and at your own risk.
-              </DisclaimerText>
-
-              <ButtonWrapper>
-                <ButtonSmall type="button" theme="success" onClick={() => setMediaShouldLoad(true)}>
-                  View once
-                </ButtonSmall>
-                <ButtonSmall type="button" theme="purple" onClick={() => addTokenToWhiteList()}>
-                  View and never ask again
-                </ButtonSmall>
-              </ButtonWrapper>
+              <DisclaimerText>{DisclaimerTextContent.par2}</DisclaimerText>
+              <Buttons />
             </>
           )}
         </div>

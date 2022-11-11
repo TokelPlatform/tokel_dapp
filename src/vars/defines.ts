@@ -143,3 +143,11 @@ export const HIDE_IPFS_EXPLAINER_KEY = 'HIDE_IPFS_EXPLAINER';
 
 export const SPENDABLE = 'Spendable';
 export const LOCKED = 'Locked';
+
+export const DisclaimerTextContent = {
+  par1: `The Tokel team does not own, endorse, host or content moderate anything that is shown in the dApp. By it's nature, the dApp merely reads the media URL's
+  that are linked within the meta data of tokens that are created on the Tokel public
+  blockchain. Content moderation issues should be addressed with the token creator,
+  owner, or through the web host that stores the media itself.`,
+  par2: `By accepting this disclaimer, you are accepting that you have personally verified the source of the image and are happy for it to be displayed, knowing that there are no content moderators and you're taking all responsibility for viewing the media and any risks associated with that. You are accepting that anybody that participates in creating and/or shipping this open source software holds no liability for what is shown, and that the decision to proceed is completely voluntary and at your own risk.`,
+};

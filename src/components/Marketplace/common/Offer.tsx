@@ -13,7 +13,6 @@ import { TICKER } from 'vars/defines';
 import { ButtonSmall } from 'components/_General/buttons';
 import { Column, Columns } from 'components/_General/Grid';
 import OpenInExplorer from 'components/_General/OpenInExplorer';
-import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 import ViewContext, { MARKETPLACE_VIEWS } from './ViewContext';
 
 const PricingParagraph = styled.p`
@@ -48,10 +47,7 @@ const OfferWidget = ({ order }: { order: OrderDetailLite }) => {
       `}
     >
       <Columns>
-        <Column size={3}>
-          <TokenMediaDisplay url={tokenDetails[order.tokenid]?.dataAsJson?.url} />
-        </Column>
-        <Column size={9}>
+        <Column size={12}>
           <div
             css={css`
               display: flex;
