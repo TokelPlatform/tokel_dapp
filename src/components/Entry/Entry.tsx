@@ -131,7 +131,7 @@ const Login = () => {
           {!loginType ? (
             <>
               <HeaderTitle>Welcome to Tokel</HeaderTitle>
-              <WelcomeMessage>Future of tokenization</WelcomeMessage>
+              <WelcomeMessage>The Future of tokenization</WelcomeMessage>
               <LoginOptionContainer>
                 {Object.values(LoginViews).map(view => (
                   <LoginOptionButton
