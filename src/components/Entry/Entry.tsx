@@ -27,7 +27,7 @@ const CenteredLoginContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-top: -100px;
+  /* margin-top: -100px; */
   /* max-width: 400px; */
   /* width: 90%; */
   @media (max-height: 500px) {
@@ -60,12 +60,11 @@ const Heading = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 40px;
 `;
 
 const HeaderTitle = styled.h1`
   margin: 0;
-  margin-bottom: 40px;
+  margin-bottom: 0px;
   font-size: ${V.font.h1};
 `;
 
@@ -126,48 +125,38 @@ const Login = () => {
     <LoginRoot>
       <NetworkPrefsButton onClick={() => dispatch.environment.TOGGLE_SHOW_NETWORK_PREFS()} />
       <CenteredLoginContainer>
-        <Heading>
-          <Logo />
-          {!loginType ? (
-            <>
-              <HeaderTitle>Welcome to Tokel</HeaderTitle>
-              <WelcomeMessage>The Future of tokenization</WelcomeMessage>
-              <LoginOptionContainer>
-                {Object.values(LoginViews).map(view => (
-                  <LoginOptionButton
-                    theme={Colors.PURPLE}
-                    key={view.type}
-                    onClick={() => setLoginType(view.type)}
-                  >
-                    {view.title}
-                  </LoginOptionButton>
-                ))}
-              </LoginOptionContainer>
-            </>
-          ) : (
-            <>
-              <HeaderTitle>{currentLoginView.title}</HeaderTitle>
-              <LoginViewWrapper>
-                <currentLoginView.component />
-              </LoginViewWrapper>
-              <LinksToOtherViews>
-                <Link onClick={() => setLoginType(null)} linkText="Back home" />
-                {Object.values(LoginViews).map(loginView => {
-                  if (loginView.type === currentLoginView.type) {
-                    return null;
-                  }
-                  return (
-                    <Link
-                      key={loginView.type}
-                      onClick={() => setLoginType(loginView.type)}
-                      linkText={loginView.title}
-                    />
-                  );
-                })}
-              </LinksToOtherViews>
-            </>
-          )}
-        </Heading>
+        <div style={!loginType ? { marginTop: '-100px' } : {}}>
+          <Heading>
+            <Logo />
+            {!loginType ? (
+              <>
+                <HeaderTitle>Welcome to Tokel</HeaderTitle>
+                <WelcomeMessage>The Future of tokenization</WelcomeMessage>
+                <LoginOptionContainer>
+                  {Object.values(LoginViews).map(view => (
+                    <LoginOptionButton
+                      theme={Colors.PURPLE}
+                      key={view.type}
+                      onClick={() => setLoginType(view.type)}
+                    >
+                      {view.title}
+                    </LoginOptionButton>
+                  ))}
+                </LoginOptionContainer>
+              </>
+            ) : (
+              <>
+                <HeaderTitle>{currentLoginView.title}</HeaderTitle>
+                <LoginViewWrapper>
+                  <currentLoginView.component />
+                </LoginViewWrapper>
+                <LinksToOtherViews>
+                  <Link onClick={() => setLoginType(null)} linkText="Back home" />
+                </LinksToOtherViews>
+              </>
+            )}
+          </Heading>
+        </div>
       </CenteredLoginContainer>
     </LoginRoot>
   );

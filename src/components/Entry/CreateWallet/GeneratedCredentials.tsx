@@ -6,6 +6,7 @@ import links from 'util/links';
 
 import { Button } from 'components/_General/buttons';
 import Warning from 'components/_General/WarningCritical';
+import { VSpaceMed } from 'components/Dashboard/widgets/common';
 import CredentialsRow from './CredentialsRow';
 
 type GeneratedCredentialProps = {
@@ -56,7 +57,7 @@ const GeneratedCredential = ({ wifkey, seed, forward }: GeneratedCredentialProps
           </a>,
         ]}
       />
-
+      <VSpaceMed />
       <Button onClick={forward} customWidth="170px" theme="gray">
         Next
       </Button>
