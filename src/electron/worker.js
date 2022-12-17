@@ -2,6 +2,12 @@ const { parentPort } = require('worker_threads');
 const sb = require('satoshi-bitcoin');
 const BN = require('bn.js');
 
+const {
+  getUniqueTransactionIds,
+  getHeights,
+  retrieveMinimumNumberOfTransactions,
+} = require('./workerHelper');
+
 // Same as parseBigNumObject in helpers.ts TODO: don't repeat myself
 const parseBigNumObject = bnObj => {
   if (!bnObj) return new BN(0);
@@ -386,20 +392,27 @@ class BitgoSingleton {
     }
   }
 
-  async [BitgoAction.LIST_TRANSACTIONS]({ address, skipCount = 0 }) {
+  async [BitgoAction.LIST_TRANSACTIONS]({ address, endHeightP = null }) {
     if (!this.connection) {
       throw new Error('Not connected');
     }
-    // todo there is a better more dynamic way to implement transaction limit than hardcoded number
-    const txIds = await ccutils.getTxids(this.connection, address, 0, skipCount, 100);
-    const ids = txIds.txids.map(tx => tx.txid.reverse().toString('hex'));
-    const uniqueIds = [...new Set(ids)];
-    if (uniqueIds.length > 0) {
+    const info = await ccutils.nspvGetInfo(this.connection, 0);
+    this.height = info.height;
+    console.log('Current chain height: ', this.height);
+
+    const allIds = await retrieveMinimumNumberOfTransactions(
+      this.connection,
+      address,
+      endHeightP,
+      this.height
+    );
+
+    if (allIds.length > 0) {
       return ccutils.getTransactionsManyDecoded(
         this.connection,
         this.network,
         this.pubkeyBuffer,
-        uniqueIds
+        allIds
       );
     }
     return [];
@@ -498,6 +511,7 @@ const checkData = msg => {
     return {
       type: msg.type,
     };
+    q;
   }
   return msg;
 };
