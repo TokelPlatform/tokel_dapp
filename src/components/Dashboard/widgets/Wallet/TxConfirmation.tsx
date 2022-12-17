@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -27,7 +27,7 @@ type TxConfirmationProps = {
   from: string;
 };
 
-const TxConfirmation = ({ recipient, amount, from }: TxConfirmationProps): ReactElement => {
+const TxConfirmation = ({ recipient, amount, from }: TxConfirmationProps): React.ReactElement => {
   const txStatus = useSelector(selectCurrentTxStatus);
   const txId = useSelector(selectCurrentTxId);
   const txError = useSelector(selectCurrentTxError);

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
@@ -76,7 +76,7 @@ const ConfirmTokenCreationModal: React.FC = () => {
 
   const tokenCreationSchema = useTokenCreationSchema();
 
-  const tokenHelpers = useMemo(() => {
+  const tokenHelpers = React.useMemo(() => {
     const tokenType = token.supply === 1 ? TokenType.NFT : TokenType.TOKEN;
     const tokenTypeName = tokenType === TokenType.NFT ? 'NFT' : 'token';
     const tokenTypeNameCapitalized = tokenType === TokenType.NFT ? 'NFT' : 'Token';

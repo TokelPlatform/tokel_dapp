@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
@@ -13,7 +13,6 @@ import { TICKER } from 'vars/defines';
 import { ButtonSmall } from 'components/_General/buttons';
 import { Column, Columns } from 'components/_General/Grid';
 import OpenInExplorer from 'components/_General/OpenInExplorer';
-import TokenMediaDisplay from 'components/_General/TokenMediaDisplay';
 import ViewContext, { MARKETPLACE_VIEWS } from './ViewContext';
 
 const PricingParagraph = styled.p`
@@ -27,7 +26,7 @@ const PricingParagraph = styled.p`
 
 const OfferWidget = ({ order }: { order: OrderDetailLite }) => {
   const tokenDetails = useSelector(selectTokenDetails);
-  const { setCurrentView, setCurrentOrderId } = useContext(ViewContext);
+  const { setCurrentView, setCurrentOrderId } = React.useContext(ViewContext);
 
   const handleReviewOffer = () => {
     setCurrentOrderId(order.txid);
@@ -48,10 +47,7 @@ const OfferWidget = ({ order }: { order: OrderDetailLite }) => {
       `}
     >
       <Columns>
-        <Column size={3}>
-          <TokenMediaDisplay url={tokenDetails[order.tokenid]?.dataAsJson?.url} />
-        </Column>
-        <Column size={9}>
+        <Column size={12}>
           <div
             css={css`
               display: flex;

@@ -31,23 +31,23 @@ jobs:
       - name: Run unittests
         run: yarn checks
 
-      - name: Copy files for E2E tests (!macOS)
-        if: matrix.os != 'macos-latest'
-        shell: bash
-        run: cp -R ./build/* ./src/electron
+      # - name: Copy files for E2E tests (!macOS)
+      #   if: matrix.os != 'macos-latest'
+      #   shell: bash
+      #   run: cp -R ./build/* ./src/electron
 
-      - name: Run E2E tests with TestCafe action (!macOS)
-        if: matrix.os != 'macos-latest'
-        uses: DevExpress/testcafe-action@latest
-        env:
-          NODE_ENV: test
-        with:
-          args: 'electron:./src/electron ./tests-e2e'
+      # - name: Run E2E tests with TestCafe action (!macOS)
+      #   if: matrix.os != 'macos-latest'
+      #   uses: DevExpress/testcafe-action@latest
+      #   env:
+      #     NODE_ENV: test
+      #   with:
+      #     args: 'electron:./src/electron ./tests-e2e'
 
-      - name: Remove files for E2E tests (!macOS)
-        if: matrix.os != 'macos-latest'
-        shell: bash
-        run: rm -rf ./src/electron/dist ./src/electron/main.js
+      # - name: Remove files for E2E tests (!macOS)
+      #   if: matrix.os != 'macos-latest'
+      #   shell: bash
+      #   run: rm -rf ./src/electron/dist ./src/electron/main.js
 
       - name: Package with electron-builder
         run: yarn package:x64

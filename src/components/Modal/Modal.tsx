@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
@@ -67,7 +67,7 @@ const handleEscape = (e: KeyboardEvent) => e.key === 'Escape' && close();
 
 type ModalProps = {
   title: string;
-  children: ReactElement;
+  children: React.ReactElement;
   size?: 'small' | 'medium' | 'large';
 };
 
@@ -76,7 +76,7 @@ const Modal = ({ title, size, children }: ModalProps) => {
   useLockScroll();
 
   // close modal if click anywhere outside the content or press ESC
-  useEffect(() => {
+  React.useEffect(() => {
     window.addEventListener('keydown', handleEscape);
     return () => {
       window.removeEventListener('keydown', handleEscape);

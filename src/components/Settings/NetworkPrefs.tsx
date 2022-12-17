@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -87,10 +87,10 @@ const networkOptions = Object.values(NetworkType).map(networkName => ({
 
 const NetworkPrefs = () => {
   const networkPrefs = useSelector(selectNetworkPrefs);
-  const [network, setNetwork] = useState(networkPrefs.network);
-  const [overrides, setOverrides] = useState(JSON.stringify(networkPrefs.overrides));
-  const [settingNetwork, setSettingNetwork] = useState(false);
-  const [invalidJson, setInvalidJson] = useState(false);
+  const [network, setNetwork] = React.useState(networkPrefs.network);
+  const [overrides, setOverrides] = React.useState(JSON.stringify(networkPrefs.overrides));
+  const [settingNetwork, setSettingNetwork] = React.useState(false);
+  const [invalidJson, setInvalidJson] = React.useState(false);
 
   const handleOverridesChange = e => {
     const { value } = e.target;

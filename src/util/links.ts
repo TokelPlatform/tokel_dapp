@@ -16,5 +16,5 @@ export default {
   githubIssue:
     'https://github.com/TokelPlatform/tokel_app/issues/new?assignees=&labels=bug&template=1-Bug_report.md',
   devEmail: 'mailto:support@tokel.io',
-  security: 'https://coinsutra.com/store-private-keys-seed-key/',
+  security: 'https://hackernoon.com/best-practices-for-key-security-for-your-crypto-wallets',
 };

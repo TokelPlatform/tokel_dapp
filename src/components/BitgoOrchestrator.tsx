@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import BN from 'bn.js';
@@ -38,7 +38,7 @@ const transactionError = err => {
 const BitgoOrchestrator = () => {
   const myAddress = useSelector(selectAccountAddress);
 
-  useEffect(() => {
+  React.useEffect(() => {
     ipcRenderer.on(BITGO_IPC_ID, (_, payload) => {
       console.group('BITGO (ORCHESTRATOR)');
       if (IS_DEV) {

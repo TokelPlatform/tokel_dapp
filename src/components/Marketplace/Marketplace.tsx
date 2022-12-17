@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { css } from '@emotion/react';
@@ -72,15 +72,15 @@ const WelcomeMessageWrapper = styled.div`
 
 const Marketplace: React.FC = () => {
   const deepLinkParams = useSelector(selectDeepLinkParams);
-  const [currentView, setCurrentView] = useState<MARKETPLACE_VIEWS | null>(null);
-  const [currentOrderId, setCurrentOrderId] = useState<string | undefined>();
+  const [currentView, setCurrentView] = React.useState<MARKETPLACE_VIEWS | null>(null);
+  const [currentOrderId, setCurrentOrderId] = React.useState<string | undefined>();
 
   const handleViewChange = (view: MARKETPLACE_VIEWS | null) => {
     setCurrentView(view);
     setCurrentOrderId(undefined);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (deepLinkParams?.length) {
       const params = new URLSearchParams(deepLinkParams);
       const action =

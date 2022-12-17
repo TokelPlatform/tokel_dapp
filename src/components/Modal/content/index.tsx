@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import { ModalName } from 'vars/defines';
 
@@ -15,7 +15,7 @@ import TxDetail from './TxDetail';
 
 interface ModalPayloadType {
   title: string;
-  component: ReactElement;
+  component: React.ReactElement;
   size?: 'small' | 'medium' | 'large';
 }
 

@@ -1,5 +1,8 @@
 // nspv settings
 // export const TICKER = 'TKLTEST';
+
+import { CipherGCMTypes } from 'crypto';
+
 // export const RPC_PORT = '22025';
 export const TICKER = 'TKL';
 export const RPC_PORT = '29405';
@@ -18,6 +21,20 @@ export const DEFAULT_IPFS_FALLBACK_GATEWAY = 'https://ipfs.io/ipfs';
 export const TOKEL_PRICE_URL = 'http://price.tokel.io';
 export const TOKEL_PRICE_UPDATE_PERIOD_MS = 7_200_000; // two hours
 
+export const SIZES = {
+  MIN_PASSWORD_LENGTH: 8,
+};
+
+export const ENCRYPTION_DEFAULTS = {
+  WALLET_EXT: '.wallet',
+  WALLET_FILE_ENCODING: 'utf8' as BufferEncoding,
+  KEY_LENGTH: 32,
+  IV_LENGTH: 12,
+  ALGORITHM: 'aes-256-gcm' as CipherGCMTypes,
+  HASH_ALGO: 'sha256',
+  DERIVATION_ITERATIONS: 10_000_000,
+};
+
 export const TOPBAR_HEIGHT_PX = 38;
 export const PORTFOLIO_ITEM_HEIGHT_PX = 86;
 export const FEE = 0.0001;
@@ -33,6 +50,12 @@ export const TOKEN_WHITE_LIST_LOCATION = 'token_white_list';
 export enum NetworkType {
   TOKEL = 'TOKEL',
   TKLTEST = 'TKLTEST2',
+}
+
+export enum LoginType {
+  PASSWORD = 'PASSWORD',
+  PRIVKEY = 'PRIVKEY',
+  CREATE = 'CREATE',
 }
 
 export const DEFAULT_NETWORK = IS_DEV ? NetworkType.TKLTEST : NetworkType.TOKEL;
@@ -143,3 +166,11 @@ export const HIDE_IPFS_EXPLAINER_KEY = 'HIDE_IPFS_EXPLAINER';
 
 export const SPENDABLE = 'Spendable';
 export const LOCKED = 'Locked';
+
+export const DisclaimerTextContent = {
+  par1: `The Tokel team does not own, endorse, host or content moderate anything that is shown in the dApp. By it's nature, the dApp merely reads the media URL's
+  that are linked within the meta data of tokens that are created on the Tokel public
+  blockchain. Content moderation issues should be addressed with the token creator,
+  owner, or through the web host that stores the media itself.`,
+  par2: `By accepting this disclaimer, you are accepting that you have personally verified the source of the image and are happy for it to be displayed, knowing that there are no content moderators and you're taking all responsibility for viewing the media and any risks associated with that. You are accepting that anybody that participates in creating and/or shipping this open source software holds no liability for what is shown, and that the decision to proceed is completely voluntary and at your own risk.`,
+};

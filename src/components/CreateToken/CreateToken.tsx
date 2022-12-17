@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 
@@ -107,9 +107,9 @@ const TokenTypeOption: React.FC<{
 );
 
 const CreateToken: React.FC = () => {
-  const [typeSelected, setTypeSelected] = useState<TokenType | null>(null);
+  const [typeSelected, setTypeSelected] = React.useState<TokenType | null>(null);
 
-  const form = useMemo(() => {
+  const form = React.useMemo(() => {
     switch (typeSelected) {
       case TokenType.NFT:
       case TokenType.TOKEN:
@@ -126,7 +126,7 @@ const CreateToken: React.FC = () => {
     }
   }, [typeSelected]);
 
-  const helperText = useMemo(() => {
+  const helperText = React.useMemo(() => {
     switch (typeSelected) {
       case TokenType.NFT:
         return (

@@ -1,63 +1,76 @@
 import React from 'react';
 
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import ErrorMessage from './ErrorMessage';
 
+const InputRoot = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 type StyledInputProps = {
   width: string;
-  icon: boolean;
+  icon?: boolean;
   disabled: boolean;
 };
 
-const StyledInput = styled.input<StyledInputProps>`
+export const StyledInput = styled.input<StyledInputProps>`
   background: var(--color-black);
   border: var(--border-dark);
   border-radius: var(--border-radius);
-  height: 36px;
-  width: ${props => props.width};
+  height: 40px;
   padding-left: ${({ icon }) => (icon ? '2.25rem' : '0.75rem')};
   color: var(--color-white);
-  ${props => (props.disabled ? 'pointer-events: none; opacity: 0.9; color: var(--color-gray)' : '')}
+  ${({ width }) => (width === 'flex' ? { flexGrow: 1 } : { width })}
+  ${({ disabled }) =>
+    disabled
+      ? css`
+          pointer-events: none;
+          opacity: 0.9;
+          color: var(--color-gray);
+        `
+      : ''}
 `;
 
-const Icon = styled.img`
+export const IconImg = styled.img`
   position: absolute;
-  margin: 0.5rem 0 0 0.75rem;
+  margin-left: 0.7rem;
 `;
 
 type InputProps = {
   id?: string;
-  icon?: string;
-  placeholder: string;
   value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  icon?: string;
+  placeholder?: string;
   autoFocus?: boolean;
   width?: string;
   type?: string;
-  onChange: (e) => void;
-  onKeyDown: (e) => void;
   disabled?: boolean;
   error?: string;
   tid?: string;
 };
 
 const Input = ({
+  id,
+  value,
   onChange,
   onKeyDown,
-  value,
   icon,
   placeholder,
   autoFocus,
-  width,
-  id,
-  type,
+  width = '240px',
+  type = 'text',
   disabled,
   error,
   tid,
 }: InputProps) => {
   return (
-    <div>
-      {icon && <Icon src={icon} />}
+    <InputRoot>
+      {icon && <IconImg src={icon} />}
       <StyledInput
         id={id}
         onChange={onChange}
@@ -71,21 +84,13 @@ const Input = ({
         data-tid={tid}
         disabled={disabled}
       />
-      {typeof error === 'string' && (
+      {error && (
         <div style={{ textAlign: 'right' }}>
           <ErrorMessage>{error}</ErrorMessage>
         </div>
       )}
-    </div>
+    </InputRoot>
   );
 };
 
-Input.defaultProps = {
-  id: '',
-  icon: '',
-  autoFocus: false,
-  width: '240px',
-  type: 'text',
-  error: null,
-};
 export default Input;

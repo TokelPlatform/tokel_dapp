@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -60,9 +60,9 @@ const SideMenuRoot = styled.div`
 
 const SideMenu = () => {
   const currentView = useSelector(selectView);
-  const [currVersion, setCurrVersion] = useState(null);
+  const [currVersion, setCurrVersion] = React.useState(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!currVersion) {
       ipcRenderer.send(VERSIONS_MSG);
     }

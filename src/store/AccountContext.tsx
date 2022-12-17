@@ -1,12 +1,12 @@
-import React, { createContext, ReactElement, useState } from 'react';
+import React from 'react';
 
-export const AccountContext = createContext(null);
+export const AccountContext = React.createContext(null);
 type AccountContextProps = {
-  children: ReactElement;
+  children: React.ReactElement;
 };
 
 const AccountContextProvider = ({ children }: AccountContextProps) => {
-  const [state, setState] = useState({
+  const [state, setState] = React.useState({
     address: null,
   });
 

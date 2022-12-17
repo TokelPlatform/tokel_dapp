@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 
@@ -85,7 +85,7 @@ const PortfolioItem = ({
   nft,
   selected,
   onClick,
-}: PortfolioItemProps): ReactElement => {
+}: PortfolioItemProps): React.ReactElement => {
   return (
     <PortfolioItemRoot selected={selected} onClick={onClick}>
       {icon && (

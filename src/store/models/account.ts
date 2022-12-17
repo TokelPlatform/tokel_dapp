@@ -1,13 +1,19 @@
+import { promises as fsp } from 'fs';
+
 import { createModel } from '@rematch/core';
 import dotProp from 'dot-prop-immutable';
 
+import { USER_WALLET_DIR } from 'encryption/core';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
 import { parseBlockchainTransaction, parseSpendTx } from 'util/transactions';
 import { getStillUnconfirmed } from 'util/transactionsHelper';
+import { IWallet } from 'vars/types';
 
 import type { RootModel } from './models';
 
 export interface AccountState {
+  wallets: Array<IWallet>;
+  walletFileName?: string;
   address?: string;
   unspent?: UnspentType;
   txs: {
@@ -32,6 +38,8 @@ interface LoginArgs {
 
 export default createModel<RootModel>()({
   state: {
+    wallets: [],
+    walletFileName: undefined,
     address: null,
     unspent: null,
     txs: {},
@@ -39,6 +47,14 @@ export default createModel<RootModel>()({
     pubkey: null,
   } as AccountState,
   reducers: {
+    SET_WALLET_FILES: (state, wallets: Array<IWallet>) => ({
+      ...state,
+      wallets,
+    }),
+    SET_WALLET_FILE_NAME: (state, walletName?: string) => ({
+      ...state,
+      walletFileName: walletName,
+    }),
     SET_ADDRESS: (state, address: string) => ({
       ...state,
       address,
@@ -82,10 +98,21 @@ export default createModel<RootModel>()({
     }),
   },
   effects: dispatch => ({
+    async loadWallets() {
+      const files = await fsp.readdir(USER_WALLET_DIR);
+      const wallets = files
+        .filter(r => r.endsWith('.wallet'))
+        .sort()
+        .map(filename => {
+          const name = filename.split('.').slice(0, -1).join('.');
+          return { name, filename };
+        });
+      dispatch.account.SET_WALLET_FILES(wallets);
+    },
     async login({ data }: LoginArgs) {
-      this.SET_KEY(data.wif);
-      this.SET_PUBKEY(data.pubkey);
-      this.SET_ADDRESS(data.address);
+      dispatch.account.SET_KEY(data.wif);
+      dispatch.account.SET_PUBKEY(data.pubkey);
+      dispatch.account.SET_ADDRESS(data.address);
     },
     logout() {
       dispatch({ type: 'RESET_APP' });

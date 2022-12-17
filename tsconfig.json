@@ -1,11 +1,13 @@
 {
   "include": ["src", "assets", "config"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
       "assets*": ["src/assets*"],
       "components*": ["src/components*"],
       "electron*": ["src/electron*"],
+      "encryption*": ["src/encryption*"],
       "hooks*": ["src/hooks*"],
       "store*": ["src/store*"],
       "util*": ["src/util*"],

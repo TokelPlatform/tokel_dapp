@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import React from 'react';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 enum MARKETPLACE_VIEWS {
@@ -9,7 +9,7 @@ enum MARKETPLACE_VIEWS {
   OFFERS,
 }
 
-const ViewContext = createContext<{
+const ViewContext = React.createContext<{
   currentView: MARKETPLACE_VIEWS | null;
   setCurrentView: (view: MARKETPLACE_VIEWS) => void;
 

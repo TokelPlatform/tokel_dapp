@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -83,15 +83,15 @@ type SelectProps<T extends SelectionType> = {
 };
 
 const Select = <T extends SelectionType>({ options, defaultValue, onSelect }: SelectProps<T>) => {
-  const [currentValue, setCurrentValue] = useState<T>(null);
+  const [currentValue, setCurrentValue] = React.useState<T>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setCurrentValue(defaultValue);
   }, [defaultValue]);
 
-  const [instance, setInstance] = useState(null);
+  const [instance, setInstance] = React.useState(null);
 
-  const handleItemClick = useCallback(
+  const handleItemClick = React.useCallback(
     (value: T) => {
       instance.hide();
       setCurrentValue(value);

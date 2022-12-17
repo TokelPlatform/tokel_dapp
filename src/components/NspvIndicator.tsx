@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -45,9 +45,9 @@ const StatusText = styled.span`
 
 const NspvIndicator = () => {
   const nspvStatus = useSelector(selectNspvStatus);
-  const [nspvLocalStatus, setNspvLocalStatus] = useState(1);
+  const [nspvLocalStatus, setNspvLocalStatus] = React.useState(1);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setNspvLocalStatus(Number(nspvStatus));
   }, [nspvStatus]);
 
