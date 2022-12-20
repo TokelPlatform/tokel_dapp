@@ -29,6 +29,14 @@ export default isDev => ({
               },
             },
         'css-loader',
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              plugins: [require('tailwindcss'), require('autoprefixer')],
+            },
+          },
+        },
       ],
     },
     // SVG

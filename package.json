@@ -32,18 +32,12 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "cross-env NODE_ENV=development eslint --cache"
-    ],
+    "*.{js,jsx,ts,tsx}": ["cross-env NODE_ENV=development eslint --cache"],
     "{*.json,.{babelrc,eslintrc,prettierrc}}": [
       "prettier --ignore-path .eslintignore --parser json --write"
     ],
-    "*.{css,scss}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ],
-    "*.{html,md,yml}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ]
+    "*.{css,scss}": ["prettier --ignore-path .eslintignore --single-quote --write"],
+    "*.{html,md,yml}": ["prettier --ignore-path .eslintignore --single-quote --write"]
   },
   "build": {
     "asar": false,
@@ -66,9 +60,7 @@
       "nspv-bitgo.js",
       "node_modules"
     ],
-    "extraResources": [
-      "assets"
-    ],
+    "extraResources": ["assets"],
     "publish": {
       "provider": "github",
       "owner": "TokelPlatform",
@@ -78,9 +70,7 @@
     },
     "mac": {
       "identity": null,
-      "target": [
-        "dmg"
-      ],
+      "target": ["dmg"],
       "type": "distribution",
       "hardenedRuntime": true,
       "entitlements": "assets/entitlements.mac.plist",
@@ -105,18 +95,14 @@
     },
     "win": {
       "icon": "icon.ico",
-      "target": [
-        "nsis"
-      ]
+      "target": ["nsis"]
     },
     "nsis": {
       "differentialPackage": false
     },
     "linux": {
       "icon": "icon.png",
-      "target": [
-        "AppImage"
-      ],
+      "target": ["AppImage"],
       "category": "Development"
     }
   },
@@ -134,15 +120,7 @@
   "bugs": {
     "url": "https://github.com/TokelPlatform/tokel_app/issues"
   },
-  "keywords": [
-    "tokel",
-    "komodo",
-    "nftmarketplace",
-    "dex",
-    "token",
-    "wallet",
-    "crypto"
-  ],
+  "keywords": ["tokel", "komodo", "nftmarketplace", "dex", "token", "wallet", "crypto"],
   "homepage": "https://github.com/TokelPlatform/tokel_app#readme",
   "jest": {
     "testURL": "http://localhost/",
@@ -160,29 +138,12 @@
       "^util/(.*)$": "<rootDir>/src/util/$1",
       "^vars/(.*)$": "<rootDir>/src/vars/$1"
     },
-    "testPathIgnorePatterns": [
-      "<rootDir>/release/"
-    ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/release/"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "ts",
-      "tsx",
-      "json"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "src/electron/node_modules"
-    ],
-    "setupFiles": [
-      "./config/scripts/CheckBuildsExist.js"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/?!(minidenticon)"
-    ]
+    "testPathIgnorePatterns": ["<rootDir>/release/"],
+    "modulePathIgnorePatterns": ["<rootDir>/release/"],
+    "moduleFileExtensions": ["js", "jsx", "ts", "tsx", "json"],
+    "moduleDirectories": ["node_modules", "src/electron/node_modules"],
+    "setupFiles": ["./config/scripts/CheckBuildsExist.js"],
+    "transformIgnorePatterns": ["node_modules/?!(minidenticon)"]
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -227,6 +188,7 @@
     "@types/webpack-env": "^1.15.2",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
+    "autoprefixer": "^10.4.13",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
     "babel-loader": "^8.2.2",
@@ -274,6 +236,7 @@
     "mini-css-extract-plugin": "^1.3.1",
     "node-sass": "^6.0.0",
     "opencollective-postinstall": "^2.0.3",
+    "postcss": "^8.4.20",
     "prettier": "^2.2.1",
     "react-refresh": "^0.9.0",
     "react-test-renderer": "^17.0.1",
@@ -317,6 +280,7 @@
     "lodash-es": "^4.17.21",
     "minidenticons": "0.1.8",
     "node-fs-extra": "^0.8.2",
+    "postcss-loader": "^7.0.2",
     "qrcode.react": "1.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -329,6 +293,7 @@
     "reselect": "^4.0.0",
     "satoshi-bitcoin": "1.0.5",
     "source-map-support": "^0.5.19",
+    "tailwindcss": "^3.2.4",
     "tar-fs": "^2.1.1",
     "tar-stream": "^2.2.0",
     "yup": "^0.32.11"
@@ -340,12 +305,8 @@
   },
   "browserslist": [],
   "renovate": {
-    "extends": [
-      "bliss"
-    ],
-    "baseBranches": [
-      "next"
-    ]
+    "extends": ["bliss"],
+    "baseBranches": ["next"]
   },
   "husky": {
     "hooks": {
