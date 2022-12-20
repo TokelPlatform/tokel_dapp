@@ -33,13 +33,9 @@ const getUniqueTransactionIds = async (connection, addr, start, end) => {
   return [...new Set(ids)];
 };
 
-const getHeights = (endH, currH) => {
-  let startHeight = !endH ? currH - BLOCKS_TO_SEARCH : endH - BLOCKS_TO_SEARCH;
-  startHeight = startHeight < 0 ? 1 : startHeight;
-
-  let endHeight = !endH ? currH : endH; // current height
-  endHeight = endHeight < 0 ? 1 : endHeight;
-
+const getHeights = endH => {
+  const startHeight = endH < BLOCKS_TO_SEARCH ? 1 : endH - BLOCKS_TO_SEARCH;
+  const endHeight = endH < 0 ? 1 : endH; //
   console.log('From ', startHeight, ' till ', endHeight);
   return {
     start: startHeight,
@@ -51,7 +47,6 @@ const retrieveMinimumNumberOfTransactions = async (
   conn,
   address,
   endHeight,
-  currentHeight,
   txids = [],
   firstTransactionId = null
 ) => {
@@ -66,15 +61,14 @@ const retrieveMinimumNumberOfTransactions = async (
   if (allIds.length > PAGE_LIMIT || allIds.find(i => i === firstTx)) {
     return allIds;
   }
-
-  const heights = getHeights(endHeight, currentHeight);
-  if (endHeight === 0 && currentHeight === 0) {
+  const heights = getHeights(endHeight);
+  if (heights.start === 1 && heights.end === 1) {
     return allIds;
   }
   const uniqueIds = await getUniqueTransactionIds(conn, address, heights.start, heights.end);
   allIds = allIds.concat(uniqueIds);
   allIds = [...new Set(allIds)];
-  return retrieveMinimumNumberOfTransactions(conn, address, null, heights.start, allIds, firstTx);
+  return retrieveMinimumNumberOfTransactions(conn, address, heights.start, allIds, firstTx);
 };
 
 const BitgoAction = {
@@ -443,19 +437,14 @@ class BitgoSingleton {
       throw new Error('Not connected');
     }
 
-    let info = '';
-    if (!this.height) {
-      info = await ccutils.nspvGetInfo(this.connection, 0);
-      this.height = info.height;
-      console.log('Current chain height: ', this.height);
+    let endHeight = endHeightP;
+    if (!endHeight) {
+      const info = await ccutils.nspvGetInfo(this.connection, 0);
+      endHeight = info.height;
+      console.log('Current chain height: ', endHeight);
     }
 
-    const allIds = await retrieveMinimumNumberOfTransactions(
-      this.connection,
-      address,
-      endHeightP,
-      this.height
-    );
+    const allIds = await retrieveMinimumNumberOfTransactions(this.connection, address, endHeight);
 
     if (allIds.length > 0) {
       return ccutils.getTransactionsManyDecoded(
@@ -561,7 +550,6 @@ const checkData = msg => {
     return {
       type: msg.type,
     };
-    q;
   }
   return msg;
 };

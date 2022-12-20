@@ -138,7 +138,7 @@ const ActivityList = ({
   const currentHeight = useSelector(selectCurrenHeight);
   const [txs, setTxs] = useState(transactions);
   const [loading, setLoading] = useState(false);
-  if (txs.length !== transactions.length) {
+  if (loading && (txs.length !== transactions.length || currentHeight === 0)) {
     setTxs(transactions);
     setLoading(false);
   }
@@ -188,7 +188,7 @@ const ActivityList = ({
         <div className="flex flex-row justify-center items-center mt-4 mb-2">
           {loading ? (
             <Spinner />
-          ) : currentHeight > 0 ? (
+          ) : currentHeight > 1 ? (
             <Button
               onClick={() => {
                 setLoading(true);
