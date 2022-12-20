@@ -39,7 +39,7 @@ export type BitgoMessageParamList = {
   [BitgoAction.LOGIN]: { key: string };
   [BitgoAction.LOGOUT]: undefined;
   [BitgoAction.LIST_UNSPENT]: { address: string };
-  [BitgoAction.LIST_TRANSACTIONS]: { address: string; skipCount?: number };
+  [BitgoAction.LIST_TRANSACTIONS]: { address: string; endHeightP?: number };
   [BitgoAction.SPEND]: { address: string; amount: string };
   [BitgoAction.BROADCAST]: { txHex: string };
   [BitgoAction.TOKEN_V2_ADDRESS]: undefined;

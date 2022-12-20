@@ -83,3 +83,15 @@ export const getVouts = tx => tx.filter(t => !t.vout && t.vout !== 0);
 export const getRecepients = tx => tx.vout.map(vout => vout.scriptPubKey.addresses).flat();
 
 export const getSenders = tx => [...new Set(tx.vin.map(v => v.addr).flat())];
+
+export const getUniqueTransactionsFromIncoming = (txs, newTxs) => {
+  // @todo replace with better algorithm, this one is n^2, aka slow af
+  if (!newTxs && newTxs.length === 0) {
+    return txs;
+  }
+  const uniqueTxs = newTxs.filter(newTx => {
+    const existingTx = txs.find(oneTx => oneTx.txid === newTx.txid);
+    return !existingTx;
+  });
+  return uniqueTxs;
+};

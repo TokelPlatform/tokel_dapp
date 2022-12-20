@@ -149,7 +149,7 @@ const TransferEmbed = ({ holdingSections }: TransferEmbedProps) => {
           sections.map(section => (
             <HoldingSectionRow key={section.label}>
               <HoldingSection style={{ width: '30px' }}>
-                <div>
+                <div className="w-[40px]">
                   <img src={icons[section.icon]} alt="section-icon" />
                 </div>
               </HoldingSection>

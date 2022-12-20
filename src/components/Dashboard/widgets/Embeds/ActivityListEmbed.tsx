@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -9,14 +9,17 @@ import clockIcon from 'assets/Clock.svg';
 import receiveIcon from 'assets/receiveIcon.svg';
 import withdrawIcon from 'assets/withdrawIcon.svg';
 import { dispatch } from 'store/rematch';
-import { selectTokelPriceUSD } from 'store/selectors';
+import { selectAccountAddress, selectCurrenHeight, selectTokelPriceUSD } from 'store/selectors';
+import { BitgoAction, sendToBitgo } from 'util/bitgoHelper';
 import { formatDate, getUsdValue, processPossibleBN, toBitcoinAmount } from 'util/helpers';
 import { TxType } from 'util/nspvlib-mock';
 import { V } from 'util/theming';
 import { Colors, ModalName, ResourceType, TICKER } from 'vars/defines';
 
+import { Button } from 'components/_General/buttons';
 import ExplorerLink from 'components/_General/ExplorerLink';
 import InfoNote from 'components/_General/InfoNote';
+import Spinner from 'components/_General/Spinner';
 
 const ActivityListRoot = styled.div`
   overflow-y: auto;
@@ -131,6 +134,14 @@ const ActivityList = ({
   resourceType,
 }: ActivityListProps): React.ReactElement => {
   const tokelPriceUSD = useSelector(selectTokelPriceUSD);
+  const address = useSelector(selectAccountAddress);
+  const currentHeight = useSelector(selectCurrenHeight);
+  const [txs, setTxs] = useState(transactions);
+  const [loading, setLoading] = useState(false);
+  if (txs.length !== transactions.length) {
+    setTxs(transactions);
+    setLoading(false);
+  }
 
   return (
     <ActivityListRoot>
@@ -173,6 +184,25 @@ const ActivityList = ({
             </ActivityListItem>
           );
         })}
+      {transactions.length > 0 && (
+        <div className="flex flex-row justify-center items-center mt-4 mb-2">
+          {loading ? (
+            <Spinner />
+          ) : currentHeight > 0 ? (
+            <Button
+              onClick={() => {
+                setLoading(true);
+                sendToBitgo(BitgoAction.LIST_TRANSACTIONS, { address, endHeightP: currentHeight });
+              }}
+              theme={Colors.TRANSPARENT}
+            >
+              Load More
+            </Button>
+          ) : (
+            <p className="opacity-50">No more transactions</p>
+          )}
+        </div>
+      )}
     </ActivityListRoot>
   );
 };

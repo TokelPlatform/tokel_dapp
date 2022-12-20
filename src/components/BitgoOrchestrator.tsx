@@ -166,6 +166,11 @@ const BitgoOrchestrator = () => {
       }
       // LISTTRANSACTIONS
       if (payload.type === BitgoAction.LIST_TRANSACTIONS) {
+        // @debug
+        // console.log('NEW CURRENT HEIGHT IS ', payload.data[payload.data.length - 1].blockHeight);
+        dispatch.account.SET_HEIGHT(
+          payload.data.length < 20 ? 0 : payload.data[payload.data.length - 1].blockHeight
+        );
         dispatch.account.SET_TXS(payload.data);
         return;
       }

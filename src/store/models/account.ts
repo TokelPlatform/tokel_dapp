@@ -6,12 +6,13 @@ import dotProp from 'dot-prop-immutable';
 import { USER_WALLET_DIR } from 'encryption/core';
 import { TxType, UnspentType } from 'util/nspvlib-mock';
 import { parseBlockchainTransaction, parseSpendTx } from 'util/transactions';
-import { getStillUnconfirmed } from 'util/transactionsHelper';
+import { getStillUnconfirmed, getUniqueTransactionsFromIncoming } from 'util/transactionsHelper';
 import { IWallet } from 'vars/types';
 
 import type { RootModel } from './models';
 
 export interface AccountState {
+  blockHeight: number;
   wallets: Array<IWallet>;
   walletFileName?: string;
   address?: string;
@@ -38,6 +39,7 @@ interface LoginArgs {
 
 export default createModel<RootModel>()({
   state: {
+    blockHeight: null,
     wallets: [],
     walletFileName: undefined,
     address: null,
@@ -65,7 +67,14 @@ export default createModel<RootModel>()({
       }
       const unconfirmed = getStillUnconfirmed(txs, state.txs[state.address]);
       const newTxs = txs.map(tx => parseBlockchainTransaction(tx, state.address));
-      return dotProp.set(state, `txs.${state.address}`, unconfirmed.concat(newTxs));
+      const uniqueTransactions = getUniqueTransactionsFromIncoming(
+        state.txs[state.address] ?? [],
+        newTxs
+      );
+      const joinedTxs = unconfirmed
+        .concat(uniqueTransactions)
+        .concat(state.txs[state.address] ?? []);
+      return dotProp.set(state, `txs.${state.address}`, joinedTxs);
     },
     ADD_NEW_TX: (state, transaction: TxType) =>
       dotProp.set(state, `txs.${state.address}`, list => [
@@ -95,6 +104,10 @@ export default createModel<RootModel>()({
     SET_CC_DETAILS: (state, ccdetails: string) => ({
       ...state,
       ccdetails,
+    }),
+    SET_HEIGHT: (state, blockHeight: number) => ({
+      ...state,
+      blockHeight,
     }),
   },
   effects: dispatch => ({

@@ -32,6 +32,7 @@ const TxId = styled.a<TxIdProps>`
 const TxButtons = styled.div`
   display: flex;
   align-items: center;
+  gap: 10px;
 `;
 
 const ExplorerLink = ({

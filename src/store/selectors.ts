@@ -27,6 +27,8 @@ export const selectChosenTransaction = (state: RootState) => state.account.chose
 export const selectTransactions = (state: RootState) =>
   state.account.txs[state.account.address] ?? [];
 
+export const selectCurrenHeight = (state: RootState) => state.account.blockHeight;
+
 export const selectTokenDetails = (state: RootState) => state.environment.tokenDetails;
 export const selectMyTokenDetails = (state: RootState) =>
   Object.fromEntries(
