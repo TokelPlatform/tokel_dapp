@@ -232,7 +232,7 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-dev-expression": "^0.2.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-    "browserslist-config-erb": "^0.0.1",
+    "browserslist-config-erb": "^0.0.3",
     "chalk": "^4.1.0",
     "concurrently": "7.5.0",
     "core-js": "^3.6.5",
