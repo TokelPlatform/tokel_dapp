@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "includeForks": true,
+  "semanticCommits": "enabled",
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "rebaseWhen": "conflicted",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "commitMessageSuffix": "",
+  "extends": [
+    "config:base"
+  ],
+  "assignees": [
+    "thecomputergenie"
+  ],
+  "automerge": true,
+  "additionalBranchPrefix": "{{parentDir}}-",
+  "packageRules": [
+    {
+      "matchPackageNames": ["containerbase/node"],
+      "versioning": "node"
+    },
+    {
+      "matchDepTypes": ["dependencies"],
+      "labels": ["dependencies"],
+      "updateTypes": ["minor", "patch", "pin", "digest"]
+    }
+  ]
+}
+  
