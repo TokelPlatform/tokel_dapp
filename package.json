@@ -303,7 +303,7 @@
     "axios": "1.6.8",
     "bn.js": "^5.2.0",
     "caniuse-lite": "^1.0.30001381",
-    "dot-prop-immutable": "2.1.0",
+    "dot-prop-immutable": "2.1.1",
     "electron-unhandled": "4.0.1",
     "electron-updater": "^6.0.0",
     "file-type": "19.0.0",
