@@ -293,8 +293,8 @@
     "yarn-deduplicate": "^6.0.2"
   },
   "dependencies": {
-    "@emotion/react": "11.1.5",
-    "@emotion/styled": "11.1.5",
+    "@emotion/react": "11.11.4",
+    "@emotion/styled": "11.11.5",
     "@radix-ui/react-accordion": "^0.1.6",
     "@rematch/core": "^2.0.1",
     "@rematch/persist": "^2.0.1",
