@@ -326,7 +326,7 @@
     "react-tooltip": "4.2.21",
     "redux": "^4.0.5",
     "regenerator-runtime": "^0.13.5",
-    "reselect": "^4.0.0",
+    "reselect": "^5.1.0",
     "satoshi-bitcoin": "1.0.5",
     "source-map-support": "^0.5.19",
     "tar-fs": "^2.1.1",
