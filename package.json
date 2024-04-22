@@ -324,7 +324,7 @@
     "react-redux": "^7.2.3",
     "react-select": "^5.2.1",
     "react-tooltip": "4.2.21",
-    "redux": "^4.0.5",
+    "redux": "^5.0.1",
     "regenerator-runtime": "^0.13.5",
     "reselect": "^5.1.0",
     "satoshi-bitcoin": "1.0.5",
