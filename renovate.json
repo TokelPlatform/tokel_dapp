@@ -9,8 +9,11 @@
   "commitMessageExtra": "to {{newVersion}}",
   "commitMessageSuffix": "",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
+  "npm": {
+    "minimumReleaseAge": "3 days"
+  }
   "assignees": [
     "thecomputergenie"
   ],
@@ -28,4 +31,3 @@
     }
   ]
 }
-  
