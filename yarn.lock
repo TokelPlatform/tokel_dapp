@@ -10302,10 +10302,10 @@ mini-css-extract-plugin@^1.3.1:
     schema-utils "^3.0.0"
     webpack-sources "^1.1.0"
 
-minidenticons@0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/minidenticons/-/minidenticons-0.1.8.tgz#fc31be9018f7fbebbb2841936ae09a5dd25d0ad4"
-  integrity sha512-PyOwNM8Tee7WF1ihyJb4yBsMA2HV8yTjKpgv7f7ANTZDe4HASJG6frE4y5bEcxrqSqy8dIlb1tsv2WjHqQcxsQ==
+minidenticons@0.1.11:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/minidenticons/-/minidenticons-0.1.11.tgz#708a2bc07cf259355f41c46d7a4e8f648db48a90"
+  integrity sha512-XrRgr7QCP7famua68D1bI2XDEIjCYivRL1kv+8pg7E++h4kOHaBR1dRt2wkv8YF9zneoF/sb+5nsrbaVX1IVZA==
 
 minimalistic-assert@^1.0.0:
   version "1.0.1"
