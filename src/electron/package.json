@@ -16,7 +16,7 @@
   "dependencies": {
     "@tokel/nspv-js": "0.1.11",
     "axios": "1.6.8",
-    "ipfs-core": "0.13.0",
+    "ipfs-core": "0.18.1",
     "satoshi-bitcoin": "1.0.5"
   }
 }
