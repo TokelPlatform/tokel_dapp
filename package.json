@@ -339,14 +339,6 @@
     "yarn": ">=1.21.3"
   },
   "browserslist": [],
-  "renovate": {
-    "extends": [
-      "bliss"
-    ],
-    "baseBranches": [
-      "development"
-    ]
-  },
   "husky": {
     "hooks": {
       "pre-commit": "yarn checks"
