@@ -4,6 +4,7 @@
   "semanticCommits": "enabled",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
+  "baseBranches": ["development"],
   "rebaseWhen": "conflicted",
   "commitMessageTopic": "{{depName}}",
   "commitMessageExtra": "to {{newVersion}}",
