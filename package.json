@@ -300,7 +300,7 @@
     "@rematch/persist": "^2.0.1",
     "@svgr/webpack": "^5.5.0",
     "@tippyjs/react": "^4.2.5",
-    "axios": "0.28.0",
+    "axios": "1.6.8",
     "bn.js": "^5.2.0",
     "caniuse-lite": "^1.0.30001381",
     "dot-prop-immutable": "2.1.0",
