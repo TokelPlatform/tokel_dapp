@@ -320,7 +320,7 @@
     "qrcode.react": "3.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-minimal-pie-chart": "8.2.0",
+    "react-minimal-pie-chart": "8.4.0",
     "react-redux": "^9.1.1",
     "react-select": "^5.2.1",
     "react-tooltip": "5.26.3",
