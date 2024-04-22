@@ -330,7 +330,7 @@
     "satoshi-bitcoin": "1.0.5",
     "source-map-support": "^0.5.19",
     "tar-fs": "^2.1.1",
-    "tar-stream": "^2.2.0",
+    "tar-stream": "^3.1.7",
     "yup": "^0.32.11"
   },
   "engines": {
