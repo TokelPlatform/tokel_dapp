@@ -344,7 +344,7 @@
       "bliss"
     ],
     "baseBranches": [
-      "next"
+      "development"
     ]
   },
   "husky": {
