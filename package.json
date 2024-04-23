@@ -325,7 +325,7 @@
     "react-select": "^5.2.1",
     "react-tooltip": "5.26.3",
     "redux": "^5.0.1",
-    "regenerator-runtime": "^0.13.5",
+    "regenerator-runtime": "^0.14.0",
     "reselect": "^5.1.0",
     "satoshi-bitcoin": "1.0.5",
     "source-map-support": "^0.5.19",
