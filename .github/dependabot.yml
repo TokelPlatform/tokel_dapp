@@ -1,4 +1,3 @@
-# Specify a non-default branch for pull requests for pip
 
 version: 2
 updates:
@@ -6,9 +5,20 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    # Raise pull requests for version updates
-    # to pip against the `develop` branch
     target-branch: "development"
-    # Labels on pull requests for version updates only
     labels:
       - "npm dependencies"
+  - package-ecosystem: "yarn"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: "development"
+    labels:
+      - "yarn dependencies"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "development"
+    labels:
+      - "github-actions"
