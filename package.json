@@ -229,7 +229,7 @@
     "@typescript-eslint/parser": "^7.0.0",
     "@babel/eslint-parser": "^7.11.0",
     "babel-jest": "^29.0.0",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^9.0.0",
     "babel-plugin-dev-expression": "^0.2.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "browserslist-config-erb": "^0.0.3",
