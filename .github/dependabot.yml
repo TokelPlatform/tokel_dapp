@@ -8,13 +8,6 @@ updates:
     target-branch: "development"
     labels:
       - "npm dependencies"
-  - package-ecosystem: "yarn"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    target-branch: "development"
-    labels:
-      - "yarn dependencies"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
