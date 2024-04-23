@@ -298,7 +298,7 @@
     "@radix-ui/react-accordion": "^1.0.0",
     "@rematch/core": "^2.0.1",
     "@rematch/persist": "^2.0.1",
-    "@svgr/webpack": "^5.5.0",
+    "@svgr/webpack": "^8.0.0",
     "@tippyjs/react": "^4.2.5",
     "axios": "1.6.8",
     "bn.js": "^5.2.0",
