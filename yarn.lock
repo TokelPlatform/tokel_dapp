@@ -8307,10 +8307,10 @@ import-sort-style-eslint@^6.0.0:
     eslint "^5.0.0"
     lodash "^4.17.10"
 
-import-sort-style-supernotes@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/import-sort-style-supernotes/-/import-sort-style-supernotes-0.2.0.tgz#a0be9640fe4187ebb7d81375e7c91d346c05a36b"
-  integrity sha512-ECS1g8MIQRNSjuAGZ3CHvoXQWXk/OYRlwSCEeUXaBU4BMx3CduXRh5SrVHH3GxZiXNwGuMct1d7rc6bliMlZKA==
+import-sort-style-supernotes@^0.4.0:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/import-sort-style-supernotes/-/import-sort-style-supernotes-0.4.1.tgz#4fca494d06cc161d1d19c3d4d001685b2278479f"
+  integrity sha512-nlEWqT++RfQR6HLPbhRpCdKbzk0ExkrnpuYoI3lF2W4vTkTj7Zj2miutKYSLCBeWCLQzRpbY8ay+//LC9CVeKw==
 
 import-sort-style@^6.0.0:
   version "6.0.0"
