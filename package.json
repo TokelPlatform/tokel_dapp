@@ -205,7 +205,7 @@
     "@babel/plugin-transform-react-constant-elements": "^7.12.1",
     "@babel/plugin-transform-react-inline-elements": "^7.12.1",
     "@babel/plugin-transform-runtime": "^7.12.1",
-    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-env": "^7.24.5",
     "@babel/preset-react": "^7.12.7",
     "@babel/preset-typescript": "^7.12.7",
     "@babel/register": "^7.12.1",
