@@ -306,7 +306,7 @@
     "bn.js": "^5.2.0",
     "caniuse-lite": "^1.0.30001614",
     "dot-prop-immutable": "2.1.1",
-    "electron-unhandled": "4.0.1",
+    "electron-unhandled": "5.0.0",
     "electron-updater": "^6.0.0",
     "file-type": "19.0.0",
     "formik": "^2.4.6",
