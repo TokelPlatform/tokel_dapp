@@ -7285,10 +7285,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@^11.0.0:
-  version "11.1.7"
-  resolved "https://registry.npmjs.org/framer-motion/-/framer-motion-11.1.7.tgz"
-  integrity sha512-cW11Pu53eDAXUEhv5hEiWuIXWhfkbV32PlgVISn7jRdcAiVrJ1S03YQQ0/DzoswGYYwKi4qYmHHjCzAH52eSdQ==
+framer-motion@^11.1.8:
+  version "11.1.8"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.1.8.tgz#4eb00899b454187e13e8b26b19634d78ee3893b4"
+  integrity sha512-W2OGZmNfUarhh6A/rLXernq/JthjekbgeRWqzigPpbaShe/+HfQKUDSjiEdL302XOlINtO+SCFCiR1hlqN3uOA==
   dependencies:
     tslib "^2.4.0"
 
