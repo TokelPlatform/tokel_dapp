@@ -304,7 +304,7 @@
     "@tippyjs/react": "^4.2.5",
     "axios": "1.6.8",
     "bn.js": "^5.2.0",
-    "caniuse-lite": "^1.0.30001617",
+    "caniuse-lite": "^1.0.30001623",
     "dot-prop-immutable": "2.1.1",
     "electron-unhandled": "5.0.0",
     "electron-updater": "^6.0.0",
