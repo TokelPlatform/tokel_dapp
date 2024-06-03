@@ -227,7 +227,7 @@
     "@types/tar-fs": "^2.0.1",
     "@types/webpack-env": "^1.18.5",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
-    "@typescript-eslint/parser": "^7.8.0",
+    "@typescript-eslint/parser": "^7.12.0",
     "babel-jest": "^29.0.0",
     "babel-loader": "^9.0.0",
     "babel-plugin-dev-expression": "^0.2.2",
