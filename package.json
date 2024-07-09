@@ -305,7 +305,7 @@
     "caniuse-lite": "^1.0.30001381",
     "dot-prop-immutable": "2.1.0",
     "electron-unhandled": "3.0.2",
-    "electron-updater": "^4.3.4",
+    "electron-updater": "^6.2.1",
     "file-type": "16.5.4",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.5",
