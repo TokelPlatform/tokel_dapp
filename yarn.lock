@@ -5909,10 +5909,10 @@ electron-updater@^6.0.0:
     semver "^7.3.8"
     tiny-typed-emitter "^2.1.0"
 
-electron@^30.0.3:
-  version "30.0.3"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-30.0.3.tgz#7c25ddb12ba89fd117991d010f1b274b1bafcb73"
-  integrity sha512-h+suwx6e0fnv/9wi0/cmCMtG+4LrPzJZa+3DEEpxcPcP+pcWnBI70t8QspxgMNIh2wzXLMD9XVqrLkEbiBAInw==
+electron@^32.0.0:
+  version "32.0.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-32.0.2.tgz#ea0682fa719dfc2f91b026a54bab2fd25a9a9324"
+  integrity sha512-nmZblq8wW3HZ17MAyaUuiMI9Mb0Cgc7UR3To85h/rVopbfyF5s34NxtK4gvyRfYPxpDGP4k+HoQIPniPPrdE3w==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^20.9.0"
