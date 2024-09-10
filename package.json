@@ -244,7 +244,7 @@
     "electron-builder": "^24.0.0",
     "electron-debug": "4.0.0",
     "electron-devtools-installer": "^3.2.0",
-    "electron-log": "5.1.4",
+    "electron-log": "5.2.0",
     "electron-notarize": "^1.0.0",
     "electron-rebuild": "^3.0.0",
     "enzyme": "^3.11.0",
