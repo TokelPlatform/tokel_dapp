@@ -314,7 +314,7 @@
     "fs-extra": "^11.2.0",
     "fuse.js": "^7.0.0",
     "history": "^5.0.0",
-    "html-react-parser": "5.1.10",
+    "html-react-parser": "5.1.18",
     "it-to-stream": "1.0.0",
     "lodash-es": "^4.17.21",
     "minidenticons": "4.2.1",
