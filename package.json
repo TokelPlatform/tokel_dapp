@@ -308,7 +308,7 @@
     "dot-prop-immutable": "2.1.1",
     "electron-unhandled": "5.0.0",
     "electron-updater": "^6.0.0",
-    "file-type": "19.0.0",
+    "file-type": "19.6.0",
     "formik": "^2.4.6",
     "framer-motion": "^11.1.9",
     "fs-extra": "^11.2.0",
