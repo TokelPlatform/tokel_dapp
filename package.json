@@ -241,7 +241,7 @@
     "css-minimizer-webpack-plugin": "^7.0.0",
     "detect-port": "^1.6.1",
     "electron": "^30.0.3",
-    "electron-builder": "^24.0.0",
+    "electron-builder": "^25.0.0",
     "electron-debug": "4.1.0",
     "electron-devtools-installer": "^3.2.0",
     "electron-log": "5.2.0",
