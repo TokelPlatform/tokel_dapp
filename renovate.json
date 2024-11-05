@@ -8,15 +8,11 @@
   "commitMessageTopic": "{{depName}}",
   "commitMessageExtra": "to {{newVersion}}",
   "commitMessageSuffix": "",
-  "extends": [
-    "config:recommended"
-  ],
+  "extends": ["config:recommended"],
   "npm": {
     "minimumReleaseAge": "3 days"
   },
-  "assignees": [
-    "thecomputergenie"
-  ],
+  "assignees": ["thecomputergenie"],
   "automerge": true,
   "additionalBranchPrefix": "{{parentDir}}-",
   "packageRules": [
@@ -27,7 +23,7 @@
     {
       "matchDepTypes": ["dependencies"],
       "labels": ["dependencies"],
-      "updateTypes": ["minor", "patch", "pin", "digest"]
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"]
     }
   ]
 }
