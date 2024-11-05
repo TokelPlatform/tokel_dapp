@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@tokel/nspv-js": "0.1.11",
-    "axios": "1.6.8",
+    "axios": "1.7.7",
     "ipfs-core": "0.18.1",
     "satoshi-bitcoin": "1.0.5"
   }
