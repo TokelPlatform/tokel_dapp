@@ -281,7 +281,7 @@
     "sass-loader": "^16.0.0",
     "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.0.3",
-    "testcafe": "^3.6.0",
+    "testcafe": "^3.7.0",
     "testcafe-browser-provider-electron": "^0.0.21",
     "typescript": "^5.0.0",
     "url-loader": "^4.1.0",
