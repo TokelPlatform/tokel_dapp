@@ -259,7 +259,7 @@
     "eslint-plugin-compat": "^6.0.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^28.5.0",
-    "eslint-plugin-jsx-a11y": "6.8.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-promise": "^7.0.0",
     "eslint-plugin-react": "^7.20.6",
