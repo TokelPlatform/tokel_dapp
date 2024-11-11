@@ -3040,11 +3040,6 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.3.tgz#6209321eb2c1712a7e7466422b8cb1fc0d9dd5d8"
   integrity sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==
 
-"@types/svg-path-parser@^1.1.3":
-  version "1.1.6"
-  resolved "https://registry.npmjs.org/@types/svg-path-parser/-/svg-path-parser-1.1.6.tgz"
-  integrity sha512-3sw6pk91pEtW6W7hRrJ9ZkAgPiJSaNdh7iY8rVOy7buajpQuy2J9A0ZUaiOVcbFvl0p7J+Ne4012muCE/MB+hQ==
-
 "@types/tar-fs@^2.0.1":
   version "2.0.4"
   resolved "https://registry.npmjs.org/@types/tar-fs/-/tar-fs-2.0.4.tgz"
@@ -11992,12 +11987,10 @@ react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.6:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
-react-minimal-pie-chart@8.4.0:
-  version "8.4.0"
-  resolved "https://registry.npmjs.org/react-minimal-pie-chart/-/react-minimal-pie-chart-8.4.0.tgz"
-  integrity sha512-A0wG+6mRjboyMxMDrzQNWp+2+GSn2ai4ERzRFHLp/OCC45PwIR1DpDVjwedawO+5AtFpzBRQKSFm3ZUxrqIEzA==
-  dependencies:
-    "@types/svg-path-parser" "^1.1.3"
+react-minimal-pie-chart@8.4.1:
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/react-minimal-pie-chart/-/react-minimal-pie-chart-8.4.1.tgz#98bb4fc6ca5024abb06205c26a941e0c55d0a4ff"
+  integrity sha512-JDUOiTzjIogPJeD1Vq1+jcPrCaMrazUBQ/8+IEp75+8vzqnmEAERIYB/11aIMBHrRyBlzVFX/SEN5OZ30fyefw==
 
 react-property@2.0.2:
   version "2.0.2"
