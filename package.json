@@ -255,7 +255,7 @@
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-erb": "^4.0.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-import-resolver-webpack": "^0.13.0",
+    "eslint-import-resolver-webpack": "^0.13.10",
     "eslint-plugin-compat": "^6.0.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^28.5.0",
