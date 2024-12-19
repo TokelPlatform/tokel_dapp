@@ -1342,17 +1342,10 @@
     pirates "^4.0.6"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.12.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.18.3", "@babel/runtime@^7.23.2", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
+"@babel/runtime@^7.12.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.7", "@babel/runtime@^7.23.2", "@babel/runtime@^7.24.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
   version "7.26.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.26.0.tgz#8600c2f595f277c60815256418b85356a65173c1"
   integrity sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==
-  dependencies:
-    regenerator-runtime "^0.14.0"
-
-"@babel/runtime@^7.20.7", "@babel/runtime@^7.24.1", "@babel/runtime@^7.7.6":
-  version "7.24.5"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.24.5.tgz#230946857c053a36ccc66e1dd03b17dd0c4ed02c"
-  integrity sha512-Nms86NXrsaeU9vbBJKni6gXiEXZ4CVpYVzEjDH9Sb8vmZ3UljyA1GSOJl/6LGPO8EHLuSF9H+IxNXHPX8QHJ4g==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -13713,10 +13706,10 @@ testcafe-browser-tools@2.0.26:
     read-file-relative "^1.2.0"
     which-promise "^1.0.0"
 
-testcafe-hammerhead@31.7.3, testcafe-hammerhead@>=19.4.0:
-  version "31.7.3"
-  resolved "https://registry.yarnpkg.com/testcafe-hammerhead/-/testcafe-hammerhead-31.7.3.tgz#46e72e153a8ea7804571bb1e6adc48d2b60dff80"
-  integrity sha512-LmldhnuUUNcel66z8hjwPkxGrA6jaGt6K9B8iuxOVVRuhpqFfmP3do5MeplK9NyPbIjkAW6WsHDu+nUM88IUsA==
+testcafe-hammerhead@31.7.4, testcafe-hammerhead@>=19.4.0:
+  version "31.7.4"
+  resolved "https://registry.yarnpkg.com/testcafe-hammerhead/-/testcafe-hammerhead-31.7.4.tgz#d76c144a32cfb2a35a768ecc0a90ecc5ced180bf"
+  integrity sha512-cTBLS4pDGTJpGoLI9TBuB/TfmVuawSss4PRqxfa2MhvD2QVnLgOlQ/ODNZcYJXaeJKrmlSoSlF6uSt5lif00Uw==
   dependencies:
     "@adobe/css-tools" "^4.3.0-rc.1"
     "@electron/asar" "^3.2.3"
@@ -13793,10 +13786,10 @@ testcafe-selector-generator@^0.1.0:
   resolved "https://registry.yarnpkg.com/testcafe-selector-generator/-/testcafe-selector-generator-0.1.0.tgz#852c86f71565e5d9320da625c2260d040cbed786"
   integrity sha512-MTw+RigHsEYmFgzUFNErDxui1nTYUk6nm2bmfacQiKPdhJ9AHW/wue4J/l44mhN8x3E8NgOUkHHOI+1TDFXiLQ==
 
-testcafe@^3.6.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-3.7.0.tgz#2fddf5093029062653f7feaf25c0e2f6110ad78e"
-  integrity sha512-e77yuzX/1eSqb6ctE0oW+PJbgsA975Ui8xYiVAFTQjZnt9oZixB7gEgbwRdIls5EEWmtcxJ5tvqTm1rPBsrOvA==
+testcafe@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-3.7.1.tgz#c75b3839e708cd86c214d6ff1122e4019bc3b3d6"
+  integrity sha512-Nz7lnGPsbocm7+iNMxEfoDNQyi2rovJv0g7TXzhJfKt7WMJXMT3OyQza2g9AbICee29GenzKtzt3JhUsyIiOug==
   dependencies:
     "@babel/core" "^7.23.2"
     "@babel/plugin-proposal-decorators" "^7.23.2"
@@ -13881,7 +13874,7 @@ testcafe@^3.6.0:
     source-map-support "^0.5.16"
     strip-bom "^2.0.0"
     testcafe-browser-tools "2.0.26"
-    testcafe-hammerhead "31.7.3"
+    testcafe-hammerhead "31.7.4"
     testcafe-legacy-api "5.1.8"
     testcafe-reporter-json "^2.1.0"
     testcafe-reporter-list "^2.2.0"
